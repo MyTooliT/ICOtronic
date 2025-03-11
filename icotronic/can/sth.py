@@ -26,7 +26,7 @@ class STH(SensorNode):
 
         self.spu = spu
         self.id = NodeId("STH 1")
-        self.eeprom = STHEEPROM(spu, self.id)
+        self.eeprom: STHEEPROM = STHEEPROM(spu, self.id)
 
     # ---------------------------
     # - Calibration Measurement -
