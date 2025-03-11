@@ -815,6 +815,34 @@ class EEPROM:
 
         return await self.read_text(address=4, offset=24, length=8)
 
+    async def write_release_name(self, name: str):
+        """Write the release name to the EEPROM
+
+        Parameters
+        ----------
+
+        name:
+            The new name of the release
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Write and read the release name of STU 1
+
+        >>> async def write_read_release_name(name):
+        ...     async with Connection() as stu:
+        ...         await stu.eeprom.write_release_name(name)
+        ...         return await stu.eeprom.read_release_name()
+        >>> run(write_read_release_name('Valerie'))
+        'Valerie'
+
+        """
+
+        await self.write_text(address=4, offset=24, length=8, text=name)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -822,7 +850,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        EEPROM.read_release_name,
+        EEPROM.write_release_name,
         globals(),
         verbose=True,
     )
