@@ -770,6 +770,33 @@ class NodeEEPROM(EEPROM):
 
         await self.write_int(address=5, offset=12, length=4, value=times)
 
+    async def read_watchdog_reset_counter(self) -> int:
+        """Retrieve the watchdog reset counter value from the EEPROM
+
+        Returns
+        -------
+
+        The watchdog reset counter value of the node
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the watchdog reset counter of STU 1
+
+        >>> async def read_watchdog_reset_counter():
+        ...     async with Connection() as stu:
+        ...         return await stu.eeprom.read_watchdog_reset_counter()
+        >>> watchdog_reset_counter = run(read_watchdog_reset_counter())
+        >>> watchdog_reset_counter >= 0
+        True
+
+        """
+
+        return await self.read_int(address=5, offset=16, length=4)
+
 
 # pylint: enable=too-many-public-methods
 
@@ -779,7 +806,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        NodeEEPROM.write_under_voltage_counter,
+        NodeEEPROM.read_watchdog_reset_counter,
         globals(),
         verbose=True,
     )
