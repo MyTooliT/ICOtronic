@@ -686,6 +686,43 @@ class EEPROM:
         major, minor, patch = await self.read(address=4, offset=13, length=3)
         return Version(major=major, minor=minor, patch=patch)
 
+    async def write_hardware_version(self, version: str | Version):
+        """Write hardware version to the EEPROM
+
+        Parameters
+        ----------
+
+        version:
+            The new hardware version of the specified receiver
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Write and read the hardware version of STU 1
+
+        >>> async def write_read_hardware_version(version):
+        ...     async with Connection() as stu:
+        ...         await stu.eeprom.write_hardware_version(version=version)
+        ...         return (await stu.eeprom.read_hardware_version())
+        >>> hardware_version = run(write_read_hardware_version('1.3.2'))
+        >>> hardware_version.patch == 2
+        True
+
+        """
+
+        if isinstance(version, str):
+            version = Version(version)
+
+        await self.write(
+            address=4,
+            offset=13,
+            length=3,
+            data=[version.major, version.minor, version.patch],
+        )
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -693,7 +730,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        EEPROM.read_hardware_version,
+        EEPROM.write_hardware_version,
         globals(),
         verbose=True,
     )
