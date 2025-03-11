@@ -43,6 +43,44 @@ class STHEEPROM(SensorNodeEEPROM):
 
         return await self.read_float(address=8, offset=0)
 
+    async def write_x_axis_acceleration_slope(self, slope: float) -> None:
+        """Write the acceleration slope of the x-axis to the EEPROM
+
+        Parameters
+        ----------
+
+        slope:
+            The addition to the acceleration value for one step of the ADC in
+            multiples of g₀
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from math import isclose
+        >>> from icotronic.can.connection import Connection
+        >>> from icotronic.can.sth import STH
+
+        Write and read the acceleration slope of STH 1
+
+        >>> async def write_read_x_axis_acceleration_slope(slope):
+        ...     async with Connection() as stu:
+        ...         # We assume that at least one sensor device is available
+        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...             await sth.eeprom.write_x_axis_acceleration_slope(slope)
+        ...             return await (
+        ...                 sth.eeprom.read_x_axis_acceleration_slope())
+        >>> adc_max = 0xffff
+        >>> acceleration_difference_max = 200
+        >>> slope = acceleration_difference_max / adc_max
+        >>> slope_read = run(write_read_x_axis_acceleration_slope(slope))
+        >>> isclose(slope, slope_read)
+        True
+
+        """
+
+        await self.write_float(address=8, offset=0, value=slope)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -50,7 +88,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        STHEEPROM.read_x_axis_acceleration_slope,
+        STHEEPROM.write_x_axis_acceleration_slope,
         globals(),
         verbose=True,
     )
