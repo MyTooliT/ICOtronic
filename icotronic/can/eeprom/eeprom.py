@@ -843,6 +843,33 @@ class EEPROM:
 
         await self.write_text(address=4, offset=24, length=8, text=name)
 
+    async def read_serial_number(self) -> str:
+        """Retrieve the serial number from the EEPROM
+
+        Returns
+        -------
+
+        The serial number of the node
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the serial number of STU 1
+
+        >>> async def read_serial_number():
+        ...     async with Connection() as stu:
+        ...         return await stu.eeprom.read_serial_number()
+        >>> serial_number = run(read_serial_number())
+        >>> isinstance(serial_number, str)
+        True
+
+        """
+
+        return await self.read_text(address=4, offset=32, length=32)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -850,7 +877,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        EEPROM.write_release_name,
+        EEPROM.read_serial_number,
         globals(),
         verbose=True,
     )
