@@ -14,7 +14,7 @@ from netaddr import EUI
 from icotronic.can.eeprom.node import NodeEEPROM
 from icotronic.can.network import STHDeviceInfo
 from icotronic.can.node import NodeId
-from icotronic.can.sensor import SensorDevice
+from icotronic.can.sensor import SensorNode
 from icotronic.can.spu import SPU
 from icotronic.can.status import State
 from icotronic.utility.data import convert_bytes_to_text
@@ -495,8 +495,8 @@ class STU:
     async def connect_sensor_device(
         self,
         identifier: int | str | EUI,
-        sensor_device_class: Type[SensorDevice] = SensorDevice,
-    ) -> AsyncGenerator[SensorDevice]:
+        sensor_device_class: Type[SensorNode] = SensorNode,
+    ) -> AsyncGenerator[SensorNode]:
         """Connect to a sensor device (e.g. SHA, SMH or STH)
 
         Parameters

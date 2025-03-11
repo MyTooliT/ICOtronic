@@ -44,7 +44,7 @@ class DataStreamContextManager:
 
     def __init__(
         self,
-        sensor_device: SensorDevice,
+        sensor_device: SensorNode,
         channels: StreamingConfiguration,
         timeout: float,
     ) -> None:
@@ -148,7 +148,7 @@ class DataStreamContextManager:
             )
 
 
-class SensorDevice:
+class SensorNode:
     """Communicate and control a connected sensor device (SHA, STH, SMH)"""
 
     def __init__(self, spu: SPU) -> None:

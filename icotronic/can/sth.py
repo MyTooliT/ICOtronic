@@ -4,13 +4,13 @@
 
 from icotronic.can.calibration import CalibrationMeasurementFormat
 from icotronic.can.message import Message
-from icotronic.can.sensor import SensorDevice
+from icotronic.can.sensor import SensorNode
 from icotronic.measurement.constants import ADC_MAX_VALUE
 
 # -- Classes ------------------------------------------------------------------
 
 
-class STH(SensorDevice):
+class STH(SensorNode):
     """Communicate and control a connected SHA or STH"""
 
     # ---------------------------
