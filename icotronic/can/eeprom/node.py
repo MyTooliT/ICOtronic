@@ -9,6 +9,8 @@ from icotronic.can.eeprom.status import EEPROMStatus
 
 # -- Classes ------------------------------------------------------------------
 
+# pylint: disable=too-many-public-methods
+
 
 class NodeEEPROM(EEPROM):
     """Read and write device specific EEPROM data (STU/sensor devices)"""
@@ -768,6 +770,8 @@ class NodeEEPROM(EEPROM):
 
         await self.write_int(address=5, offset=12, length=4, value=times)
 
+
+# pylint: enable=too-many-public-methods
 
 # -- Main ---------------------------------------------------------------------
 
