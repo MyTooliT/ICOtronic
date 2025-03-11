@@ -4,6 +4,8 @@
 
 from struct import pack, unpack
 
+from semantic_version import Version
+
 from icotronic.can.eeprom.status import EEPROMStatus
 from icotronic.can.message import Message
 from icotronic.can.node import NodeId
@@ -656,6 +658,34 @@ class EEPROM:
 
         await self.write_int(address=4, offset=0, length=8, value=gtin)
 
+    async def read_hardware_version(self) -> Version:
+        """Read the current hardware version from the EEPROM
+
+        Returns
+        -------
+
+        The hardware version of the device
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the hardware version of STU 1
+
+        >>> async def read_hardware_version():
+        ...     async with Connection() as stu:
+        ...         return (await stu.eeprom.read_hardware_version())
+        >>> hardware_version = run(read_hardware_version())
+        >>> hardware_version.major >= 1
+        True
+
+        """
+
+        major, minor, patch = await self.read(address=4, offset=13, length=3)
+        return Version(major=major, minor=minor, patch=patch)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -663,7 +693,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        EEPROM.write_gtin,
+        EEPROM.read_hardware_version,
         globals(),
         verbose=True,
     )
