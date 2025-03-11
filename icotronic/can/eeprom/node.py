@@ -629,6 +629,34 @@ class NodeEEPROM(EEPROM):
 
         return await self.read_int(address=5, offset=4, length=4)
 
+    async def write_power_off_cycles(self, times: int):
+        """Write the number of power off cycles to the EEPROM
+
+        Parameters
+        ----------
+
+        times:
+            The number of power off cycles that should be stored in the EEPROM
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Write and read the number of power off cycles of STU 1
+
+        >>> async def write_read_power_off_cycles(times):
+        ...     async with Connection() as stu:
+        ...         await stu.eeprom.write_power_off_cycles(times)
+        ...         return await stu.eeprom.read_power_off_cycles()
+        >>> run(write_read_power_off_cycles(0))
+        0
+
+        """
+
+        await self.write_int(address=5, offset=4, length=4, value=times)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -636,7 +664,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        NodeEEPROM.read_power_off_cycles,
+        NodeEEPROM.write_power_off_cycles,
         globals(),
         verbose=True,
     )
