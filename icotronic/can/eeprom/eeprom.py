@@ -955,6 +955,33 @@ class EEPROM:
 
         await self.write_text(address=4, offset=64, length=128, text=name)
 
+    async def read_oem_data(self) -> list[int]:
+        """Retrieve the OEM data from the EEPROM
+
+        Returns
+        -------
+
+        The OEM data of the specified node
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the OEM data of STU 1
+
+        >>> async def read_oem_data():
+        ...     async with Connection() as stu:
+        ...         return await stu.eeprom.read_oem_data()
+        >>> oem_data = run(read_oem_data())
+        >>> len(oem_data) == 64
+        True
+
+        """
+
+        return await self.read(address=4, offset=192, length=64)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -962,7 +989,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        EEPROM.write_product_name,
+        EEPROM.read_oem_data,
         globals(),
         verbose=True,
     )
