@@ -543,6 +543,37 @@ class NodeEEPROM(EEPROM):
 
         await self.write(address=4, offset=192, length=64, data=data)
 
+    # ==============
+    # = Statistics =
+    # ==============
+
+    async def read_power_on_cycles(self) -> int:
+        """Retrieve the number of power on cycles from the EEPROM
+
+        Returns
+        -------
+
+        The number of power on cycles of the node
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the number of power on cycles of STU 1
+
+        >>> async def read_power_on_cycles():
+        ...     async with Connection() as stu:
+        ...         return await stu.eeprom.read_power_on_cycles()
+        >>> power_on_cycles = run(read_power_on_cycles())
+        >>> power_on_cycles >= 0
+        True
+
+        """
+
+        return await self.read_int(address=5, offset=0, length=4)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -550,7 +581,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        NodeEEPROM.write_oem_data,
+        NodeEEPROM.read_power_on_cycles,
         globals(),
         verbose=True,
     )
