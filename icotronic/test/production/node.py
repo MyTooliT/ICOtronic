@@ -23,7 +23,7 @@ from icotronic.can.node import NodeId
 from icotronic.can.status import State
 from icotronic.cmdline.commander import Commander
 from icotronic.config import settings
-from icotronic.eeprom.status import EEPROMStatus
+from icotronic.can.eeprom.status import EEPROMStatus
 from icotronic.report.report import Report
 from icotronic import __version__
 from icotronic.can import Network
