@@ -2,6 +2,8 @@
 
 # -- Imports ------------------------------------------------------------------
 
+from datetime import date
+
 from semantic_version import Version
 
 from icotronic.can.eeprom.basic import EEPROM
@@ -825,6 +827,93 @@ class NodeEEPROM(EEPROM):
 
         await self.write_int(address=5, offset=16, length=4, value=times)
 
+    async def read_production_date(self) -> date:
+        """Retrieve the production date from the EEPROM
+
+        Returns
+        -------
+
+        The production date of the specified node
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the production date of STU 1
+
+        >>> async def read_production_date():
+        ...     async with Connection() as stu:
+        ...         return await stu.eeprom.read_production_date()
+        >>> production_date = run(read_production_date())
+        >>> isinstance(production_date, date)
+        True
+
+        """
+
+        date_values = await self.read_text(address=5, offset=20, length=8)
+        return date(
+            year=int(date_values[0:4]),
+            month=int(date_values[4:6]),
+            day=int(date_values[6:8]),
+        )
+
+    # pylint: disable=redefined-outer-name
+
+    async def write_production_date(self, date: date | str) -> None:
+        """Write the production date to the EEPROM
+
+        Parameters
+        ----------
+
+        date:
+            The production date of the specified node
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Write and read the production date of STU 1
+
+        >>> async def write_read_production_date(date):
+        ...     async with Connection() as stu:
+        ...         await stu.eeprom.write_production_date(date=date)
+        ...         return await stu.eeprom.read_production_date()
+
+        >>> production_date = date(year=2020, month=10, day=5)
+        >>> str(run(write_read_production_date(production_date)))
+        '2020-10-05'
+
+        >>> production_date = '2000-01-05'
+        >>> str(run(write_read_production_date(production_date)))
+        '2000-01-05'
+
+        """
+
+        if isinstance(date, str):
+            # The identifier `date` refers to the variable `date` in the
+            # current scope
+            import datetime  # pylint: disable=import-outside-toplevel
+
+            try:
+                date = datetime.date.fromisoformat(date)
+            except ValueError as error:
+                raise ValueError(
+                    f"Invalid value for date argument: “{date}”"
+                ) from error
+
+        await self.write_text(
+            address=5,
+            offset=20,
+            length=8,
+            text=str(date).replace("-", ""),
+        )
+
+    # pylint: enable=redefined-outer-name
+
 
 # pylint: enable=too-many-public-methods
 
@@ -834,7 +923,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        NodeEEPROM.write_watchdog_reset_counter,
+        NodeEEPROM.write_production_date,
         globals(),
         verbose=True,
     )
