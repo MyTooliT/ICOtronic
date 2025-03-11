@@ -16,6 +16,8 @@ from icotronic.measurement.constants import ADC_MAX_VALUE
 class STH(SensorNode):
     """Communicate and control a connected SHA or STH"""
 
+    # pylint: disable=super-init-not-called
+
     def __init__(self, spu: SPU) -> None:
         """Initialize the STH
 
@@ -27,6 +29,8 @@ class STH(SensorNode):
         self.spu = spu
         self.id = NodeId("STH 1")
         self.eeprom: STHEEPROM = STHEEPROM(spu, self.id)
+
+    # pylint: enable=super-init-not-called
 
     # ---------------------------
     # - Calibration Measurement -
