@@ -927,6 +927,34 @@ class EEPROM:
 
         return await self.read_text(address=4, offset=64, length=128)
 
+    async def write_product_name(self, name: str):
+        """Write the product name to the EEPROM
+
+        Parameters
+        ----------
+
+        name:
+            The new product name of the specified receiver
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Write and read the product name of STU 1
+
+        >>> async def write_read_product_name(name):
+        ...     async with Connection() as stu:
+        ...         await stu.eeprom.write_product_name(name)
+        ...         return await stu.eeprom.read_product_name()
+        >>> run(write_read_product_name('0'))
+        '0'
+
+        """
+
+        await self.write_text(address=4, offset=64, length=128, text=name)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -934,7 +962,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        EEPROM.read_product_name,
+        EEPROM.write_product_name,
         globals(),
         verbose=True,
     )
