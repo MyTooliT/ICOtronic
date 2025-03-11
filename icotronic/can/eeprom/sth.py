@@ -387,6 +387,43 @@ class STHEEPROM(SensorNodeEEPROM):
 
         return await self.read_float(address=8, offset=20)
 
+    async def write_z_axis_acceleration_offset(self, offset: int) -> None:
+        """Write the acceleration offset of the z-axis to the EEPROM
+
+        Parameters
+        ----------
+
+        offset:
+            The (negative) offset of the acceleration value in multiples of g₀
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from math import isclose
+        >>> from icotronic.can.connection import Connection
+        >>> from icotronic.can.sth import STH
+
+        Write and read the acceleration offset of STH 1
+
+        >>> async def write_read_z_axis_acceleration_offset(offset):
+        ...     async with Connection() as stu:
+        ...         # We assume that at least one sensor device is available
+        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...             await sth.eeprom.write_z_axis_acceleration_offset(
+        ...                 offset)
+        ...             return (await
+        ...                 sth.eeprom.read_z_axis_acceleration_offset())
+        >>> acceleration_difference_max = 200
+        >>> offset = -(acceleration_difference_max/2)
+        >>> offset_read = run(write_read_z_axis_acceleration_offset(offset))
+        >>> isclose(offset, offset_read)
+        True
+
+        """
+
+        await self.write_float(address=8, offset=20, value=offset)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -394,7 +431,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        STHEEPROM.read_z_axis_acceleration_offset,
+        STHEEPROM.write_z_axis_acceleration_offset,
         globals(),
         verbose=True,
     )
