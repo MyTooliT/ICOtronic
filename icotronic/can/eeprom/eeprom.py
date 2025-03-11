@@ -693,7 +693,7 @@ class EEPROM:
         ----------
 
         version:
-            The new hardware version of the specified receiver
+            The new hardware version of the device
 
         Examples
         --------
@@ -723,6 +723,34 @@ class EEPROM:
             data=[version.major, version.minor, version.patch],
         )
 
+    async def read_firmware_version(self) -> Version:
+        """Retrieve the current firmware version from the EEPROM
+
+        Returns
+        -------
+
+        The firmware version of the device
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the firmware version of STU 1
+
+        >>> async def read_firmware_version():
+        ...     async with Connection() as stu:
+        ...         return await stu.eeprom.read_firmware_version()
+        >>> firmware_version = run(read_firmware_version())
+        >>> firmware_version.major >= 2
+        True
+
+        """
+
+        major, minor, patch = await self.read(address=4, offset=21, length=3)
+        return Version(major=major, minor=minor, patch=patch)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -730,7 +758,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        EEPROM.write_hardware_version,
+        EEPROM.read_firmware_version,
         globals(),
         verbose=True,
     )
