@@ -207,10 +207,57 @@ class STH(SensorNode):
         adc_value = int.from_bytes(response.data[4:], "little")
         return adc_value / ADC_MAX_VALUE * reference_voltage
 
+    async def read_acceleration_sensor_range_in_g(self) -> int:
+        """Retrieve the maximum acceleration sensor range in multiples of g₀
+
+        - For a ±100 g₀ sensor this method returns 200 (100 + |-100|).
+        - For a ±50 g₀ sensor this method returns 100 (50 + |-50|).
+
+        For this to work correctly the EEPROM value of the
+        [x-axis acceleration offset][offset] has to be set.
+
+        [offset]: https://mytoolit.github.io/Documentation/\
+        #value:acceleration-x-offset
+
+        Returns
+        -------
+
+        Range of current acceleration sensor in multiples of earth’s
+        gravitation
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+        >>> from icotronic.can.sth import STH
+
+        Write and read the acceleration offset of STH 1
+
+        >>> async def read_sensor_range():
+        ...     async with Connection() as stu:
+        ...         # We assume that at least one sensor device is available
+        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...             return (await
+        ...                     sth.read_acceleration_sensor_range_in_g())
+        >>> sensor_range = run(read_sensor_range())
+        >>> 0 < sensor_range <= 200
+        True
+
+        """
+
+        return round(
+            abs(await self.eeprom.read_x_axis_acceleration_offset()) * 2
+        )
+
 
 # -- Main ---------------------------------------------------------------------
 
 if __name__ == "__main__":
-    from doctest import testmod
+    from doctest import run_docstring_examples
 
-    testmod()
+    run_docstring_examples(
+        STH.read_acceleration_sensor_range_in_g,
+        globals(),
+        verbose=True,
+    )
