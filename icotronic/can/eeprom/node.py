@@ -684,6 +684,35 @@ class NodeEEPROM(EEPROM):
 
         return await self.read_int(address=5, offset=8, length=4)
 
+    async def write_operating_time(self, seconds: int):
+        """Write operating time to the EEPROM
+
+        Parameters
+        ----------
+
+        seconds:
+            The operating time in seconds that should be stored in the EEPROM
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Write and read the operating time of STU 1
+
+        >>> async def write_read_operating_time(seconds):
+        ...     async with Connection() as stu:
+        ...         await stu.eeprom.write_operating_time(seconds)
+        ...         return await stu.eeprom.read_operating_time()
+        >>> operating_time = run(write_read_operating_time(10))
+        >>> 10 <= operating_time <= 11
+        True
+
+        """
+
+        await self.write_int(address=5, offset=8, length=4, value=seconds)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -691,7 +720,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        NodeEEPROM.read_operating_time,
+        NodeEEPROM.write_operating_time,
         globals(),
         verbose=True,
     )
