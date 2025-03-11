@@ -628,6 +628,34 @@ class EEPROM:
 
         return await self.read_int(address=4, offset=0, length=8)
 
+    async def write_gtin(self, gtin: int) -> None:
+        """Write the global trade identifier number (GTIN) to the EEPROM
+
+        Parameters
+        ----------
+
+        gtin:
+            The new GTIN of the specified receiver
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Write and read the GTIN of STU 1
+
+        >>> async def write_read_gtin(gtin):
+        ...     async with Connection() as stu:
+        ...         await stu.eeprom.write_gtin(gtin=gtin)
+        ...         return await stu.eeprom.read_gtin()
+        >>> run(write_read_gtin(0))
+        0
+
+        """
+
+        await self.write_int(address=4, offset=0, length=8, value=gtin)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -635,7 +663,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        EEPROM.read_gtin,
+        EEPROM.write_gtin,
         globals(),
         verbose=True,
     )
