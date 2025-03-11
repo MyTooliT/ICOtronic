@@ -900,6 +900,33 @@ class EEPROM:
             address=4, offset=32, length=32, text=serial_number
         )
 
+    async def read_product_name(self) -> str:
+        """Retrieve the product name from the EEPROM
+
+        Returns
+        -------
+
+        The product name of the node
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the product name of STU 1
+
+        >>> async def read_product_name():
+        ...     async with Connection() as stu:
+        ...         return await stu.eeprom.read_product_name()
+        >>> product_name = run(read_product_name())
+        >>> isinstance(product_name, str)
+        True
+
+        """
+
+        return await self.read_text(address=4, offset=64, length=128)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -907,7 +934,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        EEPROM.write_serial_number,
+        EEPROM.read_product_name,
         globals(),
         verbose=True,
     )
