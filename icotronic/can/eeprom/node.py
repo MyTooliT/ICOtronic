@@ -914,6 +914,33 @@ class NodeEEPROM(EEPROM):
 
     # pylint: enable=redefined-outer-name
 
+    async def read_batch_number(self) -> int:
+        """Retrieve the batch number from the EEPROM
+
+        Returns
+        -------
+
+        The batch number of the node
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the batch number of STU 1
+
+        >>> async def read_batch_number():
+        ...     async with Connection() as stu:
+        ...         return await stu.eeprom.read_batch_number()
+        >>> batch_number = run(read_batch_number())
+        >>> isinstance(batch_number, int)
+        True
+
+        """
+
+        return await self.read_int(address=5, offset=28, length=4)
+
 
 # pylint: enable=too-many-public-methods
 
@@ -923,7 +950,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        NodeEEPROM.write_production_date,
+        NodeEEPROM.read_batch_number,
         globals(),
         verbose=True,
     )
