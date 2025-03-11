@@ -3,8 +3,11 @@
 # -- Imports ------------------------------------------------------------------
 
 from icotronic.can.calibration import CalibrationMeasurementFormat
+from icotronic.can.eeprom.sth import STHEEPROM
 from icotronic.can.message import Message
+from icotronic.can.node import NodeId
 from icotronic.can.sensor import SensorNode
+from icotronic.can.spu import SPU
 from icotronic.measurement.constants import ADC_MAX_VALUE
 
 # -- Classes ------------------------------------------------------------------
@@ -12,6 +15,18 @@ from icotronic.measurement.constants import ADC_MAX_VALUE
 
 class STH(SensorNode):
     """Communicate and control a connected SHA or STH"""
+
+    def __init__(self, spu: SPU) -> None:
+        """Initialize the STH
+
+        spu:
+            The SPU object used to connect to this sensor node
+
+        """
+
+        self.spu = spu
+        self.id = NodeId("STH 1")
+        self.eeprom = STHEEPROM(spu, self.id)
 
     # ---------------------------
     # - Calibration Measurement -

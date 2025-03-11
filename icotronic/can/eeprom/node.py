@@ -975,10 +975,6 @@ class NodeEEPROM(EEPROM):
 # -- Main ---------------------------------------------------------------------
 
 if __name__ == "__main__":
-    from doctest import run_docstring_examples
+    from doctest import testmod
 
-    run_docstring_examples(
-        NodeEEPROM.write_batch_number,
-        globals(),
-        verbose=True,
-    )
+    testmod()

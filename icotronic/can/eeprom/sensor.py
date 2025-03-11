@@ -11,6 +11,10 @@ from icotronic.can.eeprom.basic import EEPROM
 class SensorNodeEEPROM(EEPROM):
     """Read and write EEPROM data of sensor devices"""
 
+    # ========================
+    # = System Configuration =
+    # ========================
+
     async def read_sleep_time_1(self) -> int:
         """Retrieve sleep time 1 from the EEPROM
 
@@ -280,3 +284,15 @@ class SensorNodeEEPROM(EEPROM):
         await self.write_int(
             address=0, offset=19, value=advertisement_time_eeprom, length=2
         )
+
+
+# -- Main ---------------------------------------------------------------------
+
+if __name__ == "__main__":
+    from doctest import run_docstring_examples
+
+    run_docstring_examples(
+        SensorNodeEEPROM.write_advertisement_time_2,
+        globals(),
+        verbose=True,
+    )
