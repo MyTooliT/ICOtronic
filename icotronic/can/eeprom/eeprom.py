@@ -870,6 +870,36 @@ class EEPROM:
 
         return await self.read_text(address=4, offset=32, length=32)
 
+    async def write_serial_number(self, serial_number: str):
+        """Write the serial number to the EEPROM
+
+        Parameters
+        ----------
+
+        serial_number:
+            The serial number of the specified receiver
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Write and read the serial number of STU 1
+
+        >>> async def write_read_serial_number(serial):
+        ...     async with Connection() as stu:
+        ...         await stu.eeprom.write_serial_number(serial)
+        ...         return await stu.eeprom.read_serial_number()
+        >>> run(write_read_serial_number('0'))
+        '0'
+
+        """
+
+        await self.write_text(
+            address=4, offset=32, length=32, text=serial_number
+        )
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -877,7 +907,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        EEPROM.read_serial_number,
+        EEPROM.write_serial_number,
         globals(),
         verbose=True,
     )
