@@ -3,12 +3,12 @@
 # -- Imports ------------------------------------------------------------------
 
 from icotronic.can.constants import ADVERTISEMENT_TIME_EEPROM_TO_MS
-from icotronic.can.eeprom.eeprom import EEPROM
+from icotronic.can.eeprom.basic import EEPROM
 
 # -- Sensor -------------------------------------------------------------------
 
 
-class SensorDeviceEEPROM(EEPROM):
+class SensorNodeEEPROM(EEPROM):
     """Read and write EEPROM data of sensor devices"""
 
     async def read_sleep_time_1(self) -> int:
