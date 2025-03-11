@@ -150,6 +150,37 @@ class STHEEPROM(SensorNodeEEPROM):
 
         await self.write_float(address=8, offset=4, value=offset)
 
+    async def read_y_axis_acceleration_slope(self) -> float:
+        """Retrieve the acceleration slope of the y-axis from the EEPROM
+
+        Returns
+        -------
+
+        The y-axis acceleration slope of STH 1
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+        >>> from icotronic.can.sth import STH
+
+        Read the acceleration slope in the y direction of STH 1
+
+        >>> async def read_y_axis_acceleration_slope():
+        ...     async with Connection() as stu:
+        ...         # We assume that at least one sensor device is available
+        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...             return (await
+        ...                     sth.eeprom.read_y_axis_acceleration_slope())
+        >>> y_axis_acceleration_slope = run(read_y_axis_acceleration_slope())
+        >>> isinstance(y_axis_acceleration_slope, float)
+        True
+
+        """
+
+        return await self.read_float(address=8, offset=8)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -157,7 +188,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        STHEEPROM.write_x_axis_acceleration_offset,
+        STHEEPROM.read_y_axis_acceleration_slope,
         globals(),
         verbose=True,
     )
