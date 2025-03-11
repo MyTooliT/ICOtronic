@@ -740,6 +740,34 @@ class NodeEEPROM(EEPROM):
 
         return await self.read_int(address=5, offset=12, length=4)
 
+    async def write_under_voltage_counter(self, times: int):
+        """Write the under voltage counter value to the EEPROM
+
+        Parameters
+        ----------
+
+        times:
+            The number of times the voltage was too low
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Write and read the under voltage counter of STU 1
+
+        >>> async def write_read_under_voltage_counter(times):
+        ...     async with Connection() as stu:
+        ...         await stu.eeprom.write_under_voltage_counter(times)
+        ...         return await stu.eeprom.read_under_voltage_counter()
+        >>> run(write_read_under_voltage_counter(0))
+        0
+
+        """
+
+        await self.write_int(address=5, offset=12, length=4, value=times)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -747,7 +775,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        NodeEEPROM.read_under_voltage_counter,
+        NodeEEPROM.write_under_voltage_counter,
         globals(),
         verbose=True,
     )
