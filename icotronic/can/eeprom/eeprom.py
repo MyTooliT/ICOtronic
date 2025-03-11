@@ -789,6 +789,32 @@ class EEPROM:
             data=[version.major, version.minor, version.patch],
         )
 
+    async def read_release_name(self) -> str:
+        """Retrieve the current release name from the EEPROM
+
+        Returns
+        -------
+
+        The firmware release name of the specified node
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the release name of STU 1
+
+        >>> async def read_release_name():
+        ...     async with Connection() as stu:
+        ...         return await stu.eeprom.read_release_name()
+        >>> run(read_release_name())
+        'Valerie'
+
+        """
+
+        return await self.read_text(address=4, offset=24, length=8)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -796,7 +822,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        EEPROM.write_firmware_version,
+        EEPROM.read_release_name,
         globals(),
         verbose=True,
     )
