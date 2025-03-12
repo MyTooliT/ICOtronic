@@ -22,6 +22,7 @@ from icotronic.can.node.eeprom.sensor import SensorNodeEEPROM
 from icotronic.can.error import UnsupportedFeatureException
 from icotronic.can.protocol.message import Message
 from icotronic.can.network import NoResponseError, ErrorResponseError, Times
+from icotronic.can.node.basic import Node
 from icotronic.can.node.id import NodeId
 from icotronic.can.streaming import (
     AsyncStreamBuffer,
@@ -148,20 +149,23 @@ class DataStreamContextManager:
             )
 
 
-class SensorNode:
+class SensorNode(Node):
     """Communicate and control a connected sensor device (SHA, STH, SMH)"""
 
-    def __init__(self, spu: SPU) -> None:
+    def __init__(
+        self, spu: SPU, eeprom: type[SensorNodeEEPROM] = SensorNodeEEPROM
+    ) -> None:
         """Initialize the sensor device
 
         spu:
             The SPU object used to connect to this sensor node
 
+        eeprom:
+            The EEPROM class of the device
+
         """
 
-        self.spu = spu
-        self.id = NodeId("STH 1")
-        self.eeprom = SensorNodeEEPROM(spu, self.id)
+        super().__init__(spu, eeprom, NodeId("STH 1"))
 
     # ==========
     # = System =

@@ -13,6 +13,7 @@ from netaddr import EUI
 
 from icotronic.can.node.eeprom.node import NodeEEPROM
 from icotronic.can.network import STHDeviceInfo
+from icotronic.can.node.basic import Node
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.sensor import SensorNode
 from icotronic.can.node.spu import SPU
@@ -22,7 +23,7 @@ from icotronic.utility.data import convert_bytes_to_text
 # -- Classes ------------------------------------------------------------------
 
 
-class STU:
+class STU(Node):
     """Communicate and control a connected STU"""
 
     def __init__(self, spu: SPU) -> None:
@@ -46,9 +47,7 @@ class STU:
 
         """
 
-        self.spu = spu
-        self.id = NodeId("STU 1")
-        self.eeprom = NodeEEPROM(spu, self.id)
+        super().__init__(spu, NodeEEPROM, NodeId("STU 1"))
 
     async def reset(self) -> None:
         """Reset the STU

@@ -3,12 +3,12 @@
 # -- Imports ------------------------------------------------------------------
 
 from icotronic.can.constants import ADVERTISEMENT_TIME_EEPROM_TO_MS
-from icotronic.can.node.eeprom.basic import EEPROM
+from icotronic.can.node.eeprom.node import NodeEEPROM
 
 # -- Sensor -------------------------------------------------------------------
 
 
-class SensorNodeEEPROM(EEPROM):
+class SensorNodeEEPROM(NodeEEPROM):
     """Read and write EEPROM data of sensor devices"""
 
     # ========================

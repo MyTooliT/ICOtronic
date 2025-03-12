@@ -5,7 +5,6 @@
 from icotronic.can.calibration import CalibrationMeasurementFormat
 from icotronic.can.node.eeprom.sth import STHEEPROM
 from icotronic.can.protocol.message import Message
-from icotronic.can.node.id import NodeId
 from icotronic.can.node.sensor import SensorNode
 from icotronic.can.node.spu import SPU
 from icotronic.measurement.constants import ADC_MAX_VALUE
@@ -19,16 +18,14 @@ class STH(SensorNode):
     # pylint: disable=super-init-not-called
 
     def __init__(self, spu: SPU) -> None:
-        """Initialize the STH
+        """Initialize the node
 
         spu:
-            The SPU object used to connect to this sensor node
+            The SPU object used to communicate with the device
 
         """
 
-        self.spu = spu
-        self.id = NodeId("STH 1")
-        self.eeprom: STHEEPROM = STHEEPROM(spu, self.id)
+        super().__init__(spu, STHEEPROM)
 
     # pylint: enable=super-init-not-called
 
@@ -250,6 +247,7 @@ class STH(SensorNode):
 
         """
 
+        assert isinstance(self.eeprom, STHEEPROM)
         return round(
             abs(await self.eeprom.read_x_axis_acceleration_offset()) * 2
         )
