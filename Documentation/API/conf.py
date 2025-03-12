@@ -2,7 +2,6 @@
 
 import maisie_sphinx_theme
 
-
 # -- Project information ------------------------------------------------------
 
 project = "ICOc"
