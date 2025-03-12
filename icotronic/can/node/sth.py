@@ -5,9 +5,9 @@
 from icotronic.can.calibration import CalibrationMeasurementFormat
 from icotronic.can.eeprom.sth import STHEEPROM
 from icotronic.can.message import Message
-from icotronic.can.node import NodeId
-from icotronic.can.sensor import SensorNode
-from icotronic.can.spu import SPU
+from icotronic.can.node.id import NodeId
+from icotronic.can.node.sensor import SensorNode
+from icotronic.can.node.spu import SPU
 from icotronic.measurement.constants import ADC_MAX_VALUE
 
 # -- Classes ------------------------------------------------------------------
@@ -234,7 +234,7 @@ class STH(SensorNode):
 
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         Write and read the acceleration offset of STH 1
 

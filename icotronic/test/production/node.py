@@ -19,7 +19,7 @@ from unittest import TestCase
 from dynaconf.utils.boxing import DynaBox
 from semantic_version import Version
 
-from icotronic.can.node import NodeId
+from icotronic.can.node.id import NodeId
 from icotronic.can.status import State
 from icotronic.cmdline.commander import Commander
 from icotronic.config import settings

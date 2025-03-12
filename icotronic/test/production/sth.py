@@ -13,7 +13,7 @@ from unittest import main as unittest_main, skipIf
 
 from semantic_version import Version
 
-from icotronic.can.node import NodeId
+from icotronic.can.node.id import NodeId
 from icotronic.can.streaming import StreamingConfiguration
 from icotronic.config import settings
 from icotronic.measurement.acceleration import (

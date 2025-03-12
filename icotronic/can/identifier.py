@@ -12,7 +12,7 @@ from __future__ import annotations
 from typing import Optional, Union
 
 from icotronic.can.command import Command
-from icotronic.can.node import NodeId
+from icotronic.can.node.id import NodeId
 
 # -- Class --------------------------------------------------------------------
 

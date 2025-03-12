@@ -5,8 +5,8 @@
 from struct import pack, unpack
 
 from icotronic.can.message import Message
-from icotronic.can.node import NodeId
-from icotronic.can.spu import SPU
+from icotronic.can.node.id import NodeId
+from icotronic.can.node.spu import SPU
 from icotronic.utility.data import convert_bytes_to_text
 
 # -- Classes ------------------------------------------------------------------
@@ -127,7 +127,7 @@ class EEPROM:
 
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         Read slope of acceleration for x-axis of STH 1
 

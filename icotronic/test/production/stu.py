@@ -10,7 +10,7 @@ from os import devnull
 from sys import stderr
 from unittest import main as unittest_main
 
-from icotronic.can.node import NodeId
+from icotronic.can.node.id import NodeId
 from icotronic.config import settings
 from icotronic.report.report import Report
 from icotronic.test.unit import ExtendedTestRunner

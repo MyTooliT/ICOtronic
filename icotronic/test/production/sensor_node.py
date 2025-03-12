@@ -4,7 +4,7 @@
 
 from time import sleep
 
-from icotronic.can.node import NodeId
+from icotronic.can.node.id import NodeId
 from icotronic.config import settings
 from .node import TestNode
 

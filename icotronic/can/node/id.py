@@ -10,7 +10,7 @@ from __future__ import annotations
 from re import fullmatch
 from typing import Union
 
-# -- Class --------------------------------------------------------------------
+# -- Classes ------------------------------------------------------------------
 
 
 class NodeId:

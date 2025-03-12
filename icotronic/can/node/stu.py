@@ -13,9 +13,9 @@ from netaddr import EUI
 
 from icotronic.can.eeprom.node import NodeEEPROM
 from icotronic.can.network import STHDeviceInfo
-from icotronic.can.node import NodeId
-from icotronic.can.sensor import SensorNode
-from icotronic.can.spu import SPU
+from icotronic.can.node.id import NodeId
+from icotronic.can.node.sensor import SensorNode
+from icotronic.can.node.spu import SPU
 from icotronic.can.status import State
 from icotronic.utility.data import convert_bytes_to_text
 

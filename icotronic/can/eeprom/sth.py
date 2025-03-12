@@ -27,7 +27,7 @@ class STHEEPROM(SensorNodeEEPROM):
 
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         >>> async def read_x_axis_acceleration_slope():
         ...     async with Connection() as stu:
@@ -59,7 +59,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> from asyncio import run
         >>> from math import isclose
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         Write and read the acceleration slope of STH 1
 
@@ -95,7 +95,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> from asyncio import run
         >>> from platform import system
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         Read the acceleration offset of STH 1
 
@@ -128,7 +128,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> from asyncio import run
         >>> from math import isclose
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         Write and read the acceleration offset of STH 1
 
@@ -163,7 +163,7 @@ class STHEEPROM(SensorNodeEEPROM):
 
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         Read the acceleration slope in the y direction of STH 1
 
@@ -197,7 +197,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> from asyncio import run
         >>> from math import isclose
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         Write and read the acceleration slope of STH 1
 
@@ -232,7 +232,7 @@ class STHEEPROM(SensorNodeEEPROM):
 
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         Read the acceleration offset of STH 1
 
@@ -265,7 +265,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> from asyncio import run
         >>> from math import isclose
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         Write and read the acceleration offset of STH 1
 
@@ -300,7 +300,7 @@ class STHEEPROM(SensorNodeEEPROM):
 
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         Read the acceleration slope in the z direction of STH 1
 
@@ -334,7 +334,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> from asyncio import run
         >>> from math import isclose
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         Write and read the acceleration slope of STH 1
 
@@ -369,7 +369,7 @@ class STHEEPROM(SensorNodeEEPROM):
 
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         Read the acceleration offset of STH 1
 
@@ -402,7 +402,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> from asyncio import run
         >>> from math import isclose
         >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.sth import STH
+        >>> from icotronic.can.node.sth import STH
 
         Write and read the acceleration offset of STH 1
 

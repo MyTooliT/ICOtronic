@@ -16,7 +16,7 @@ from icotronic.can.network import (
     NoResponseError,
     ResponseListener,
 )
-from icotronic.can.node import NodeId
+from icotronic.can.node.id import NodeId
 from icotronic.can.status import State
 from icotronic.utility.data import convert_bytes_to_text
 
