@@ -135,7 +135,7 @@ class Node:
         """
 
         node = self.id
-        response = await self._request_product_data(
+        response = await self.spu._request_product_data(
             node=node,
             description=f"read firmware version of node “{node}”",
             block_command="Firmware Version",
