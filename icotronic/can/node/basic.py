@@ -179,6 +179,51 @@ class Node:
         release_name = convert_bytes_to_text(response.data, until_null=True)
         return release_name
 
+    async def get_serial_number(self) -> str:
+        """Retrieve the serial number of a node
+
+        Returns
+        -------
+
+        The serial number of the node
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the serial number of STU 1
+
+        >>> async def read_serial_number():
+        ...     async with Connection() as stu:
+        ...         return await stu.get_serial_number()
+        >>> serial_number = run(read_serial_number())
+        >>> isinstance(serial_number, str)
+        True
+        >>> 0 <= len(serial_number) <= 32
+        True
+
+        """
+
+        async def get_serial_number_part(part: int) -> bytearray:
+            """Retrieve a part of the serial number"""
+            node = self.id
+            response = await self.spu._request_product_data(
+                node=node,
+                description=(
+                    f"read part {part} of the serial number of node “{node}”"
+                ),
+                block_command=f"Serial Number {part}",
+            )
+            return response.data
+
+        serial_number_bytes = bytearray()
+        for part in range(1, 5):
+            serial_number_bytes.extend(await get_serial_number_part(part))
+
+        return convert_bytes_to_text(serial_number_bytes)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -186,7 +231,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        Node.get_firmware_release_name,
+        Node.get_serial_number,
         globals(),
         verbose=True,
     )
