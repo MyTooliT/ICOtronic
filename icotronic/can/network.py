@@ -31,7 +31,7 @@ from icotronic.can.adc import ADCConfiguration
 from icotronic.can.calibration import CalibrationMeasurementFormat
 from icotronic.can.error import UnsupportedFeatureException
 from icotronic.can.node.id import NodeId
-from icotronic.can.message import Message
+from icotronic.can.protocol.message import Message
 from icotronic.can.status import State
 from icotronic.can.streaming import (
     AsyncStreamBuffer,

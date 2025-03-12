@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from typing import Optional, Union
 
-from icotronic.can.blocks import (
+from icotronic.can.protocol.blocks import (
     blocks,
     UnknownBlockError,
     UnknownBlockCommandError,

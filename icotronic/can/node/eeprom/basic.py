@@ -4,7 +4,7 @@
 
 from struct import pack, unpack
 
-from icotronic.can.message import Message
+from icotronic.can.protocol.message import Message
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.spu import SPU
 from icotronic.utility.data import convert_bytes_to_text

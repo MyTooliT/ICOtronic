@@ -20,7 +20,7 @@ from icotronic.can.constants import (
 from icotronic.can.adc import ADCConfiguration
 from icotronic.can.node.eeprom.sensor import SensorNodeEEPROM
 from icotronic.can.error import UnsupportedFeatureException
-from icotronic.can.message import Message
+from icotronic.can.protocol.message import Message
 from icotronic.can.network import NoResponseError, ErrorResponseError, Times
 from icotronic.can.node.id import NodeId
 from icotronic.can.streaming import (

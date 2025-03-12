@@ -15,8 +15,8 @@ from can import Message as CANMessage
 from netaddr import EUI
 
 from icotronic.can.calibration import CalibrationMeasurementFormat
-from icotronic.can.command import Command
-from icotronic.can.identifier import Identifier
+from icotronic.can.protocol.command import Command
+from icotronic.can.protocol.identifier import Identifier
 from icotronic.can.node.id import NodeId
 from icotronic.can.status import State
 from icotronic.can.streaming import StreamingFormat, StreamingFormatVoltage
