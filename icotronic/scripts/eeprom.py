@@ -1,3 +1,5 @@
+"""Check EEPROM of ICOtronic device"""
+
 # -- Imports ------------------------------------------------------------------
 
 from argparse import ArgumentParser
@@ -151,6 +153,8 @@ class EEPROMCheck:
 
 
 async def check_eeprom(arguments):
+    """Check EEPROM functionality"""
+
     async with EEPROMCheck(mac=arguments.mac, value=arguments.value) as check:
         await check.connect_bluetooth()
         await check.write_eeprom()
@@ -168,6 +172,7 @@ async def check_eeprom(arguments):
 
 
 def main():
+    """Check EEPROM of device specified via command line argument"""
     run(check_eeprom(parse_arguments()))
 
 

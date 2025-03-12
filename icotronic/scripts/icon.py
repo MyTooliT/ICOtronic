@@ -188,6 +188,9 @@ async def list_sensor_devices(
             print(device)
 
 
+# pylint: disable=too-many-locals
+
+
 async def measure(arguments: Namespace) -> None:
     """Open measurement stream and store data
 
@@ -270,6 +273,9 @@ async def measure(arguments: Namespace) -> None:
             finally:
                 progress.close()
                 print(f"Data Loss: {storage.dataloss() * 100} %")
+
+
+# pylint: enable=too-many-locals
 
 
 async def rename(arguments: Namespace) -> None:
