@@ -109,6 +109,41 @@ class Node:
         major, minor, patch = response.data[-3:]
         return Version(major=major, minor=minor, patch=patch)
 
+    async def get_firmware_version(self) -> Version:
+        """Retrieve the firmware version of the node
+
+        Returns
+        -------
+
+        The firmware version of the node
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the firmware version of STU 1
+
+        >>> async def read_firmware_version():
+        ...     async with Connection() as stu:
+        ...         return await stu.get_firmware_version()
+        >>> firmware_version = run(read_firmware_version())
+        >>> firmware_version.major
+        2
+
+        """
+
+        node = self.id
+        response = await self._request_product_data(
+            node=node,
+            description=f"read firmware version of node “{node}”",
+            block_command="Firmware Version",
+        )
+
+        major, minor, patch = response.data[-3:]
+        return Version(major=major, minor=minor, patch=patch)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -116,7 +151,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        Node.get_hardware_version,
+        Node.get_firmware_version,
         globals(),
         verbose=True,
     )
