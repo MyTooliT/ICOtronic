@@ -3,7 +3,7 @@
 # -- Imports ------------------------------------------------------------------
 
 from icotronic.can.constants import ADVERTISEMENT_TIME_EEPROM_TO_MS
-from icotronic.can.eeprom.basic import EEPROM
+from icotronic.can.node.eeprom.basic import EEPROM
 
 # -- Sensor -------------------------------------------------------------------
 

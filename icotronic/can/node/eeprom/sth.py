@@ -2,7 +2,7 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from icotronic.can.eeprom.sensor import SensorNodeEEPROM
+from icotronic.can.node.eeprom.sensor import SensorNodeEEPROM
 
 # -- Sensor -------------------------------------------------------------------
 

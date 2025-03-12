@@ -11,7 +11,7 @@ from typing import AsyncGenerator, Type
 
 from netaddr import EUI
 
-from icotronic.can.eeprom.node import NodeEEPROM
+from icotronic.can.node.eeprom.node import NodeEEPROM
 from icotronic.can.network import STHDeviceInfo
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.sensor import SensorNode

@@ -3,7 +3,7 @@
 # -- Imports ------------------------------------------------------------------
 
 from icotronic.can.calibration import CalibrationMeasurementFormat
-from icotronic.can.eeprom.sth import STHEEPROM
+from icotronic.can.node.eeprom.sth import STHEEPROM
 from icotronic.can.message import Message
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.sensor import SensorNode

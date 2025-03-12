@@ -6,8 +6,8 @@ from datetime import date
 
 from semantic_version import Version
 
-from icotronic.can.eeprom.basic import EEPROM
-from icotronic.can.eeprom.status import EEPROMStatus
+from icotronic.can.node.eeprom.basic import EEPROM
+from icotronic.can.node.eeprom.status import EEPROMStatus
 
 # -- Classes ------------------------------------------------------------------
 

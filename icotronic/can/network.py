@@ -41,7 +41,7 @@ from icotronic.can.streaming import (
     StreamingFormatVoltage,
 )
 from icotronic.config import settings
-from icotronic.can.eeprom.status import EEPROMStatus
+from icotronic.can.node.eeprom.status import EEPROMStatus
 from icotronic.measurement.constants import ADC_MAX_VALUE
 from icotronic.measurement.sensor import SensorConfiguration
 from icotronic.measurement.voltage import convert_raw_to_supply_voltage
