@@ -4,9 +4,13 @@
 
 from __future__ import annotations
 
+from semantic_version import Version
+
 from icotronic.can.node.eeprom.node import NodeEEPROM
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.spu import SPU
+
+# -- Classes ------------------------------------------------------------------
 
 
 class Node:
@@ -70,10 +74,49 @@ class Node:
 
         return int.from_bytes(response.data, byteorder="little")
 
+    async def get_hardware_version(self) -> Version:
+        """Retrieve the hardware version of a node
+
+        Returns
+        -------
+
+        The hardware version of the node
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the hardware version of STU 1
+
+        >>> async def read_hardware_version():
+        ...     async with Connection() as stu:
+        ...         return await stu.get_hardware_version()
+        >>> hardware_version = run(read_hardware_version())
+        >>> hardware_version.major
+        1
+
+        """
+
+        node = self.id
+        response = await self.spu._request_product_data(
+            node=node,
+            description=f"read hardware version of node “{node}”",
+            block_command="Hardware Version",
+        )
+
+        major, minor, patch = response.data[-3:]
+        return Version(major=major, minor=minor, patch=patch)
+
 
 # -- Main ---------------------------------------------------------------------
 
 if __name__ == "__main__":
-    from doctest import testmod
+    from doctest import run_docstring_examples
 
-    testmod()
+    run_docstring_examples(
+        Node.get_hardware_version,
+        globals(),
+        verbose=True,
+    )
