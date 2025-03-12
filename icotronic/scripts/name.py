@@ -1,3 +1,5 @@
+"""Convert Base64 name to MAC address"""
+
 # -- Imports ------------------------------------------------------------------
 
 from argparse import ArgumentParser
@@ -9,6 +11,7 @@ from icotronic.utility.naming import convert_base64_mac
 
 
 def main():
+    """Convert Base64 name to MAC address"""
     parser = ArgumentParser(
         description="Convert the Base64 name of an STH to a MAC address"
     )
@@ -21,4 +24,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main
+    main()
