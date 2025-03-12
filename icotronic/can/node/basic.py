@@ -224,6 +224,52 @@ class Node:
 
         return convert_bytes_to_text(serial_number_bytes)
 
+    async def get_product_name(self) -> str:
+        """Retrieve the product name of a node
+
+        Returns
+        -------
+
+        The product name of the node
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the product name of STU 1
+
+        >>> async def read_product_name():
+        ...     async with Connection() as stu:
+        ...         return await stu.get_product_name()
+        >>> product_name = run(read_product_name())
+        >>> isinstance(product_name, str)
+        True
+        >>> 0 <= len(product_name) <= 128
+        True
+
+        """
+
+        async def get_product_name_part(part: int) -> bytearray:
+            """Retrieve a part of the product name"""
+
+            node = self.id
+            response = await self.spu._request_product_data(
+                node=node,
+                description=(
+                    f"read part {part} of the product name of node “{node}”"
+                ),
+                block_command=f"Product Name {part}",
+            )
+            return response.data
+
+        product_name_bytes = bytearray()
+        for part in range(1, 17):
+            product_name_bytes.extend(await get_product_name_part(part))
+
+        return convert_bytes_to_text(product_name_bytes)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -231,7 +277,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        Node.get_serial_number,
+        Node.get_product_name,
         globals(),
         verbose=True,
     )
