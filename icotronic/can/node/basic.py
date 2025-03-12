@@ -270,6 +270,51 @@ class Node:
 
         return convert_bytes_to_text(product_name_bytes)
 
+    async def get_oem_data(self) -> bytearray:
+        """Retrieve the OEM (free use) data
+
+        Returns
+        -------
+
+        The OEM data of the node
+
+        Example
+        -------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the OEM data of STU 1
+
+        >>> async def read_oem_data():
+        ...     async with Connection() as stu:
+        ...         return await stu.get_oem_data()
+        >>> oem_data = run(read_oem_data())
+        >>> isinstance(oem_data, bytearray)
+        True
+        >>> len(oem_data)
+        64
+
+        """
+
+        async def get_oem_part(part: int) -> bytearray:
+            """Retrieve a part of the OEM data"""
+            node = self.id
+            response = await self.spu._request_product_data(
+                node=node,
+                description=(
+                    f"read part {part} of the OEM data of node “{node}”"
+                ),
+                block_command=f"OEM Free Use {part}",
+            )
+            return response.data
+
+        oem_data = bytearray()
+        for part in range(1, 9):
+            oem_data.extend(await get_oem_part(part))
+
+        return oem_data
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -277,7 +322,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        Node.get_product_name,
+        Node.get_oem_data,
         globals(),
         verbose=True,
     )
