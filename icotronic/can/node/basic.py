@@ -9,6 +9,7 @@ from semantic_version import Version
 from icotronic.can.node.eeprom.node import NodeEEPROM
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.spu import SPU
+from icotronic.utility.data import convert_bytes_to_text
 
 # -- Classes ------------------------------------------------------------------
 
@@ -144,6 +145,40 @@ class Node:
         major, minor, patch = response.data[-3:]
         return Version(major=major, minor=minor, patch=patch)
 
+    async def get_firmware_release_name(self) -> str:
+        """Retrieve the firmware release name of a node
+
+        Returns
+        -------
+
+        The firmware release name of the specified node
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Read the firmware release name of STU 1
+
+        >>> async def read_release_name():
+        ...     async with Connection() as stu:
+        ...         return await stu.get_firmware_release_name()
+        >>> run(read_release_name())
+        'Valerie'
+
+        """
+
+        node = self.id
+        response = await self.spu._request_product_data(
+            node=node,
+            description=f"read firmware release name of node “{node}”",
+            block_command="Release Name",
+        )
+
+        release_name = convert_bytes_to_text(response.data, until_null=True)
+        return release_name
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -151,7 +186,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        Node.get_firmware_version,
+        Node.get_firmware_release_name,
         globals(),
         verbose=True,
     )
