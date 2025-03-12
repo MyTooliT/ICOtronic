@@ -225,6 +225,44 @@ class SPU:
             message, description=description, response_data=expected_data
         )
 
+    async def _request_product_data(
+        self,
+        block_command: str | int,
+        description: str,
+        node: str | NodeId,
+    ) -> CANMessage:
+        """Send a request for product data
+
+        Parameters
+        ----------
+
+        node:
+            The node on which the block command should be executed
+
+        block_command:
+            The name or number of the block command
+
+        description:
+            A description of the request used in error messages
+
+        Returns
+        -------
+
+        The response message for the given request
+
+        """
+
+        message = Message(
+            block="Product Data",
+            block_command=block_command,
+            sender=self.id,
+            receiver=node,
+            request=True,
+            data=[0] * 8,
+        )
+
+        return await self._request(message, description=description)
+
     # pylint: enable=too-many-arguments, too-many-positional-arguments
 
     # ==========
