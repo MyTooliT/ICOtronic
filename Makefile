@@ -57,8 +57,9 @@ pytest-test-no-hardware:
 	       --ignore-glob='*can/connection.py' \
 	       --ignore-glob='*can/node/eeprom/basic.py' \
 	       --ignore-glob='*can/node/eeprom/node.py' \
-		   --ignore-glob='*can/node/eeprom/sensor.py' \
-		   --ignore-glob='*can/node/eeprom/sth.py' \
+	       --ignore-glob='*can/node/eeprom/sensor.py' \
+	       --ignore-glob='*can/node/eeprom/sth.py' \
+	       --ignore-glob='*can/node/basic.py' \
 	       --ignore-glob='*can/node/sensor.py' \
 	       --ignore-glob='*can/node/spu.py' \
 	       --ignore-glob='*can/node/sth.py' \
