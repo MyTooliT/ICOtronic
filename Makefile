@@ -53,16 +53,17 @@ pytest-test:
 	pytest $(TEST_LOCATIONS)
 
 pytest-test-no-hardware:
-	pytest --ignore-glob='*commander.py' \
-	       --ignore-glob='*connection.py' \
-	       --ignore-glob='*can/eeprom/basic.py' \
-	       --ignore-glob='*can/eeprom/node.py' \
-		   --ignore-glob='*can/eeprom/sensor.py' \
-	       --ignore-glob='*can/sensor.py' \
-	       --ignore-glob='*can/spu.py' \
-	       --ignore-glob='*can/sth.py' \
-	       --ignore-glob='*can/stu.py' \
-	       --ignore-glob='*network.py' \
+	pytest --ignore-glob='*cmdline/commander.py' \
+	       --ignore-glob='*can/connection.py' \
+	       --ignore-glob='*can/node/eeprom/basic.py' \
+	       --ignore-glob='*can/node/eeprom/node.py' \
+		   --ignore-glob='*can/node/eeprom/sensor.py' \
+		   --ignore-glob='*can/node/eeprom/sth.py' \
+	       --ignore-glob='*can/node/sensor.py' \
+	       --ignore-glob='*can/node/spu.py' \
+	       --ignore-glob='*can/node/sth.py' \
+	       --ignore-glob='*can/node/stu.py' \
+	       --ignore-glob='*can/network.py' \
 	       --ignore-glob='*read_data.t' \
 	       --ignore-glob='*sth_name.t' \
 	       --ignore-glob='*store_data.t' \
