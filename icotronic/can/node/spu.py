@@ -45,7 +45,6 @@ class SPU:
         self.bus = bus
         self.notifier = notifier
         self.id = NodeId("SPU 1")
-        self.streaming = False
 
     # pylint: disable=too-many-arguments, too-many-positional-arguments
 
