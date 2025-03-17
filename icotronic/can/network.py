@@ -123,11 +123,11 @@ class Logger(Listener):
     def __init__(self):
         """Initialize the logger"""
 
-        logger = getLogger("network.can")
+        self.logger = getLogger("network.can")
         # We use `Logger` in the code below, since the `.logger` attribute
         # stores internal DynaConf data
-        logger.setLevel(settings.Logger.can.level)
-        logger.addHandler(get_log_file_handler("can.log"))
+        self.logger.setLevel(settings.Logger.can.level)
+        self.logger.addHandler(get_log_file_handler("can.log"))
 
     def on_message_received(self, msg: CANMessage) -> None:
         """React to a received message on the bus
@@ -140,7 +140,7 @@ class Logger(Listener):
 
         """
 
-        getLogger("network.can").debug("%s", Message(msg))
+        self.logger.debug("%s", Message(msg))
 
     def on_error(self, exc: Exception) -> None:
         """Handle any exception in the receive thread.
@@ -153,9 +153,7 @@ class Logger(Listener):
 
         """
 
-        getLogger("network.can").error(
-            "Error while monitoring CAN bus data: %s", exc
-        )
+        self.logger.error("Error while monitoring CAN bus data: %s", exc)
 
     def stop(self) -> None:
         """Stop handling new messages"""
