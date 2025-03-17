@@ -302,7 +302,7 @@ class DataStreamContextManager:
         """
 
         self.network = network
-        self.reader = AsyncStreamBuffer(channels, timeout)
+        self.reader = AsyncStreamBuffer(channels, timeout, 10_000)
         self.channels = channels
 
     async def __aenter__(self) -> AsyncStreamBuffer:

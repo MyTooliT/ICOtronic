@@ -361,7 +361,7 @@ class AsyncStreamBuffer(Listener):
         self,
         configuration: StreamingConfiguration,
         timeout: float,
-        max_buffer_size: int = 10_000,
+        max_buffer_size: int,
     ) -> None:
         """Initialize object using the given arguments
 
