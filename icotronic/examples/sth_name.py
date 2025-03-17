@@ -4,16 +4,16 @@
 
 from asyncio import run
 
-from icotronic.can import Network
+from icotronic.can import Connection
 
 # -- Functions ----------------------------------------------------------------
 
 
 async def read_name(identifier):
-    async with Network() as network:
-        await network.connect_sensor_device(identifier)
-        name = await network.get_name("STH 1")
-        print(f"Connected to sensor device “{name}”")
+    async with Connection() as stu:
+        async with stu.connect_sensor_device(identifier) as sensor_device:
+            name = await sensor_device.get_name()
+            print(f"Connected to sensor device “{name}”")
 
 
 # -- Main ---------------------------------------------------------------------
