@@ -856,8 +856,14 @@ class StreamingData:
     def apply(
         self,
         function: Callable[[float], float],
-    ) -> None:
+    ) -> StreamingData:
         """Apply a certain function to the streaming data
+
+        Note: This function changes the stored values in the streaming data
+              and (as convience feature) also returns the modified streaming
+              data itself. This is useful if you want to use the modified
+              streaming as paramter in a function call, i.e. you can
+              use something like `function(stream_data.apply())`.
 
         Parameters
         ----------
@@ -865,11 +871,17 @@ class StreamingData:
         function:
             The function that should be applied to the streaming data
 
+        Returns
+        -------
+
+        The modified streaming data
+
         Examples
         --------
 
         >>> data = StreamingData(values=[1, 2, 3], counter=21, timestamp=1)
         >>> data.apply(lambda value: value + 10)
+        [11, 12, 13]@1 #21
         >>> data.values
         [11, 12, 13]
 
@@ -878,6 +890,8 @@ class StreamingData:
         updated_values = [function(value) for value in self.values]
         assert len(updated_values) == 2 or len(updated_values) == 3
         self.values = updated_values
+
+        return self
 
     def __repr__(self):
         """Get the string representation of the stream data
