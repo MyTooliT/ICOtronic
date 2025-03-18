@@ -5,14 +5,18 @@
 from __future__ import annotations
 
 from asyncio import sleep
-from contextlib import asynccontextmanager
 from time import time
-from typing import AsyncGenerator, Type
+from types import TracebackType
+from typing import Type
 
 from netaddr import EUI
 
 from icotronic.can.node.eeprom.node import NodeEEPROM
-from icotronic.can.network import STHDeviceInfo
+from icotronic.can.network import (
+    ErrorResponseError,
+    NoResponseError,
+    STHDeviceInfo,
+)
 from icotronic.can.node.basic import Node
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.sensor import SensorNode
@@ -21,6 +25,149 @@ from icotronic.can.status import State
 from icotronic.utility.data import convert_bytes_to_text
 
 # -- Classes ------------------------------------------------------------------
+
+
+class AsyncSensorNodeManager:
+    """Context manager for connection to sensor device"""
+
+    def __init__(
+        self,
+        stu,
+        identifier: int | str | EUI,
+        sensor_node_class: Type[SensorNode] = SensorNode,
+    ):
+        """Initialize the context manager with the given arguments
+
+        Parameters
+        ----------
+
+        stu:
+            The STU instance that created the context manager
+
+        identifier:
+            The identifier of the sensor device
+
+        sensor_node_class:
+            The sensor node class returned by the context manager
+
+        """
+
+        self.stu = stu
+        self.identifier = identifier
+        self.sensor_node_class = sensor_node_class
+
+    async def __aenter__(self) -> SensorNode:
+        """Create the connection to the sensor device"""
+
+        def get_sensor_device(
+            devices: list[STHDeviceInfo], identifier: int | str | EUI
+        ) -> STHDeviceInfo | None:
+            """Get the MAC address of a sensor device"""
+
+            for device in devices:
+                if (
+                    isinstance(identifier, str)
+                    and device.name == identifier
+                    or isinstance(identifier, int)
+                    and device.device_number == identifier
+                    or device.mac_address == identifier
+                ):
+                    return device
+
+            return None
+
+        await self.stu.activate_bluetooth()
+
+        # We wait for a certain amount of time for the connection to the
+        # device to take place
+        timeout_in_s = 20
+        end_time = time() + timeout_in_s
+
+        sensor_device = None
+        sensor_devices: list[STHDeviceInfo] = []
+        while sensor_device is None:
+            if time() > end_time:
+                sensor_devices_representation = "\n".join(
+                    [repr(device) for device in sensor_devices]
+                )
+                device_info = (
+                    "Found the following sensor devices:\n"
+                    f"{sensor_devices_representation}"
+                    if len(sensor_devices) > 0
+                    else "No sensor devices found"
+                )
+
+                identifier_description = (
+                    "MAC address"
+                    if isinstance(self.identifier, EUI)
+                    else (
+                        "device_number"
+                        if isinstance(self.identifier, int)
+                        else "name"
+                    )
+                )
+                raise TimeoutError(
+                    "Unable to find sensor device with "
+                    f"{identifier_description} “{self.identifier}” in "
+                    f"{timeout_in_s} seconds\n\n{device_info}"
+                )
+
+            sensor_devices = await self.stu.get_sensor_devices()
+            sensor_device = get_sensor_device(sensor_devices, self.identifier)
+            if sensor_device is None:
+                await sleep(0.1)
+
+        connection_attempt_time = time()
+        disconnected = True
+        while disconnected:
+            await self.stu.connect_with_device_number(
+                sensor_device.device_number
+            )
+            retry_time_s = 3
+            end_time_retry = time() + retry_time_s
+            while time() < end_time_retry:
+                if time() > end_time:
+                    connection_time = time() - connection_attempt_time
+                    raise TimeoutError(
+                        "Unable to connect to sensor device"
+                        f" “{sensor_device}” in"
+                        f" {connection_time:.3f} seconds"
+                    )
+
+                if await self.stu.is_connected():
+                    disconnected = False
+                    break
+
+                await sleep(0.1)
+
+        return self.sensor_node_class(self.stu.spu)
+
+    async def __aexit__(
+        self,
+        exception_type: Type[BaseException] | None,
+        exception_value: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
+        """Disconnect the sensor device and clean up resources
+
+        Parameters
+        ----------
+
+        exception_type:
+            The type of the exception in case of an exception
+
+        exception_value:
+            The value of the exception in case of an exception
+
+        traceback:
+            The traceback in case of an exception
+
+        """
+
+        try:
+            await self.stu.deactivate_bluetooth()
+        except (NoResponseError, ErrorResponseError):
+            pass
 
 
 class STU(Node):
@@ -488,14 +635,11 @@ class STU(Node):
 
         return devices
 
-    # pylint: disable=too-many-locals
-
-    @asynccontextmanager
-    async def connect_sensor_device(
+    def connect_sensor_device(
         self,
         identifier: int | str | EUI,
-        sensor_device_class: Type[SensorNode] = SensorNode,
-    ) -> AsyncGenerator[SensorNode]:
+        sensor_node_class: Type[SensorNode] = SensorNode,
+    ) -> AsyncSensorNodeManager:
         """Connect to a sensor device (e.g. SHA, SMH or STH)
 
         Parameters
@@ -510,7 +654,7 @@ class STU(Node):
 
             of the sensor device we want to connect to
 
-        sensor_device_class:
+        sensor_node_class:
             Sensor device subclass that should be returned by context manager
 
         Example
@@ -532,97 +676,7 @@ class STU(Node):
 
         """
 
-        def get_sensor_device(
-            devices: list[STHDeviceInfo], identifier: int | str | EUI
-        ) -> STHDeviceInfo | None:
-            """Get the MAC address of a sensor device"""
-
-            for device in devices:
-                if (
-                    isinstance(identifier, str)
-                    and device.name == identifier
-                    or isinstance(identifier, int)
-                    and device.device_number == identifier
-                    or device.mac_address == identifier
-                ):
-                    return device
-
-            return None
-
-        if not isinstance(identifier, (EUI, int, str)):
-            raise TypeError(
-                "Identifier must be int, str or EUI, not "
-                f"{type(identifier).__name__}"
-            )
-
-        await self.activate_bluetooth()
-
-        # We wait for a certain amount of time for the connection to the
-        # device to take place
-        timeout_in_s = 20
-        end_time = time() + timeout_in_s
-
-        sensor_device = None
-        sensor_devices: list[STHDeviceInfo] = []
-        while sensor_device is None:
-            if time() > end_time:
-                sensor_devices_representation = "\n".join(
-                    [repr(device) for device in sensor_devices]
-                )
-                device_info = (
-                    "Found the following sensor devices:\n"
-                    f"{sensor_devices_representation}"
-                    if len(sensor_devices) > 0
-                    else "No sensor devices found"
-                )
-
-                identifier_description = (
-                    "MAC address"
-                    if isinstance(identifier, EUI)
-                    else (
-                        "device_number"
-                        if isinstance(identifier, int)
-                        else "name"
-                    )
-                )
-                raise TimeoutError(
-                    "Unable to find sensor device with "
-                    f"{identifier_description} “{identifier}” in "
-                    f"{timeout_in_s} seconds\n\n{device_info}"
-                )
-
-            sensor_devices = await self.get_sensor_devices()
-            sensor_device = get_sensor_device(sensor_devices, identifier)
-            if sensor_device is None:
-                await sleep(0.1)
-
-        connection_attempt_time = time()
-        disconnected = True
-        while disconnected:
-            await self.connect_with_device_number(sensor_device.device_number)
-            retry_time_s = 3
-            end_time_retry = time() + retry_time_s
-            while time() < end_time_retry:
-                if time() > end_time:
-                    connection_time = time() - connection_attempt_time
-                    raise TimeoutError(
-                        "Unable to connect to sensor device"
-                        f" “{sensor_device}” in"
-                        f" {connection_time:.3f} seconds"
-                    )
-
-                if await self.is_connected():
-                    disconnected = False
-                    break
-
-                await sleep(0.1)
-
-        try:
-            yield sensor_device_class(self.spu)
-        finally:
-            await self.deactivate_bluetooth()
-
-    # pylint: enable=too-many-locals
+        return AsyncSensorNodeManager(self, identifier, sensor_node_class)
 
 
 # -- Main ---------------------------------------------------------------------
