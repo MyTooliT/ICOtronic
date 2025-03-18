@@ -211,7 +211,7 @@ class STH(SensorNode):
         adc_value = int.from_bytes(response.data[4:], "little")
         return adc_value / ADC_MAX_VALUE * reference_voltage
 
-    async def read_acceleration_sensor_range_in_g(self) -> int:
+    async def get_acceleration_sensor_range_in_g(self) -> int:
         """Retrieve the maximum acceleration sensor range in multiples of g₀
 
         - For a ±100 g₀ sensor this method returns 200 (100 + |-100|).
@@ -243,7 +243,7 @@ class STH(SensorNode):
         ...         # We assume that at least one sensor device is available
         ...         async with stu.connect_sensor_device(0, STH) as sth:
         ...             return (await
-        ...                     sth.read_acceleration_sensor_range_in_g())
+        ...                     sth.get_acceleration_sensor_range_in_g())
         >>> sensor_range = run(read_sensor_range())
         >>> 0 < sensor_range <= 200
         True
@@ -291,7 +291,7 @@ class STH(SensorNode):
 
         """
 
-        sensor_range = await self.read_acceleration_sensor_range_in_g()
+        sensor_range = await self.get_acceleration_sensor_range_in_g()
         return partial(convert_raw_to_g, max_value=sensor_range)
 
 
