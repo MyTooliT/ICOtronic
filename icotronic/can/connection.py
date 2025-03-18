@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from asyncio import get_running_loop
 from sys import platform
 from types import TracebackType
 from typing import Type
@@ -100,7 +101,15 @@ class Connection:
 
         self.bus.__enter__()
 
-        self.notifier = Notifier(self.bus, listeners=[Logger()])
+        # We set the event loop explicitly, otherwise the code will not work
+        # correctly and print the following error message (if
+        # `PYTHONASYNCIODEBUG` is enabled):
+        #
+        # > Error while monitoring CAN bus data: Non-thread-safe operation
+        # > invoked on an event loop other than the current one
+        self.notifier = Notifier(
+            self.bus, listeners=[Logger()], loop=get_running_loop()
+        )
 
         return STU(SPU(self.bus, self.notifier))
 
