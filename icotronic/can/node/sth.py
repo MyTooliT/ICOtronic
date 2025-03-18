@@ -2,11 +2,14 @@
 
 # -- Imports ------------------------------------------------------------------
 
+from functools import partial
+from typing import Callable
 from icotronic.can.calibration import CalibrationMeasurementFormat
 from icotronic.can.node.eeprom.sth import STHEEPROM
 from icotronic.can.protocol.message import Message
 from icotronic.can.node.sensor import SensorNode
 from icotronic.can.node.spu import SPU
+from icotronic.measurement.acceleration import convert_raw_to_g
 from icotronic.measurement.constants import ADC_MAX_VALUE
 
 # -- Classes ------------------------------------------------------------------
@@ -252,6 +255,45 @@ class STH(SensorNode):
             abs(await self.eeprom.read_x_axis_acceleration_offset()) * 2
         )
 
+    async def get_acceleration_conversion_function(
+        self,
+    ) -> Callable[[int], float]:
+        """Retrieve function to convert raw sensor data into g
+
+        Returns
+        -------
+
+        A function that converts 16 bit raw values from the STH into
+        multiples of earth’s gravitation (g)
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+        >>> from icotronic.can.node.sth import STH
+
+        >>> async def read_sensor_values():
+        ...     async with Connection() as stu:
+        ...         # We assume that at least one sensor device is available
+        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...             convert_to_g = (
+        ...                 await sth.get_acceleration_conversion_function())
+        ...             data = await sth.get_streaming_data_single()
+        ...             before = list(data.values)
+        ...             data.apply(convert_to_g)
+        ...             return before, data.values
+        >>> before, after = run(read_sensor_values())
+        >>> all([0 <= value <= 2**16 for value in before])
+        True
+        >>> all([-100 <= value <= 100 for value in after])
+        True
+
+        """
+
+        sensor_range = await self.read_acceleration_sensor_range_in_g()
+        return partial(convert_raw_to_g, max_value=sensor_range)
+
 
 # -- Main ---------------------------------------------------------------------
 
@@ -259,7 +301,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        STH.read_acceleration_sensor_range_in_g,
+        STH.get_acceleration_conversion_function,
         globals(),
         verbose=True,
     )
