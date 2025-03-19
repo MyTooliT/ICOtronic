@@ -395,6 +395,7 @@ def main():
             NetworkError,
             TimeoutError,
             UnsupportedFeatureException,
+            ValueError,
         ) as error:
             print(error, file=stderr)
         except StreamingTimeoutError as error:
