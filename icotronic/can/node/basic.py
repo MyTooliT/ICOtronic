@@ -9,6 +9,7 @@ from semantic_version import Version
 from icotronic.can.node.eeprom.node import NodeEEPROM
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.spu import SPU
+from icotronic.can.protocol.message import Message
 from icotronic.utility.data import convert_bytes_to_text
 
 # -- Classes ------------------------------------------------------------------
@@ -36,6 +37,54 @@ class Node:
         self.spu = spu
         self.id = node_id
         self.eeprom = eeprom_class(spu, node_id)
+
+    # ==========
+    # = System =
+    # ==========
+
+    async def reset(self) -> None:
+        """Reset the node
+
+        Examples
+        --------
+
+        >>> from asyncio import run, sleep
+        >>> from icotronic.can.connection import Connection
+
+        Reset the current STU
+
+        >>> async def reset():
+        ...     async with Connection() as stu:
+        ...         await stu.reset()
+        >>> run(reset())
+
+        Reset a sensor device
+
+        >>> async def reset():
+        ...     async with Connection() as stu:
+        ...         # We assume that at least one sensor device is available
+        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...             await sensor_device.reset()
+        ...             # Wait some time for reset to take place
+        ...             await sleep(1)
+        >>> run(reset())
+
+        """
+
+        node = self.id
+        message = Message(
+            block="System",
+            block_command="Reset",
+            sender=self.spu.id,
+            receiver=node,
+            request=True,
+        )
+        await self.spu._request(
+            message,
+            description=f"reset node “{node}”",
+            response_data=message.data,
+            minimum_timeout=1,
+        )
 
     # ================
     # = Product Data =
@@ -322,7 +371,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        Node.get_oem_data,
+        Node.reset,
         globals(),
         verbose=True,
     )

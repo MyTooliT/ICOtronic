@@ -264,51 +264,6 @@ class SPU:
 
     # pylint: enable=too-many-arguments, too-many-positional-arguments
 
-    # ==========
-    # = System =
-    # ==========
-
-    async def reset_node(self, node: str | NodeId) -> None:
-        """Reset the specified node
-
-        Parameters
-        ----------
-
-        node:
-            The node to reset
-
-        Examples
-        --------
-
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
-
-        Reset node, which is not connected
-
-        >>> async def reset():
-        ...     async with Connection() as stu:
-        ...         await stu.spu.reset_node('STH 1')
-        >>> run(reset()) # doctest: +IGNORE_EXCEPTION_DETAIL
-        Traceback (most recent call last):
-            ...
-        NoResponseError: Unable to reset node “STH 1”
-
-        """
-
-        message = Message(
-            block="System",
-            block_command="Reset",
-            sender=self.id,
-            receiver=node,
-            request=True,
-        )
-        await self._request(
-            message,
-            description=f"reset node “{node}”",
-            response_data=message.data,
-            minimum_timeout=1,
-        )
-
     # -----------------
     # - Get/Set State -
     # -----------------

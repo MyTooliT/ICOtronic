@@ -197,26 +197,6 @@ class STU(Node):
 
         super().__init__(spu, NodeEEPROM, NodeId("STU 1"))
 
-    async def reset(self) -> None:
-        """Reset the STU
-
-        Examples
-        --------
-
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
-
-        Reset the current STU
-
-        >>> async def reset():
-        ...     async with Connection() as stu:
-        ...         await stu.reset()
-        >>> run(reset())
-
-        """
-
-        await self.spu.reset_node(self.id)
-
     async def get_state(self) -> State:
         """Get the current state of the STU
 
