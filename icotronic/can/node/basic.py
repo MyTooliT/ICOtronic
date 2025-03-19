@@ -102,7 +102,7 @@ class Node:
         Examples
         --------
 
-        >>> from asyncio import run
+        >>> from asyncio import run, sleep
         >>> from icotronic.can.connection import Connection
 
         Get the state of the current STU
@@ -119,7 +119,12 @@ class Node:
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
         ...         async with stu.connect_sensor_device(0) as sensor_device:
-        ...             return await sensor_device.get_state()
+        ...             state = await sensor_device.get_state()
+        ...             # Sensor device might be still in startup state
+        ...             while state.state_name() == 'Startup':
+        ...                 await sleep(1)
+        ...                 state = await sensor_device.get_state()
+        ...             return state
         >>> run(get_state())
         Get State, Location: Application, State: Operating
 
