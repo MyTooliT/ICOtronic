@@ -78,7 +78,9 @@ async def get_acceleration_sensor_range_in_g(sth: STH) -> float:
     return sensor_range
 
 
-def config(arguments: Namespace) -> None:  # pylint: disable=unused-argument
+def command_config(  # pylint: disable=unused-argument
+    arguments: Namespace,
+) -> None:
     """Open configuration file"""
 
     ConfigurationUtility.open_user_config()
@@ -87,7 +89,7 @@ def config(arguments: Namespace) -> None:  # pylint: disable=unused-argument
 # pylint: disable=too-many-locals
 
 
-async def dataloss(arguments: Namespace) -> None:
+async def command_dataloss(arguments: Namespace) -> None:
     """Check data loss at different sample rates"""
 
     identifier = arguments.identifier
@@ -159,7 +161,7 @@ async def dataloss(arguments: Namespace) -> None:
 # pylint: enable=too-many-locals
 
 
-async def list_sensor_devices(
+async def command_list(
     arguments: Namespace,  # pylint: disable=unused-argument
 ) -> None:
     """Print a list of available sensor devices
@@ -197,7 +199,7 @@ async def list_sensor_devices(
 # pylint: disable=too-many-locals
 
 
-async def measure(arguments: Namespace) -> None:
+async def command_measure(arguments: Namespace) -> None:
     """Open measurement stream and store data
 
     Parameters
@@ -287,7 +289,7 @@ async def measure(arguments: Namespace) -> None:
 # pylint: enable=too-many-locals
 
 
-async def rename(arguments: Namespace) -> None:
+async def command_rename(arguments: Namespace) -> None:
     """Rename a sensor device
 
     Parameters
@@ -314,7 +316,7 @@ async def rename(arguments: Namespace) -> None:
             )
 
 
-async def stu(arguments: Namespace) -> None:
+async def command_stu(arguments: Namespace) -> None:
     """Run specific commands regarding stationary transceiver unit
 
     Parameters
@@ -373,14 +375,14 @@ def main():
     logger.info("CLI Arguments: %s", arguments)
 
     if arguments.subcommand == "config":
-        config(arguments.subcommand)
+        command_config(arguments.subcommand)
     else:
         command_to_coroutine = {
-            "dataloss": dataloss,
-            "list": list_sensor_devices,
-            "measure": measure,
-            "rename": rename,
-            "stu": stu,
+            "dataloss": command_dataloss,
+            "list": command_list,
+            "measure": command_measure,
+            "rename": command_rename,
+            "stu": command_stu,
         }
 
         try:
