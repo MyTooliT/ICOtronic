@@ -19,20 +19,22 @@ from typing import List
 from can.interfaces.pcan import PcanError
 from tqdm import tqdm
 
+from icotronic.can import Connection
 from icotronic.can.adc import ADCConfiguration
 from icotronic.can.error import UnsupportedFeatureException
+from icotronic.can.network import NetworkError, STHDeviceInfo
+from icotronic.can.node.sth import STH
 from icotronic.can.streaming import StreamingTimeoutError
 from icotronic.cmdline.parse import create_icon_parser
 from icotronic.config import ConfigurationUtility, settings
 from icotronic.measurement import convert_raw_to_g
 from icotronic.measurement import Storage
 from icotronic.measurement.sensor import SensorConfiguration
-from icotronic.can.network import Network, NetworkError, STHDeviceInfo
 
 # -- Functions ----------------------------------------------------------------
 
 
-async def read_acceleration_sensor_range_in_g(network: Network) -> float:
+async def get_acceleration_sensor_range_in_g(sth: STH) -> float:
     """Read sensor range of acceleration sensor
 
     Precondition
@@ -44,8 +46,8 @@ async def read_acceleration_sensor_range_in_g(network: Network) -> float:
     Parameters
     ----------
 
-    network:
-        The network class used to read the sensor range
+    sth:
+        The STH object used to read the sensor range
 
     Returns
     -------
@@ -58,7 +60,7 @@ async def read_acceleration_sensor_range_in_g(network: Network) -> float:
     sensor_range = 200
 
     try:
-        sensor_range = await network.read_acceleration_sensor_range_in_g()
+        sensor_range = await sth.get_acceleration_sensor_range_in_g()
         if sensor_range < 1:
             print(
                 f"Warning: Sensor range “{sensor_range}” below 1 g — Using "
@@ -91,63 +93,67 @@ async def dataloss(arguments: Namespace) -> None:
     identifier = arguments.identifier
     logger = getLogger(__name__)
 
-    async with Network() as network:
+    async with Connection() as stu:
         logger.info("Connecting to “%s”", identifier)
-        await network.connect_sensor_device(identifier)
-        logger.info("Connected to “%s”", identifier)
+        async with stu.connect_sensor_device(identifier, STH) as sth:
+            assert isinstance(sth, STH)
+            logger.info("Connected to “%s”", identifier)
 
-        sensor_range = await read_acceleration_sensor_range_in_g(network)
-        conversion_to_g = partial(convert_raw_to_g, max_value=sensor_range)
+            sensor_range = await get_acceleration_sensor_range_in_g(sth)
+            conversion_to_g = partial(convert_raw_to_g, max_value=sensor_range)
 
-        measurement_time_s = 10
+            measurement_time_s = 10
 
-        sensor_config = SensorConfiguration(first=1)
+            sensor_config = SensorConfiguration(first=1)
 
-        for oversampling_rate in (2**exponent for exponent in range(6, 10)):
-            logger.info("Oversampling rate: %s", oversampling_rate)
-            adc_config = ADCConfiguration(
-                prescaler=2,
-                acquisition_time=8,
-                oversampling_rate=oversampling_rate,
-            )
-            await network.write_adc_configuration(**adc_config)
-            sample_rate = adc_config.sample_rate()
-            logger.info("Sample rate: %s Hz", sample_rate)
-
-            filepath = Path(f"Measurement {sample_rate} Hz.hdf5")
-            with Storage(
-                filepath.resolve(), sensor_config.streaming_configuration()
-            ) as storage:
-                storage.write_sensor_range(sensor_range)
-                storage.write_sample_rate(adc_config)
-
-                progress = tqdm(
-                    total=int(sample_rate * measurement_time_s),
-                    desc="Read sensor data",
-                    unit=" values",
-                    leave=False,
-                    disable=None,
+            for oversampling_rate in (
+                2**exponent for exponent in range(6, 10)
+            ):
+                logger.info("Oversampling rate: %s", oversampling_rate)
+                adc_config = ADCConfiguration(
+                    prescaler=2,
+                    acquisition_time=8,
+                    oversampling_rate=oversampling_rate,
                 )
+                await sth.set_adc_configuration(**adc_config)
+                sample_rate = adc_config.sample_rate()
+                logger.info("Sample rate: %s Hz", sample_rate)
 
-                start_time = time()
-                try:
-                    async with network.open_data_stream(
-                        sensor_config.streaming_configuration()
-                    ) as stream:
-                        async for data, _ in stream:
-                            data.apply(conversion_to_g)
-                            storage.add_streaming_data(data)
-                            progress.update(3)
-                            if time() - start_time >= measurement_time_s:
-                                break
-                except PcanError as error:
-                    print(
-                        f"Unable to collect streaming data: {error}",
-                        file=stderr,
+                filepath = Path(f"Measurement {sample_rate} Hz.hdf5")
+                with Storage(
+                    filepath.resolve(), sensor_config.streaming_configuration()
+                ) as storage:
+                    storage.write_sensor_range(sensor_range)
+                    storage.write_sample_rate(adc_config)
+
+                    progress = tqdm(
+                        total=int(sample_rate * measurement_time_s),
+                        desc="Read sensor data",
+                        unit=" values",
+                        leave=False,
+                        disable=None,
                     )
 
-                progress.close()
-            print(f"Stored measurement data in “{filepath}”")
+                    start_time = time()
+                    try:
+                        async with sth.open_data_stream(
+                            sensor_config.streaming_configuration()
+                        ) as stream:
+                            async for data, _ in stream:
+                                storage.add_streaming_data(
+                                    data.apply(conversion_to_g)
+                                )
+                                progress.update(3)
+                                if time() - start_time >= measurement_time_s:
+                                    break
+                    except PcanError as error:
+                        print(
+                            f"Unable to collect streaming data: {error}",
+                            file=stderr,
+                        )
+
+                    progress.close()
+                print(f"Stored measurement data in “{filepath}”")
 
 
 # pylint: enable=too-many-locals
@@ -166,7 +172,7 @@ async def list_sensor_devices(
 
     """
 
-    async with Network() as network:
+    async with Connection() as stu:
         timeout = time() + 5
         sensor_devices: List[STHDeviceInfo] = []
         sensor_devices_before: List[STHDeviceInfo] = []
@@ -181,7 +187,7 @@ async def list_sensor_devices(
             or len(sensor_devices) != len(sensor_devices_before)
         ):
             sensor_devices_before = list(sensor_devices)
-            sensor_devices = await network.get_sensor_devices()
+            sensor_devices = await stu.get_sensor_devices()
             await sleep(0.5)
 
         for device in sensor_devices:
@@ -207,72 +213,75 @@ async def measure(arguments: Namespace) -> None:
     identifier = arguments.identifier
     measurement_time_s = arguments.time
 
-    async with Network() as network:
-        await network.connect_sensor_device(identifier)
+    async with Connection() as stu:
+        async with stu.connect_sensor_device(identifier, STH) as sth:
+            assert isinstance(sth, STH)
 
-        adc_config = ADCConfiguration(
-            reference_voltage=arguments.voltage_reference,
-            prescaler=arguments.prescaler,
-            acquisition_time=arguments.acquisition,
-            oversampling_rate=arguments.oversampling,
-        )
-        await network.write_adc_configuration(**adc_config)
-        print(f"Sample Rate: {adc_config.sample_rate():.2f} Hz")
+            adc_config = ADCConfiguration(
+                reference_voltage=arguments.voltage_reference,
+                prescaler=arguments.prescaler,
+                acquisition_time=arguments.acquisition,
+                oversampling_rate=arguments.oversampling,
+            )
+            await sth.set_adc_configuration(**adc_config)
+            print(f"Sample Rate: {adc_config.sample_rate():.2f} Hz")
 
-        user_sensor_config = SensorConfiguration(
-            first=arguments.first_channel,
-            second=arguments.second_channel,
-            third=arguments.third_channel,
-        )
-
-        if user_sensor_config.requires_channel_configuration_support():
-            try:
-                await network.write_sensor_configuration(user_sensor_config)
-            except UnsupportedFeatureException as exception:
-                raise UnsupportedFeatureException(
-                    f"Sensor channel configuration “{user_sensor_config}” is "
-                    f"not supported by the sensor node “{identifier}”"
-                ) from exception
-
-        sensor_range = await read_acceleration_sensor_range_in_g(network)
-        conversion_to_g = partial(convert_raw_to_g, max_value=sensor_range)
-
-        with Storage(
-            settings.get_output_filepath(),
-            user_sensor_config.streaming_configuration(),
-        ) as storage:
-            storage.write_sensor_range(sensor_range)
-            storage.write_sample_rate(adc_config)
-
-            streaming_config = user_sensor_config.streaming_configuration()
-            logger.info("Streaming Configuration: %s", streaming_config)
-            values_per_message = streaming_config.data_length()
-
-            progress = tqdm(
-                total=round(adc_config.sample_rate() * measurement_time_s, 0),
-                desc="Read sensor data",
-                unit=" values",
-                leave=False,
-                disable=None,
+            user_sensor_config = SensorConfiguration(
+                first=arguments.first_channel,
+                second=arguments.second_channel,
+                third=arguments.third_channel,
             )
 
-            try:
-                async with network.open_data_stream(
-                    streaming_config
-                ) as stream:
-                    start_time = time()
-                    async for data, _ in stream:
-                        data.apply(conversion_to_g)
-                        storage.add_streaming_data(data)
-                        progress.update(values_per_message)
+            if user_sensor_config.requires_channel_configuration_support():
+                try:
+                    await sth.set_sensor_configuration(user_sensor_config)
+                except UnsupportedFeatureException as exception:
+                    raise UnsupportedFeatureException(
+                        f"Sensor channel configuration “{user_sensor_config}”"
+                        f" is not supported by the sensor node “{identifier}”"
+                    ) from exception
 
-                        if time() - start_time >= measurement_time_s:
-                            break
-            except KeyboardInterrupt:
-                pass
-            finally:
-                progress.close()
-                print(f"Data Loss: {storage.dataloss() * 100} %")
+            sensor_range = await get_acceleration_sensor_range_in_g(sth)
+            conversion_to_g = partial(convert_raw_to_g, max_value=sensor_range)
+
+            with Storage(
+                settings.get_output_filepath(),
+                user_sensor_config.streaming_configuration(),
+            ) as storage:
+                storage.write_sensor_range(sensor_range)
+                storage.write_sample_rate(adc_config)
+
+                streaming_config = user_sensor_config.streaming_configuration()
+                logger.info("Streaming Configuration: %s", streaming_config)
+                values_per_message = streaming_config.data_length()
+
+                progress = tqdm(
+                    total=round(
+                        adc_config.sample_rate() * measurement_time_s, 0
+                    ),
+                    desc="Read sensor data",
+                    unit=" values",
+                    leave=False,
+                    disable=None,
+                )
+
+                try:
+                    async with sth.open_data_stream(
+                        streaming_config
+                    ) as stream:
+                        start_time = time()
+                        async for data, _ in stream:
+                            storage.add_streaming_data(
+                                data.apply(conversion_to_g)
+                            )
+                            progress.update(values_per_message)
+                            if time() - start_time >= measurement_time_s:
+                                break
+                except KeyboardInterrupt:
+                    pass
+                finally:
+                    progress.close()
+                    print(f"Data Loss: {storage.dataloss() * 100} %")
 
 
 # pylint: enable=too-many-locals
@@ -292,19 +301,17 @@ async def rename(arguments: Namespace) -> None:
     identifier = arguments.identifier
     name = arguments.name
 
-    async with Network() as network:
-        node = "STH 1"
+    async with Connection() as stu:
+        async with stu.connect_sensor_device(identifier) as sensor_device:
+            old_name = await sensor_device.get_name()
+            mac_address = await sensor_device.get_mac_address()
 
-        await network.connect_sensor_device(identifier)
-        old_name = await network.get_name(node)
-        mac_address = await network.get_mac_address(node)
-
-        await network.set_name(name, node)
-        name = await network.get_name(node)
-        print(
-            f"Renamed sensor device “{old_name}” with MAC "
-            f"address “{mac_address}” to “{name}”"
-        )
+            await sensor_device.set_name(name)
+            name = await sensor_device.get_name()
+            print(
+                f"Renamed sensor device “{old_name}” with MAC "
+                f"address “{mac_address}” to “{name}”"
+            )
 
 
 async def stu(arguments: Namespace) -> None:
@@ -320,7 +327,7 @@ async def stu(arguments: Namespace) -> None:
 
     subcommand = arguments.stu_subcommand
 
-    async with Network() as network:
+    async with Connection() as stu:
         if subcommand == "ota":
             # The coroutine below activates the advertisement required for the
             # Over The Air (OTA) firmware update.
@@ -331,11 +338,11 @@ async def stu(arguments: Namespace) -> None:
             # - Even a **hard STU reset does not turn off the advertisement**.
             # - One way to turn off the advertisement seems to be to initiate a
             #   connection with a sensor device.
-            await network.activate_bluetooth()
+            await stu.activate_bluetooth()
         elif subcommand == "mac":
-            print(await network.get_mac_address("STU 1"))
+            print(await stu.get_mac_address())
         elif subcommand == "reset":
-            await network.reset_node("STU 1")
+            await stu.reset()
         else:
             raise ValueError(f"Unknown STU subcommand “{subcommand}”")
 
