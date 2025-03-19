@@ -17,7 +17,6 @@ from icotronic.can.network import (
     ResponseListener,
 )
 from icotronic.can.node.id import NodeId
-from icotronic.can.status import State
 from icotronic.utility.data import convert_bytes_to_text
 
 # -- Classes ------------------------------------------------------------------
@@ -263,41 +262,6 @@ class SPU:
         return await self._request(message, description=description)
 
     # pylint: enable=too-many-arguments, too-many-positional-arguments
-
-    # -----------------
-    # - Get/Set State -
-    # -----------------
-
-    async def get_state(self, node: str | NodeId = "STU 1") -> State:
-        """Get the current state of the specified node
-
-        Parameters
-        ----------
-
-        node:
-            The node which should return its state
-
-        Returns
-        -------
-
-        The state of the given node
-
-        """
-
-        message = Message(
-            block="System",
-            block_command="Get/Set State",
-            sender=self.id,
-            receiver=node,
-            request=True,
-            data=[(State(mode="Get")).value],
-        )
-
-        response = await self._request(
-            message, description=f"get state of node “{node}”"
-        )
-
-        return State(response.data[0])
 
     async def get_name(
         self, node: str | NodeId = "STU 1", device_number: int = 0xFF

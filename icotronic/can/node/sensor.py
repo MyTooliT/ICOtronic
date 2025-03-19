@@ -31,7 +31,6 @@ from icotronic.can.streaming import (
     StreamingFormat,
     StreamingFormatVoltage,
 )
-from icotronic.can.status import State
 from icotronic.can.node.spu import SPU
 from icotronic.config import settings
 from icotronic.measurement.sensor import SensorConfiguration
@@ -170,38 +169,6 @@ class SensorNode(Node):
     # ==========
     # = System =
     # ==========
-
-    # -----------------
-    # - Get/Set State -
-    # -----------------
-
-    async def get_state(self) -> State:
-        """Get the current state of the sensor device
-
-        Returns
-        -------
-
-        The operating state of the sensor device
-
-        Examples
-        --------
-
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
-
-        Get state of sensor device
-
-        >>> async def get_state():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
-        ...             return await sensor_device.get_state()
-        >>> run(get_state())
-        Get State, Location: Application, State: Operating
-
-        """
-
-        return await self.spu.get_state(self.id)
 
     # -------------
     # - Bluetooth -

@@ -22,7 +22,6 @@ from icotronic.can.node.basic import Node
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.sensor import SensorNode
 from icotronic.can.node.spu import SPU
-from icotronic.can.status import State
 from icotronic.utility.data import convert_bytes_to_text
 
 # -- Classes ------------------------------------------------------------------
@@ -196,27 +195,6 @@ class STU(Node):
         """
 
         super().__init__(spu, NodeEEPROM, NodeId("STU 1"))
-
-    async def get_state(self) -> State:
-        """Get the current state of the STU
-
-        Examples
-        --------
-
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
-
-        Get state of STU 1
-
-        >>> async def get_state():
-        ...     async with Connection() as stu:
-        ...         return await stu.get_state()
-        >>> run(get_state())
-        Get State, Location: Application, State: Operating
-
-        """
-
-        return await self.spu.get_state(self.id)
 
     async def activate_bluetooth(self) -> None:
         """Activate Bluetooth on the STU

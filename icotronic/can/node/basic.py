@@ -10,6 +10,7 @@ from icotronic.can.node.eeprom.node import NodeEEPROM
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.spu import SPU
 from icotronic.can.protocol.message import Message
+from icotronic.can.status import State
 from icotronic.utility.data import convert_bytes_to_text
 
 # -- Classes ------------------------------------------------------------------
@@ -85,6 +86,60 @@ class Node:
             response_data=message.data,
             minimum_timeout=1,
         )
+
+    # -----------------
+    # - Get/Set State -
+    # -----------------
+
+    async def get_state(self) -> State:
+        """Get the current state of the node
+
+        Returns
+        -------
+
+        The state of the node
+
+        Examples
+        --------
+
+        >>> from asyncio import run
+        >>> from icotronic.can.connection import Connection
+
+        Get the state of the current STU
+
+        >>> async def get_state():
+        ...     async with Connection() as stu:
+        ...         return await stu.get_state()
+        >>> run(get_state())
+        Get State, Location: Application, State: Operating
+
+        Get state of sensor device
+
+        >>> async def get_state():
+        ...     async with Connection() as stu:
+        ...         # We assume that at least one sensor device is available
+        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...             return await sensor_device.get_state()
+        >>> run(get_state())
+        Get State, Location: Application, State: Operating
+
+        """
+
+        node = self.id
+        message = Message(
+            block="System",
+            block_command="Get/Set State",
+            sender=self.spu.id,
+            receiver=node,
+            request=True,
+            data=[(State(mode="Get")).value],
+        )
+
+        response = await self.spu._request(
+            message, description=f"get state of node “{node}”"
+        )
+
+        return State(response.data[0])
 
     # ================
     # = Product Data =
@@ -371,7 +426,7 @@ if __name__ == "__main__":
     from doctest import run_docstring_examples
 
     run_docstring_examples(
-        Node.reset,
+        Node.get_state,
         globals(),
         verbose=True,
     )
