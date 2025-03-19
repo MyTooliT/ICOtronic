@@ -542,7 +542,6 @@ class StorageData:
     def sampling_frequency(self) -> float:
         """Calculate sampling frequency of measurement data
 
-
         Returns
         -------
 
