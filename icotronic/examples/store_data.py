@@ -3,14 +3,11 @@
 # -- Imports ------------------------------------------------------------------
 
 from asyncio import run
-from functools import partial
 from pathlib import Path
 from time import time
 
-from icotronic.measurement import Storage
-from icotronic.measurement.acceleration import convert_raw_to_g
-
 from icotronic.can import Connection, StreamingConfiguration, STH
+from icotronic.measurement import Storage
 
 # -- Functions ----------------------------------------------------------------
 
@@ -19,8 +16,7 @@ async def store_streaming_data(identifier):
     async with Connection() as stu:
         async with stu.connect_sensor_device(identifier, STH) as sth:
 
-            sensor_range = await sth.read_acceleration_sensor_range_in_g()
-            conversion_to_g = partial(convert_raw_to_g, max_value=sensor_range)
+            conversion_to_g = await sth.get_acceleration_conversion_function()
 
             # Read data for five seconds
             start = time()
@@ -30,15 +26,15 @@ async def store_streaming_data(identifier):
 
             with Storage(filepath, channels=stream_first) as storage:
                 # Store acceleration range as metadata
-                storage.write_sensor_range(sensor_range)
+                storage.write_sensor_range(
+                    await sth.get_acceleration_sensor_range_in_g()
+                )
                 # Store sampling rate (and ADC configuration as metadata)
                 storage.write_sample_rate(await sth.get_adc_configuration())
                 async with sth.open_data_stream(stream_first) as stream:
                     async for data, _ in stream:
                         # Convert from ADC bit value into multiples of g
-                        data.apply(conversion_to_g)
-                        # Store in data file
-                        storage.add_streaming_data(data)
+                        storage.add_streaming_data(data.apply(conversion_to_g))
                         if time() > end:
                             break
 
