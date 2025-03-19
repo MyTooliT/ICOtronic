@@ -21,8 +21,6 @@ from icotronic.utility.data import convert_bytes_to_text
 
 # -- Classes ------------------------------------------------------------------
 
-# pylint: disable=too-few-public-methods
-
 
 class SPU:
     """Communicate with the ICOtronic system acting as SPU"""
