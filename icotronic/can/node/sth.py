@@ -131,7 +131,7 @@ class STH(SensorNode):
 
         await self._acceleration_self_test(activate=False, dimension=dimension)
 
-    async def read_acceleration_voltage(
+    async def get_acceleration_voltage(
         self, dimension: str = "x", reference_voltage: float = 3.3
     ) -> float:
         """Retrieve the current acceleration voltage in Volt
@@ -163,11 +163,11 @@ class STH(SensorNode):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
         ...         async with stu.connect_sensor_device(0, STH) as sth:
-        ...             before = await sth.read_acceleration_voltage()
+        ...             before = await sth.get_acceleration_voltage()
         ...             await sth.activate_acceleration_self_test()
-        ...             between = await sth.read_acceleration_voltage()
+        ...             between = await sth.get_acceleration_voltage()
         ...             await sth.deactivate_acceleration_self_test()
-        ...             after = await sth.read_acceleration_voltage()
+        ...             after = await sth.get_acceleration_voltage()
         ...         return (before, between, after)
         >>> before, between, after = run(read_acceleration_voltage())
         >>> before < between and after < between
