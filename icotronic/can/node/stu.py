@@ -381,6 +381,64 @@ class STU(Node):
 
         return bool(response.data[2])
 
+    async def connect_with_mac_address(self, mac_address: EUI) -> None:
+        """Connect to a Bluetooth sensor device using its MAC address
+
+        Parameters
+        ----------
+
+        mac_address:
+            The MAC address of the sensor device
+
+        Examples
+        --------
+
+        >>> from asyncio import run, sleep
+        >>> from icotronic.can.connection import Connection
+
+        >>> async def get_bluetooth_mac():
+        ...     async with Connection() as stu:
+        ...         await stu.activate_bluetooth()
+        ...         # Wait for Bluetooth activation to take place
+        ...         await sleep(1)
+        ...         return await stu.get_mac_address(0)
+        >>> mac_address = run(get_bluetooth_mac())
+        >>> mac_address != EUI(0)
+        True
+
+        >>> async def connect(mac_address):
+        ...     async with Connection() as stu:
+        ...         await stu.deactivate_bluetooth()
+        ...         # We assume that at least one STH is available
+        ...         connected = before = await stu.is_connected()
+        ...         await stu.activate_bluetooth()
+        ...         while not connected:
+        ...             await stu.connect_with_mac_address(mac_address)
+        ...             await sleep(0.1)
+        ...             connected = await stu.is_connected()
+        ...         await stu.deactivate_bluetooth()
+        ...         after = await stu.is_connected()
+        ...         # Return status of Bluetooth device connect response
+        ...         return before, connected, after
+        >>> run(connect(mac_address))
+        (False, True, False)
+
+        """
+
+        mac_address_bytes_reversed = list(reversed(mac_address.packed))
+        node = "STU 1"
+        # The STU returns reversed MAC address once, probably after the
+        # connection was establised successfully.
+        # Otherwise (before and after) connection took place it returns
+        # zeroes all the time. This means the return values is not that
+        # useful, e.g. for determining if the STH is connected or not.
+        await self.spu.request_bluetooth(
+            node=node,
+            subcommand=18,
+            data=mac_address_bytes_reversed,
+            description=f"connect to device “{mac_address}” from “{node}”",
+        )
+
     async def is_connected(self) -> bool:
         """Check if the STU is connected to a Bluetooth device
 
@@ -639,6 +697,10 @@ class STU(Node):
 # -- Main ---------------------------------------------------------------------
 
 if __name__ == "__main__":
-    from doctest import testmod
+    from doctest import run_docstring_examples
 
-    testmod()
+    run_docstring_examples(
+        STU.connect_with_mac_address,
+        globals(),
+        verbose=True,
+    )
