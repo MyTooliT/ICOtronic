@@ -214,7 +214,7 @@ class STU(Node):
 
         """
 
-        await self.spu._request_bluetooth(  # pylint: disable=protected-access
+        await self.spu.request_bluetooth(
             node=self.id,
             subcommand=1,
             description=f"activate Bluetooth of node “{self.id}”",
@@ -239,7 +239,7 @@ class STU(Node):
 
         """
 
-        await self.spu._request_bluetooth(  # pylint: disable=protected-access
+        await self.spu.request_bluetooth(
             node=self.id,
             subcommand=9,
             description=f"deactivate Bluetooth on “{self.id}”",
@@ -278,13 +278,11 @@ class STU(Node):
 
         """
 
-        # pylint: disable=protected-access
-        answer = await self.spu._request_bluetooth(
+        answer = await self.spu.request_bluetooth(
             node=self.id,
             subcommand=2,
             description=f"get available Bluetooth devices of node “{self.id}”",
         )
-        # pylint: enable=protected-access
 
         available_devices = int(convert_bytes_to_text(answer.data[2:]))
 
@@ -374,14 +372,12 @@ class STU(Node):
 
         """
 
-        # pylint: disable=protected-access
-        response = await self.spu._request_bluetooth(
+        response = await self.spu.request_bluetooth(
             node=self.id,
             subcommand=7,
             device_number=device_number,
             description=f"connect to “{device_number}” from “{self.id}”",
         )
-        # pylint: enable=protected-access
 
         return bool(response.data[2])
 
@@ -429,8 +425,7 @@ class STU(Node):
 
         """
 
-        # pylint: disable=protected-access
-        response = await self.spu._request_bluetooth(
+        response = await self.spu.request_bluetooth(
             node=self.id,
             subcommand=8,
             response_data=[None, *(5 * [0])],
@@ -438,7 +433,6 @@ class STU(Node):
                 f"check if “{self.id}” is connected to a Bluetooth device"
             ),
         )
-        # pylint: enable=protected-access
 
         return bool(response.data[2])
 

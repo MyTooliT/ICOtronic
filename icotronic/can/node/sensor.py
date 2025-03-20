@@ -260,9 +260,7 @@ class SensorNode(Node):
         bytes_name.extend([0] * (8 - length_name))
         description = f"name of “{node}”"
 
-        # pylint: disable=protected-access
-
-        await self.spu._request_bluetooth(
+        await self.spu.request_bluetooth(
             node=node,
             subcommand=3,
             device_number=DEVICE_NUMBER_SELF_ADDRESSING,
@@ -270,15 +268,13 @@ class SensorNode(Node):
             description=f"set first part of {description}",
         )
 
-        await self.spu._request_bluetooth(
+        await self.spu.request_bluetooth(
             node=node,
             subcommand=4,
             device_number=DEVICE_NUMBER_SELF_ADDRESSING,
             data=bytes_name[6:] + [0] * 4,
             description=f"set second part of {description}",
         )
-
-        # pylint: enable=protected-access
 
     async def get_energy_mode_reduced(self) -> Times:
         """Read the reduced energy mode (mode 1) sensor device time values
@@ -316,14 +312,12 @@ class SensorNode(Node):
 
         """
 
-        # pylint: disable=protected-access
-        response = await self.spu._request_bluetooth(
+        response = await self.spu.request_bluetooth(
             node=self.id,
             device_number=DEVICE_NUMBER_SELF_ADDRESSING,
             subcommand=13,
             description="get reduced energy time values of sensor device",
         )
-        # pylint: enable=protected-access
 
         wait_time = int.from_bytes(response.data[2:6], byteorder="little")
         advertisement_time = (
@@ -400,8 +394,7 @@ class SensorNode(Node):
             + advertisement_time.to_bytes(2, "little")
         )
 
-        # pylint: disable=protected-access
-        await self.spu._request_bluetooth(
+        await self.spu.request_bluetooth(
             node=self.id,
             device_number=DEVICE_NUMBER_SELF_ADDRESSING,
             subcommand=14,
@@ -409,7 +402,6 @@ class SensorNode(Node):
             response_data=list(data),
             description="set reduced energy time values of sensor device",
         )
-        # pylint: enable=protected-access
 
     async def get_energy_mode_lowest(self) -> Times:
         """Read the reduced lowest energy mode (mode 2) time values
@@ -447,14 +439,12 @@ class SensorNode(Node):
 
         """
 
-        # pylint: disable=protected-access
-        response = await self.spu._request_bluetooth(
+        response = await self.spu.request_bluetooth(
             node=self.id,
             device_number=DEVICE_NUMBER_SELF_ADDRESSING,
             subcommand=15,
             description="get lowest energy mode time values of sensor device",
         )
-        # pylint: enable=protected-access
 
         wait_time = int.from_bytes(response.data[2:6], byteorder="little")
         advertisement_time = (
@@ -528,8 +518,7 @@ class SensorNode(Node):
             + advertisement_time.to_bytes(2, "little")
         )
 
-        # pylint: disable=protected-access
-        await self.spu._request_bluetooth(
+        await self.spu.request_bluetooth(
             node=self.id,
             device_number=DEVICE_NUMBER_SELF_ADDRESSING,
             subcommand=16,
@@ -537,7 +526,6 @@ class SensorNode(Node):
             response_data=list(data),
             description="set reduced energy time values of sensor device",
         )
-        # pylint: enable=protected-access
 
     async def get_mac_address(self) -> EUI:
         """Retrieve the MAC address of the sensor device
@@ -625,8 +613,8 @@ class SensorNode(Node):
         )
 
         node = self.id
-        # pylint: disable=protected-access
-        response = await self.spu._request(
+
+        response = await self.spu.request(
             Message(
                 block="Streaming",
                 block_command="Data",
@@ -637,7 +625,7 @@ class SensorNode(Node):
             ),
             description=f"read single set of streaming values from “{node}”",
         )
-        # pylint: enable=protected-access
+
         values = [
             int.from_bytes(word, byteorder="little")
             for word in (
@@ -701,15 +689,13 @@ class SensorNode(Node):
             (f"{channel}, " for channel in measurement_channels[:-2])
         ) + " and ".join(measurement_channels[-2:])
 
-        # pylint: disable=protected-access
-        await self.spu._request(
+        await self.spu.request(
             message,
             description=(
                 f"enable streaming of {channels_text} measurement "
                 f"channel of “{node}”"
             ),
         )
-        # pylint: enable=protected-access
 
     async def stop_streaming_data(
         self, retries: int = 10, ignore_errors=False
@@ -741,13 +727,13 @@ class SensorNode(Node):
         )
 
         try:
-            # pylint: disable=protected-access
-            await self.spu._request(
+
+            await self.spu.request(
                 message,
                 description=f"disable data streaming of “{node}”",
                 retries=retries,
             )
-            # pylint: enable=protected-access
+
         except (NoResponseError, ErrorResponseError) as error:
             if not ignore_errors:
                 raise error
@@ -854,11 +840,9 @@ class SensorNode(Node):
             data=[streaming_format.value],
         )
 
-        # pylint: disable=protected-access
-        response = await self.spu._request(
+        response = await self.spu.request(
             message, description=f"read supply voltage of “{node}”"
         )
-        # pylint: enable=protected-access
 
         voltage_bytes = response.data[2:4]
         voltage_raw = int.from_bytes(voltage_bytes, "little")
@@ -916,11 +900,9 @@ class SensorNode(Node):
             data=[0] * 8,
         )
 
-        # pylint: disable=protected-access
-        response = await self.spu._request(
+        response = await self.spu.request(
             message, description=f"Read ADC configuration of “{node}”"
         )
-        # pylint: enable=protected-access
 
         return ADCConfiguration(response.data[0:5])
 
@@ -1008,11 +990,9 @@ class SensorNode(Node):
             data=adc_configuration.data,
         )
 
-        # pylint: disable=protected-access
-        await self.spu._request(
+        await self.spu.request(
             message, description=f"write ADC configuration of “{node}”"
         )
-        # pylint: enable=protected-access
 
     # --------------------------------
     # - Get/Set Sensor Configuration -
@@ -1065,11 +1045,11 @@ class SensorNode(Node):
         )
 
         try:
-            # pylint: disable=protected-access
-            response = await self.spu._request(
+
+            response = await self.spu.request(
                 message, description=f"get sensor configuration of “{node}”"
             )
-            # pylint: enable=protected-access
+
         except ErrorResponseError as error:
             raise UnsupportedFeatureException(
                 "Reading sensor configuration not supported"
@@ -1134,11 +1114,11 @@ class SensorNode(Node):
         )
 
         try:
-            # pylint: disable=protected-access
-            await self.spu._request(
+
+            await self.spu.request(
                 message, description=f"set sensor configuration of “{node}”"
             )
-            # pylint: enable=protected-access
+
         except ErrorResponseError as error:
             raise UnsupportedFeatureException(
                 "Writing sensor configuration not supported"

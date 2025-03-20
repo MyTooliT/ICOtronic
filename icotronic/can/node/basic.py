@@ -80,7 +80,7 @@ class Node:
             receiver=node,
             request=True,
         )
-        await self.spu._request(
+        await self.spu.request(
             message,
             description=f"reset node “{node}”",
             response_data=message.data,
@@ -140,7 +140,7 @@ class Node:
             data=[(State(mode="Get")).value],
         )
 
-        response = await self.spu._request(
+        response = await self.spu.request(
             message, description=f"get state of node “{node}”"
         )
 
@@ -176,7 +176,7 @@ class Node:
         """
 
         node = self.id
-        response = await self.spu._request_product_data(
+        response = await self.spu.request_product_data(
             node=node,
             description=f"read GTIN of node “{node}”",
             block_command="GTIN",
@@ -210,7 +210,7 @@ class Node:
         """
 
         node = self.id
-        response = await self.spu._request_product_data(
+        response = await self.spu.request_product_data(
             node=node,
             description=f"read hardware version of node “{node}”",
             block_command="Hardware Version",
@@ -245,7 +245,7 @@ class Node:
         """
 
         node = self.id
-        response = await self.spu._request_product_data(
+        response = await self.spu.request_product_data(
             node=node,
             description=f"read firmware version of node “{node}”",
             block_command="Firmware Version",
@@ -279,7 +279,7 @@ class Node:
         """
 
         node = self.id
-        response = await self.spu._request_product_data(
+        response = await self.spu.request_product_data(
             node=node,
             description=f"read firmware release name of node “{node}”",
             block_command="Release Name",
@@ -318,7 +318,7 @@ class Node:
         async def get_serial_number_part(part: int) -> bytearray:
             """Retrieve a part of the serial number"""
             node = self.id
-            response = await self.spu._request_product_data(
+            response = await self.spu.request_product_data(
                 node=node,
                 description=(
                     f"read part {part} of the serial number of node “{node}”"
@@ -364,7 +364,7 @@ class Node:
             """Retrieve a part of the product name"""
 
             node = self.id
-            response = await self.spu._request_product_data(
+            response = await self.spu.request_product_data(
                 node=node,
                 description=(
                     f"read part {part} of the product name of node “{node}”"
@@ -409,7 +409,7 @@ class Node:
         async def get_oem_part(part: int) -> bytearray:
             """Retrieve a part of the OEM data"""
             node = self.id
-            response = await self.spu._request_product_data(
+            response = await self.spu.request_product_data(
                 node=node,
                 description=(
                     f"read part {part} of the OEM data of node “{node}”"

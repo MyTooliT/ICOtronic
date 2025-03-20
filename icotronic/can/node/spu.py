@@ -45,7 +45,7 @@ class SPU:
 
     # pylint: disable=too-many-arguments, too-many-positional-arguments
 
-    async def _request(
+    async def request(
         self,
         message: Message,
         description: str,
@@ -132,7 +132,7 @@ class SPU:
 
         raise NoResponseError(f"Unable to {description}")
 
-    async def _request_bluetooth(
+    async def request_bluetooth(
         self,
         node: str | NodeId,
         subcommand: int,
@@ -217,11 +217,11 @@ class SPU:
         if response_data is not None:
             expected_data.extend(response_data)
 
-        return await self._request(
+        return await self.request(
             message, description=description, response_data=expected_data
         )
 
-    async def _request_product_data(
+    async def request_product_data(
         self,
         block_command: str | int,
         description: str,
@@ -257,7 +257,7 @@ class SPU:
             data=[0] * 8,
         )
 
-        return await self._request(message, description=description)
+        return await self.request(message, description=description)
 
     # pylint: enable=too-many-arguments, too-many-positional-arguments
 
@@ -301,7 +301,7 @@ class SPU:
 
         description = f"name of device “{device_number}” from “{node}”"
 
-        answer = await self._request_bluetooth(
+        answer = await self.request_bluetooth(
             node=node,
             subcommand=5,
             device_number=device_number,
@@ -310,7 +310,7 @@ class SPU:
 
         first_part = convert_bytes_to_text(answer.data[2:])
 
-        answer = await self._request_bluetooth(
+        answer = await self.request_bluetooth(
             node=node,
             device_number=device_number,
             subcommand=6,
@@ -377,7 +377,7 @@ class SPU:
 
         """
 
-        response = await self._request_bluetooth(
+        response = await self.request_bluetooth(
             node=node,
             device_number=device_number,
             subcommand=12,
@@ -426,7 +426,7 @@ class SPU:
 
         """
 
-        response = await self._request_bluetooth(
+        response = await self.request_bluetooth(
             node=node,
             device_number=device_number,
             subcommand=17,

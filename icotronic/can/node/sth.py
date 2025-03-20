@@ -74,14 +74,12 @@ class STH(SensorNode):
             ).data,
         )
 
-        # pylint: disable=protected-access
-        await self.spu._request(
+        await self.spu.request(
             message,
             description=(
                 f"{method.lower()} self test of {dimension}-axis of “{node}”"
             ),
         )
-        # pylint: enable=protected-access
 
     async def activate_acceleration_self_test(
         self, dimension: str = "x"
@@ -198,11 +196,9 @@ class STH(SensorNode):
             ).data,
         )
 
-        # pylint: disable=protected-access
-        response = await self.spu._request(
+        response = await self.spu.request(
             message, description=f"retrieve acceleration voltage of “{node}”"
         )
-        # pylint: enable=protected-access
 
         adc_value = int.from_bytes(response.data[4:], "little")
         return adc_value / ADC_MAX_VALUE * reference_voltage

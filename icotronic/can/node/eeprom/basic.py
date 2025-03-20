@@ -92,11 +92,9 @@ class EEPROM:
                 data=[address, offset, read_length, *reserved],
             )
 
-            # pylint: disable=protected-access
-            response = await self.spu._request(
+            response = await self.spu.request(
                 message, description=f"read EEPROM data from “{node}”"
             )
-            # pylint: enable=protected-access
 
             data_end = data_start + read_length
             read_data.extend(response.data[data_start:data_end])
@@ -320,11 +318,10 @@ class EEPROM:
                 request=True,
                 data=[address, offset, write_length, *reserved, *write_data],
             )
-            # pylint: disable=protected-access
-            await self.spu._request(
+
+            await self.spu.request(
                 message, description=f"write EEPROM data in “{node}”"
             )
-            # pylint: enable=protected-access
 
             data = data[4:]
             offset += write_length
