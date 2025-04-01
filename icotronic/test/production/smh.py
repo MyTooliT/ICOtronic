@@ -4,19 +4,18 @@
 
 from unittest import main as unittest_main
 
-from icotronic.can.node.id import NodeId
 from icotronic.can.streaming import StreamingConfiguration
 from icotronic.cmdline.commander import Commander
 from icotronic.config import settings
 from icotronic.measurement.sensor import guess_sensor, SensorConfiguration
 from icotronic.report.report import Report
 from icotronic.test.unit import ExtendedTestRunner
-from .sensor_node import TestSensorNode
+from icotronic.test.production.node import BaseTestCases
 
 # -- Classes ------------------------------------------------------------------
 
 
-class TestSMH(TestSensorNode):
+class TestSMH(BaseTestCases.TestSensorNode):
     """This class contains tests for the milling head sensor (PCB)"""
 
     @classmethod
@@ -32,10 +31,15 @@ class TestSMH(TestSensorNode):
                 f"Sensor {sensor + 1}", f"{{cls.sensors[{sensor}]}}", pdf=True
             )
 
-    def _connect(self):
+    async def _connect(self):
         """Create a connection to the SMH"""
 
-        super()._connect_device(settings.smh.name)
+        await super()._connect_device(settings.smh.name)
+
+    async def _disconnect(self):
+        """Tear down connection to SMH"""
+
+        await super()._disconnect_device()
 
     def _read_data(self):
         """Read data from connected SMH"""
@@ -69,50 +73,43 @@ class TestSMH(TestSensorNode):
 
         super()._test_connection_device()
 
-    def test_eeprom(self):
+    async def test_eeprom(self):
         """Test if reading and writing the EEPROM works"""
 
-        async def test_eeprom():
-            """Test the EERPOM of the SMH"""
+        cls = type(self)
 
-            receiver = NodeId("STH 1")
-            cls = type(self)
+        # ========
+        # = Name =
+        # ========
 
-            # ========
-            # = Name =
-            # ========
+        cls.name = await self._test_name(settings.smh.name)
 
-            cls.name = await self._test_name(receiver, settings.smh.name)
+        # =========================
+        # = Sleep & Advertisement =
+        # =========================
 
-            # =========================
-            # = Sleep & Advertisement =
-            # =========================
+        await self._test_eeprom_sleep_advertisement_times()
 
-            await self._test_eeprom_sleep_advertisement_times()
+        # ================
+        # = Product Data =
+        # ================
 
-            # ================
-            # = Product Data =
-            # ================
+        await self._test_eeprom_product_data(settings.smh)
 
-            await self._test_eeprom_product_data(receiver, settings.smh)
+        # ==============
+        # = Statistics =
+        # ==============
 
-            # ==============
-            # = Statistics =
-            # ==============
+        await self._test_eeprom_statistics(
+            settings.smh.production_date,
+            settings.smh.batch_number,
+        )
 
-            await self._test_eeprom_statistics(
-                receiver,
-                settings.smh.production_date,
-                settings.smh.batch_number,
-            )
-
-        self.loop.run_until_complete(test_eeprom())
-
-    def test_sensors(self):
+    async def test_sensors(self):
         """Test available sensor channels"""
 
         async def read_streaming_data_amount(length: int):
-            async with self.can.open_data_stream(
+            async with self.node.open_data_stream(
                 StreamingConfiguration(first=True, second=False, third=False)
             ) as stream:
                 stream_data = []
@@ -170,8 +167,6 @@ class TestSMH(TestSensorNode):
                     f"The sensor{plural} on measurement {error_text} "
                     "to not work correctly.",
                 )
-
-        self.loop.run_until_complete(test_sensors())
 
     def test_power_usage_disconnected(self) -> None:
         """Check power usage in disconnected state"""

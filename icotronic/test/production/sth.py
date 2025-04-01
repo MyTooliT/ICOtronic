@@ -13,7 +13,6 @@ from unittest import main as unittest_main, skipIf
 
 from semantic_version import Version
 
-from icotronic.can.node.id import NodeId
 from icotronic.can.streaming import StreamingConfiguration
 from icotronic.config import settings
 from icotronic.measurement.acceleration import (
@@ -23,12 +22,12 @@ from icotronic.measurement.acceleration import (
 from icotronic.report.report import Report
 from icotronic.utility.naming import convert_mac_base64
 from icotronic.test.unit import ExtendedTestRunner
-from .sensor_node import TestSensorNode
+from icotronic.test.production.node import BaseTestCases
 
 # -- Classes ------------------------------------------------------------------
 
 
-class TestSTH(TestSensorNode):
+class TestSTH(BaseTestCases.TestSensorNode):
     """This class contains tests for the Sensory Tool Holder (STH)"""
 
     @classmethod
@@ -110,40 +109,41 @@ class TestSTH(TestSensorNode):
             text_fields=2,
         )
 
-    def setUp(self):
+    async def asyncSetUp(self):
         """Set up hardware before a single test case"""
 
-        async def write_adc_configuration():
-            """Change reference voltage depending on acceleration sensor"""
+        await super().asyncSetUp()
 
+        # Sensor node is connected after set up function unless the test
+        # does not initiate a Bluetooth connection, which is the case if
+        # the test name (method name) contains the text “disconnected”.
+        if self._testMethodName.find("disconnected") < 0:
+            # Change reference voltage depending on acceleration sensor
             reference_voltage = (
                 settings.acceleration_sensor().reference_voltage
             )
 
-            await self.can.write_adc_configuration(
+            await self.node.set_adc_configuration(
                 prescaler=2,
                 acquisition_time=8,
                 oversampling_rate=64,
                 reference_voltage=reference_voltage,
             )
 
-        super().setUp()
-
-        # Sensor node is connected after set up function unless the test
-        # does not initiate a Bluetooth connection, which is the case if
-        # the test name (method name) contains the text “disconnected”.
-        if self._testMethodName.find("disconnected") < 0:
-            self.loop.run_until_complete(write_adc_configuration())
-
-    def _connect(self):
+    async def _connect(self):
         """Create a connection to the STH"""
 
-        super()._connect_device(settings.sth_name())
+        await super()._connect_device(settings.sth_name())
 
-    def _read_data(self):
+    async def _disconnect(self):
+        """Tear down connection to STH"""
+
+        await super()._disconnect_device()
+
+    async def _read_data(self):
         """Read data from connected STH"""
 
-        super()._read_data()
+        await super()._read_data()
 
         cls = type(self)
         cls.name = settings.sth_name()
@@ -189,88 +189,73 @@ class TestSTH(TestSensorNode):
             chip=chip,
         )
 
-    def test_connection(self):
-        """Check connection to STH"""
-
-        super()._test_connection_device()
-
-    def test_battery_voltage(self):
+    async def test_battery_voltage(self):
         """Test voltage of STH power source"""
 
-        async def test_supply_voltage():
-            """Check the supply voltage of the STH"""
+        supply_voltage = await self.node.get_supply_voltage()
+        expected_voltage = settings.sth.battery_voltage.average
+        tolerance_voltage = settings.sth.battery_voltage.tolerance
+        expected_minimum_voltage = expected_voltage - tolerance_voltage
+        expected_maximum_voltage = expected_voltage + tolerance_voltage
 
-            supply_voltage = await self.can.read_supply_voltage()
-            expected_voltage = settings.sth.battery_voltage.average
-            tolerance_voltage = settings.sth.battery_voltage.tolerance
-            expected_minimum_voltage = expected_voltage - tolerance_voltage
-            expected_maximum_voltage = expected_voltage + tolerance_voltage
+        self.assertGreaterEqual(
+            supply_voltage,
+            expected_minimum_voltage,
+            f"STH supply voltage of {supply_voltage:.3f} V is lower "
+            "than expected minimum voltage of "
+            f"{expected_minimum_voltage:.3f} V",
+        )
+        self.assertLessEqual(
+            supply_voltage,
+            expected_maximum_voltage,
+            f"STH supply voltage of {supply_voltage:.3f} V is "
+            "greater than expected maximum voltage of "
+            f"{expected_minimum_voltage:.3f} V",
+        )
 
-            self.assertGreaterEqual(
-                supply_voltage,
-                expected_minimum_voltage,
-                f"STH supply voltage of {supply_voltage:.3f} V is lower "
-                "than expected minimum voltage of "
-                f"{expected_minimum_voltage:.3f} V",
-            )
-            self.assertLessEqual(
-                supply_voltage,
-                expected_maximum_voltage,
-                f"STH supply voltage of {supply_voltage:.3f} V is "
-                "greater than expected maximum voltage of "
-                f"{expected_minimum_voltage:.3f} V",
-            )
-
-        self.loop.run_until_complete(test_supply_voltage())
-
-    def test_acceleration_single_value(self):
+    async def test_acceleration_single_value(self):
         """Test stationary acceleration value"""
 
-        async def test_acceleration_single():
-            """Test stationary x acceleration value"""
+        sensor = settings.acceleration_sensor()
+        stream_data = await self.node.get_streaming_data_single()
+        acceleration = convert_raw_to_g(
+            stream_data.values[0], sensor.acceleration.maximum
+        )
 
-            sensor = settings.acceleration_sensor()
-            stream_data = await self.can.read_streaming_data_single()
-            acceleration = convert_raw_to_g(
-                stream_data.values[0], sensor.acceleration.maximum
-            )
+        # We expect a stationary acceleration between -g₀ and g₀
+        # (g₀ = 9.807 m/s²)
+        expected_acceleration = 0
+        tolerance_acceleration = sensor.acceleration.tolerance
+        expected_minimum_acceleration = (
+            expected_acceleration - tolerance_acceleration
+        )
+        expected_maximum_acceleration = (
+            expected_acceleration + tolerance_acceleration
+        )
 
-            # We expect a stationary acceleration between -g₀ and g₀
-            # (g₀ = 9.807 m/s²)
-            expected_acceleration = 0
-            tolerance_acceleration = sensor.acceleration.tolerance
-            expected_minimum_acceleration = (
-                expected_acceleration - tolerance_acceleration
-            )
-            expected_maximum_acceleration = (
-                expected_acceleration + tolerance_acceleration
-            )
+        self.assertGreaterEqual(
+            acceleration,
+            expected_minimum_acceleration,
+            f"Measured acceleration {acceleration:.3f} g is lower "
+            "than expected minimum acceleration "
+            f"{expected_minimum_acceleration:.3f} g",
+        )
+        self.assertLessEqual(
+            acceleration,
+            expected_maximum_acceleration,
+            f"Measured acceleration {acceleration:.3f} g is greater "
+            "than expected maximum acceleration "
+            f"{expected_maximum_acceleration:.3f} g",
+        )
 
-            self.assertGreaterEqual(
-                acceleration,
-                expected_minimum_acceleration,
-                f"Measured acceleration {acceleration:.3f} g is lower "
-                "than expected minimum acceleration "
-                f"{expected_minimum_acceleration:.3f} g",
-            )
-            self.assertLessEqual(
-                acceleration,
-                expected_maximum_acceleration,
-                f"Measured acceleration {acceleration:.3f} g is greater "
-                "than expected maximum acceleration "
-                f"{expected_maximum_acceleration:.3f} g",
-            )
-
-        self.loop.run_until_complete(test_acceleration_single())
-
-    def test_acceleration_noise(self):
+    async def test_acceleration_noise(self):
         """Test ratio of noise to maximal possible measurement value"""
 
         async def read_streaming_data():
             """Read streaming data of first channel"""
             stream_data = []
             seconds = 4
-            async with self.can.open_data_stream(
+            async with self.node.open_data_stream(
                 StreamingConfiguration(first=True)
             ) as stream:
                 end_time = time() + seconds
@@ -281,7 +266,7 @@ class TestSTH(TestSensorNode):
 
             return stream_data
 
-        acceleration = self.loop.run_until_complete(read_streaming_data())
+        acceleration = await read_streaming_data()
 
         cls = type(self)
         cls.ratio_noise_max = ratio_noise_max(acceleration)
@@ -299,23 +284,23 @@ class TestSTH(TestSensorNode):
             ),
         )
 
-    def test_acceleration_self_test(self):
+    async def test_acceleration_self_test(self):
         """Execute self test of accelerometer"""
 
         async def read_voltages(dimension, reference_voltage) -> List[int]:
             """Read acceleration voltages in millivolts"""
 
-            before = await self.can.read_acceleration_voltage(
+            before = await self.node.get_acceleration_voltage(
                 dimension, reference_voltage
             )
 
-            await self.can.activate_acceleration_self_test(dimension)
-            between = await self.can.read_acceleration_voltage(
+            await self.node.activate_acceleration_self_test(dimension)
+            between = await self.node.get_acceleration_voltage(
                 dimension, reference_voltage
             )
 
-            await self.can.deactivate_acceleration_self_test(dimension)
-            after = await self.can.read_acceleration_voltage(
+            await self.node.deactivate_acceleration_self_test(dimension)
+            after = await self.node.get_acceleration_voltage(
                 dimension, reference_voltage
             )
 
@@ -327,8 +312,8 @@ class TestSTH(TestSensorNode):
             voltage_before_test,
             voltage_at_test,
             voltage_after_test,
-        ) = self.loop.run_until_complete(
-            read_voltages(sensor.self_test.dimension, sensor.reference_voltage)
+        ) = await read_voltages(
+            sensor.self_test.dimension, sensor.reference_voltage
         )
 
         voltage_diff = voltage_at_test - voltage_before_test
@@ -376,167 +361,159 @@ class TestSTH(TestSensorNode):
 
     # pylint: disable=too-many-locals
 
-    def test_eeprom(self):
+    async def test_eeprom(self):
         """Test if reading and writing the EEPROM works"""
 
-        async def test_eeprom():
-            """Test the EERPOM of the STH"""
+        cls = type(self)
 
-            cls = type(self)
-            receiver = "STH 1"
+        # ========
+        # = Name =
+        # ========
 
-            # ========
-            # = Name =
-            # ========
-
-            name = (
-                settings.sth.serial_number
-                if settings.sth.status == "Epoxied"
-                else convert_mac_base64(
-                    cls.bluetooth_mac  # pylint: disable=no-member
-                )
+        name = (
+            settings.sth.serial_number
+            if settings.sth.status == "Epoxied"
+            else convert_mac_base64(
+                cls.bluetooth_mac  # pylint: disable=no-member
             )
-            cls.name = await self._test_name(NodeId(receiver), name)
+        )
+        cls.name = await self._test_name(name)
 
-            # =========================
-            # = Sleep & Advertisement =
-            # =========================
+        # =========================
+        # = Sleep & Advertisement =
+        # =========================
 
-            await self._test_eeprom_sleep_advertisement_times()
+        await self._test_eeprom_sleep_advertisement_times()
 
-            # ================
-            # = Product Data =
-            # ================
+        # ================
+        # = Product Data =
+        # ================
 
-            await self._test_eeprom_product_data(
-                NodeId(receiver), settings.sth
+        await self._test_eeprom_product_data(settings.sth)
+
+        # ==============
+        # = Statistics =
+        # ==============
+
+        await self._test_eeprom_statistics(
+            settings.sth.production_date,
+            settings.sth.batch_number,
+        )
+
+        # ================
+        # = Acceleration =
+        # ================
+
+        sensor = settings.acceleration_sensor()
+        acceleration_max = sensor.acceleration.maximum
+        adc_max = 0xFFFF
+        acceleration_slope = acceleration_max / adc_max
+        acceleration_offset = -(acceleration_max / 2)
+
+        # pylint: disable=too-many-arguments, too-many-positional-arguments
+
+        async def write_read_check(
+            class_variable, write_routine, value, read_routine, axis, name
+        ):
+            await write_routine(value)
+            setattr(cls, class_variable, await read_routine())
+            read_value = getattr(cls, class_variable)
+            self.assertAlmostEqual(
+                value,
+                read_value,
+                msg=(
+                    f"Written {axis} acceleration {name} "
+                    f"“{acceleration_slope:.5f}” does not match read "
+                    f"{axis} acceleration {name} "
+                    f"“{read_value:.5f}”"
+                ),
             )
 
-            # ==============
-            # = Statistics =
-            # ==============
+        # pylint: enable=too-many-arguments, too-many-positional-arguments
 
-            await self._test_eeprom_statistics(
-                NodeId(receiver),
-                settings.sth.production_date,
-                settings.sth.batch_number,
-            )
+        class_variables = (
+            "acceleration_slope_x",
+            "acceleration_slope_y",
+            "acceleration_slope_z",
+            "acceleration_offset_x",
+            "acceleration_offset_y",
+            "acceleration_offset_z",
+        )
+        write_routines = (
+            self.node.eeprom.write_x_axis_acceleration_slope,
+            self.node.eeprom.write_y_axis_acceleration_slope,
+            self.node.eeprom.write_z_axis_acceleration_slope,
+            self.node.eeprom.write_x_axis_acceleration_offset,
+            self.node.eeprom.write_y_axis_acceleration_offset,
+            self.node.eeprom.write_z_axis_acceleration_offset,
+        )
+        read_routines = (
+            self.node.eeprom.read_x_axis_acceleration_slope,
+            self.node.eeprom.read_y_axis_acceleration_slope,
+            self.node.eeprom.read_z_axis_acceleration_slope,
+            self.node.eeprom.read_x_axis_acceleration_offset,
+            self.node.eeprom.read_y_axis_acceleration_offset,
+            self.node.eeprom.read_z_axis_acceleration_offset,
+        )
+        names = chain(*(repeat("slope", 3), repeat("offset", 3)))
+        values = chain(*(
+            repeat(acceleration_slope, 3),
+            repeat(acceleration_offset, 3),
+        ))
+        axes = list("xyz") * 2
 
-            # ================
-            # = Acceleration =
-            # ================
-
-            sensor = settings.acceleration_sensor()
-            acceleration_max = sensor.acceleration.maximum
-            adc_max = 0xFFFF
-            acceleration_slope = acceleration_max / adc_max
-            acceleration_offset = -(acceleration_max / 2)
-
-            # pylint: disable=too-many-arguments, too-many-positional-arguments
-
-            async def write_read_check(
-                class_variable, write_routine, value, read_routine, axis, name
-            ):
-                await write_routine(value)
-                setattr(cls, class_variable, await read_routine())
-                read_value = getattr(cls, class_variable)
-                self.assertAlmostEqual(
-                    value,
-                    read_value,
-                    msg=(
-                        f"Written {axis} acceleration {name} "
-                        f"“{acceleration_slope:.5f}” does not match read "
-                        f"{axis} acceleration {name} "
-                        f"“{read_value:.5f}”"
-                    ),
-                )
-
-            # pylint: enable=too-many-arguments, too-many-positional-arguments
-
-            class_variables = (
-                "acceleration_slope_x",
-                "acceleration_slope_y",
-                "acceleration_slope_z",
-                "acceleration_offset_x",
-                "acceleration_offset_y",
-                "acceleration_offset_z",
-            )
-            write_routines = (
-                self.can.write_eeprom_x_axis_acceleration_slope,
-                self.can.write_eeprom_y_axis_acceleration_slope,
-                self.can.write_eeprom_z_axis_acceleration_slope,
-                self.can.write_eeprom_x_axis_acceleration_offset,
-                self.can.write_eeprom_y_axis_acceleration_offset,
-                self.can.write_eeprom_z_axis_acceleration_offset,
-            )
-            read_routines = (
-                self.can.read_eeprom_x_axis_acceleration_slope,
-                self.can.read_eeprom_y_axis_acceleration_slope,
-                self.can.read_eeprom_z_axis_acceleration_slope,
-                self.can.read_eeprom_x_axis_acceleration_offset,
-                self.can.read_eeprom_y_axis_acceleration_offset,
-                self.can.read_eeprom_z_axis_acceleration_offset,
-            )
-            names = chain(*(repeat("slope", 3), repeat("offset", 3)))
-            values = chain(*(
-                repeat(acceleration_slope, 3),
-                repeat(acceleration_offset, 3),
-            ))
-            axes = list("xyz") * 2
-
-            for (
+        for (
+            class_variable,
+            write_routine,
+            value,
+            read_routine,
+            axis,
+            name,
+        ) in zip(
+            class_variables,
+            write_routines,
+            values,
+            read_routines,
+            axes,
+            names,
+        ):
+            await write_read_check(
                 class_variable,
                 write_routine,
                 value,
                 read_routine,
                 axis,
                 name,
-            ) in zip(
-                class_variables,
-                write_routines,
-                values,
-                read_routines,
-                axes,
-                names,
+            )
+
+        # =================
+        # = EEPROM Status =
+        # =================
+
+        await self._test_eeprom_status()
+
+        # =========
+        # = Reset =
+        # =========
+
+        # We reset the STH and STU to make sure
+        # - the name change takes place and we can connect to the STH
+        #   using the new name
+        # - the STH also takes the other changed EEPROM values (such as
+        #   the changed advertisement times) into account.
+        await self.node.reset()
+        await self.stu.reset()
+
+        try:
+            async with self.stu.connect_sensor_device(
+                cls.name  # pylint: disable=no-member
             ):
-                await write_read_check(
-                    class_variable,
-                    write_routine,
-                    value,
-                    read_routine,
-                    axis,
-                    name,
-                )
-
-            # =================
-            # = EEPROM Status =
-            # =================
-
-            await self._test_eeprom_status(NodeId(receiver))
-
-            # =========
-            # = Reset =
-            # =========
-
-            # We reset the STH and STU to make sure
-            # - the name change takes place and we can connect to the STH
-            #   using the new name
-            # - the STH also takes the other changed EEPROM values (such as
-            #   the changed advertisement times) into account.
-            await self.can.reset_node("STH 1")
-            await self.can.reset_node("STU 1")
-
-            try:
-                await self.can.connect_sensor_device(
-                    cls.name  # pylint: disable=no-member
-                )  # Reconnect to STH
-            except TimeoutError:
-                self.fail(
-                    "Unable to reconnect to STH using updated name "
-                    f"“{cls.name}”"  # pylint: disable=no-member
-                )
-
-        self.loop.run_until_complete(test_eeprom())
+                pass  # Reconnected to STH
+        except TimeoutError:
+            self.fail(
+                "Unable to reconnect to STH using updated name "
+                f"“{cls.name}”"  # pylint: disable=no-member
+            )
 
     # pylint: enable=too-many-locals
 
