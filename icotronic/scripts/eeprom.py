@@ -3,10 +3,8 @@
 # -- Imports ------------------------------------------------------------------
 
 from argparse import ArgumentParser
-from asyncio import run, sleep
+from asyncio import run
 from collections import Counter
-
-from netaddr import EUI
 
 from icotronic.can import Connection
 from icotronic.cmdline.parse import byte_value, mac_address
@@ -47,67 +45,32 @@ def parse_arguments():
 
 
 class EEPROMCheck:
-    """Write and check the content of a certain page in EEPROM of an STH"""
+    """Write and check the content of a sensor device EEPROM page"""
 
-    def __init__(self, mac: EUI, value):
+    def __init__(self, sensor_device, value):
         """Initialize the EEPROM check with the given arguments
 
         Parameters
         ----------
 
-        mac
-            The MAC address of an STH
+        sensor_device:
+            The sensor device where the EEPROM check should take place
 
         value:
             The value that the EEPROM checker should write into the EEPROM
+
         """
 
-        self.mac_address = mac
+        self.sensor_device = sensor_device
         self.eeprom_address = 1
         self.eeprom_length = 256
         self.eeprom_value = value
-        self.connection = Connection()
-        self.stu = None
-        self.sensor_device_connection = None
-        self.sth = None
-
-    async def __aenter__(self):
-        """Initialize the connection to the STU"""
-
-        self.stu = await self.connection.__aenter__()
-        await self.stu.reset()
-        await sleep(1)  # Wait till reset takes place
-
-        return self
-
-    async def __aexit__(self, exception_type, exception_value, traceback):
-        """Disconnect from the STU"""
-
-        await self.connection.__aexit__(
-            exception_type, exception_value, traceback
-        )
-
-    async def connect_bluetooth(self):
-        """Connect to the STH"""
-
-        self.sensor_device_connection = self.stu.connect_sensor_device(
-            self.mac_address
-        )
-        self.sth = await self.sensor_device_connection.__aenter__()
-
-        print(f"Connected to “{await self.sth.eeprom.read_name()}”")
-
-    async def reset_sth(self):
-        """Reset the (connected) STH"""
-
-        await self.sth.reset()
-        await sleep(1)  # Wait till reset takes place
 
     async def write_eeprom(self):
         """Write a byte value into one page of the EEPROM"""
 
         print(f"Write value “{self.eeprom_value}” into EEPROM cells")
-        await self.sth.eeprom.write(
+        await self.sensor_device.eeprom.write(
             address=1,
             offset=0,
             data=[self.eeprom_value for _ in range(self.eeprom_length)],
@@ -121,7 +84,7 @@ class EEPROMCheck:
         A list of the byte values stored in the EEPROM page
         """
 
-        return await self.sth.eeprom.read(
+        return await self.sensor_device.eeprom.read(
             address=self.eeprom_address,
             offset=0,
             length=self.eeprom_length,
@@ -164,17 +127,24 @@ class EEPROMCheck:
 async def check_eeprom(arguments):
     """Check EEPROM functionality"""
 
-    async with EEPROMCheck(mac=arguments.mac, value=arguments.value) as check:
-        await check.connect_bluetooth()
-        await check.write_eeprom()
-        await check.print_eeprom_incorrect()
-        print()
-        for _ in range(5):
-            await check.reset_sth()
-            await check.connect_bluetooth()
+    times = 5
+
+    async with Connection() as stu:
+        async with stu.connect_sensor_device(arguments.mac) as sensor_device:
+            print(f"Connected to device “{await sensor_device.get_name()}”")
+            check = EEPROMCheck(sensor_device, arguments.value)
+            await check.write_eeprom()
             await check.print_eeprom_incorrect()
             print()
-        await check.print_eeprom()
+        for counter in range(times):
+            async with stu.connect_sensor_device(
+                arguments.mac
+            ) as sensor_device:
+                check = EEPROMCheck(sensor_device, arguments.value)
+                await check.print_eeprom_incorrect()
+                print()
+                if counter >= times - 1:
+                    await check.print_eeprom()
 
 
 # -- Main ---------------------------------------------------------------------
