@@ -92,6 +92,9 @@ class SPU:
 
         """
 
+        logger = getLogger()
+        logger.debug("Send request to %s", description)
+
         for attempt in range(retries):
             listener = ResponseListener(message, response_data)
             self.notifier.add_listener(listener)
@@ -128,6 +131,7 @@ class SPU:
                     f"Response Message: {Message(response.message)}"
                 )
 
+            logger.debug("Retrieved answer for request to %s", description)
             return response.message
 
         raise NoResponseError(f"Unable to {description}")
