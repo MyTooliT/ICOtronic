@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from asyncio import get_running_loop
+from asyncio import get_running_loop, to_thread
 from sys import platform
 from types import TracebackType
 from typing import Type
@@ -137,11 +137,11 @@ class Connection:
 
         notifier = self.notifier
         if notifier is not None:
-            notifier.stop()
+            await to_thread(notifier.stop)
 
         bus = self.bus
         if bus is not None:
-            bus.__exit__(exception_type, exception_value, traceback)
+            await to_thread(bus.shutdown)
 
 
 # -- Main ---------------------------------------------------------------------
