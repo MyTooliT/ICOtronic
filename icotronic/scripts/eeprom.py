@@ -8,7 +8,7 @@ from collections import Counter
 
 from netaddr import EUI
 
-from icotronic.can import Network
+from icotronic.can import Connection
 from icotronic.cmdline.parse import byte_value, mac_address
 
 # -- Function -----------------------------------------------------------------
@@ -66,44 +66,51 @@ class EEPROMCheck:
         self.eeprom_address = 1
         self.eeprom_length = 256
         self.eeprom_value = value
-        self.network = Network()
+        self.connection = Connection()
+        self.stu = None
+        self.sensor_device_connection = None
+        self.sth = None
 
     async def __aenter__(self):
         """Initialize the connection to the STU"""
 
-        await self.network.__aenter__()
-        await self.network.reset_node("STU 1")
+        self.stu = await self.connection.__aenter__()
+        await self.stu.reset()
         await sleep(1)  # Wait till reset takes place
+
         return self
 
     async def __aexit__(self, exception_type, exception_value, traceback):
         """Disconnect from the STU"""
 
-        await self.network.__aexit__(
+        await self.connection.__aexit__(
             exception_type, exception_value, traceback
         )
 
     async def connect_bluetooth(self):
         """Connect to the STH"""
 
-        await self.network.connect_sensor_device(self.mac_address)
-        print(f"Connected to “{await self.network.read_eeprom_name('STH 1')}”")
+        self.sensor_device_connection = self.stu.connect_sensor_device(
+            self.mac_address
+        )
+        self.sth = await self.sensor_device_connection.__aenter__()
+
+        print(f"Connected to “{await self.sth.eeprom.read_name()}”")
 
     async def reset_sth(self):
         """Reset the (connected) STH"""
 
-        await self.network.reset_node("STH 1")
+        await self.sth.reset()
         await sleep(1)  # Wait till reset takes place
 
     async def write_eeprom(self):
         """Write a byte value into one page of the EEPROM"""
 
         print(f"Write value “{self.eeprom_value}” into EEPROM cells")
-        await self.network.write_eeprom(
+        await self.sth.eeprom.write(
             address=1,
             offset=0,
             data=[self.eeprom_value for _ in range(self.eeprom_length)],
-            node="STH 1",
         )
 
     async def read_eeprom(self):
@@ -114,8 +121,10 @@ class EEPROMCheck:
         A list of the byte values stored in the EEPROM page
         """
 
-        return await self.network.read_eeprom(
-            address=1, offset=0, length=256, node="STH 1"
+        return await self.sth.eeprom.read(
+            address=self.eeprom_address,
+            offset=0,
+            length=self.eeprom_length,
         )
 
     async def print_eeprom_incorrect(self):
