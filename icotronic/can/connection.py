@@ -142,7 +142,6 @@ class Connection:
         bus = self.bus
         if bus is not None:
             bus.__exit__(exception_type, exception_value, traceback)
-            bus.shutdown()
 
 
 # -- Main ---------------------------------------------------------------------
