@@ -35,7 +35,7 @@ class Connection:
 
         Create a new network (without connecting to the CAN bus)
 
-        >>> network = Connection()
+        >>> connection = Connection()
 
         """
 
@@ -79,9 +79,9 @@ class Connection:
         Create and shutdown the connection explicitly
 
         >>> async def connect_can_manual():
-        ...     network = Connection()
-        ...     connected = await network.__aenter__()
-        ...     await network.__aexit__(None, None, None)
+        ...     connection = Connection()
+        ...     connected = await connection.__aenter__()
+        ...     await connection.__aexit__(None, None, None)
         >>> run(connect_can_manual())
 
         """
