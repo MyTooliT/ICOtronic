@@ -416,7 +416,7 @@ class STU(Node):
         ...     async with Connection() as stu:
         ...         await stu.activate_bluetooth()
         ...         # Wait for Bluetooth activation to take place
-        ...         await sleep(1)
+        ...         await sleep(2)
         ...         return await stu.get_mac_address(0)
         >>> mac_address = run(get_bluetooth_mac())
         >>> mac_address != EUI(0)
