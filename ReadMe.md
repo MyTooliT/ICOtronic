@@ -8,7 +8,7 @@ This repository contains data collection and test software for the [ICOtronic sy
 
 While you should be able to read the [various Markdown files of the documentation](Documentation) separately, we recommend you read the [bookdown](https://bookdown.org) manual instead. We provide a prebuilt version of the documentation [**here**](https://mytoolit.github.io/ICOtronic/).
 
-You can also download the documentation [under the GitHub Actions tab](https://github.com/MyTooliT/ICOtronic/actions/workflows/documentation.yaml) (just select the latest run and click on the link “ICOc Manual”).
+You can also download the documentation [under the GitHub Actions tab](https://github.com/MyTooliT/ICOtronic/actions/workflows/documentation.yaml) (just select the latest run and click on the link “ICOtronic Manual”).
 
 ### Build
 

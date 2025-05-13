@@ -36,11 +36,11 @@ jobs:
       if: runner.os == 'macOS'
       run: brew install hdf5
 
-    - name: Install ICOc and dev/test packages
+    - name: Install ICOtronic and dev/test packages
       run: pip install -e .[test,dev]
 
-    - name: Check ICOc code base
+    - name: Check ICOtronic code base
       run: make check
 
-    - name: Test ICOc
+    - name: Test ICOtronic
       run: make test-no-hardware

@@ -37,7 +37,7 @@ jobs:
       - name: Upload documentation
         uses: actions/upload-artifact@v4
         with:
-          name: ICOc Manual
+          name: ICOtronic Manual
           path: Bookdown
 
   deploy-pages:
@@ -49,7 +49,7 @@ jobs:
       - name: Download bookdown documentation
         uses: actions/download-artifact@v4
         with:
-          name: ICOc Manual
+          name: ICOtronic Manual
           path: Bookdown
 
       - name: Deploy
