@@ -16,9 +16,7 @@ can bitrate: &bitrate 1000000
 # =================
 
 # The values below specify the configuration options for the
-# [python-can](https://python-can.readthedocs.io) Bus class. Please note that
-# these configuration values are currently only used for the (production) tests
-# and **not by the `icoc` command line tool!
+# [python-can](https://python-can.readthedocs.io) Bus class.
 can:
   linux:
     bitrate: *bitrate
