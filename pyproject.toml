@@ -44,7 +44,7 @@ keywords = [
     "sth",
     "tool-holder",
 ]
-name = "icoc"
+name = "icotronic"
 readme = "ReadMe.md"
 requires-python = ">=3.10"
 
@@ -72,8 +72,8 @@ convert-base64-mac = "icotronic.scripts.name:main"
 convert-mac-base64 = "icotronic.scripts.mac:main"
 
 [project.urls]
-Documentation = "https://mytoolit.github.io/ICOc/"
-Source = "https://github.com/mytoolit/ICOc/"
+Documentation = "https://mytoolit.github.io/ICOtronic/"
+Source = "https://github.com/mytoolit/ICOtronic/"
 
 [tool.black]
 line-length = 79
