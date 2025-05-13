@@ -102,12 +102,8 @@ class Connection:
 
         self.bus.__enter__()
 
-        # We set the event loop explicitly, otherwise the code will not work
-        # correctly and print the following error message (if
-        # `PYTHONASYNCIODEBUG` is enabled):
-        #
-        # > Error while monitoring CAN bus data: Non-thread-safe operation
-        # > invoked on an event loop other than the current one
+        # We must set the event loop explicitly, otherwise the code will use
+        # the synchronous API of python-can.
         self.notifier = Notifier(
             self.bus, listeners=[Logger()], loop=get_running_loop()
         )
