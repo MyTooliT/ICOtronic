@@ -27,22 +27,6 @@ from icotronic.utility.log import get_log_file_handler
 # -- Classes ------------------------------------------------------------------
 
 
-class NetworkError(Exception):
-    """Exception for errors in the MyTooliT network"""
-
-
-class CANInitError(NetworkError):
-    """Exception for CAN initialization problems"""
-
-
-class ErrorResponseError(NetworkError):
-    """Exception for erroneous response messages"""
-
-
-class NoResponseError(NetworkError):
-    """Thrown if no response message for a request was received"""
-
-
 class Response(NamedTuple):
     """Used to store a response (message)"""
 

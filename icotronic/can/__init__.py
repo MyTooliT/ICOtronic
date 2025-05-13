@@ -7,7 +7,7 @@ for more information
 
 # -- Exports ------------------------------------------------------------------
 
-from .network import ErrorResponseError, NetworkError, NoResponseError
+from .error import ErrorResponseError, CANConnectionError, NoResponseError
 from .connection import Connection
 from .streaming import StreamingConfiguration
 from .node.sth import STH

@@ -11,11 +11,8 @@ from can import BusABC, Message as CANMessage, Notifier
 from netaddr import EUI
 
 from icotronic.can.protocol.message import Message
-from icotronic.can.network import (
-    ErrorResponseError,
-    NoResponseError,
-    ResponseListener,
-)
+from icotronic.can.error import ErrorResponseError, NoResponseError
+from icotronic.can.network import ResponseListener
 from icotronic.can.node.id import NodeId
 from icotronic.utility.data import convert_bytes_to_text
 

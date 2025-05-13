@@ -14,7 +14,7 @@ from icotronic.can.connection import Connection
 from icotronic.config import settings
 from icotronic.report.report import Report
 from icotronic.test.unit import ExtendedTestRunner
-from icotronic.can.network import CANInitError, NoResponseError
+from icotronic.can.error import CANInitError, NoResponseError
 from .node import BaseTestCases
 
 # -- Class --------------------------------------------------------------------

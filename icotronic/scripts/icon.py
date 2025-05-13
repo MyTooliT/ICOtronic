@@ -21,8 +21,8 @@ from tqdm import tqdm
 
 from icotronic.can import Connection
 from icotronic.can.adc import ADCConfiguration
-from icotronic.can.error import UnsupportedFeatureException
-from icotronic.can.network import NetworkError, STHDeviceInfo
+from icotronic.can.error import CANConnectionError, UnsupportedFeatureException
+from icotronic.can.network import STHDeviceInfo
 from icotronic.can.node.sth import STH
 from icotronic.can.streaming import StreamingTimeoutError
 from icotronic.cmdline.parse import create_icon_parser
@@ -401,7 +401,7 @@ def main():
                 cpu_usage,
             )
         except (
-            NetworkError,
+            CANConnectionError,
             TimeoutError,
             UnsupportedFeatureException,
             ValueError,

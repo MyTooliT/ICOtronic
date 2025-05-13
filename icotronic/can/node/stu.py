@@ -13,11 +13,8 @@ from netaddr import EUI
 
 from icotronic.can.constants import DEVICE_NUMBER_SELF_ADDRESSING
 from icotronic.can.node.eeprom.node import NodeEEPROM
-from icotronic.can.network import (
-    ErrorResponseError,
-    NoResponseError,
-    STHDeviceInfo,
-)
+from icotronic.can.error import ErrorResponseError, NoResponseError
+from icotronic.can.network import STHDeviceInfo
 from icotronic.can.node.basic import Node
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.sensor import SensorNode
