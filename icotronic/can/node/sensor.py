@@ -9,7 +9,7 @@ from __future__ import annotations
 from asyncio import CancelledError
 from logging import getLogger
 from types import TracebackType
-from typing import Type
+from typing import NamedTuple, Type
 
 from netaddr import EUI
 
@@ -25,7 +25,6 @@ from icotronic.can.error import (
     UnsupportedFeatureException,
 )
 from icotronic.can.protocol.message import Message
-from icotronic.can.network import Times
 from icotronic.can.node.basic import Node
 from icotronic.can.node.id import NodeId
 from icotronic.can.streaming import (
@@ -150,6 +149,28 @@ class DataStreamContextManager:
             await self.device.stop_streaming_data(
                 retries=1, ignore_errors=True
             )
+
+
+class Times(NamedTuple):
+    """Advertisement time and time until deeper sleep mode"""
+
+    advertisement: float
+    sleep: int
+
+    def __repr__(self) -> str:
+        """Return a string representation of the object
+
+        Returns
+        -------
+
+        A string that contains the advertisement time and sleep time values
+
+        """
+
+        return ", ".join([
+            f"Advertisement Time: {self.advertisement} ms",
+            f"Sleep Time: {self.sleep} ms",
+        ])
 
 
 class SensorNode(Node):
