@@ -444,7 +444,7 @@ class STU(Node):
         mac_address_bytes_reversed = list(reversed(mac_address.packed))
         node = "STU 1"
         # The STU returns reversed MAC address once, probably after the
-        # connection was establised successfully.
+        # connection was established successfully.
         # Otherwise (before and after) connection took place it returns
         # zeroes all the time. This means the return values is not that
         # useful, e.g. for determining if the STH is connected or not.
