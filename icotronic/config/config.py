@@ -293,10 +293,6 @@ class Settings(Dynaconf):
                 ),
             )
         ]
-        gui_validators = [
-            must_exist("gui.host", is_type_of=str),
-            must_exist("gui.port", is_type_of=int),
-        ]
         measurement_validators = [
             must_exist(
                 "measurement.output.directory",
@@ -353,7 +349,6 @@ class Settings(Dynaconf):
             *can_validators,
             *commands_validators,
             *logger_validators,
-            *gui_validators,
             *measurement_validators,
             *operator_validators,
             *sensory_device_validators,

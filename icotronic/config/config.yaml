@@ -63,10 +63,6 @@ logger:
     # logged.
     level: INFO
 
-gui:
-  host: localhost # Socket address of Matplotlib GUI
-  port: 50007 # Port of Matplotlib GUI
-
 measurement:
   output:
     # The directory where ICOc stores measurement data in HDF5 format. Relative
