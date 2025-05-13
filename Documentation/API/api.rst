@@ -7,29 +7,32 @@ Device Connection
 Connecting to STU
 =================
 
-To communicate with the ICOtronic system use the :class:`Network` class:
+To communicate with the ICOtronic system use the :class:`Connection` class:
 
-.. autoclass:: Network
+.. autoclass:: Connection
 
-We recommend you use the context manager to open and close the connection (to the STU):
+We recommend you use the async context manager to open and close the connection (to the STU):
 
 .. doctest::
 
    >>> from asyncio import run
-   >>> from icotronic.can import Network
+   >>> from icotronic.can import Connection
 
-   >>> async def create_and_shutdown_network():
-   ...     async with Network() as network:
+   >>> async def create_and_shutdown_connection():
+   ...     async with Connection() as stu:
    ...         pass # ← Your code goes here
 
-   >>> run(create_and_shutdown_network())
+   >>> run(create_and_shutdown_connection())
 
 Connecting to Sensor Device
 ===========================
 
-To connect to an STH use the coroutine :meth:`Network.connect_sensor_device`
+.. currentmodule:: icotronic.can.node.stu
+.. autoclass:: STU
 
-.. automethod:: Network.connect_sensor_device
+To connect to a sensor device (e.g. SHA, SMH, STH) use the async context manager of the coroutine :meth:`stu.connect_sensor_device`
+
+.. automethod:: STU.connect_sensor_device
 
 ***********************
 Auxiliary Functionality
@@ -38,22 +41,23 @@ Auxiliary Functionality
 Reading Names
 =============
 
-After your are connected to the sensor device you can read its (advertisement) name using the coroutine :meth:`Network.get_name`.
+.. currentmodule:: icotronic.can.node.sensor
+.. autoclass:: SensorNode
 
-.. automethod:: Network.get_name
+After your are connected to the sensor device you can read its (advertisement) name using the coroutine :meth:`SensorNode.get_name`.
 
-If you want to read the name of the sensor device then the parameter node should have the value ``"STH 1"``, if you want to read the name of the STU use the default value ``"STU 1"``.
+.. automethod:: SensorNode.get_name
 
 .. doctest::
 
    >>> from asyncio import run
-   >>> from icotronic.can import Network
+   >>> from icotronic.can import Connection
 
    >>> async def read_sensor_name(name):
-   ...     async with Network() as network:
-   ...         await network.connect_sensor_device(name)
-   ...         sensor_name = await network.get_name("STH 1")
-   ...         return sensor_name
+   ...     async with Connection() as stu:
+   ...         async with stu.connect_sensor_device(name) as sensor_device:
+   ...             sensor_name = await sensor_device.get_name()
+   ...             return sensor_name
 
    >>> sensor_name = "Test-STH"
    >>> run(read_sensor_name(sensor_name))
@@ -66,24 +70,24 @@ Streaming
 Reading Data
 ============
 
-After you connected to the sensor device you use the coroutine :meth:`Network.open_data_stream` to open the data stream:
+After you connected to the sensor device you use the coroutine :meth:`SensorNode.open_data_stream` to open the data stream:
 
-.. automethod:: Network.open_data_stream
+.. automethod:: SensorNode.open_data_stream
 
 After you opened the stream use an ``async with`` statement to iterate over the received streaming data. For example, the code below:
 
 .. doctest::
 
-   >>> from icotronic.can.streaming import StreamingConfiguration
+   >>> from icotronic.can import StreamingConfiguration
 
    >>> async def read_streaming_data():
-   ...     async with Network() as network:
-   ...         await network.connect_sensor_device("Test-STH")
-   ...         channels = StreamingConfiguration(first=True)
-   ...         async with network.open_data_stream(channels) as stream:
-   ...             async for data, lost_messages in stream:
-   ...                 print(data)
-   ...                 break
+   ...     async with Connection() as stu:
+   ...         async with stu.connect_sensor_device("Test-STH") as sensor_device:
+   ...             channels = StreamingConfiguration(first=True)
+   ...             async with sensor_device.open_data_stream(channels) as stream:
+   ...                 async for data, lost_messages in stream:
+   ...                     print(data)
+   ...                     break
 
    # Example Output: [32579, 32637, 32575]@1724251001.976368
    >>> run(read_streaming_data()) # doctest:+ELLIPSIS
@@ -95,30 +99,6 @@ After you opened the stream use an ``async with`` statement to iterate over the 
   prints its representation.
 
 .. currentmodule:: icotronic.can.streaming
-
-You  can use the attribute `streaming` of the `Network` class to check if streaming is currently active or not.
-
-.. doctest::
-
-   >>> from icotronic.can.streaming import StreamingConfiguration
-
-   >>> async def read_streaming_data():
-   ...     async with Network() as network:
-   ...         await network.connect_sensor_device("Test-STH")
-   ...         channels = StreamingConfiguration(first=True)
-   ...         print(f"Streaming active: {network.streaming}")
-   ...         async with network.open_data_stream(channels) as stream:
-   ...             print(f"Streaming active: {network.streaming}")
-   ...             async for data, lost_messages in stream:
-   ...                 break
-   ...             print(f"Streaming active: {network.streaming}")
-   ...         print(f"Streaming active: {network.streaming}")
-
-   >>> run(read_streaming_data()) # doctest:+ELLIPSIS
-   Streaming active: False
-   Streaming active: True
-   Streaming active: True
-   Streaming active: False
 
 The data returned by the ``async for`` (``stream``) is an object of the class :class:`StreamingData`:
 
@@ -146,7 +126,7 @@ This object has the following attributes:
 Storing Data
 ============
 
-.. currentmodule:: mytoolit.measurement.storage
+.. currentmodule:: icotronic.measurement.storage
 
 If you want to store streaming data for later use you can use the :class:`Storage` class to open a context manager that lets you store data as `HDF5 <https://en.wikipedia.org/wiki/Hierarchical_Data_Format>`_ file via the method :func:`add_streaming_data` of the class :class:`StorageData`:
 
@@ -178,7 +158,7 @@ The iterator for streaming data :class:`AsyncStreamBuffer` will raise a :class:`
 .. code-block::
    :emphasize-lines: 2
 
-   async with network.open_data_stream(channels) as stream:
+   async with sensor_device.open_data_stream(channels) as stream:
        async for data, lost_messages in stream:
            if lost_messages > 0:
                print(f"Lost {lost_messages} messages!")
@@ -193,20 +173,19 @@ The example code below shows how to use this method:
 
    >>> from asyncio import run
    >>> from time import monotonic
-   >>> from icotronic.can import Network
+   >>> from icotronic.can import Connection
 
    >>> async def determine_data_loss(identifier):
-   ...       async with Network() as network:
-   ...           await network.connect_sensor_device(identifier)
+   ...     async with Connection() as stu:
+   ...         async with stu.connect_sensor_device(identifier) as sensor_device:
+   ...              end = monotonic() + 1 # Read data for roughly one second
+   ...              channels = StreamingConfiguration(first=True)
+   ...              async with sensor_device.open_data_stream(channels) as stream:
+   ...                  async for data, lost_messages in stream:
+   ...                      if monotonic() > end:
+   ...                          break
    ...
-   ...           end = monotonic() + 1 # Read data for roughly one second
-   ...           channels = StreamingConfiguration(first=True)
-   ...           async with network.open_data_stream(channels) as stream:
-   ...               async for data, lost_messages in stream:
-   ...                   if monotonic() > end:
-   ...                       break
-   ...
-   ...               return stream.dataloss()
+   ...                  return stream.dataloss()
 
    >>> data_loss = run(determine_data_loss(identifier="Test-STH"))
    >>> data_loss < 0.1 # We assume that the data loss was less than 10 %
@@ -218,28 +197,27 @@ If you want to calculate the amount of data loss for a specific time-span you ca
 
    >>> from asyncio import run
    >>> from time import monotonic
-   >>> from icotronic.can import Network
+   >>> from icotronic.can import Connection
 
    >>> async def determine_data_loss(identifier):
-   ...       async with Network() as network:
-   ...           await network.connect_sensor_device(identifier)
+   ...       async with Connection() as stu:
+   ...           async with stu.connect_sensor_device(identifier) as sensor_device:
+   ...               start = monotonic()
+   ...               end = start + 2.1
+   ...               last_reset = start
+   ...               data_lost = []
+   ...               channels = StreamingConfiguration(first=True)
+   ...               async with sensor_device.open_data_stream(channels) as stream:
+   ...                   async for data, lost_messages in stream:
+   ...                       current = monotonic()
+   ...                       if current >= last_reset + 0.5:
+   ...                          data_lost.append(stream.dataloss())
+   ...                          stream.reset_stats()
+   ...                          last_reset = current
+   ...                       if current > end:
+   ...                           break
    ...
-   ...           start = monotonic()
-   ...           end = monotonic() + 2.1
-   ...           last_reset = start
-   ...           data_lost = []
-   ...           channels = StreamingConfiguration(first=True)
-   ...           async with network.open_data_stream(channels) as stream:
-   ...               async for data, lost_messages in stream:
-   ...                   current = monotonic()
-   ...                   if current >= last_reset + 0.5:
-   ...                      data_lost.append(stream.dataloss())
-   ...                      stream.reset_stats()
-   ...                      last_reset = current
-   ...                   if current > end:
-   ...                       break
-   ...
-   ...               return data_lost
+   ...                   return data_lost
 
    >>> data_lost = run(determine_data_loss(identifier="Test-STH"))
    >>> len(data_lost)
