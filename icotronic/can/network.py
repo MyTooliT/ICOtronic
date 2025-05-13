@@ -18,7 +18,6 @@ from logging import getLogger
 from typing import NamedTuple, Optional, Sequence, Union
 
 from can import Listener, Message as CANMessage
-from netaddr import EUI
 
 from icotronic.can.protocol.message import Message
 from icotronic.config import settings
@@ -33,26 +32,6 @@ class Response(NamedTuple):
     message: CANMessage  # The response message
     is_error: bool  # States if the response was an error or a normal response
     error_message: str  # Optional explanation for the error reason
-
-
-class STHDeviceInfo(NamedTuple):
-    """Used to store information about a (disconnected) STH"""
-
-    name: str  # The (Bluetooth advertisement) name of the STH
-    device_number: int  # The device number of the STH
-    mac_address: EUI  # The (Bluetooth) MAC address of the STH
-    rssi: int  # The RSSI of the STH
-
-    def __repr__(self) -> str:
-        """Return the string representation of an STH"""
-
-        attributes = ", ".join([
-            f"Name: {self.name}",
-            f"Device Number: {self.device_number}",
-            f"MAC address: {self.mac_address}",
-            f"RSSI: {self.rssi}",
-        ])
-        return f"🤖 {attributes}"
 
 
 class Logger(Listener):

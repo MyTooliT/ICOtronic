@@ -7,14 +7,13 @@ from __future__ import annotations
 from asyncio import sleep
 from time import time
 from types import TracebackType
-from typing import Type
+from typing import NamedTuple, Type
 
 from netaddr import EUI
 
 from icotronic.can.constants import DEVICE_NUMBER_SELF_ADDRESSING
 from icotronic.can.node.eeprom.node import NodeEEPROM
 from icotronic.can.error import ErrorResponseError, NoResponseError
-from icotronic.can.network import STHDeviceInfo
 from icotronic.can.node.basic import Node
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.sensor import SensorNode
@@ -57,8 +56,8 @@ class AsyncSensorNodeManager:
         """Create the connection to the sensor device"""
 
         def get_sensor_device(
-            devices: list[STHDeviceInfo], identifier: int | str | EUI
-        ) -> STHDeviceInfo | None:
+            devices: list[SensorDeviceInfo], identifier: int | str | EUI
+        ) -> SensorDeviceInfo | None:
             """Get the MAC address of a sensor device"""
 
             for device in devices:
@@ -81,7 +80,7 @@ class AsyncSensorNodeManager:
         end_time = time() + timeout_in_s
 
         sensor_device = None
-        sensor_devices: list[STHDeviceInfo] = []
+        sensor_devices: list[SensorDeviceInfo] = []
         while sensor_device is None:
             if time() > end_time:
                 sensor_devices_representation = "\n".join(
@@ -165,6 +164,26 @@ class AsyncSensorNodeManager:
             await self.stu.deactivate_bluetooth()
         except (NoResponseError, ErrorResponseError):
             pass
+
+
+class SensorDeviceInfo(NamedTuple):
+    """Used to store information about a (disconnected) STH"""
+
+    name: str  # The (Bluetooth advertisement) name of the STH
+    device_number: int  # The device number of the STH
+    mac_address: EUI  # The (Bluetooth) MAC address of the STH
+    rssi: int  # The RSSI of the STH
+
+    def __repr__(self) -> str:
+        """Return the string representation of an STH"""
+
+        attributes = ", ".join([
+            f"Name: {self.name}",
+            f"Device Number: {self.device_number}",
+            f"MAC address: {self.mac_address}",
+            f"RSSI: {self.rssi}",
+        ])
+        return f"🤖 {attributes}"
 
 
 class STU(Node):
@@ -574,7 +593,7 @@ class STU(Node):
 
         return await self.spu.get_mac_address(self.id, device_number)
 
-    async def get_sensor_devices(self) -> list[STHDeviceInfo]:
+    async def get_sensor_devices(self) -> list[SensorDeviceInfo]:
         """Retrieve a list of available sensor devices
 
         Returns
@@ -637,7 +656,7 @@ class STU(Node):
             name = await self.get_name(device)
 
             devices.append(
-                STHDeviceInfo(
+                SensorDeviceInfo(
                     device_number=device,
                     mac_address=mac_address,
                     name=name,
