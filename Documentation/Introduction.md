@@ -1,7 +1,7 @@
 ---
-title: ICOc Documentation
+title: ICOtronic Documentation
 author: MyTooliT
-description: Tools and scripts for the ICOtronic system
+description: Library and scripts for the ICOtronic system
 ---
 
 # ICOc
