@@ -87,20 +87,25 @@ class Connection:
 
         """
 
-        try:
-            self.bus = Bus(  # pylint: disable=abstract-class-instantiated
-                channel=self.configuration.get("channel"),
-                interface=self.configuration.get("interface"),
-                bitrate=self.configuration.get("bitrate"),
-            )  # type: ignore[abstract]
-        except (PcanError, OSError) as error:
-            raise CANInitError(
-                f"Unable to initialize CAN connection: {error}\n\n"
-                "Possible reason:\n\n"
-                "• CAN adapter is not connected to the computer"
-            ) from error
+        def init():
+            try:
+                self.bus = Bus(  # pylint: disable=abstract-class-instantiated
+                    channel=self.configuration.get("channel"),
+                    interface=self.configuration.get("interface"),
+                    bitrate=self.configuration.get("bitrate"),
+                )  # type: ignore[abstract]
+            except (PcanError, OSError) as error:
+                raise CANInitError(
+                    f"Unable to initialize CAN connection: {error}\n\n"
+                    "Possible reason:\n\n"
+                    "• CAN adapter is not connected to the computer"
+                ) from error
 
-        self.bus.__enter__()
+            self.bus.__enter__()
+
+        await to_thread(init)
+
+        assert isinstance(self.bus, BusABC)
 
         # We must set the event loop explicitly, otherwise the code will use
         # the synchronous API of python-can.
