@@ -40,7 +40,7 @@ async def get_acceleration_sensor_range_in_g(sth: STH) -> float:
     Precondition
     ------------
 
-    The Network object given as parameter needs to be connected to a sensor
+    The STH object given as parameter needs to be connected to a sensor
     device before you call this coroutine
 
     Parameters

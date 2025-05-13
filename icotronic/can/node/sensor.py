@@ -51,7 +51,7 @@ class DataStreamContextManager:
         channels: StreamingConfiguration,
         timeout: float,
     ) -> None:
-        """Create a new stream context manager for the given Network
+        """Create a new stream context manager for the given sensor device
 
         Parameters
         ----------

@@ -1,4 +1,4 @@
-"""Support code for different states of nodes/network"""
+"""Support code for different states of nodes"""
 
 # -- Imports ------------------------------------------------------------------
 

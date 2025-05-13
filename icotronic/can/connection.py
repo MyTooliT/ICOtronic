@@ -25,7 +25,7 @@ class Connection:
     """Basic class to initialize CAN communication"""
 
     def __init__(self) -> None:
-        """Create a network without initializing the CAN connection
+        """Initialize the CAN connection
 
         To actually connect to the CAN bus you need to use the async context
         manager, provided by this class. If you want to manage the connection
@@ -34,7 +34,7 @@ class Connection:
         Examples
         --------
 
-        Create a new network (without connecting to the CAN bus)
+        Create a new connection (without connecting to the CAN bus)
 
         >>> connection = Connection()
 
@@ -53,12 +53,12 @@ class Connection:
         self.notifier: Notifier | None = None
 
     async def __aenter__(self) -> STU:
-        """Initialize the network
+        """Connect to the STU
 
         Returns
         -------
 
-        An network object that can be used to communicate with the STU
+        An object that can be used to communicate with the STU
 
         Raises
         ------
@@ -73,7 +73,7 @@ class Connection:
         Use a context manager to handle the cleanup process automatically
 
         >>> async def connect_can_context():
-        ...     async with Connection() as network:
+        ...     async with Connection() as stu:
         ...         pass
         >>> run(connect_can_context())
 
