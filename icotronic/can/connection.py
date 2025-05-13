@@ -13,7 +13,7 @@ from can import Bus, BusABC, Notifier
 from can.interfaces.pcan.pcan import PcanError
 
 from icotronic.can.error import CANInitError
-from icotronic.can.network import Logger
+from icotronic.can.listener import Logger
 from icotronic.can.node.spu import SPU
 from icotronic.can.node.stu import STU
 from icotronic.config import settings

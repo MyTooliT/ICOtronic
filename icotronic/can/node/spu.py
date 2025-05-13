@@ -12,7 +12,7 @@ from netaddr import EUI
 
 from icotronic.can.protocol.message import Message
 from icotronic.can.error import ErrorResponseError, NoResponseError
-from icotronic.can.network import ResponseListener
+from icotronic.can.listener import ResponseListener
 from icotronic.can.node.id import NodeId
 from icotronic.utility.data import convert_bytes_to_text
 
@@ -95,7 +95,7 @@ class SPU:
         for attempt in range(retries):
             listener = ResponseListener(message, response_data)
             self.notifier.add_listener(listener)
-            getLogger("network.can").debug("%s", message)
+            getLogger("icotronic.can").debug("%s", message)
             self.bus.send(message.to_python_can())
 
             try:

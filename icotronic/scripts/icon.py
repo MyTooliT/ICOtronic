@@ -93,7 +93,7 @@ async def command_dataloss(arguments: Namespace) -> None:
     """Check data loss at different sample rates"""
 
     identifier = arguments.identifier
-    logger = getLogger(__name__)
+    logger = getLogger()
 
     async with Connection() as stu:
         logger.info("Connecting to “%s”", identifier)
@@ -210,7 +210,7 @@ async def command_measure(arguments: Namespace) -> None:
 
     """
 
-    logger = getLogger(__name__)
+    logger = getLogger()
 
     identifier = arguments.identifier
     measurement_time_s = arguments.time
@@ -371,7 +371,7 @@ def main():
         format="{asctime} {levelname:7} {message}",
     )
 
-    logger = getLogger(__name__)
+    logger = getLogger()
     logger.info("CLI Arguments: %s", arguments)
 
     if arguments.subcommand == "config":

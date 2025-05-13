@@ -1,11 +1,4 @@
-"""Support for working with the ICOtronic system
-
-To communicate with the ICOtronic system, create a new `Network` object and
-use its various coroutines. Unfortunately we do not offer an official API
-documentation yet. For now we recommend you take a look at the
-doctests of the `Network` class or the code for the `icon` command line tool
-(icotronic.scripts.icon).
-"""
+"""Listeners used to react to different messages from the CAN bus"""
 
 # pylint: disable=too-many-lines, duplicate-code
 
@@ -40,7 +33,7 @@ class Logger(Listener):
     def __init__(self):
         """Initialize the logger"""
 
-        self.logger = getLogger("network.can")
+        self.logger = getLogger("icotronic.can")
         # We use `Logger` in the code below, since the `.logger` attribute
         # stores internal DynaConf data
         self.logger.setLevel(settings.Logger.can.level)

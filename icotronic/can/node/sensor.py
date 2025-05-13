@@ -74,7 +74,7 @@ class DataStreamContextManager:
         self.channels = channels
         self.timeout = timeout
         self.reader: AsyncStreamBuffer | None = None
-        self.logger = getLogger(__name__)
+        self.logger = getLogger()
         self.logger.debug("Initialized data stream context manager")
 
     async def __aenter__(self) -> AsyncStreamBuffer:
