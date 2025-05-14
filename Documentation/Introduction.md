@@ -185,10 +185,10 @@ If you install Simplicity Studio or Simplicity Commander in the standard install
 Please use the following command:
 
 ```sh
-pip install icoc
+pip install icotronic
 ```
 
-to install the [latest official version of ICOc from PyPi](https://pypi.org/project/icoc). Afterwards you can use the various [scripts](#scripts:section:scripts) included in the package.
+to install the [latest official version of the ICOtronic library from PyPi](https://pypi.org/project/icotronic). Afterwards you can use the various [scripts](#scripts:section:scripts) included in the package.
 
 ### Install the Package Using Windows Terminal
 
@@ -197,25 +197,25 @@ to install the [latest official version of ICOc from PyPi](https://pypi.org/proj
 3. Copy and paste the following text into the Terminal
 
    ```sh
-   pip install icoc
+   pip install icotronic
    ```
 
 4. Press Return <kbd>⏎</kbd>
 5. Wait until the install process finished successfully
 
-### Install the Development Version of ICOc
+### Install the Development Version of ICOtronic
 
 **Note:** Please only use the command below, **if you know what you are doing**!
 
 ```sh
-pip install 'git+https://github.com/MyTooliT/ICOc'
+pip install 'git+https://github.com/MyTooliT/ICOtronic'
 ```
 
 ### Troubleshooting
 
 #### Import Errors
 
-If one of the tests or ICOc fails with an error message that looks similar to the following text:
+If [one of the scripts](#scripts:section:scripts) fails with an error message that looks similar to the following text on Windows:
 
 ```
 Traceback (most recent call last):
@@ -236,20 +236,20 @@ then you probably need to install the [“Microsoft Visual C++ Redistributable p
 **If you do not have sufficient rights** to install the package you can also try to install the package in the user package folder:
 
 ```sh
-pip install --user icoc
+pip install --user icotronic
 ```
 
 #### Unable to Install in Editable Mode
 
-If the ICOc install fails with the following error:
+If the ICOtronic install fails with the following error:
 
 ```
-ERROR: Project …/ICOc has a 'pyproject.toml' and its build backend is missing the 'build_editable' hook.
+ERROR: Project …/ICOtronic has a 'pyproject.toml' and its build backend is missing the 'build_editable' hook.
 Since it does not have a 'setup.py' nor a 'setup.cfg', it cannot be installed in editable mode.
 Consider using a build backend that supports PEP 660.
 ```
 
-then your version of [Setuptools](http://setuptools.pypa.io) needs to be updated before you install ICOc. You can use the following command to do that:
+then your version of [Setuptools](http://setuptools.pypa.io) needs to be updated before you install the ICOtronic package. You can use the following command to do that:
 
 ```sh
 pip install -U pip setuptools
@@ -257,7 +257,7 @@ pip install -U pip setuptools
 
 #### Unable to Locate HDF5 {#introduction:section:unable-to-locate-hdf5}
 
-The installation of ICOc might fail with an error message that looks like this:
+The installation of the ICOtronic package might fail with an error message that looks like this:
 
 ```
 … implicit declaration of function 'H5close'
@@ -274,15 +274,12 @@ export BLOSC_DIR=/opt/homebrew/opt/c-blosc
 export BZIP2_DIR=/opt/homebrew/opt/bzip2
 export LZO_DIR=/opt/homebrew/opt/lzo
 export HDF5_DIR=/opt/homebrew/opt/hdf5
-# Require version 3.9.1, since 3.9.2 might fail because of an
-# “Illegal instruction” error:
-# https://github.com/PyTables/PyTables/issues/1093
-pip install --no-cache-dir tables==3.9.1
+pip install --no-cache-dir tables
 ```
 
 #### HDF5 Library Not Loaded
 
-Some of the ICOc commands might fail with an error message that looks like this on macOS:
+Some of the [ICOtronic scripts](#scripts:section:scripts) might fail with an error message that looks like this on macOS:
 
 > `Library not loaded: /opt/homebrew/opt/hdf5/lib/libhdf5.….dylib`
 
@@ -290,7 +287,7 @@ In that case you might have installed an outdated cached version of [PyTables](h
 
 #### Unable to open OpenBLAS library
 
-If one of the ICOc command fails with the error message:
+If one of the [ICOtronic scripts](#scripts:section:scripts) fails with the error message:
 
 > ImportError: libopenblas.so.0: cannot open shared object file: No such file or directory
 
@@ -300,13 +297,13 @@ on [Raspbian](http://www.raspbian.org) (or some other GNU/Linux version based on
 sudo apt-get install libopenblas-dev
 ```
 
-#### Unknown Command `icoc`
+#### Unknown Command
 
 If `pip install` prints **warnings about the path** that look like this:
 
 > The script … is installed in `'…\Scripts'` which is not on PATH.
 
-then please add the text between the single quotes (without the quotes) to your [PATH environment variable](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/). Here `…\Scripts` is just a placeholder. Please use the value that `pip install` prints on your machine. If
+then please add the text between the single quotes (without the quotes) to your [PATH environment variable](<https://en.wikipedia.org/wiki/PATH_(variable)>). Here `…\Scripts` is just a placeholder. Please use the value that `pip install` prints on your machine. If
 
 - you used the [installer from the Python website](https://www.python.org/downloads) (and checked “Add Python to PATH”) or
 - you used [winget](https://docs.microsoft.com/en-us/windows/package-manager/winget/)

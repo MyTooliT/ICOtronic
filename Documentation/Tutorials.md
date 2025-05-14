@@ -366,7 +366,7 @@ To reset the STU please use the following command:
 icon stu reset
 ```
 
-## Production Tests
+## Production Tests {#tutorials:section:production-tests}
 
 This tutorial lists the usual steps to test a sensory holder assembly or a sensory tool holder.
 
