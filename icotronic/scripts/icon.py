@@ -245,10 +245,10 @@ async def command_measure(arguments: Namespace) -> None:
 
             sensor_range = await get_acceleration_sensor_range_in_g(sth)
             conversion_to_g = partial(convert_raw_to_g, max_value=sensor_range)
+            filepath = settings.get_output_filepath()
 
             with Storage(
-                settings.get_output_filepath(),
-                user_sensor_config.streaming_configuration(),
+                filepath, user_sensor_config.streaming_configuration()
             ) as storage:
                 storage.write_sensor_range(sensor_range)
                 storage.write_sample_rate(adc_config)
@@ -284,6 +284,7 @@ async def command_measure(arguments: Namespace) -> None:
                 finally:
                     progress.close()
                     print(f"Data Loss: {storage.dataloss() * 100} %")
+                    print(f"Filepath: {filepath}")
 
 
 # pylint: enable=too-many-locals
