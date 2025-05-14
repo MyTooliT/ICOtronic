@@ -30,7 +30,7 @@ The software reads data from the Stationary Transceiver Unit (STU) via CAN using
 
 ### Hardware
 
-In order to use ICOc you need at least:
+In order to use the ICOtronic system you need at least:
 
 - a [PCAN adapter](https://www.peak-system.com):
 
@@ -42,6 +42,8 @@ In order to use ICOc you need at least:
   - power supply unit (for the power injector):
 
     ![Power Injector](Documentation/Pictures/Power-Injector.jpg)
+
+  **Note:** Other [CAN adapters supported by python-can](https://python-can.readthedocs.io/en/stable/interfaces.html) should work as well. However, you need to update the [configuration](#changing-configuration-values) for the CAN connection accordingly.
 
 - a [Stationary Transceiver Unit](https://www.mytoolit.com/ICOtronic/):
 
