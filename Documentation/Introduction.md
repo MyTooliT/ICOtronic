@@ -64,7 +64,7 @@ In order to use the ICOtronic system you need at least:
 
 #### Python
 
-ICOc requires at least Python `3.10`. The software also supports Python `3.11` and `3.12`. We recommend you use the 64-bit version of Python.
+ICOc requires at least Python `3.10`. The software also supports Python `3.11`, `3.12` and `3.13`. We recommend you use the 64-bit version of Python.
 
 You can download Python [here](https://www.python.org/downloads). When you install the software, please do not forget to enable the checkbox **“Add Python to PATH”** in the setup window of the installer.
 
