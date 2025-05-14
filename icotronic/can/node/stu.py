@@ -180,7 +180,7 @@ class SensorDeviceInfo(NamedTuple):
         attributes = ", ".join([
             f"Name: {self.name}",
             f"Device Number: {self.device_number}",
-            f"MAC address: {self.mac_address}",
+            f"MAC Address: {self.mac_address}",
             f"RSSI: {self.rssi}",
         ])
         return f"🤖 {attributes}"
