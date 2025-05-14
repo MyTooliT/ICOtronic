@@ -144,7 +144,7 @@ IDX LINK   TYPE     OPERATIONAL SETUP
 
 ##### macOS {#introduction:section:pcan-driver:macos}
 
-On macOS you can use the [PCBUSB](https://github.com/mac-can/PCBUSB-Library) library to add support for the PCAN adapter. For more information on how to install this library please take a look [here](https://github.com/mac-can/PCBUSB-Library/issues/10#issuecomment-1188682027).
+On macOS you can use the [PCBUSB](https://github.com/mac-can/PCBUSB-Library) library to add support for the PCAN adapter. For more information on how to install this library please take a look at the issue [“How to install the PCBUSB-Library on Mac”](https://github.com/mac-can/PCBUSB-Library/issues/10#issuecomment-1188682027).
 
 ##### Windows {#introduction:section:pcan-driver:windows}
 
@@ -152,7 +152,7 @@ You can find the download link for the PCAN Windows driver [here](https://www.pe
 
 #### Simplicity Commander (Optional)
 
-For the tests that require a firmware flash you need to **either** install
+For the [production tests](tutorials:section:production-tests) that require a firmware flash you need to **either** install
 
 - [Simplicity Studio](https://www.silabs.com/products/development-tools/software/simplicity-studio) or
 - [Simplicity Commander](https://www.silabs.com/developers/mcu-programming-options).
@@ -178,7 +178,7 @@ If you install Simplicity Studio or Simplicity Commander in the standard install
 ##### Additional Notes
 
 - If you **do not want to change the config**, and Simplicity Commander (`commander`) is not part of the standard locations for your operating system, then please make sure that `commander` is accessible via the `PATH` environment variable.
-- Please note, that you **do not need to install Simplicity Commander** if you just want to **measure data with ICOc**.
+- Please note, that you **do not need to install Simplicity Commander** if you just want to **collect data** with the ICOtronic library.
 
 ## Install
 
