@@ -1,5 +1,105 @@
 # Tutorials
 
+## Changing Configuration Values
+
+> **Note:** If you only use the `icoc` command line tool, then you most probably do not need to change the configuration at all.
+
+All configuration options are currently stored in [YAML](https://yaml.org) files (handled by the configuration library [Dynaconf]). The [default values][] are stored inside the package itself. If you want to overwrite or extend these values you should create a user configuration file. To do that you can use the command:
+
+```sh
+icon config
+```
+
+which will open the the user configuration in your default text editor. You can then edit this file and save your changes to update the configuration. For a list of available options, please take a look at the [default configuration][default values]. Please make sure to not make any mistakes when you edit this file. Otherwise (parts of) the ICOc commands will not work, printing an error message about the (first) incorrect configuration value.
+
+[Dynaconf]: https://www.dynaconf.com
+[default values]: https://github.com/MyTooliT/ICOc/blob/main/mytoolit/config/config.yaml
+
+#### Adding the Path to Simplicity Commander on Linux
+
+1. Open the user configuration file in your default text editor using the command line tool `icon`:
+
+   ```sh
+   icon config
+   ```
+
+2. Add the path to Simplicity commander (e.g. `/opt/Simplicity Commander/commander/`) to the list `commands` → `path` → `linux`:
+
+   ```yaml
+   commands:
+     path:
+       linux:
+         - /opt/Simplicity Commander/commander/
+   ```
+
+   > **Note:** Keys (such as `commands`, `path` and `linux`) in the example above are case-insensitive in [Dynaconf][], e.g. it does not matter if you use `commands` or `COMMANDS` in the example above.
+
+3. Store the modified configuration file
+
+#### Setting up the Test Environment
+
+1. Open the user configuration in your default text editor:
+
+   ```sh
+   icon config
+   ```
+
+   If you never edited the configuration before, then the displayed text should be the same as in the file linked [here](https://github.com/MyTooliT/ICOc/blob/main/mytoolit/config/user.yaml).
+
+2. Change the **programming board serial number**, to the serial number of your programming board (shown on the bottom of the display):
+
+   ```yaml
+   # Use the programmer with serial number 440069950:
+   programming board serial number: &programmer_serial 440069950
+   ```
+
+3. Change the production date to the one of your PCB in [ISO date format](https://en.wikipedia.org/wiki/ISO_8601):
+
+   ```yaml
+   # Use the production date “February the 1st of the year 3456”
+   production date: &production_date 3456-02-01
+   ```
+
+4. Change the user name to the name of the person that runs the test:
+
+   ```yaml
+   # Use “Jane Doe” as name for the test operator
+   user name: &username Jane Doe
+   ```
+
+5. Change the holder type (only relevant for the test report):
+
+   ```yaml
+   # Specify the holder type (the holder that contains the PCB)
+   # as “D 10x130 HSK-A63”
+   holder type: &holder_type D 10x130 HSK-A63
+   ```
+
+6. Change the holder name (Bluetooth advertisement name) to the one of your sensor device. If your are not sure about the name you can use the [`icon`](#icon-cli-tool) or [`icoc`](#basic-usage) command line tool to determine the name. The STH and SMH tests use this value to connect to the device.
+
+   ```yaml
+   # Connect to the sensor device with the name “untested”
+   holder name: &holder_name untested
+   ```
+
+7. Update the serial number of the sensor device. The STH and SMH tests change the sensor device Bluetooth advertisement name to this value, after the EEPROM (part of the) test was executed, **if the state value is set to `Epoxied`**.
+
+   ```yaml
+   # Use the value “tested” as sensor device name,
+   # after the EEPROM test (succeeded)
+   holder serial number: &holder_serial tested
+   ```
+
+8. Change the state value to
+
+   - `Bare PCB`, if the **sensor device test** (SMH/STH test) should flash **the sensor device** or to
+   - `Epoxied` if the test should not flash the sensor device.
+
+   ```yaml
+   # Do not flash the chip in the SMH/STH test
+   state: &state Epoxied
+   ```
+
 ## Sensor Device Renaming {#tutorials:section:sth-renaming}
 
 1. Please start ICOc:
