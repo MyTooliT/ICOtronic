@@ -135,7 +135,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path=""><a href="#icoc"><i class="fa fa-check"></i><b>1</b> ICOc</a>
+<li class="chapter" data-level="1" data-path=""><a href="#introduction"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path=""><a href="#requirements"><i class="fa fa-check"></i><b>1.1</b> Requirements</a>
 <ul>
@@ -257,44 +257,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 class="title">ICOtronic Documentation</h1>
 <p class="author"><em>MyTooliT</em></p>
 </div>
-<div id="icoc" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">1</span> ICOc<a href="#icoc" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>ICOc is a</p>
+<div id="introduction" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">1</span> Introduction<a href="#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>ICOtronic is a</p>
 <ul>
-<li><a href="https://pypi.org/project/icoc">Python library</a> and</li>
-<li>collection of tools and scripts</li>
+<li><a href="https://pypi.org/project/icotronic">Python library</a> (based on <a href="https://pypi.org/project/python-can/"><code>python-can</code></a>) and</li>
+<li>a collection of tools and scripts</li>
 </ul>
 <p>for the <a href="https://www.mytoolit.com/ICOtronic/">ICOtronic system</a>. Currently the main purpose of the software is:</p>
 <ul>
-<li><strong>Data Collection</strong> via
+<li><strong>Data collection</strong>
 <ul>
-<li>the script <a href="#command-line-usage-of-icoc"><code>icoc</code></a> (Windows only) or</li>
-<li>the script <a href="#icon-cli-tool"><code>icon</code></a> (Linux, macOS, Windows) or</li>
-<li>directly <a href="https://icoc.readthedocs.io">via the API</a> (Linux, macOS, Windows)</li>
+<li>directly <a href="https://icotronic.readthedocs.io">via the API</a> or</li>
+<li>the script <a href="#icon-cli-tool"><code>icon</code></a></li>
 </ul></li>
 <li><strong>Testing</strong> the functionality of
 <ul>
-<li><a href="#tutorials:section:stu">Stationary Transceiver Unit (STU)</a> and</li>
-<li>sensor devices/nodes, such as
+<li>a <a href="#tutorials:section:stu">Stationary Transceiver Unit (STU)</a> or</li>
+<li>a sensor device/node, such as a
 <ul>
-<li><a href="#tutorials:section:sth">Sensory Holder Assembly (SHA)/Sensory Tool Holder (STH)</a></li>
-<li><a href="#tutorials:section:stu">Sensory Milling Head (SMH)</a></li>
+<li><a href="#tutorials:section:sth">Sensory Holder Assembly (SHA)/Sensory Tool Holder (STH)</a> or</li>
+<li><a href="#tutorials:section:smh">Sensory Milling Head (SMH)</a></li>
 </ul></li>
 </ul></li>
 </ul>
 <p>The software reads data from the Stationary Transceiver Unit (STU) via CAN using the <a href="https://mytoolit.github.io/Documentation/#mytoolit-communication-protocol">MyTooliT protocol</a>. The STU itself reads from and writes data to the sensor devices via Bluetooth.</p>
-<p><strong>Notes</strong>:</p>
-<ul>
-<li><p>The command line tool <a href="#command-line-usage-of-icoc"><code>icoc</code></a> requires <a href="https://microsoft.com/windows">Microsoft Windows 10</a> (tested) or Windows 11 (untested).</p></li>
-<li><p>The</p>
-<ul>
-<li>test suite (except for the <a href="#verification-tests">deprecated verification tests</a>),</li>
-<li><a href="#icon-cli-tool"><code>icon</code></a>, and</li>
-<li>the (new) <a href="https://icoc.readthedocs.io">API</a></li>
-</ul>
-<p>use <a href="https://python-can.readthedocs.io">python-can</a> and therefore also works on Linux and macOS. The <a href="#command-line-usage-of-icoc">ICOc measurement tool</a> does <a href="https://github.com/MyTooliT/ICOc/issues/4"><strong>not</strong></a>. For more information on how to use (parts of) the ICOc software on Linux, please take a look <a href="#introduction:section:pcan-driver:linux">here</a>.</p></li>
-</ul>
-<p>For more information about other required software components, please read the subsection <a href="#software">“Software”</a> in this document.</p>
 <div id="requirements" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Requirements<a href="#requirements" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="hardware" class="section level3 hasAnchor" number="1.1.1">
@@ -965,14 +952,14 @@ Logging:
 <div id="icon-cli-tool" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> ICOn CLI Tool<a href="#icon-cli-tool" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>One issue of the ICOc (command line tool) is that it <strong>only works on Windows</strong>. Another problem is that it <strong>requires a CAN adapter from <a href="https://www.peak-system.com">PEAK-System</a></strong>.</p>
-<p>To improve this situation we offer an <a href="https://icoc.readthedocs.io">API</a> (Application Programming Interface) based on <a href="https://python-can.readthedocs.io">python-can</a>, which works on</p>
+<p>To improve this situation we offer an <a href="https://icotronic.readthedocs.io">API</a> (Application Programming Interface) based on <a href="https://python-can.readthedocs.io">python-can</a>, which works on</p>
 <ul>
 <li>Linux,</li>
 <li>macOS, and</li>
 <li>Windows</li>
 </ul>
-<p>and should (at least in theory) support the <a href="https://python-can.readthedocs.io/en/stable/interfaces.html">same CAN hardware as python-can</a>. You can access most of this <a href="https://icoc.readthedocs.io">API</a> using the “new” Network class.</p>
-<p>We also offer a (currently very limited) CLI tool based on this <a href="https://icoc.readthedocs.io">API</a> called ICOn. The text below describes how you can use this tool.</p>
+<p>and should (at least in theory) support the <a href="https://python-can.readthedocs.io/en/stable/interfaces.html">same CAN hardware as python-can</a>. You can access most of this <a href="https://icotronic.readthedocs.io">API</a> using the “new” Network class.</p>
+<p>We also offer a (currently very limited) CLI tool based on this <a href="https://icotronic.readthedocs.io">API</a> called ICOn. The text below describes how you can use this tool.</p>
 <div id="listing-available-sensor-devices" class="section level3 hasAnchor" number="2.3.1">
 <h3><span class="header-section-number">2.3.1</span> Listing Available Sensor Devices<a href="#listing-available-sensor-devices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To print a list of all available sensor devices please use the subcommand <code>list</code>:</p>
@@ -1283,7 +1270,7 @@ Logging:
 </div>
 <div id="code-examples" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">3</span> Code Examples<a href="#code-examples" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>For information on how to write your own code including sample code please take a look at the <a href="https://icoc.readthedocs.io">API documentation</a>.</p>
+<p>For information on how to write your own code including sample code please take a look at the <a href="https://icotronic.readthedocs.io">API documentation</a>.</p>
 
 </div>
 <div id="virtualization" class="section level1 hasAnchor" number="4">
@@ -1787,8 +1774,8 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 </div>
 <div id="manual-tests" class="section level3 hasAnchor" number="7.3.3">
 <h3><span class="header-section-number">7.3.3</span> Manual Tests<a href="#manual-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="icoc-1" class="section level4 hasAnchor" number="7.3.3.1">
-<h4><span class="header-section-number">7.3.3.1</span> ICOc<a href="#icoc-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="icoc" class="section level4 hasAnchor" number="7.3.3.1">
+<h4><span class="header-section-number">7.3.3.1</span> ICOc<a href="#icoc" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ol style="list-style-type: decimal">
 <li>Call the command <code>icoc</code>.</li>
 <li>Connect to a working STH (Enter the number and press <kbd>⏎</kbd>)</li>
