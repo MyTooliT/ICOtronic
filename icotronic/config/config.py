@@ -28,7 +28,7 @@ from icotronic.utility.open import open_file, UnableToOpenError
 class ConfigurationUtility:
     """Access configuration data"""
 
-    app_name = "ICOc"
+    app_name = "ICOtronic"
     app_author = "MyTooliT"
     config_filename = "config.yaml"
     site_config_filepath = (
