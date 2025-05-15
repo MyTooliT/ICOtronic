@@ -1,6 +1,6 @@
 # Virtualization
 
-You can also use (parts of) ICOc with various virtualization software. For that to work you have to make sure that (at least) the PEAK CAN adapter is attached to the virtual guest operating system. For some virtualization software you might have to install additional software for that to work. For example, [VirtualBox][] requires that you install the VirtualBox Extension Pack before you can use USB 2 and USB 3 devices.
+You can also use the ICOtronic package with various virtualization software. For that to work you have to make sure that (at least) the PEAK CAN adapter is attached to the virtual guest operating system. For some virtualization software you might have to install additional software for that to work. For example, [VirtualBox][] requires that you install the VirtualBox Extension Pack before you can use USB 2 and USB 3 devices.
 
 > **Note:** Please be advised that the [**VirtualBox Extension Pack is paid software**](https://www.virtualbox.org/wiki/Licensing_FAQ) even though you can download and use it without any license key. **[Oracle might come after you, if you do not pay for the license](https://www.reddit.com/r/sysadmin/comments/d1ttzp/oracle_is_going_after_companies_using_virtualbox/)**, even if you use the Extension Pack in an educational setting.
 
@@ -21,7 +21,7 @@ The table below shows some of the virtualization software we tried and that work
 
 ## Windows Subsystem for Linux 2
 
-Using ICOc in the WSL 2 currently [requires using a custom Linux kernel](https://github.com/microsoft/WSL/issues/5533). We **would not recommend** using ICOc with this type of virtualization software, since the setup requires quite some amount of work and time. Nevertheless the steps below should show you how you can use the PEAK CAN adapter and hence ICOc with WSL 2.
+Using ICOtronic in the WSL 2 currently [requires using a custom Linux kernel](https://github.com/microsoft/WSL/issues/5533). We **would not recommend** using ICOtronic with this type of virtualization software, since the setup requires quite some amount of work and time. Nevertheless the steps below should show you how you can use the PEAK CAN adapter and hence the ICOtronic package with WSL 2.
 
 1. Install WSL 2 (Windows Shell):
 
@@ -225,14 +225,14 @@ Using ICOc in the WSL 2 currently [requires using a custom Linux kernel](https:/
     sudo apt install -y python3-pip
     ```
 
-16. Install ICOc (Linux Shell)
+16. Install ICOtronic (Linux Shell)
 
     ```sh
     cd ~
     mkdir Documents
     cd Documents
-    git clone https://github.com/MyTooliT/ICOc.git
-    cd ICOc
+    git clone https://github.com/MyTooliT/ICOtronic.git
+    cd ICOtronic
     python3 -m pip install --prefix=$(python3 -m site --user-base) -e .
     ```
 
@@ -348,7 +348,7 @@ pip3 install --user git+https://github.com/cpbotha/xdg-open-wsl.git
 1. Start WSL (Windows Shell)
 
    ```sh
-   wsl -d CANbuntu --cd "~/Documents/ICOc"
+   wsl -d CANbuntu --cd "~/Documents/ICOtronic"
    ```
 
 2. Connect programming/CAN adapter to Linux (Windows Shell):
