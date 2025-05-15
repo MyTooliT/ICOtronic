@@ -1,6 +1,6 @@
 # Scripts {#scripts:section:scripts}
 
-After you installed the ICOc package various helper scripts are available:
+After you installed the ICOtronic package various helper scripts are available:
 
 - [`convert-base64-mac`](#mac-address-conversion): Utility to convert a Base64 encoded 8 character text into a Bluetooth MAC address
 - [`convert-mac-base64`](#mac-address-conversion): Convert Bluetooth MAC address into a (Base64) encoded 8 character string

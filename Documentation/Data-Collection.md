@@ -80,7 +80,7 @@ To take a look at the measurement data you can use the tool [HDFView][]. Unfortu
 
 [hdfview]: https://www.hdfgroup.org/downloads/hdfview/
 
-The screenshot below shows a measurement file produced by ICOc:
+The screenshot below shows a measurement file produced by the ICOtronic library:
 
 ![Main Window of HDFView](Documentation/Pictures/HDFView-File.png)
 

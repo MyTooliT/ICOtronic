@@ -10,7 +10,7 @@ All configuration options are currently stored in [YAML](https://yaml.org) files
 icon config
 ```
 
-which will open the the user configuration in your default text editor. You can then edit this file and save your changes to update the configuration. For a list of available options, please take a look at the [default configuration][default values]. Please make sure to not make any mistakes when you edit this file. Otherwise (parts of) the ICOc commands will not work, printing an error message about the (first) incorrect configuration value.
+which will open the the user configuration in your default text editor. You can then edit this file and save your changes to update the configuration. For a list of available options, please take a look at the [default configuration][default values]. Please make sure to not make any mistakes when you edit this file. Otherwise (parts of) the ICOtronic commands will not work, printing an error message about the (first) incorrect configuration value.
 
 [Dynaconf]: https://www.dynaconf.com
 [default values]: https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml
@@ -75,7 +75,7 @@ which will open the the user configuration in your default text editor. You can 
    holder type: &holder_type D 10x130 HSK-A63
    ```
 
-6. Change the holder name (Bluetooth advertisement name) to the one of your sensor device. If your are not sure about the name you can use the [`icon`](#icon-cli-tool) or [`icoc`](#basic-usage) command line tool to determine the name. The STH and SMH tests use this value to connect to the device.
+6. Change the holder name (Bluetooth advertisement name) to the one of your sensor device. If your are not sure about the name you can use the [`icon`](#icon-cli-tool) command line tool to determine the name. The STH and SMH tests use this value to connect to the device.
 
    ```yaml
    # Connect to the sensor device with the name “untested”
