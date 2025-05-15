@@ -318,15 +318,22 @@ class SensorConfiguration(Mapping):
 
         >>> SensorConfiguration(first=1, second=0, third=1
         ...     ).requires_channel_configuration_support()
+        True
+
+        >>> SensorConfiguration(first=1, second=2, third=3
+        ...     ).requires_channel_configuration_support()
         False
+
 
         >>> SensorConfiguration().requires_channel_configuration_support()
         False
 
         """
 
-        for value in self.attributes.values():
-            if value > 1:
+        for measurement_channel, sensor_channel in enumerate(
+            self.attributes.values(), start=1
+        ):
+            if sensor_channel not in {0, measurement_channel}:
                 return True
         return False
 
