@@ -1,4 +1,4 @@
-"""Configuration support for ICOc tools (e.g. ICOn, hardware tests)"""
+"""Configuration support for ICOtronic tools (e.g. ICOn, production tests)"""
 
 # -- Exports ------------------------------------------------------------------
 

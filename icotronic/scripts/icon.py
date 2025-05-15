@@ -1,6 +1,6 @@
 """ICOn command line tool
 
-See: https://mytoolit.github.io/ICOc/#icon-cli-tool
+See: https://mytoolit.github.io/ICOtronic/#icon-cli-tool
 
 for more information
 """

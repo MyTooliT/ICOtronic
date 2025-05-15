@@ -147,7 +147,9 @@ class BaseTestCases:
 
             attributes = [
                 SimpleNamespace(
-                    description="ICOc Version", value=__version__, pdf=True
+                    description="ICOtronic Version",
+                    value=__version__,
+                    pdf=True,
                 ),
                 SimpleNamespace(
                     description="Date",
