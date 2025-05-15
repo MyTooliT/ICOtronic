@@ -43,7 +43,7 @@ In order to use the ICOtronic system you need at least:
 
     ![Power Injector](Documentation/Pictures/Power-Injector.jpg)
 
-  **Note:** Other [CAN adapters supported by python-can](https://python-can.readthedocs.io/en/stable/interfaces.html) should work as well. However, you need to update the [configuration](#changing-configuration-values) for the CAN connection accordingly.
+  > **Note:** Other [CAN adapters supported by python-can](https://python-can.readthedocs.io/en/stable/interfaces.html) should work as well. However, you need to update the [configuration](#changing-configuration-values) for the CAN connection accordingly.
 
 - a [Stationary Transceiver Unit](https://www.mytoolit.com/ICOtronic/):
 

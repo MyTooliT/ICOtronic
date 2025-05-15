@@ -7,16 +7,12 @@ The [ICOtronic package](https://pypi.org/project/icotronic) provides two differe
 
 [API]: https://icotronic.readthedocs.io
 
----
-
-**Note:** Since ICOn currently only provides very basic functionality for data collection you might be happier using one of the tools below. Both are currently based on an [older (deprecated) version of this Python package][ICOc]:
-
-- [ICOgui](https://git.ift.tuwien.ac.at/lab/ift/icotronic/icogui): A closed source Electron application for Windows
-- [ICOc](https://mytoolit.github.io/ICOc/#basic-usage): A text based UI for Windows
+> **Note:** Since ICOn currently only provides very basic functionality for data collection you might be happier using one of the tools below. Both are currently based on an [older (deprecated) version of this Python package][ICOc]:
+>
+> - [ICOgui](https://git.ift.tuwien.ac.at/lab/ift/icotronic/icogui): A closed source Electron application for Windows
+> - [ICOc](https://mytoolit.github.io/ICOc/#basic-usage): A text based UI for Windows
 
 [ICOc]: https://github.com/mytoolit/ICOc
-
----
 
 ## Sensor Device Identifiers
 
@@ -44,7 +40,7 @@ In the example above, we see that one sensor device is available with the follow
 - name: `Test-STH`
 - MAC address: `08-6B-D7-01-DE-81`
 
-**Note:** The last value “-51” of the example output is the current [received signal strength indication (RSSI)](https://en.wikipedia.org/wiki/Received_signal_strength_indication).
+> **Note:** The last value “-51” of the example output is the current [received signal strength indication (RSSI)](https://en.wikipedia.org/wiki/Received_signal_strength_indication).
 
 ## Collecting Data
 
@@ -78,11 +74,7 @@ By default measurement files will be stored in the current working directory wit
 
 ## Measurement Data
 
----
-
-**Note:** ICOn **assumes** that the sensor device always measures **acceleration data** in multiples of the [gravity of earth](https://en.wikipedia.org/wiki/Gravity_of_Earth), commonly referred as $g$ or $g_0$. While this is true for most of the sensor hardware (such as STHs), some sensor devices measure other values, e.g. force or temperature. Even in this case the measurement software will (incorrectly) [convert the data into multiples of $g$](https://github.com/MyTooliT/ICOtronic/blob/dc636ce2cda8f380aa0f031fc743062820eb3443/mytoolit/measurement/acceleration.py#L50-L51). We are **working on adding support for configuring the sensor type** in the firmware and the ICOtronic package to **fix this issue**.
-
----
+> **Note:** ICOn **assumes** that the sensor device always measures **acceleration data** in multiples of the [gravity of earth](https://en.wikipedia.org/wiki/Gravity_of_Earth), commonly referred as $g$ or $g_0$. While this is true for most of the sensor hardware (such as STHs), some sensor devices measure other values, e.g. force or temperature. Even in this case the measurement software will (incorrectly) [convert the data into multiples of $g$](https://github.com/MyTooliT/ICOtronic/blob/dc636ce2cda8f380aa0f031fc743062820eb3443/mytoolit/measurement/acceleration.py#L50-L51). We are **working on adding support for configuring the sensor type** in the firmware and the ICOtronic package to **fix this issue**.
 
 To take a look at the measurement data you can use the tool [HDFView][]. Unfortunately you need to create a free account to download the program. If you do not want to register, then you can try if [one of the accounts listed at BugMeNot](http://bugmenot.com/view/hdfgroup.org) works. Another option is to download the application from [here](https://support.hdfgroup.org/ftp/HDF5/releases/HDF-JAVA/). Just click on the folder for the latest version of the application (`hdfview-…`) and afterwards on the folder `bin` to see a list of compressed binaries (`.zip` & `.tar.gz`) for the different supported operating systems.
 

@@ -37,7 +37,7 @@ docker build -t mytoolit/icoc -f Docker/Dockerfile .
    sudo nsenter -t "$DOCKERPID" -n ip link set can0 up
    ```
 
-   **Note:** Alternatively you can also add the option `--network host` to the Docker command from step 1. Please check out the [Docker documentation](https://docs.docker.com/engine/network/drivers/host/) to learn more about the consequences of using this option.
+   > **Note:** Alternatively you can also add the option `--network host` to the Docker command from step 1. Please check out the [Docker documentation](https://docs.docker.com/engine/network/drivers/host/) to learn more about the consequences of using this option.
 
 3. Run a test command in Docker container **(Terminal 1)** e.g.:
 

@@ -339,7 +339,7 @@ Using ICOc in the WSL 2 currently [requires using a custom Linux kernel](https:/
 
 ### Run Tests in WSL
 
-**Note:** The tests use the command-line `xdg-open`. For the tests also work on Linux, then you need to install the Python package [`xdg-open-wsl`](https://github.com/cpbotha/xdg-open-wsl):
+> **Note:** The tests use the command-line `xdg-open`. For the tests also work on Linux, then you need to install the Python package [`xdg-open-wsl`](https://github.com/cpbotha/xdg-open-wsl):
 
 ```
 pip3 install --user git+https://github.com/cpbotha/xdg-open-wsl.git
