@@ -2,9 +2,9 @@
 
 ## Changing Configuration Values
 
-> **Note:** If you only use the `icoc` command line tool, then you most probably do not need to change the configuration at all.
+> **Note:** If you only use the `icon` command line tool, then you most probably do not need to change the configuration at all.
 
-All configuration options are currently stored in [YAML](https://yaml.org) files (handled by the configuration library [Dynaconf]). The [default values][] are stored inside the package itself. If you want to overwrite or extend these values you should create a user configuration file. To do that you can use the command:
+All configuration options are currently stored in [YAML](https://yaml.org) files (handled by the configuration library [Dynaconf][]). The [default values][] are stored inside the package itself. If you want to overwrite or extend these values you should create a user configuration file. To do that you can use the command:
 
 ```sh
 icon config
@@ -13,9 +13,9 @@ icon config
 which will open the the user configuration in your default text editor. You can then edit this file and save your changes to update the configuration. For a list of available options, please take a look at the [default configuration][default values]. Please make sure to not make any mistakes when you edit this file. Otherwise (parts of) the ICOc commands will not work, printing an error message about the (first) incorrect configuration value.
 
 [Dynaconf]: https://www.dynaconf.com
-[default values]: https://github.com/MyTooliT/ICOc/blob/main/mytoolit/config/config.yaml
+[default values]: https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml
 
-#### Adding the Path to Simplicity Commander on Linux
+### Adding the Path to Simplicity Commander on Linux
 
 1. Open the user configuration file in your default text editor using the command line tool `icon`:
 
@@ -36,7 +36,7 @@ which will open the the user configuration in your default text editor. You can 
 
 3. Store the modified configuration file
 
-#### Setting up the Test Environment
+### Setting up the Test Environment
 
 1. Open the user configuration in your default text editor:
 
@@ -44,7 +44,7 @@ which will open the the user configuration in your default text editor. You can 
    icon config
    ```
 
-   If you never edited the configuration before, then the displayed text should be the same as in the file linked [here](https://github.com/MyTooliT/ICOc/blob/main/mytoolit/config/user.yaml).
+   If you never edited the configuration before, then the displayed text should be the same as in the file linked [here](https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/user.yaml).
 
 2. Change the **programming board serial number**, to the serial number of your programming board (shown on the bottom of the display):
 
@@ -100,161 +100,91 @@ which will open the the user configuration in your default text editor. You can 
    state: &state Epoxied
    ```
 
-## Sensor Device Renaming {#tutorials:section:sth-renaming}
+## ICOn CLI Tool
 
-1. Please start ICOc:
+### Help
 
-   ```sh
-   icoc
-   ```
-
-2. The text based interface will show you a selection of the available devices:
-
-   ```
-                   ICOc
-
-          Name      Address            RSSI
-   ———————————————————————————————————————————————
-       1: Serial    08:6b:d7:01:de:81  -44 dBm
-
-   ┌──────────────────────────────┐
-   │ 1-9: Connect to STH          │
-   │                              │
-   │   f: Change Output File Name │
-   │   n: Change STH Name         │
-   │                              │
-   │   q: Quit ICOc               │
-   └──────────────────────────────┘
-   ```
-
-   Choose the STH you want to rename by entering the number to the left of the device (here `1`). To confirm your selection press the return key <kbd>⮐</kbd>.
-
-3. Now the menu should look like this:
-
-   ```
-                   ICOc
-   STH “Serial” (08:6b:d7:01:de:81)
-   ————————————————————————————————
-
-   Hardware Version      1.4.0
-   Firmware Version      2.1.10
-   Firmware Release Name Tanja
-   Serial Number         –
-
-   Supply Voltage        3.16 V
-   Chip Temperature      26.2 °C
-
-   Run Time              ∞ s
-
-   Prescaler             2
-   Acquisition Time      8
-   Oversampling Rate     64
-   ⇒ Sampling Rate       9524
-   Reference Voltage     VDD
-
-   Sensors               M1: S1
-
-   ┌───────────────────────────┐
-   │ s: Start Data Acquisition │
-   │                           │
-   │ n: Change STH Name        │
-   │ r: Change Run Time        │
-   │ a: Configure ADC          │
-   │ p: Configure Sensors      │
-   │ O: Set Standby Mode       │
-   │                           │
-   │ q: Disconnect from STH    │
-   └───────────────────────────┘
-   ```
-
-   Press the button `n` to change the name.
-
-4. Enter the new device name.
-
-   ```
-   New STH name (max. 8 characters): Blubb
-   ```
-
-   Confirm the name with the return key <kbd>⮐</kbd>.
-
-5. The interface should now show you the menu of step 3. To disconnect from the holder press <kbd>e</kbd>.
-
-6. Now you see the main menu of ICOc. The STH will show up under the name you used in step 4.
-
-7. To exit ICOc, please use the key <kbd>q</kbd>.
-
-## Command Line Usage of ICOc
-
-The ICOc program accepts optional command line arguments at startup. This way you can set default values for often used options. If you specify
-
-- the name or
-- Bluetooth address
-
-of a sensor device, then you can even use ICOc without any user interaction, since in this case the program will immediately connect to the specified device and start the measurement process.
-
-### Available Options {#tutorials:section:available-options}
-
-To show the available command line options you can use the option `-h`:
+To show the available subcommands and options of `icon` you can use the option `-h` or `--help`:
 
 ```sh
-icoc -h
+icon -h
 ```
 
-which should show you the following output:
-
-```
-usage: icoc [-h] [-b BLUETOOTH_ADDRESS | -n [NAME]] [-f FILENAME] [-r SECONDS] [-1 [FIRST_CHANNEL]] [-2 [SECOND_CHANNEL]] [-3 [THIRD_CHANNEL]] [-s 2–127] [-a {1,2,3,4,8,16,32,64,128,256}]
-            [-o {1,2,4,8,16,32,64,128,256,512,1024,2048,4096}] [-v {1V25,Vfs1V65,Vfs1V8,Vfs2V1,Vfs2V2,2V5,Vfs2V7,VDD,5V,6V6}] [--log {debug,info,warning,error,critical}]
-
-Configure and measure data with the ICOtronic system
-
-options:
-  -h, --help            show this help message and exit
-
-Connection:
-  -b BLUETOOTH_ADDRESS, --bluetooth-address BLUETOOTH_ADDRESS
-                        connect to device with specified Bluetooth address (e.g. “08:6b:d7:01:de:81”)
-  -n [NAME], --name [NAME]
-                        connect to device with specified name
-
-Measurement:
-  -f FILENAME, --filename FILENAME
-                        base name of the output file (default: Measurement)
-  -r SECONDS, --run-time SECONDS
-                        run time in seconds (values equal or below “0” specify infinite runtime) (default: 0)
-  -1 [FIRST_CHANNEL], --first-channel [FIRST_CHANNEL]
-                        sensor channel number for first measurement channel (1 - 255; 0 to disable) (default: 1)
-  -2 [SECOND_CHANNEL], --second-channel [SECOND_CHANNEL]
-                        sensor channel number for second measurement channel (1 - 255; 0 to disable) (default: 0)
-  -3 [THIRD_CHANNEL], --third-channel [THIRD_CHANNEL]
-                        sensor channel number for third measurement channel (1 - 255; 0 to disable) (default: 0)
-
-ADC:
-  -s 2–127, --prescaler 2–127
-                        Prescaler value (default: 2)
-  -a {1,2,3,4,8,16,32,64,128,256}, --acquisition {1,2,3,4,8,16,32,64,128,256}
-                        Acquisition time value (default: 8)
-  -o {1,2,4,8,16,32,64,128,256,512,1024,2048,4096}, --oversampling {1,2,4,8,16,32,64,128,256,512,1024,2048,4096}
-                        Oversampling rate value (default: 64)
-  -v {1V25,Vfs1V65,Vfs1V8,Vfs2V1,Vfs2V2,2V5,Vfs2V7,VDD,5V,6V6}, --voltage-reference {1V25,Vfs1V65,Vfs1V8,Vfs2V1,Vfs2V2,2V5,Vfs2V7,VDD,5V,6V6}
-                        Reference voltage (default: VDD)
-
-Logging:
-  --log {debug,info,warning,error,critical}
-                        Minimum level of messages written to log (default: info)
-```
-
-All options below the section “Measurement” and “ADC” in the [help output of ICOc](#tutorials:section:available-options) allow you to change a specific configuration value before you start ICOc.
-
-### Channel Selection
-
-To enable the measurement for the first (“x”) channel and second (“y”) channel of an “older” STH (Firmware `2.x`, `BGM113` chip) you can use the following command:
+To show the available options for a certain subcommand add the subcommand before the option. For example, to show the help text for the subcommand `measure` you can use the following command:
 
 ```sh
-icoc -1 1 -2 1 -3 0
+icon measure -h
 ```
 
-Here `0` indicates that you want to disable the channel, while a positive number (such as `1`) specifies that the measurement for the channel should take place. Since the default value
+### Listing Available Sensor Devices
+
+To print a list of all available sensor devices, including their identifiers (name, MAC address, device number), please use the subcommand `list`:
+
+```sh
+icon list
+```
+
+### Collecting Measurement Data
+
+To collect and store measurement data from an STH you can uses the subcommand `measure`:
+
+```sh
+icon measure
+```
+
+By default the command will collect streaming data for 10 seconds for the first measurement channel and store the data in a file starting with the name `Measurement` and the extension `.hdf5` in the current working directory.
+
+#### Specifying the Sensor Hardware
+
+The `measure` subcommand requires that you specify one of the identifiers of a sensor device.
+
+To connect to a sensor device by **name** use the option `-n` or `--name`. For example, the command below collects data from the sensor device with the name `Test-STH`:
+
+```sh
+icon measure -n 'Test-STH'
+```
+
+You can also use the MAC address to connect to a certain sensor device with the option `-m` or `--mac-address`:
+
+```sh
+icon measure -m '08-6B-D7-01-DE-81'
+```
+
+To connect using the device number use the option `-d` or `--device-number`:
+
+```sh
+icon measure -d 0
+```
+
+#### Changing the Run Time
+
+To change the run time of the measurement you can use the option `-t`, which takes the runtime in seconds as argument. The command
+
+```sh
+icon measure -t 300
+```
+
+for example, would change the runtime to 300 seconds (5 minutes).
+
+#### Channel Selection
+
+To enable the measurement for the first (“x”) channel and second (“y”) measurement channel for
+
+- an “older” STH (Firmware `2.x`, `BGM113` chip) or
+- a “newer” STH (Firmware `3.x`, `BGM121` chip)
+
+you can use the following command:
+
+```sh
+icon measure -1 1 -2 2 -3 0
+```
+
+Here:
+
+- `0` indicates that you want to disable the specified measurement channel, while
+- using the same number for the measurement channel (option) and the sensor/hardware channel (argument for the option) specifies that you want to use the specified channel.
+
+Since the default value
 
 - for the option `-1` is already `1`, and
 - for the option `-3` is already `0`
@@ -262,7 +192,7 @@ Here `0` indicates that you want to disable the channel, while a positive number
 you can also leave out these options to arrive at the shorter command:
 
 ```
-icoc -2 1
+icon measure -2 2
 ```
 
 > **Note:** Due to a problem in the current firmware the amount of **paket loss is much higher**, if you
@@ -281,10 +211,8 @@ For newer STH versions (Firmware `3.x`, `BGM121` chip) or SMHs (Sensory Milling 
 you can use the following command:
 
 ```sh
-icoc -1 8 -2 1 -3 3
+icon measure -1 8 -2 1 -3 3
 ```
-
-> **Note:** If you connect to an older STH using the command above, then the command would just enable the measurement for all three measurement channels, but not change the selected hardware channel.
 
 If you just want to enable/set a measurement channel and use the hardware channel with the same number you can also just leave the argument for the specific measurement channel empty. For example, to use
 
@@ -295,124 +223,42 @@ If you just want to enable/set a measurement channel and use the hardware channe
 you can use the following command:
 
 ```sh
-icoc -1 -2 -3
+icon measure -1 -2 -3
 ```
 
 or even shorter, since the default value for measurement channel 1 is hardware channel 1:
 
 ```
-icoc -2 -3
+icon measure -2 -3
 ```
 
-### Changing the Run Time
+#### Changing the Reference Voltage
 
-To change the run time of the measurement you can use the option `-r`, which takes the runtime in seconds as argument. The command
+For certain sensor devices you have to change the reference voltage to retrieve a proper measurement value. For example, STHs that use a ± 40 g acceleration sensor ([ADXL356](https://www.analog.com/en/products/adxl356.html)) require a reference voltage of 1.8 V instead of the usual supply voltage (`VDD`) of 3.3 V. To select the correct reference voltage for these devices at startup use the option `-v 1.8`:
 
 ```sh
-icoc -r 300
+icon measure -v 1.8
 ```
 
-for example, would change the runtime to 300 seconds (5 minutes).
+#### Changing the Sampling Rate
 
-### Start the Measurement
+You can change the sampling rate by modifying the parameters of the ADC (analog digital converter). There are 3 parameters which influence the sampling rate.
 
-If you specify one of the options
+- **Prescaler**: Prescaler used by the ADC to get the sample points (`-s`, `--prescaler`)
+- **Acquisition Time**: Time the ADC holds a value to get a sampling point (`-a`, `--acquisition`)
+- **Oversampling Rate**: Oversampling rate of the ADC (`-o`, `--oversampling`)
 
-- `-b`/`--bluetooth-address` or
-- `-n`/`--name`
+The formula which can be used to calculate the sampling rate can be found in the [documentation of the CAN commands](https://mytoolit.github.io/Documentation/#sampling-rate). Please be aware that the actual sample rate might be slightly lower, even if there is no data loss.
 
-then ICOC will try to connect immediately to the specified device and start the measurement run. For example, to acquire acceleration data from the device with the (Bluetooth advertisement) **name “Blubb”** you can use the following command:
+For example, to use a sampling rate of about 2381 Hz you can use the following command:
 
 ```sh
-icoc -n Blubb
-```
-
-To read acceleration values for **`5` seconds** from the device with the **Bluetooth address `08:6b:d7:01:de:81`** you can use the following command:
-
-```sh
-icoc -b 08:6b:d7:01:de:81 -r 5
-```
-
-### Changing the Logging Level
-
-By default ICOc only writes log messages of level `INFO` or higher. In some situations, for example when ICOc behaves incorrectly, you might want to set a lower level. You can do that using the option `--log`. For example, to activate logging of level `WARNING` and higher when you start ICOc you can use the following command:
-
-```sh
-icoc --log warning
-```
-
-The different logs for ICOc are stored in the user log directory in the following files:
-
-- `cli.log`: Log messages of ICOc
-- `network.log`: Log messages of CAN network class
-- `plotter.log`: Log messages of plotter (process for measurement graph)
-
-To determine the user log directory on your machine you can use the following Python code:
-
-```py
-from platformdirs import user_log_path
-print(user_log_path(appname="ICOc", appauthor="MyTooliT"))
-```
-
-### Changing the Reference Voltage
-
-For certain sensor devices you have to change the reference voltage to retrieve a proper measurement value. For example, STHs that use a ± 40 g acceleration sensor ([ADXL356](https://www.analog.com/en/products/adxl356.html)) require a reference voltage of 1.8 V instead of the usual supply voltage (`VDD`) of 3.3 V. To select the correct reference voltage for these devices at startup use the option `-v Vfs1V8`:
-
-```sh
-icoc -v Vfs1V8
-```
-
-### Changing the Sampling Rate
-
-If you want to change the sampling rate you can do that by changing the parameters of the ADC. There are 3 parameters which influence the sampling rate.
-
-- **Prescaler** (Prescaler used by the ADC to get the sample points)
-- **Acquisition Time** (Time the ADC holds a value to get a sampling point)
-- **Oversampling Rate** (Oversampling rate of the ADC)
-
-The formula which can be used to calculate the sampling rate can be found in the [documentation of the CAN commands](https://mytoolit.github.io/Documentation/#sampling-rate).
-
-## ICOn CLI Tool
-
-One issue of the ICOc (command line tool) is that it **only works on Windows**. Another problem is that it **requires a CAN adapter from [PEAK-System](https://www.peak-system.com)**.
-
-[python-can]: https://python-can.readthedocs.io
-
-To improve this situation we offer an [API][] (Application Programming Interface) based on [python-can][], which works on
-
-- Linux,
-- macOS, and
-- Windows
-
-and should (at least in theory) support the [same CAN hardware as python-can](https://python-can.readthedocs.io/en/stable/interfaces.html). You can access most of this [API][] using the “new” Network class.
-
-We also offer a (currently very limited) CLI tool based on this [API][] called ICOn. The text below describes how you can use this tool.
-
-### Listing Available Sensor Devices
-
-To print a list of all available sensor devices please use the subcommand `list`:
-
-```sh
-icon list
-```
-
-### Collecting Measurement Data
-
-To collect and store measurement data from an STH you can uses the subcommand `measure`:
-
-```sh
-icon measure
-```
-
-By default the command will collect streaming data for 10 seconds for the first measurement channel and store the data as `Measurement.hdf5` in the current working directory. You can change the default measurement duration using the option `-t`/`--time`. For example to collect measurement data for 1.5 seconds from the STH with the name `Test-STH` use the command:
-
-```sh
-icon measure -t 1.5 -n Test-STH
+icon measure --prescaler 2 --acquisition 8 --oversampling 256
 ```
 
 ### Renaming a Sensor Device
 
-To change the name of a sensor you can use the subcommand `rename`. For example to change the name of the sensor device with the Bluetooth MAC address `08-6B-D7-01-DE-81` to `Test-STH` use the following command:
+To change the name of a sensor you can use the subcommand `rename`. For example, to change the name of the sensor device with the Bluetooth MAC address `08-6B-D7-01-DE-81` to `Test-STH` use the following command:
 
 ```sh
 icon rename -m 08-6B-D7-01-DE-81 Test-STH
@@ -432,7 +278,7 @@ To open the user configuration file, you can use the subcommand `config`:
 icon config
 ```
 
-If the file does not exist yet, then it will be created and filled with the content of the [default user configuration](https://github.com/MyTooliT/ICOc/blob/main/mytoolit/config/user.yaml). For more information on how to change the configuration, please take a look [here](#changing-configuration-values).
+If the file does not exist yet, then it will be created and filled with the content of the [default user configuration](https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/user.yaml). For more information on how to change the configuration, please take a look [here](#changing-configuration-values).
 
 ### STU Commands
 
@@ -494,7 +340,7 @@ To only run a single test you need the specify its name. For example, to run the
 test-stu TestSTU.test__firmware_flash
 ```
 
-You can also run specific tests using pattern matching. To do that use the command line option `-k`. For example to run the firmware flash and the connection test of the STH test you can use the command:
+You can also run specific tests using pattern matching. To do that use the command line option `-k`. For example, to run the firmware flash and the connection test of the STH test you can use the command:
 
 ```sh
 test-sth -k flash -k connection
@@ -591,66 +437,3 @@ The (non-exhaustive) table below shows the compatible firmware for a certain dev
 | STH    | `1.3`            | BGM113          | • [Version 2.1.10](https://github.com/MyTooliT/STH/releases/tag/2.1.10)                                                                                                  |
 | STH    | `2.2`            | BGM123          | • [Aladdin](https://github.com/MyTooliT/STH/releases/tag/Aladdin)                                                                                                        |
 | SMH    | `2.1`            | BGM121          | • [Version 3.0.0](https://github.com/MyTooliT/STH/releases/tag/3.0.0) <br/>• [Version E3016 Beta](<https://github.com/MyTooliT/STH/releases/tag/E3016_BETA(11_Sensors)>) |
-
-## Verification Tests
-
-### Preparation
-
-- The tests assume that the name of the STH is stored in `sth` → `name` in the [configuration](#changing-configuration-values).
-- Some of the STH tests assume that you connected the SHA/STH or STU via the programming cable. Please do that, since otherwise these tests will fail.
-
-### Execution
-
-To run the verification tests for the STH, please enter the following command:
-
-```sh
-test-sth-verification -v
-```
-
-To execute the STU verification tests, you can use the command:
-
-```sh
-test-stu-verification -v
-```
-
-Please note that while most of the tests should run successfully, if you use working hardware and firmware, some of them might fail occasionally. In this case please rerun the specific test using the option `-k` and specifying a text that matches the name of the test. For example, to return the STH test `test0107BlueToothConnectMin` you can use the following command:
-
-```sh
-test-sth-verification -v -k test0107
-```
-
-> **Note**: If you want to stop the test while it is running, but <kbd>Ctrl</kbd> + <kbd>C</kbd> does not terminate the test as you expected, then you can use the command:
->
-> ```sh
-> Stop-Process -Name python
-> ```
->
-> to stop **all running Python interpreters** and hence also the `test-sth-verification` script.
-
-### Problematic Tests
-
-The tables below contains a list of tests that failed using a working SHA/STH and STU before. It should provide you with a good overview of which of the verification tests might fail, even if the hardware and firmware works correctly.
-
-#### STH
-
-| Date       | Failed Tests                                                                                                                                                                                                                   |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 2021-09-29 | • test0107BlueToothConnectMin <br/> • test0332SignalIndicatorsAccZ <br/> • test0334SignalIndicatorsMulti <br/> • test0345MixedStreamingAccYZVoltBat                                                                            |
-| 2021-09-30 | • test0332SignalIndicatorsAccZ <br/> • test0334SignalIndicatorsMulti <br/> • test0345MixedStreamingAccYZVoltBat                                                                                                                |
-| 2021-09-30 | • test0332SignalIndicatorsAccZ <br/> • test0334SignalIndicatorsMulti <br/> • test0532MessageCountersAccZBattery                                                                                                                |
-| 2021-10-05 | • test0334SignalIndicatorsMulti <br/> • test0347StreamingAccXSingleBattery                                                                                                                                                     |
-| 2021-10-06 | • test0109BlueToothRssi <br/> • test0334SignalIndicatorsMulti                                                                                                                                                                  |
-| 2021-10-06 | • test0107BlueToothConnectMin <br/> • test0334SignalIndicatorsMulti <br/> • test0345MixedStreamingAccYZVoltBat                                                                                                                 |
-| 2021-10-07 | • test0107BlueToothConnectMin <br/> • test0332SignalIndicatorsAccZ <br/> • test0334SignalIndicatorsMulti <br/> • test0344MixedStreamingAccXYVoltBat <br/> • test0345MixedStreamingAccYZVoltBat                                 |
-| 2021-10-11 | • test0015PowerConsumptionEnergySaveMode2 <br/> • test0016PowerConsumptionEnergySaveModeAdv4000ms <br/> • test0332SignalIndicatorsAccZ <br/> • test0334SignalIndicatorsMulti <br/> • test0508AdcConfigSingle                   |
-| 2021-10-12 | • test0332SignalIndicatorsAccZ <br/> • test0334SignalIndicatorsMulti <br/> • test0532MessageCountersAccZBattery                                                                                                                |
-| 2021-10-13 | • test0332SignalIndicatorsAccZ <br/> • test0334SignalIndicatorsMulti <br/> • test0508AdcConfigSingle <br/> • test0509AdcConfigDouble <br/> • test0510AdcConfigTripple <br/> • test0525MessageCounterAccZ                       |
-| 2021-12-09 | • test0107BlueToothConnectMin <br/> • test0510AdcConfigTripple <br/> • test0523MessageCounterAccX <br/> • test0527MessageCounterAccXZ <br/> • test0529MessageCounterAccXYZ <br/>                                               |
-| 2021-12-14 | • test0107BlueToothConnectMin                                                                                                                                                                                                  |
-| 2022-05-17 | • test0015PowerConsumptionEnergySaveMode2 <br/> • test0016PowerConsumptionEnergySaveModeAdv4000ms <br/> • test0334SignalIndicatorsMulti <br/> • test0344MixedStreamingAccXYVoltBat <br/> • test0357StreamingAccXYSingleBattery |
-
-#### STU
-
-| Date       | Failed Tests                               |
-| ---------- | ------------------------------------------ |
-| 2021-12-14 | • test0102BlueToothConnectDisconnectDevice |
