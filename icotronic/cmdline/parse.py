@@ -340,6 +340,7 @@ def add_identifier_arguments(parser: ArgumentParser) -> None:
         metavar="NAME",
         help="Name of sensor device",
         default="Test-STH",
+        type=sth_name,
     )
     identifier_group.add_argument(
         "-m",
