@@ -2,20 +2,20 @@
 
 ## Install
 
-You can use the instructions below, if you want to work on the code of ICOc, i.e. add additional features or fix bugs.
+You can use the instructions below, if you want to work on the code of the ICOtronic package, i.e. add additional features or fix bugs.
 
-1. Clone [the repository](https://github.com/MyTooliT/ICOc) to a directory of your choice. You can either use the [command line tool `git`](https://git-scm.com/downloads):
+1. Clone [the repository](https://github.com/MyTooliT/ICOtronic) to a directory of your choice. You can either use the [command line tool `git`](https://git-scm.com/downloads):
 
    ```sh
-   git clone https://github.com/MyTooliT/ICOc.git
+   git clone https://github.com/MyTooliT/ICOtronic.git
    ```
 
    or one of the many available [graphical user interfaces for Git](https://git-scm.com/downloads/guis) to do that.
 
-2. Install ICOc in “developer mode”
+2. Install ICOtronic in “developer mode”
 
    1. Change your working directory to the (root) directory of the cloned repository
-   2. Install ICOc:
+   2. Install ICOtronic:
 
       ```sh
       pip install -e .[dev,test]
@@ -23,7 +23,7 @@ You can use the instructions below, if you want to work on the code of ICOc, i.e
 
       > **Notes:**
       >
-      > - The command above will install the repository in “editable mode” (`-e`), meaning that a command such as `icoc` will use the current code inside the repository.
+      > - The command above will install the repository in “editable mode” (`-e`), meaning that a command such as `icon` will use the current code inside the repository.
       > - The command also installs
       >   - development (`dev`) and
       >   - test (`test`) dependencies
@@ -119,17 +119,6 @@ and make sure that it reports no test failures.
 
 ### Manual Tests
 
-#### ICOc
-
-1. Call the command `icoc`.
-2. Connect to a working STH (Enter the number and press <kbd>⏎</kbd>)
-3. Start the data acquisition (<kbd>s</kbd>)
-4. After some time a window displaying the current acceleration of the STH (or SHA) should show up
-5. Shake the STH
-6. Make sure the window shows the increased acceleration
-7. Close the window
-8. The programm should now exit, without any error messages
-
 #### STH Test
 
 1. Call the command `test-sth` for a working STH
@@ -146,7 +135,7 @@ and make sure that it reports no test failures.
 
 ##### Extended Tests {#development:section:extended-tests}
 
-The text below specifies extended manual test that should be executed before we [release a new version of ICOc](#development:section:release). Please note that the tests assume that you use more or less the [default configuration values](https://github.com/MyTooliT/ICOc/blob/main/mytoolit/config/config.yaml).
+The text below specifies extended manual test that should be executed before we [release a new version of ICOtronic](#development:section:release). Please note that the tests assume that you use more or less the [default configuration values](https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml).
 
 ###### Check the Performance of the Library
 
@@ -194,7 +183,7 @@ The text below specifies extended manual test that should be executed before we 
 2. Measure data for 10 seconds using the following command:
 
    ```sh
-   icoc -n 'Test-STH' -r 10
+   icon measure -n 'Test-STH' -r 10
    ```
 
 3. Check that the repo now contains a HDF5 (`*.hdf5`) file
@@ -210,106 +199,23 @@ The text below specifies extended manual test that should be executed before we 
 8. Check that `Sample_Rate` contains the value `9523.81 Hz (Prescaler: 2, Acquisition Time: 8, Oversampling Rate: 64)`
 9. Check that `Sensor_Range` contains the correct maximum acceleration values for “Test-STH”
 10. Check that `Start_Time` contains (roughly) the date and time when you executed the command from step 5
-11. Check that ICOc handles the following incorrect program calls. The program should **not crash** and print a (helpful) **error description** (not a stak trace) before it exits.
+11. Check that ICOn handles the following incorrect program calls. The program should **not crash** and print a (helpful) **error description** (not a stak trace) before it exits.
 
     ```sh
-    icoc -b '12-12-12-12-12'
-    icoc -n 'TooooLong'
-    icoc -s 1
-    icoc -a 257
-    icoc -o -1
-    icoc -1 ' -1'
-    icoc -2 256
-    icoc -3 nine
-    icoc -1 0 -2 0 -3 0 -n Test-STH
+    icon measure -b '12-12-12-12-12'
+    icon measure -n 'TooooLong'
+    icon measure -s 1
+    icon measure -a 257
+    icon measure -o -1
+    icon measure -1 ' -1'
+    icon measure -2 256
+    icon measure -3 nine
+    icon measure -1 0 -2 0 -3 0 -n Test-STH
     ```
-
-###### Check User Interface
-
-1. Repeat steps 1. – 4. from the test above
-2. Open ICOc using the following command:
-
-   ```sh
-   icoc
-   ```
-
-3. The main menu of ICOc should show up
-
-4. Try to connect to a non-existent STH
-
-   1. Enter the text “1234”
-   2. Press <kbd>⏎</kbd>
-   3. ICOc should ignore the incorrect input and just display the main window
-
-5. Change the output file name to “Test”
-
-   1. Press <kbd>f</kbd>
-   2. Remove the default name and enter the text “Test”
-   3. Press <kbd>⏎</kbd>
-   4. After two seconds ICOc should show the main menu again
-
-6. Connect to your test STH/SHA
-
-   1. Enter the number besides “Test-STH”: Usually this will be the number “1”
-   2. Press <kbd>⏎</kbd>
-   3. You should now be in the STH menu
-
-7. Change the runtime to 20 seconds
-
-   2. Press <kbd>r</kbd>
-   3. Enter the text “hello”
-   4. The last step should not have changed the default runtime of “0”
-   5. Remove the default runtime (press <kbd>⌫</kbd>)
-   6. Enter the text “20”
-   7. Press <kbd>⏎</kbd>
-
-8. Check that entering an empty channel configuration is not possible
-
-   1. Press <kbd>p</kbd>
-   2. Remove the default axis config for the first measurement channel (press <kbd>⌫</kbd> at least one time)
-   3. Disable the first measurement channel
-      1. Press <kbd>0</kbd>
-      2. Press <kbd>⏎</kbd>
-   4. Disable the second measurement channel (<kbd>⏎</kbd>)
-   5. Disable the third measurement channel (<kbd>⏎</kbd>)
-   6. ICOc should show an error message for two seconds and switch back to the STH UI
-
-9. Enable the first and second measurement channel
-
-   1. Press <kbd>p</kbd>
-   2. Remove the default axis config for the first measurement channel (press <kbd>⌫</kbd> at least one time)
-   3. Enter the characters “23456789ab”
-   4. The last step should not have changed the empty input value
-   5. Enable the first measurement channel:
-      1. Press <kbd>1</kbd>
-      2. Press <kbd>⏎</kbd>
-   6. Enable the second measurement channel:
-      1. Press <kbd>⌫</kbd>
-      2. Press <kbd>1</kbd>
-      3. Press <kbd>⏎</kbd>
-   7. Disable the third measurement channel:
-      1. Press <kbd>⌫</kbd>
-      1. Press <kbd>0</kbd>
-      1. Press <kbd>⏎</kbd>
-
-10. Start the data acquisition
-
-    1. Press <kbd>s</kbd>
-    2. Shake the STH
-    3. Make sure that shaking the STH changes (at least) the displayed value for the first measurement channel
-    4. Wait until the measurement took place
-
-11. Check the output file
-
-    1. Check that the HDF5 output file exists: The filename should start with the characters “Test” followed by a timestamp and the extension “.hdf5”
-    2. Open the HDF measurement file in [HDFView](#measurement-data)
-    3. Check that the table contains four columns
-    4. One of the columns should have the name `x`
-    5. Another column should have the name `y`
 
 ### Combined Checks & Tests
 
-While you need to execute some test for ICOc manually, other tests and checks can be automated.
+While you need to execute some test for the ICOtronic package manually, other tests and checks can be automated.
 
 > **Note:** For the text below we assume that you installed [`make`](<https://en.wikipedia.org/wiki/Make_(software)#Makefile>) on your machine.
 
@@ -323,7 +229,7 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 
 ## Release {#development:section:release}
 
-1.  Check that the [**CI jobs** for the `main` branch finish successfully](https://github.com/MyTooliT/ICOc/actions)
+1.  Check that the [**CI jobs** for the `main` branch finish successfully](https://github.com/MyTooliT/ICOtronic/actions)
 2.  Check that the **checks and tests** run without any problems on **Linux**, **macOS** and **Windows**
 
     1. Set the value of `sth` → `status` in the [configuration](#changing-configuration-values) to `Epoxied`
@@ -348,7 +254,7 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 
 4.  Execute the **[extended manual tests](#development:section:extended-tests)** in Windows and check that everything works as expected
 
-5.  Create a new release [here](https://github.com/MyTooliT/ICOc/releases/new)
+5.  Create a new release [here](https://github.com/MyTooliT/ICOtronic/releases/new)
 
     1. Open the [release notes](Releases) for the latest version
     2. Replace links with a permanent version:
@@ -356,7 +262,7 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
        For example instead of
 
        - `../../something.txt` use
-       - `https://github.com/MyTooliT/ICOc/blob/REVISION/something.txt`,
+       - `https://github.com/MyTooliT/ICOtronic/blob/REVISION/something.txt`,
 
        where `REVISION` is the latest version of the main branch (e.g. `8568893f` for version `1.0.5`)
 
@@ -367,9 +273,9 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
     7. Remove the very first header
     8. Check that all links work correctly
 
-6.  Change the [`__version__`](../mytoolit/__init__.py) number inside the [`mytoolit`](../mytoolit) package
+6.  Change the [`__version__`](../icotronic/__init__.py) number inside the [`icotronic`](../icotronic) package
 7.  Push the latest two commits
-8.  Update the [official ICOc Python package on PyPI](https://pypi.org/project/icoc):
+8.  Update the [official ICOtronic Python package on PyPI](https://pypi.org/project/icotronic):
 
     1.  Install `build` and `twine`:
 
@@ -404,8 +310,8 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 11. Click on “Publish Release”
 12. Close the [milestone][] for the latest release number
 13. Create a new [milestone][] for the next release
-14. Go to [Read The Docs](https://readthedocs.org/projects/icoc/) and enable the documentation for the latest release
+14. Go to [Read The Docs](https://readthedocs.org/projects/icotronic/) and enable the documentation for the latest release
     1. Click on “Versions”
     2. Click on the button “Activate” next to the version number of the latest release
 
-[milestone]: https://github.com/MyTooliT/ICOc/milestones
+[milestone]: https://github.com/MyTooliT/ICOtronic/milestones
