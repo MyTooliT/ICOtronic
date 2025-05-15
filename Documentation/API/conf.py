@@ -4,8 +4,8 @@ import maisie_sphinx_theme
 
 # -- Project information ------------------------------------------------------
 
-project = "ICOc"
-copyright = "2024, Clemens Burgstaller, René Schwaiger"
+project = "ICOtronic"
+copyright = "2025, Clemens Burgstaller, René Schwaiger"
 author = "Clemens Burgstaller, René Schwaiger"
 release = "1.11.0"
 
