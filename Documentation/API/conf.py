@@ -1,13 +1,14 @@
 # -- Imports ------------------------------------------------------------------
 
 import maisie_sphinx_theme
+from icotronic import __version__
 
 # -- Project information ------------------------------------------------------
 
 project = "ICOtronic"
 copyright = "2025, Clemens Burgstaller, René Schwaiger"
 author = "Clemens Burgstaller, René Schwaiger"
-release = "1.11.0"
+release = __version__
 
 # -- General configuration ----------------------------------------------------
 
