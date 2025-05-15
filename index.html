@@ -135,7 +135,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path=""><a href="#introduction"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<li class="chapter" data-level="1" data-path=""><a href="#icoc"><i class="fa fa-check"></i><b>1</b> ICOc</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path=""><a href="#requirements"><i class="fa fa-check"></i><b>1.1</b> Requirements</a>
 <ul>
@@ -145,7 +145,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.2" data-path=""><a href="#install"><i class="fa fa-check"></i><b>1.2</b> Install</a>
 <ul>
 <li class="chapter" data-level="1.2.1" data-path=""><a href="#install-the-package-using-windows-terminal"><i class="fa fa-check"></i><b>1.2.1</b> Install the Package Using Windows Terminal</a></li>
-<li class="chapter" data-level="1.2.2" data-path=""><a href="#install-the-development-version-of-icotronic"><i class="fa fa-check"></i><b>1.2.2</b> Install the Development Version of ICOtronic</a></li>
+<li class="chapter" data-level="1.2.2" data-path=""><a href="#install-the-development-version-of-icoc"><i class="fa fa-check"></i><b>1.2.2</b> Install the Development Version of ICOc</a></li>
 <li class="chapter" data-level="1.2.3" data-path=""><a href="#troubleshooting"><i class="fa fa-check"></i><b>1.2.3</b> Troubleshooting</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path=""><a href="#basic-usage"><i class="fa fa-check"></i><b>1.3</b> Basic Usage</a>
@@ -177,7 +177,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.3.4" data-path=""><a href="#opening-the-user-configuration"><i class="fa fa-check"></i><b>2.3.4</b> Opening the User Configuration</a></li>
 <li class="chapter" data-level="2.3.5" data-path=""><a href="#stu-commands"><i class="fa fa-check"></i><b>2.3.5</b> STU Commands</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path=""><a href="#tutorials:section:production-tests"><i class="fa fa-check"></i><b>2.4</b> Production Tests</a>
+<li class="chapter" data-level="2.4" data-path=""><a href="#production-tests"><i class="fa fa-check"></i><b>2.4</b> Production Tests</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path=""><a href="#tutorials:section:general"><i class="fa fa-check"></i><b>2.4.1</b> General</a></li>
 <li class="chapter" data-level="2.4.2" data-path=""><a href="#tutorials:section:sth"><i class="fa fa-check"></i><b>2.4.2</b> STH</a></li>
@@ -257,36 +257,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 class="title">ICOtronic Documentation</h1>
 <p class="author"><em>MyTooliT</em></p>
 </div>
-<div id="introduction" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">1</span> Introduction<a href="#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>ICOtronic is a</p>
+<div id="icoc" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">1</span> ICOc<a href="#icoc" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>ICOc is a</p>
 <ul>
-<li><a href="https://pypi.org/project/icotronic">Python library</a> (based on <a href="https://pypi.org/project/python-can/"><code>python-can</code></a>) and</li>
-<li>a collection of tools and scripts</li>
+<li><a href="https://pypi.org/project/icoc">Python library</a> and</li>
+<li>collection of tools and scripts</li>
 </ul>
 <p>for the <a href="https://www.mytoolit.com/ICOtronic/">ICOtronic system</a>. Currently the main purpose of the software is:</p>
 <ul>
-<li><strong>Data collection</strong>
+<li><strong>Data Collection</strong> via
 <ul>
-<li>directly <a href="https://icotronic.readthedocs.io">via the API</a> or</li>
-<li>the script <a href="#icon-cli-tool"><code>icon</code></a></li>
+<li>the script <a href="#command-line-usage-of-icoc"><code>icoc</code></a> (Windows only) or</li>
+<li>the script <a href="#icon-cli-tool"><code>icon</code></a> (Linux, macOS, Windows) or</li>
+<li>directly <a href="https://icoc.readthedocs.io">via the API</a> (Linux, macOS, Windows)</li>
 </ul></li>
 <li><strong>Testing</strong> the functionality of
 <ul>
-<li>a <a href="#tutorials:section:stu">Stationary Transceiver Unit (STU)</a> or</li>
-<li>a sensor device/node, such as a
+<li><a href="#tutorials:section:stu">Stationary Transceiver Unit (STU)</a> and</li>
+<li>sensor devices/nodes, such as
 <ul>
-<li><a href="#tutorials:section:sth">Sensory Holder Assembly (SHA)/Sensory Tool Holder (STH)</a> or</li>
-<li><a href="#tutorials:section:smh">Sensory Milling Head (SMH)</a></li>
+<li><a href="#tutorials:section:sth">Sensory Holder Assembly (SHA)/Sensory Tool Holder (STH)</a></li>
+<li><a href="#tutorials:section:stu">Sensory Milling Head (SMH)</a></li>
 </ul></li>
 </ul></li>
 </ul>
 <p>The software reads data from the Stationary Transceiver Unit (STU) via CAN using the <a href="https://mytoolit.github.io/Documentation/#mytoolit-communication-protocol">MyTooliT protocol</a>. The STU itself reads from and writes data to the sensor devices via Bluetooth.</p>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li><p>The command line tool <a href="#command-line-usage-of-icoc"><code>icoc</code></a> requires <a href="https://microsoft.com/windows">Microsoft Windows 10</a> (tested) or Windows 11 (untested).</p></li>
+<li><p>The</p>
+<ul>
+<li>test suite (except for the <a href="#verification-tests">deprecated verification tests</a>),</li>
+<li><a href="#icon-cli-tool"><code>icon</code></a>, and</li>
+<li>the (new) <a href="https://icoc.readthedocs.io">API</a></li>
+</ul>
+<p>use <a href="https://python-can.readthedocs.io">python-can</a> and therefore also works on Linux and macOS. The <a href="#command-line-usage-of-icoc">ICOc measurement tool</a> does <a href="https://github.com/MyTooliT/ICOc/issues/4"><strong>not</strong></a>. For more information on how to use (parts of) the ICOc software on Linux, please take a look <a href="#introduction:section:pcan-driver:linux">here</a>.</p></li>
+</ul>
+<p>For more information about other required software components, please read the subsection <a href="#software">“Software”</a> in this document.</p>
 <div id="requirements" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Requirements<a href="#requirements" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="hardware" class="section level3 hasAnchor" number="1.1.1">
 <h3><span class="header-section-number">1.1.1</span> Hardware<a href="#hardware" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>In order to use the ICOtronic system you need at least:</p>
+<p>In order to use ICOc you need at least:</p>
 <ul>
 <li><p>a <a href="https://www.peak-system.com">PCAN adapter</a>:</p>
 <p><img src="Documentation/Pictures/PCAN.jpg" alt="PCAN Adapter" /></p>
@@ -295,8 +308,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>power injector, and</p></li>
 <li><p>power supply unit (for the power injector):</p>
 <p><img src="Documentation/Pictures/Power-Injector.jpg" alt="Power Injector" /></p></li>
-</ul>
-<p><strong>Note:</strong> Other <a href="https://python-can.readthedocs.io/en/stable/interfaces.html">CAN adapters supported by python-can</a> should work as well. However, you need to update the <a href="#changing-configuration-values">configuration</a> for the CAN connection accordingly.</p></li>
+</ul></li>
 <li><p>a <a href="https://www.mytoolit.com/ICOtronic/">Stationary Transceiver Unit</a>:</p>
 <p><img src="https://cdn.bitrix24.de/b5488381/landing/5fa/5fa2ce04fd1326e07bf39866e44f4e61/IMG_6338_2x.jpg" alt="STU" width="400"></p></li>
 <li><p>a sensor device, such as a <a href="https://www.mytoolit.com/ICOtronic/">Sensory Tool Holder</a>:
@@ -319,7 +331,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">1.1.2</span> Software<a href="#software" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="python" class="section level4 hasAnchor" number="1.1.2.1">
 <h4><span class="header-section-number">1.1.2.1</span> Python<a href="#python" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>ICOc requires at least Python <code>3.10</code>. The software also supports Python <code>3.11</code>, <code>3.12</code> and <code>3.13</code>. We recommend you use the 64-bit version of Python.</p>
+<p>ICOc requires at least Python <code>3.10</code>. The software also supports Python <code>3.11</code> and <code>3.12</code>. We recommend you use the 64-bit version of Python.</p>
 <p>You can download Python <a href="https://www.python.org/downloads">here</a>. When you install the software, please do not forget to enable the checkbox <strong>“Add Python to PATH”</strong> in the setup window of the installer.</p>
 </div>
 <div id="pcan-driver" class="section level4 hasAnchor" number="1.1.2.2">
@@ -370,7 +382,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="introduction:section:pcan-driver:macos" class="section level5 hasAnchor" number="1.1.2.2.2">
 <h5><span class="header-section-number">1.1.2.2.2</span> macOS<a href="#introduction:section:pcan-driver:macos" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<p>On macOS you can use the <a href="https://github.com/mac-can/PCBUSB-Library">PCBUSB</a> library to add support for the PCAN adapter. For more information on how to install this library please take a look at the issue <a href="https://github.com/mac-can/PCBUSB-Library/issues/10#issuecomment-1188682027">“How to install the PCBUSB-Library on Mac”</a>.</p>
+<p>On macOS you can use the <a href="https://github.com/mac-can/PCBUSB-Library">PCBUSB</a> library to add support for the PCAN adapter. For more information on how to install this library please take a look <a href="https://github.com/mac-can/PCBUSB-Library/issues/10#issuecomment-1188682027">here</a>.</p>
 </div>
 <div id="introduction:section:pcan-driver:windows" class="section level5 hasAnchor" number="1.1.2.2.3">
 <h5><span class="header-section-number">1.1.2.2.3</span> Windows<a href="#introduction:section:pcan-driver:windows" class="anchor-section" aria-label="Anchor link to header"></a></h5>
@@ -379,7 +391,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="simplicity-commander-optional" class="section level4 hasAnchor" number="1.1.2.3">
 <h4><span class="header-section-number">1.1.2.3</span> Simplicity Commander (Optional)<a href="#simplicity-commander-optional" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>For the <a href="tutorials:section:production-tests">production tests</a> that require a firmware flash you need to <strong>either</strong> install</p>
+<p>For the tests that require a firmware flash you need to <strong>either</strong> install</p>
 <ul>
 <li><a href="https://www.silabs.com/products/development-tools/software/simplicity-studio">Simplicity Studio</a> or</li>
 <li><a href="https://www.silabs.com/developers/mcu-programming-options">Simplicity Commander</a>.</li>
@@ -405,7 +417,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h5><span class="header-section-number">1.1.2.3.4</span> Additional Notes<a href="#additional-notes" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <ul>
 <li>If you <strong>do not want to change the config</strong>, and Simplicity Commander (<code>commander</code>) is not part of the standard locations for your operating system, then please make sure that <code>commander</code> is accessible via the <code>PATH</code> environment variable.</li>
-<li>Please note, that you <strong>do not need to install Simplicity Commander</strong> if you just want to <strong>collect data</strong> with the ICOtronic library.</li>
+<li>Please note, that you <strong>do not need to install Simplicity Commander</strong> if you just want to <strong>measure data with ICOc</strong>.</li>
 </ul>
 </div>
 </div>
@@ -414,29 +426,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="install" class="section level2 hasAnchor" number="1.2">
 <h2><span class="header-section-number">1.2</span> Install<a href="#install" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Please use the following command:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="ex">pip</span> install icotronic</span></code></pre></div>
-<p>to install the <a href="https://pypi.org/project/icotronic">latest official version of the ICOtronic library from PyPi</a>. Afterwards you can use the various <a href="#scripts:section:scripts">scripts</a> included in the package.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="ex">pip</span> install icoc</span></code></pre></div>
+<p>to install the <a href="https://pypi.org/project/icoc">latest official version of ICOc from PyPi</a>. Afterwards you can use the various <a href="#scripts:section:scripts">scripts</a> included in the package.</p>
 <div id="install-the-package-using-windows-terminal" class="section level3 hasAnchor" number="1.2.1">
 <h3><span class="header-section-number">1.2.1</span> Install the Package Using Windows Terminal<a href="#install-the-package-using-windows-terminal" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ol style="list-style-type: decimal">
 <li><p>Install (Windows) <a href="https://aka.ms/terminal">Terminal</a> if you have not done so already; On Windows 11 this application should be installed by default.</p></li>
 <li><p>Open Terminal</p></li>
 <li><p>Copy and paste the following text into the Terminal</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="ex">pip</span> install icotronic</span></code></pre></div></li>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="ex">pip</span> install icoc</span></code></pre></div></li>
 <li><p>Press Return <kbd>⏎</kbd></p></li>
 <li><p>Wait until the install process finished successfully</p></li>
 </ol>
 </div>
-<div id="install-the-development-version-of-icotronic" class="section level3 hasAnchor" number="1.2.2">
-<h3><span class="header-section-number">1.2.2</span> Install the Development Version of ICOtronic<a href="#install-the-development-version-of-icotronic" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="install-the-development-version-of-icoc" class="section level3 hasAnchor" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Install the Development Version of ICOc<a href="#install-the-development-version-of-icoc" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Note:</strong> Please only use the command below, <strong>if you know what you are doing</strong>!</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">pip</span> install <span class="st">&#39;git+https://github.com/MyTooliT/ICOtronic&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">pip</span> install <span class="st">&#39;git+https://github.com/MyTooliT/ICOc&#39;</span></span></code></pre></div>
 </div>
 <div id="troubleshooting" class="section level3 hasAnchor" number="1.2.3">
 <h3><span class="header-section-number">1.2.3</span> Troubleshooting<a href="#troubleshooting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="import-errors" class="section level4 hasAnchor" number="1.2.3.1">
 <h4><span class="header-section-number">1.2.3.1</span> Import Errors<a href="#import-errors" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>If <a href="#scripts:section:scripts">one of the scripts</a> fails with an error message that looks similar to the following text on Windows:</p>
+<p>If one of the tests or ICOc fails with an error message that looks similar to the following text:</p>
 <pre><code>Traceback (most recent call last):
 …
     from numexpr.interpreter import MAX_THREADS, use_vml, __BLOCK_SIZE1__
@@ -452,20 +464,20 @@ DLL load failed while importing interpreter: The specified module could not be f
 <div id="insufficient-rights" class="section level4 hasAnchor" number="1.2.3.2">
 <h4><span class="header-section-number">1.2.3.2</span> Insufficient Rights<a href="#insufficient-rights" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p><strong>If you do not have sufficient rights</strong> to install the package you can also try to install the package in the user package folder:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--user</span> icotronic</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--user</span> icoc</span></code></pre></div>
 </div>
 <div id="unable-to-install-in-editable-mode" class="section level4 hasAnchor" number="1.2.3.3">
 <h4><span class="header-section-number">1.2.3.3</span> Unable to Install in Editable Mode<a href="#unable-to-install-in-editable-mode" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>If the ICOtronic install fails with the following error:</p>
-<pre><code>ERROR: Project …/ICOtronic has a &#39;pyproject.toml&#39; and its build backend is missing the &#39;build_editable&#39; hook.
+<p>If the ICOc install fails with the following error:</p>
+<pre><code>ERROR: Project …/ICOc has a &#39;pyproject.toml&#39; and its build backend is missing the &#39;build_editable&#39; hook.
 Since it does not have a &#39;setup.py&#39; nor a &#39;setup.cfg&#39;, it cannot be installed in editable mode.
 Consider using a build backend that supports PEP 660.</code></pre>
-<p>then your version of <a href="http://setuptools.pypa.io">Setuptools</a> needs to be updated before you install the ICOtronic package. You can use the following command to do that:</p>
+<p>then your version of <a href="http://setuptools.pypa.io">Setuptools</a> needs to be updated before you install ICOc. You can use the following command to do that:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-U</span> pip setuptools</span></code></pre></div>
 </div>
 <div id="introduction:section:unable-to-locate-hdf5" class="section level4 hasAnchor" number="1.2.3.4">
 <h4><span class="header-section-number">1.2.3.4</span> Unable to Locate HDF5<a href="#introduction:section:unable-to-locate-hdf5" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>The installation of the ICOtronic package might fail with an error message that looks like this:</p>
+<p>The installation of ICOc might fail with an error message that looks like this:</p>
 <pre><code>… implicit declaration of function &#39;H5close&#39;</code></pre>
 <p>If you uses <a href="https://brew.sh">Homebrew</a> on an Apple Silicon based Mac you can use the <a href="https://stackoverflow.com/questions/73029883/could-not-find-hdf5-installation-for-pytables-on-m1-mac">following commands to fix this problem</a>:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="ex">pip</span> uninstall <span class="at">-y</span> tables</span>
@@ -474,11 +486,14 @@ Consider using a build backend that supports PEP 660.</code></pre>
 <span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="bu">export</span> <span class="va">BZIP2_DIR</span><span class="op">=</span>/opt/homebrew/opt/bzip2</span>
 <span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="bu">export</span> <span class="va">LZO_DIR</span><span class="op">=</span>/opt/homebrew/opt/lzo</span>
 <span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="bu">export</span> <span class="va">HDF5_DIR</span><span class="op">=</span>/opt/homebrew/opt/hdf5</span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--no-cache-dir</span> tables</span></code></pre></div>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co"># Require version 3.9.1, since 3.9.2 might fail because of an</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co"># “Illegal instruction” error:</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="co"># https://github.com/PyTables/PyTables/issues/1093</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--no-cache-dir</span> tables==3.9.1</span></code></pre></div>
 </div>
 <div id="hdf5-library-not-loaded" class="section level4 hasAnchor" number="1.2.3.5">
 <h4><span class="header-section-number">1.2.3.5</span> HDF5 Library Not Loaded<a href="#hdf5-library-not-loaded" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Some of the <a href="#scripts:section:scripts">ICOtronic scripts</a> might fail with an error message that looks like this on macOS:</p>
+<p>Some of the ICOc commands might fail with an error message that looks like this on macOS:</p>
 <blockquote>
 <p><code>Library not loaded: /opt/homebrew/opt/hdf5/lib/libhdf5.….dylib</code></p>
 </blockquote>
@@ -486,20 +501,20 @@ Consider using a build backend that supports PEP 660.</code></pre>
 </div>
 <div id="unable-to-open-openblas-library" class="section level4 hasAnchor" number="1.2.3.6">
 <h4><span class="header-section-number">1.2.3.6</span> Unable to open OpenBLAS library<a href="#unable-to-open-openblas-library" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>If one of the <a href="#scripts:section:scripts">ICOtronic scripts</a> fails with the error message:</p>
+<p>If one of the ICOc command fails with the error message:</p>
 <blockquote>
 <p>ImportError: libopenblas.so.0: cannot open shared object file: No such file or directory</p>
 </blockquote>
 <p>on <a href="http://www.raspbian.org">Raspbian</a> (or some other GNU/Linux version based on Debian) then you probably need to install the <a href="http://www.openblas.net">OpenBLAS</a> library:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">sudo</span> apt-get install libopenblas-dev</span></code></pre></div>
 </div>
-<div id="unknown-command" class="section level4 hasAnchor" number="1.2.3.7">
-<h4><span class="header-section-number">1.2.3.7</span> Unknown Command<a href="#unknown-command" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="unknown-command-icoc" class="section level4 hasAnchor" number="1.2.3.7">
+<h4><span class="header-section-number">1.2.3.7</span> Unknown Command <code>icoc</code><a href="#unknown-command-icoc" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>If <code>pip install</code> prints <strong>warnings about the path</strong> that look like this:</p>
 <blockquote>
 <p>The script … is installed in <code>'…\Scripts'</code> which is not on PATH.</p>
 </blockquote>
-<p>then please add the text between the single quotes (without the quotes) to your <a href="https://en.wikipedia.org/wiki/PATH_(variable)">PATH environment variable</a>. Here <code>…\Scripts</code> is just a placeholder. Please use the value that <code>pip install</code> prints on your machine. If</p>
+<p>then please add the text between the single quotes (without the quotes) to your <a href="https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/">PATH environment variable</a>. Here <code>…\Scripts</code> is just a placeholder. Please use the value that <code>pip install</code> prints on your machine. If</p>
 <ul>
 <li>you used the <a href="https://www.python.org/downloads">installer from the Python website</a> (and checked “Add Python to PATH”) or</li>
 <li>you used <a href="https://docs.microsoft.com/en-us/windows/package-manager/winget/">winget</a></li>
@@ -950,14 +965,14 @@ Logging:
 <div id="icon-cli-tool" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> ICOn CLI Tool<a href="#icon-cli-tool" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>One issue of the ICOc (command line tool) is that it <strong>only works on Windows</strong>. Another problem is that it <strong>requires a CAN adapter from <a href="https://www.peak-system.com">PEAK-System</a></strong>.</p>
-<p>To improve this situation we offer an <a href="https://icotronic.readthedocs.io">API</a> (Application Programming Interface) based on <a href="https://python-can.readthedocs.io">python-can</a>, which works on</p>
+<p>To improve this situation we offer an <a href="https://icoc.readthedocs.io">API</a> (Application Programming Interface) based on <a href="https://python-can.readthedocs.io">python-can</a>, which works on</p>
 <ul>
 <li>Linux,</li>
 <li>macOS, and</li>
 <li>Windows</li>
 </ul>
-<p>and should (at least in theory) support the <a href="https://python-can.readthedocs.io/en/stable/interfaces.html">same CAN hardware as python-can</a>. You can access most of this <a href="https://icotronic.readthedocs.io">API</a> using the “new” Network class.</p>
-<p>We also offer a (currently very limited) CLI tool based on this <a href="https://icotronic.readthedocs.io">API</a> called ICOn. The text below describes how you can use this tool.</p>
+<p>and should (at least in theory) support the <a href="https://python-can.readthedocs.io/en/stable/interfaces.html">same CAN hardware as python-can</a>. You can access most of this <a href="https://icoc.readthedocs.io">API</a> using the “new” Network class.</p>
+<p>We also offer a (currently very limited) CLI tool based on this <a href="https://icoc.readthedocs.io">API</a> called ICOn. The text below describes how you can use this tool.</p>
 <div id="listing-available-sensor-devices" class="section level3 hasAnchor" number="2.3.1">
 <h3><span class="header-section-number">2.3.1</span> Listing Available Sensor Devices<a href="#listing-available-sensor-devices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To print a list of all available sensor devices please use the subcommand <code>list</code>:</p>
@@ -1004,8 +1019,8 @@ Logging:
 </div>
 </div>
 </div>
-<div id="tutorials:section:production-tests" class="section level2 hasAnchor" number="2.4">
-<h2><span class="header-section-number">2.4</span> Production Tests<a href="#tutorials:section:production-tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="production-tests" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Production Tests<a href="#production-tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This tutorial lists the usual steps to test a sensory holder assembly or a sensory tool holder.</p>
 <div id="tutorials:section:general" class="section level3 hasAnchor" number="2.4.1">
 <h3><span class="header-section-number">2.4.1</span> General<a href="#tutorials:section:general" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1268,7 +1283,7 @@ Logging:
 </div>
 <div id="code-examples" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">3</span> Code Examples<a href="#code-examples" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>For information on how to write your own code including sample code please take a look at the <a href="https://icotronic.readthedocs.io">API documentation</a>.</p>
+<p>For information on how to write your own code including sample code please take a look at the <a href="https://icoc.readthedocs.io">API documentation</a>.</p>
 
 </div>
 <div id="virtualization" class="section level1 hasAnchor" number="4">
@@ -1772,8 +1787,8 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 </div>
 <div id="manual-tests" class="section level3 hasAnchor" number="7.3.3">
 <h3><span class="header-section-number">7.3.3</span> Manual Tests<a href="#manual-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="icoc" class="section level4 hasAnchor" number="7.3.3.1">
-<h4><span class="header-section-number">7.3.3.1</span> ICOc<a href="#icoc" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="icoc-1" class="section level4 hasAnchor" number="7.3.3.1">
+<h4><span class="header-section-number">7.3.3.1</span> ICOc<a href="#icoc-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ol style="list-style-type: decimal">
 <li>Call the command <code>icoc</code>.</li>
 <li>Connect to a working STH (Enter the number and press <kbd>⏎</kbd>)</li>
