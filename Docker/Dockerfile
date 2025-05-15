@@ -10,7 +10,7 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv "$VIRTUAL_ENV"
 ENV PATH="$VIRTUAL_ENV/bin":"$PATH"
 
-# Install ICOc
-RUN pip3 install icoc
+# Install ICOtronic
+RUN pip3 install icotronic
 
 ENTRYPOINT ["/bin/bash"]
