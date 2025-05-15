@@ -1,14 +1,14 @@
-######################
-ICOc API Documentation
-######################
+###########################
+ICOtronic API Documentation
+###########################
 
 ***********
 Description
 ***********
 
-ICOc is
+The ICOtronic package contains
 
-- a set of command line tools (``icoc``, ``icon``, ``test-sth``, …) and
+- a set of command line tools (``icon``, ``test-sth``, …) and
 - a Python library
 
 to
@@ -17,9 +17,9 @@ to
 - acquire data, and
 - test ICOtronic hardware (e.g. stationary transceiver units and sensory tool holders).
 
-This documentation **describes the Python library API** (i.e. how to create programs that use the ICOtronic system). If you want more general information on the command line tools and the ICOtronic system itself we recommend that you check out the `general ICOc documentation`_.
+This documentation **describes the Python library API** (i.e. how to create programs that use the ICOtronic system). If you want more general information on the command line tools and the ICOtronic system itself we recommend that you check out the `general ICOtronic documentation`_.
 
-.. _general ICOc documentation: https://mytoolit.github.io/ICOc/
+.. _general ICOtronic documentation: https://mytoolit.github.io/ICOtronic/
 
 .. toctree::
    :maxdepth: 2
