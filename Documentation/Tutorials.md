@@ -256,7 +256,7 @@ For example, to use a sampling rate of about 2381 Hz you can use the following c
 icon measure --prescaler 2 --acquisition 8 --oversampling 256
 ```
 
-### Renaming a Sensor Device
+### Renaming a Sensor Device {#tutorials:section:sth-renaming}
 
 To change the name of a sensor you can use the subcommand `rename`. For example, to change the name of the sensor device with the Bluetooth MAC address `08-6B-D7-01-DE-81` to `Test-STH` use the following command:
 
