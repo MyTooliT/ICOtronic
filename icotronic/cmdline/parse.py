@@ -400,6 +400,7 @@ def add_adc_arguments(parser: ArgumentParser) -> None:
         "-v",
         "--voltage-reference",
         choices=ADCConfiguration.REFERENCE_VOLTAGES,
+        type=float,
         default=3.3,
         required=False,
         help="Reference voltage in V",
