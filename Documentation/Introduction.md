@@ -1,5 +1,5 @@
 ---
-title: ICOtronic Documentation
+title: ICOtronic Package Documentation
 author: MyTooliT
 description: Library and scripts for the ICOtronic system
 ---
