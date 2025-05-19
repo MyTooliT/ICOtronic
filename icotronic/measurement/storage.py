@@ -342,7 +342,7 @@ class StorageData:
                 row[accelertation_type] = value
             row.append()
 
-    def add_acceleration_meta(self, name: str, value: str) -> None:
+    def store_acceleration_meta(self, name: str, value: str) -> None:
         """Add acceleration metadata
 
         Parameters
@@ -360,7 +360,7 @@ class StorageData:
         >>> filepath = Path("test.hdf5")
         >>> with Storage(filepath,
         ...              StreamingConfiguration(third=True)) as storage:
-        ...     storage.add_acceleration_meta("something", "some value")
+        ...     storage.store_acceleration_meta("something", "some value")
         ...     print(storage.acceleration.attrs["something"])
         some value
         >>> filepath.unlink()
@@ -394,7 +394,7 @@ class StorageData:
 
         sensor_range_positive = round(sensor_range_in_g / 2)
 
-        self.add_acceleration_meta(
+        self.store_acceleration_meta(
             "Sensor_Range", f"± {sensor_range_positive} g₀"
         )
 
@@ -430,7 +430,7 @@ class StorageData:
             f"Oversampling Rate: {adc_configuration.oversampling_rate()}",
         ])
 
-        self.add_acceleration_meta(
+        self.store_acceleration_meta(
             "Sample_Rate", f"{sample_rate:.2f} Hz ({adc_config_text})"
         )
 
