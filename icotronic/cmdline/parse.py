@@ -130,13 +130,15 @@ def channel_number(value: str):
     """
 
     try:
+        number: int | None = None
         number = int(value)
         if number < 0 or number > 255:
             raise ValueError()
         return number
     except ValueError as error:
         raise ArgumentTypeError(
-            f"“{value}” is not a valid channel number"
+            f"“{number if number is not None else value}” is not a valid "
+            "channel number"
         ) from error
 
 
