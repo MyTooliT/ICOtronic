@@ -202,7 +202,6 @@ The text below specifies extended manual test that should be executed before we 
 11. Check that ICOn handles the following incorrect program calls. The program should **not crash** and print a (helpful) **error description** (not a stak trace) before it exits.
 
     ```sh
-    icon measure -n 'TooooLong'
     icon measure -s 1
     icon measure -a 257
     icon measure -o -1

@@ -14,8 +14,14 @@ Check handling of broken sensor mapping
 
 Check handling of non-existing option
 
-  $ output=$(icon measure -b '12-12-12-12-12' 2>&1)
+  $ output="$(icon measure -b '12-12-12-12-12' 2>&1)"
   [2]
   $ printf '%s\n' "$output" | tail -n1
   icon measure: error: one of the arguments -n/--name -m/--mac-address -d/--device-number is required
 
+Check that incorrect names are handled correctly
+
+  $ output="$(icon measure -n 'TooooLong' 2>&1)"
+  [2]
+  $ printf '%s\n' "$output" | tail -n1
+  icon measure: error: argument -n/--name: “TooooLong” is too long to be a valid STH name
