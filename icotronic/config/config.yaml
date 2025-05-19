@@ -61,6 +61,13 @@ logger:
     # ICOc will write CAN messages, if you specify the value `DEBUG`. If you use
     # a different allowed value, such as `INFO` or `WARNING` no messages will be
     # logged.
+    #
+    # To retrieve the filepath of the logging file, you can use the following
+    # code:
+    #
+    #     from icotronic.utility.log import get_log_file_handler
+    #     print(get_log_file_handler("can.log").baseFilename)
+    #
     level: INFO
 
 measurement:
