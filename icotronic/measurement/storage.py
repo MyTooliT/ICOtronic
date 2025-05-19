@@ -372,7 +372,7 @@ class StorageData:
     def write_sensor_range(self, sensor_range_in_g: float) -> None:
         """Add metadata about sensor range
 
-        This method assumes that sensor have a symetric measurement range
+        This method assumes that sensor have a symmetric measurement range
         (e.g. a sensor with a range of 200 g measures from - 100 g up to
         + 100 g).
 
