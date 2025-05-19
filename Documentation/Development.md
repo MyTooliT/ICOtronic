@@ -199,14 +199,6 @@ The text below specifies extended manual test that should be executed before we 
 8. Check that `Sample_Rate` contains the value `9523.81 Hz (Prescaler: 2, Acquisition Time: 8, Oversampling Rate: 64)`
 9. Check that `Sensor_Range` contains the correct maximum acceleration values for “Test-STH”
 10. Check that `Start_Time` contains (roughly) the date and time when you executed the command from step 5
-11. Check that ICOn handles the following incorrect program calls. The program should **not crash** and print a (helpful) **error description** (not a stak trace) before it exits.
-
-    ```sh
-    icon measure -1 ' -1'
-    icon measure -2 256
-    icon measure -3 nine
-    icon measure -1 0 -2 0 -3 0 -n Test-STH
-    ```
 
 ### Combined Checks & Tests
 

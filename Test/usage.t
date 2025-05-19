@@ -4,14 +4,6 @@
 
 -- Check Incorrect Usage -------------------------------------------------------
 
-Check handling of broken sensor mapping
-
-  $ icon measure -1 0 -2 0 -3 0 -d 0
-  usage: icon measure [-h] [--log {debug,info,warning,error,critical}]
-                      {config,dataloss,list,measure,rename,stu} ...
-  icon measure: error: At least one measurement channel has to be enabled
-  [2]
-
 Check handling of non-existing option
 
   $ output="$(icon measure -b '12-12-12-12-12' 2>&1)"
@@ -46,3 +38,18 @@ Check handling of incorrect oversampling value
   [2]
   $ printf '%s\n' "$output" | tail -n1
   icon measure: error: argument -o/--oversampling: expected one argument
+
+Check handling of incorrect sensor mapping values
+
+  $ output="$(icon measure -1 ' -1' 2>&1)"
+  [2]
+  $ printf '%s\n' "$output" | tail -n1
+  icon measure: error: argument -1/--first-channel: “-1” is not a valid channel number
+
+  $ set -- "-2 256" "-3 nine" "-1 0 -2 0 -3 0 -n Test-STH"
+  $ for options in "$@"; do
+  >   icon measure $options 2>&1 | tail -n1
+  > done
+  icon measure: error: argument -2/--second-channel: “256” is not a valid channel number
+  icon measure: error: argument -3/--third-channel: “nine” is not a valid channel number
+  icon measure: error: At least one measurement channel has to be enabled
