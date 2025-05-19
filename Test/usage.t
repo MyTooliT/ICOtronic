@@ -39,3 +39,10 @@ Check handling of incorrect acquisition time value
   [2]
   $ printf '%s\n' "$output" | tail -n1
   icon measure: error: argument -a/--acquisition: invalid choice: '257' (choose from 1, 2, 3, 4, 8, 16, 32, 64, 128, 256)
+
+Check handling of incorrect oversampling value
+
+  $ output="$(icon measure -o -1 2>&1)"
+  [2]
+  $ printf '%s\n' "$output" | tail -n1
+  icon measure: error: argument -o/--oversampling: expected one argument
