@@ -34,6 +34,7 @@ class Logger(Listener):
         """Initialize the logger"""
 
         self.logger = getLogger("icotronic.can")
+        self.logger.propagate = False
         # We use `Logger` in the code below, since the `.logger` attribute
         # stores internal DynaConf data
         self.logger.setLevel(settings.Logger.can.level)
