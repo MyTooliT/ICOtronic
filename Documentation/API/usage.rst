@@ -134,7 +134,7 @@ The data returned by the ``async for`` (``stream``) is an object of the class :c
      - and the third value to the third channel.
 
 .. |recommended amount of one or three enabled channels| replace:: **recommended amount** of one or three enabled channels
-.. _recommended amount of one or three enabled channels: https://mytoolit.github.io/ICOc/#channel-selection
+.. _recommended amount of one or three enabled channels: https://mytoolit.github.io/ICOtronic/#channel-selection
 
 Storing Data
 ============
@@ -157,7 +157,7 @@ Sometimes the
 - **connection** to your sensor device might be **bad** or
 - code might run **too slow to retrieve/process streaming data**.
 
-In both cases there will be some form of data loss. The ICOc library currently takes multiple measures to detect data loss.
+In both cases there will be some form of data loss. The ICOtronic library currently takes multiple measures to detect data loss.
 
 Bad Connection
 --------------
@@ -243,6 +243,6 @@ If you want to calculate the amount of data loss for a specific time-span you ca
 Slow Processing of Data
 -----------------------
 
-The buffer of the CAN controller is only able to store a certain amount of streaming messages before it has to drop them to make room for new ones. For this reason the ICOc library will raise a :class:`StreamingBufferError`, if the buffer for streaming messages exceeds a certain threshold (default: 10 000 messages):
+The buffer of the CAN controller is only able to store a certain amount of streaming messages before it has to drop them to make room for new ones. For this reason the ICOtronic library will raise a :class:`StreamingBufferError`, if the buffer for streaming messages exceeds a certain threshold (default: 10 000 messages):
 
 .. autoexception:: StreamingBufferError
