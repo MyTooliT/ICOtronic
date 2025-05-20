@@ -13,6 +13,7 @@ from unittest import main as unittest_main, skipIf
 
 from semantic_version import Version
 
+from icotronic.can.adc import ADCConfiguration
 from icotronic.can.streaming import StreamingConfiguration
 from icotronic.config import settings
 from icotronic.measurement.acceleration import (
@@ -255,6 +256,14 @@ class TestSTH(BaseTestCases.TestSensorNode):
             """Read streaming data of first channel"""
             stream_data = []
             seconds = 4
+            # Decrease sample rate to get rid of messages about
+            # long running tasks on slower hardware (i7-4702@2.2GHz).
+            adc_config = ADCConfiguration(
+                prescaler=2,
+                acquisition_time=8,
+                oversampling_rate=256,
+            )
+            await self.node.set_adc_configuration(**adc_config)
             async with self.node.open_data_stream(
                 StreamingConfiguration(first=True)
             ) as stream:
