@@ -36,10 +36,25 @@ To connect to a sensor device (e.g. SHA, SMH, STH) use the async context manager
    ...     async with Connection() as stu:
    ...         async with stu.connect_sensor_device(identifier) as sensor_device:
    ...             return await sensor_device.get_name()
-   ...
 
    >>> run(connect_to_sensor_device("Test-STH"))
    'Test-STH'
+
+By default :meth:`stu.connect_sensor_device` assumes that you want to connect to a generic sensor device (e.g. a sensory milling head (SMH)). To connect to an STH (a sensor device with additional functionality), use :class:`STH` for the `sensor_node_class` parameter:
+
+.. doctest::
+
+   >>> from asyncio import run
+   >>> from icotronic.can import Connection, STH
+
+   >>> async def get_sensor_range(identifier):
+   ...     async with Connection() as stu:
+   ...         async with stu.connect_sensor_device(identifier, STH) as sth:
+   ...             return await sth.get_acceleration_sensor_range_in_g()
+
+   >>> sensor_range = run(get_sensor_range("Test-STH"))
+   >>> 0 <= sensor_range <= 200
+   True
 
 .. _identifiers of the device: https://mytoolit.github.io/ICOtronic/#sensor-device-identifiers
 
