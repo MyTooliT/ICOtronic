@@ -25,7 +25,7 @@ Connecting to Sensor Device
 
 .. currentmodule:: icotronic.can.node.stu
 
-To connect to a sensor device (e.g. SHA, SMH, STH) use the async context manager of the coroutine :meth:`stu.connect_sensor_device`. To connect to a device you need to know one of the `identifiers of the device`_. In the example below we connect to a device with the name `TestSTH`:
+To connect to a sensor device (e.g. SHA, SMH, STH) use the async context manager of the coroutine :meth:`stu.connect_sensor_device`. To connect to a device you need to know one of the `identifiers of the device`_. In the example below we connect to a device with the name `Test-STH`:
 
 .. doctest::
 
