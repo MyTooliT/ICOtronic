@@ -2,9 +2,9 @@
 ICOtronic API Documentation
 ###########################
 
-***********
-Description
-***********
+*******
+Purpose
+*******
 
 The ICOtronic package contains
 
@@ -27,5 +27,6 @@ This documentation **describes the Python library API** (i.e. how to create prog
    :maxdepth: 2
    :caption: Contents:
 
+   usage
    api
    examples
