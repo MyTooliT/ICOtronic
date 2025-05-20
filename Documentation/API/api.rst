@@ -1,13 +1,18 @@
-.. currentmodule:: icotronic.can
-
 ***
 API
 ***
 
+.. currentmodule:: icotronic.can
+
 .. autoclass:: Connection
-.. currentmodule:: icotronic.can.node.stu
+   :members: __aenter__
+
 .. autoclass:: STU
    :members: connect_sensor_device
-.. currentmodule:: icotronic.can
-.. autoclass:: STH
+
+.. autoclass:: StreamingConfiguration
+.. autoclass:: StreamingData
+
+.. autoclass:: SensorNode
    :members: open_data_stream
+
