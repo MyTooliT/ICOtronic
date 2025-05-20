@@ -18,9 +18,6 @@ async def store_streaming_data(identifier):
 
             conversion_to_g = await sth.get_acceleration_conversion_function()
 
-            # Read data for five seconds
-            start = monotonic()
-            end = start + 5
             filepath = Path("test.hdf5")
             stream_first = StreamingConfiguration(first=True)
 
@@ -32,6 +29,8 @@ async def store_streaming_data(identifier):
                 # Store sampling rate (and ADC configuration as metadata)
                 storage.write_sample_rate(await sth.get_adc_configuration())
                 async with sth.open_data_stream(stream_first) as stream:
+                    # Read data for about five seconds
+                    end = monotonic() + 5
                     async for data, _ in stream:
                         # Convert from ADC bit value into multiples of g
                         storage.add_streaming_data(data.apply(conversion_to_g))
