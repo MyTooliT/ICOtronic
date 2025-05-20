@@ -91,11 +91,7 @@ Streaming
 Reading Data
 ============
 
-After you connected to the sensor device you use the coroutine :meth:`SensorNode.open_data_stream` to open the data stream:
-
-.. automethod:: SensorNode.open_data_stream
-
-After you opened the stream use an ``async with`` statement to iterate over the received streaming data. For example, the code below:
+After you connected to the sensor device use the coroutine :meth:`SensorNode.open_data_stream` to open the data stream and an ``async for`` statement to iterate over the received streaming data. The following code:
 
 .. doctest::
 
@@ -138,8 +134,8 @@ This object has the following attributes:
    - for the three enabled channels
 
      - the first value belongs to the first channel,
-     - the second to the second channel,
-     - and the third to the third channel.
+     - the second value to the second channel,
+     - and the third value to the third channel.
 
 .. |recommended amount of one or three enabled channels| replace:: **recommended amount** of one or three enabled channels
 .. _recommended amount of one or three enabled channels: https://mytoolit.github.io/ICOc/#channel-selection
