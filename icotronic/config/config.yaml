@@ -58,7 +58,7 @@ logger:
   can:
     # The value below specifies the minimum level of messages logged to
     # `can.log`. Currently the logger only writes debug messages, which means
-    # ICOc will write CAN messages, if you specify the value `DEBUG`. If you use
+    # ICOn will write CAN messages, if you specify the value `DEBUG`. If you use
     # a different allowed value, such as `INFO` or `WARNING` no messages will be
     # logged.
     #
@@ -72,12 +72,12 @@ logger:
 
 measurement:
   output:
-    # The directory where ICOc stores measurement data in HDF5 format. Relative
+    # The directory where ICOn stores measurement data in HDF5 format. Relative
     # directories will be interpreted from the current working directory.
     #
     # For example, if we assume that the current working directory is
     # `Documents/Measurement` in the user’s home directory, then the value `..`
-    # means that ICOc will store the log file in the directory `Documents` in
+    # means that ICOn will store the log file in the directory `Documents` in
     # the home directory.
     #
     # You can also use `~` to refer to the user’s home directory. For example,
