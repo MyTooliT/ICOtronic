@@ -4,7 +4,7 @@
 
 from asyncio import run
 from pathlib import Path
-from time import time
+from time import monotonic
 
 from icotronic.can import Connection, StreamingConfiguration, STH
 from icotronic.measurement import Storage
@@ -19,7 +19,7 @@ async def store_streaming_data(identifier):
             conversion_to_g = await sth.get_acceleration_conversion_function()
 
             # Read data for five seconds
-            start = time()
+            start = monotonic()
             end = start + 5
             filepath = Path("test.hdf5")
             stream_first = StreamingConfiguration(first=True)
@@ -35,7 +35,7 @@ async def store_streaming_data(identifier):
                     async for data, _ in stream:
                         # Convert from ADC bit value into multiples of g
                         storage.add_streaming_data(data.apply(conversion_to_g))
-                        if time() > end:
+                        if monotonic() > end:
                             break
 
 
