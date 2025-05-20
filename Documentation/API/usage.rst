@@ -30,15 +30,17 @@ To connect to a sensor device (e.g. SHA, SMH, STH) use the async context manager
 .. doctest::
 
    >>> from asyncio import run
+   >>> from netaddr import EUI
    >>> from icotronic.can import Connection
 
    >>> async def connect_to_sensor_device(identifier):
    ...     async with Connection() as stu:
    ...         async with stu.connect_sensor_device(identifier) as sensor_device:
-   ...             return await sensor_device.get_name()
+   ...             return await sensor_device.get_mac_address()
 
-   >>> run(connect_to_sensor_device("Test-STH"))
-   'Test-STH'
+   >>> mac_address = run(connect_to_sensor_device("Test-STH"))
+   >>> isinstance(mac_address, EUI)
+   True
 
 By default :meth:`stu.connect_sensor_device` assumes that you want to connect to a generic sensor device (e.g. a sensory milling head (SMH)). To connect to an STH (a sensor device with additional functionality), use :class:`STH` for the `sensor_node_class` parameter:
 
@@ -65,12 +67,7 @@ Auxiliary Functionality
 Reading Names
 =============
 
-.. currentmodule:: icotronic.can.node.sensor
-.. autoclass:: SensorNode
-
-After your are connected to the sensor device you can read its (advertisement) name using the coroutine :meth:`SensorNode.get_name`.
-
-.. automethod:: SensorNode.get_name
+After your are connected to the a device you can read its (advertisement) name using the coroutine :meth:`SensorNode.get_name`:
 
 .. doctest::
 
