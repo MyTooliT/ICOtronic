@@ -9,7 +9,7 @@ The code below contains shared code for:
 
 # -- Imports ------------------------------------------------------------------
 
-from asyncio import sleep
+from asyncio import get_running_loop, sleep
 from datetime import date, datetime
 from pathlib import Path
 from types import SimpleNamespace
@@ -257,6 +257,10 @@ class BaseTestCases:
 
         async def asyncSetUp(self):
             """Set up hardware before a single test case"""
+
+            # Disable debug mode (set by IsolatedAsyncioTestCase) to improve
+            # runtime of code: https://github.com/python/cpython/issues/82789
+            get_running_loop().set_debug(False)
 
             # All tests methods that contain the text `disconnected` do not
             # initialize a Bluetooth connection
