@@ -136,6 +136,32 @@ The data returned by the ``async for`` (``stream``) is an object of the class :c
 .. |recommended amount of one or three enabled channels| replace:: **recommended amount** of one or three enabled channels
 .. _recommended amount of one or three enabled channels: https://mytoolit.github.io/ICOtronic/#channel-selection
 
+By default :attr:`StreamingData.values` contains 16-bit ADC values. To convert the data into multiples of g (`the standard gravity <https://en.wikipedia.org/wiki/Standard_gravity>`_) you can
+
+- use the coroutine :meth:`STH.get_acceleration_conversion_function` to retrieve a function that converts 16-bit ADC values values into multiples of g and then
+- use this function to convert streaming data with the method :meth:`StreamingData.apply`.
+
+In the example below we convert the first retrieved streaming data object and return it:
+
+.. doctest::
+
+   >>> async def read_streaming_data_g():
+   ...     async with Connection() as stu:
+   ...         async with stu.connect_sensor_device("Test-STH", STH) as sth:
+   ...             conversion_to_g = (await
+   ...                 sth.get_acceleration_conversion_function())
+   ...             channels = StreamingConfiguration(first=True)
+   ...             async with sth.open_data_stream(channels) as stream:
+   ...                 async for data, lost_messages in stream:
+   ...                     data.apply(conversion_to_g)
+   ...                     return data
+
+   >>> streaming_data = run(read_streaming_data_g())
+   >>> len(streaming_data.values)
+   3
+   >>> all([-100 <= value <= 100 for value in streaming_data.values])
+   True
+
 Storing Data
 ============
 
