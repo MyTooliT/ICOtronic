@@ -261,37 +261,11 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
     8. Check that all links work correctly
 
 6.  Change the [`__version__`](../icotronic/__init__.py) number inside the [`icotronic`](../icotronic) package
-7.  Push the latest two commits
-8.  Update the [official ICOtronic Python package on PyPI](https://pypi.org/project/icotronic):
+7.  Add a tag with the version number to the latest commit
 
-    1.  Install `build` and `twine`:
+    **Note:** GitHub CI will publish a package based on this commit and upload it to [PyPi](https://pypi.org/project/icotronic/)
 
-        ```sh
-        pip install --upgrade build twine
-        ```
-
-    2.  Build the package (in the root directory of the repository):
-
-        ```sh
-        python3 -m build
-        ```
-
-    3.  Check the package:
-
-        ```sh
-        twine check dist/*
-        ```
-
-        The output of the command above should print the text `PASSED` twice.
-
-    4.  Upload the package to PyPI:
-
-        ```sh
-        twine upload dist/*
-        ```
-
-        > **Note:** For the command above to work you need an API token, which you can create after [logging into the PyPI `mytoolit` account](https://pypi.org/account/login/). If you need access to the account, please contact [René Schwaiger](https://github.com/sanssecours).
-
+8.  Push the latests updates
 9.  Insert the version number (e.g. `1.0.5`) into the tag field
 10. For the release title use “Version VERSION”, where `VERSION` specifies the version number (e.g. “Version 1.0.5”)
 11. Click on “Publish Release”
