@@ -25,7 +25,7 @@ Connecting to Sensor Device
 
 .. currentmodule:: icotronic.can.node.stu
 
-To connect to a sensor device (e.g. SHA, SMH, STH) use the async context manager of the coroutine :meth:`stu.connect_sensor_node`. To connect to a device you need to know one of the `identifiers of the device`_. In the example below we connect to a device with the name `Test-STH`:
+To connect to a sensor node (e.g. SHA, SMH, STH) use the async context manager of the coroutine :meth:`stu.connect_sensor_node`. To connect to a device you need to know one of the `identifiers of the device`_. In the example below we connect to a device with the name `Test-STH`:
 
 .. doctest::
 
@@ -42,7 +42,7 @@ To connect to a sensor device (e.g. SHA, SMH, STH) use the async context manager
    >>> isinstance(mac_address, EUI)
    True
 
-By default :meth:`stu.connect_sensor_node` assumes that you want to connect to a generic sensor device (e.g. a sensory milling head (SMH)). To connect to an STH (a sensor device with additional functionality), use :class:`STH` for the `sensor_node_class` parameter:
+By default :meth:`stu.connect_sensor_node` assumes that you want to connect to a generic sensor node (e.g. a sensory milling head (SMH)). To connect to an STH (a sensor node with additional functionality), use :class:`STH` for the `sensor_node_class` parameter:
 
 .. doctest::
 
@@ -91,7 +91,7 @@ Streaming
 Reading Data
 ============
 
-After you connected to the sensor device use the coroutine :meth:`SensorNode.open_data_stream` to open the data stream and an ``async for`` statement to iterate over the received streaming data. The following code:
+After you connected to the sensor node use the coroutine :meth:`SensorNode.open_data_stream` to open the data stream and an ``async for`` statement to iterate over the received streaming data. The following code:
 
 .. doctest::
 
@@ -180,7 +180,7 @@ Determining Data Loss
 
 Sometimes the
 
-- **connection** to your sensor device might be **bad** or
+- **connection** to your sensor node might be **bad** or
 - code might run **too slow to retrieve/process streaming data**.
 
 In both cases there will be some form of data loss. The ICOtronic library currently takes multiple measures to detect data loss.
