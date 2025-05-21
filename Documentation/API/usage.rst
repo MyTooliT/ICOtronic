@@ -7,7 +7,7 @@ Device Connection
 Connecting to STU
 =================
 
-To communicate with the ICOtronic system use the :class:`Connection` class. We recommend you use the async context manager to open and close the connection (to the STU):
+To communicate with the ICOtronic system use the the async context manager of the :class:`Connection` class to open and close the connection to the STU:
 
 .. doctest::
 
