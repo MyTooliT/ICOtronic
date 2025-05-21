@@ -116,9 +116,7 @@ class AsyncSensorNodeManager:
         connection_attempt_time = time()
         disconnected = True
         while disconnected:
-            await self.stu.connect_with_sensor_node_number(
-                sensor_node.sensor_node_number
-            )
+            await self.stu.connect_with_number(sensor_node.sensor_node_number)
             retry_time_s = 3
             end_time_retry = time() + retry_time_s
             while time() < end_time_retry:
@@ -344,9 +342,7 @@ class STU(Node):
             node=self.id, sensor_node_number=sensor_node_number
         )
 
-    async def connect_with_sensor_node_number(
-        self, sensor_node_number: int = 0
-    ) -> bool:
+    async def connect_with_number(self, sensor_node_number: int = 0) -> bool:
         """Connect to a Bluetooth device using a device number
 
         Parameters
@@ -380,7 +376,7 @@ class STU(Node):
         ...         # We assume that at least one STH is available
         ...         connected = before = await stu.is_connected()
         ...         while not connected:
-        ...             connected = await stu.connect_with_sensor_node_number(0)
+        ...             connected = await stu.connect_with_number(0)
         ...         await stu.deactivate_bluetooth()
         ...         after = await stu.is_connected()
         ...         # Return status of Bluetooth device connect response
@@ -481,13 +477,13 @@ class STU(Node):
         ...         connected_start = await stu.is_connected()
         ...
         ...         # We assume that at least one STH is available
-        ...         await stu.connect_with_sensor_node_number(0)
+        ...         await stu.connect_with_number(0)
         ...         # Wait for device connection
         ...         connected_between = False
         ...         while not connected_between:
         ...             connected_between = await stu.is_connected()
         ...             await sleep(0.1)
-        ...             await stu.connect_with_sensor_node_number(0)
+        ...             await stu.connect_with_number(0)
         ...
         ...         # Deactivate Bluetooth connection
         ...         await stu.deactivate_bluetooth()
