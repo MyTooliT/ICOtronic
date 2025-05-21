@@ -45,8 +45,8 @@ holder serial number: &holder_serial BBBB1111
 
 # PCB state (`Bare PCB` or `Epoxied`)
 # If you run `test-sth`:
-# Bare PCB → Sensor device name afterwards is Base64 encoded MAC address
-# Epoxied → Sensor device name afterwards is holder serial number
+# Bare PCB → Sensor node name afterwards is Base64 encoded MAC address
+# Epoxied → Sensor node name afterwards is holder serial number
 state: &state Epoxied
 #state: &state Bare PCB
 
