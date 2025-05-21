@@ -55,7 +55,7 @@ class AsyncSensorNodeManager:
     async def __aenter__(self) -> SensorNode:
         """Create the connection to the sensor device"""
 
-        def get_sensor_device(
+        def get_sensor_node(
             devices: list[SensorDeviceInfo], identifier: int | str | EUI
         ) -> SensorDeviceInfo | None:
             """Get the MAC address of a sensor device"""
@@ -79,17 +79,17 @@ class AsyncSensorNodeManager:
         timeout_in_s = 20
         end_time = time() + timeout_in_s
 
-        sensor_device = None
-        sensor_devices: list[SensorDeviceInfo] = []
-        while sensor_device is None:
+        sensor_node = None
+        sensor_nodes: list[SensorDeviceInfo] = []
+        while sensor_node is None:
             if time() > end_time:
-                sensor_devices_representation = "\n".join(
-                    [repr(device) for device in sensor_devices]
+                sensor_nodes_representation = "\n".join(
+                    [repr(device) for device in sensor_nodes]
                 )
                 device_info = (
                     "Found the following sensor devices:\n"
-                    f"{sensor_devices_representation}"
-                    if len(sensor_devices) > 0
+                    f"{sensor_nodes_representation}"
+                    if len(sensor_nodes) > 0
                     else "No sensor devices found"
                 )
 
@@ -108,16 +108,16 @@ class AsyncSensorNodeManager:
                     f"{timeout_in_s} seconds\n\n{device_info}"
                 )
 
-            sensor_devices = await self.stu.get_sensor_devices()
-            sensor_device = get_sensor_device(sensor_devices, self.identifier)
-            if sensor_device is None:
+            sensor_nodes = await self.stu.get_sensor_nodes()
+            sensor_node = get_sensor_node(sensor_nodes, self.identifier)
+            if sensor_node is None:
                 await sleep(0.1)
 
         connection_attempt_time = time()
         disconnected = True
         while disconnected:
             await self.stu.connect_with_device_number(
-                sensor_device.device_number
+                sensor_node.device_number
             )
             retry_time_s = 3
             end_time_retry = time() + retry_time_s
@@ -126,7 +126,7 @@ class AsyncSensorNodeManager:
                     connection_time = time() - connection_attempt_time
                     raise TimeoutError(
                         "Unable to connect to sensor device"
-                        f" “{sensor_device}” in"
+                        f" “{sensor_node}” in"
                         f" {connection_time:.3f} seconds"
                     )
 
@@ -593,7 +593,7 @@ class STU(Node):
 
         return await self.spu.get_mac_address(self.id, device_number)
 
-    async def get_sensor_devices(self) -> list[SensorDeviceInfo]:
+    async def get_sensor_nodes(self) -> list[SensorDeviceInfo]:
         """Retrieve a list of available sensor devices
 
         Returns
@@ -617,16 +617,16 @@ class STU(Node):
 
         Retrieve the list of Bluetooth devices at STU 1
 
-        >>> async def get_sensor_devices():
+        >>> async def get_sensor_nodes():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
         ...         devices = []
         ...         while not devices:
-        ...             devices = await stu.get_sensor_devices()
+        ...             devices = await stu.get_sensor_nodes()
         ...             await sleep(0.1)
         ...
         ...         return devices
-        >>> devices = run(get_sensor_devices())
+        >>> devices = run(get_sensor_nodes())
         >>> len(devices) >= 1
         True
         >>> device = devices[0]

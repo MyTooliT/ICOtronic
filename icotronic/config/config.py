@@ -220,7 +220,7 @@ class Settings(Dynaconf):
                 ),
             ]
 
-        def sensor_device_validators(name: str):
+        def sensor_node_validators(name: str):
             """Return shared validator for STH or SMH"""
 
             return device_validators(name) + [
@@ -310,14 +310,14 @@ class Settings(Dynaconf):
                 is_type_of=int,
             )
         ]
-        smh_validators = sensor_device_validators("smh") + [
+        smh_validators = sensor_node_validators("smh") + [
             must_exist(
                 "smh.channels",
                 is_type_of=int,
             )
         ]
         sth_validators = (
-            sensor_device_validators("sth")
+            sensor_node_validators("sth")
             + sensor_validators("ADXL1001")
             + sensor_validators("ADXL1002")
             + sensor_validators("ADXL356")

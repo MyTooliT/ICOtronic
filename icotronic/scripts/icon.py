@@ -176,23 +176,23 @@ async def command_list(
 
     async with Connection() as stu:
         timeout = time() + 5
-        sensor_devices: List[SensorDeviceInfo] = []
-        sensor_devices_before: List[SensorDeviceInfo] = []
+        sensor_nodes: List[SensorDeviceInfo] = []
+        sensor_nodes_before: List[SensorDeviceInfo] = []
 
         # - First request for sensor devices will produce empty list
         # - Subsequent retries should provide all available sensor devices
         # - We wait until the number of sensor devices is larger than 1 and
         #   has not changed between one iteration or the timeout is reached
         while (
-            len(sensor_devices) <= 0
+            len(sensor_nodes) <= 0
             and time() < timeout
-            or len(sensor_devices) != len(sensor_devices_before)
+            or len(sensor_nodes) != len(sensor_nodes_before)
         ):
-            sensor_devices_before = list(sensor_devices)
-            sensor_devices = await stu.get_sensor_devices()
+            sensor_nodes_before = list(sensor_nodes)
+            sensor_nodes = await stu.get_sensor_nodes()
             await sleep(0.5)
 
-        for device in sensor_devices:
+        for device in sensor_nodes:
             print(device)
 
 
@@ -305,12 +305,12 @@ async def command_rename(arguments: Namespace) -> None:
     name = arguments.name
 
     async with Connection() as stu:
-        async with stu.connect_sensor_node(identifier) as sensor_device:
-            old_name = await sensor_device.get_name()
-            mac_address = await sensor_device.get_mac_address()
+        async with stu.connect_sensor_node(identifier) as sensor_node:
+            old_name = await sensor_node.get_name()
+            mac_address = await sensor_node.get_mac_address()
 
-            await sensor_device.set_name(name)
-            name = await sensor_device.get_name()
+            await sensor_node.set_name(name)
+            name = await sensor_node.get_name()
             print(
                 f"Renamed sensor device “{old_name}” with MAC "
                 f"address “{mac_address}” to “{name}”"

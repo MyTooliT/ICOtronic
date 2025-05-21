@@ -11,9 +11,9 @@ from icotronic.can import Connection, StreamingConfiguration
 
 async def read_streaming_data(identifier):
     async with Connection() as stu:
-        async with stu.connect_sensor_node(identifier) as sensor_device:
+        async with stu.connect_sensor_node(identifier) as sensor_node:
             # Read data of first channel
-            async with sensor_device.open_data_stream(
+            async with sensor_node.open_data_stream(
                 StreamingConfiguration(first=True)
             ) as stream:
                 messages = 5
