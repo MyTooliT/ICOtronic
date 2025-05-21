@@ -19,6 +19,7 @@ from icotronic.measurement.acceleration import (
     convert_raw_to_g,
     ratio_noise_max,
 )
+from icotronic.measurement.constants import ADC_MAX_VALUE
 from icotronic.report.report import Report
 from icotronic.utility.naming import convert_mac_base64
 from icotronic.test.unit import ExtendedTestRunner
@@ -406,7 +407,7 @@ class TestSTH(BaseTestCases.TestSensorNode):
 
         sensor = settings.acceleration_sensor()
         acceleration_max = sensor.acceleration.maximum
-        adc_max = 0xFFFF
+        adc_max = ADC_MAX_VALUE
         acceleration_slope = acceleration_max / adc_max
         acceleration_offset = -(acceleration_max / 2)
 
