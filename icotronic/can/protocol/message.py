@@ -225,7 +225,7 @@ class Message:
 
         if identifier.block_command_name() == "Bluetooth":
             subcommand = self.data[0]
-            device_number = self.data[1]
+            sensor_node_number = self.data[1]
             is_acknowledgment = self.identifier().is_acknowledgment()
             verb = "Return" if is_acknowledgment else "Get"
 
@@ -250,7 +250,7 @@ class Message:
                 part = "first" if subcommand == 5 else "second"
                 data_explanation = (
                     f"{verb} {part} part of name of device "
-                    f"with device number “{device_number}”"
+                    f"with device number “{sensor_node_number}”"
                 )
                 if is_acknowledgment and len(self.data) >= 2:
                     name = convert_bytes_to_text(self.data[2:])
@@ -262,7 +262,8 @@ class Message:
                     else "Request connection"
                 )
                 data_explanation = (
-                    f"{info} to device with device number “{device_number}”"
+                    f"{info} to device with device number"
+                    f" “{sensor_node_number}”"
                 )
             elif subcommand == 8:
                 data_explanation = f"{verb} Bluetooth connection status"
@@ -283,7 +284,7 @@ class Message:
             elif subcommand == 12:
                 data_explanation = (
                     f"{verb} RSSI of device "
-                    f"with device number “{device_number}”"
+                    f"with device number “{sensor_node_number}”"
                 )
                 if is_acknowledgment and len(self.data) >= 3:
                     rssi = int.from_bytes(
@@ -308,7 +309,7 @@ class Message:
             elif subcommand == 17:
                 data_explanation = (
                     f"{verb} MAC address of device "
-                    f"with device number “{device_number}”"
+                    f"with device number “{sensor_node_number}”"
                 )
                 if is_acknowledgment and len(self.data) >= 8:
                     data_explanation += f": {mac_address()}"

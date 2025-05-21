@@ -65,7 +65,7 @@ class AsyncSensorNodeManager:
                     isinstance(identifier, str)
                     and device.name == identifier
                     or isinstance(identifier, int)
-                    and device.device_number == identifier
+                    and device.sensor_node_number == identifier
                     or device.mac_address == identifier
                 ):
                     return device
@@ -97,7 +97,7 @@ class AsyncSensorNodeManager:
                     "MAC address"
                     if isinstance(self.identifier, EUI)
                     else (
-                        "device_number"
+                        "sensor_node_number"
                         if isinstance(self.identifier, int)
                         else "name"
                     )
@@ -116,8 +116,8 @@ class AsyncSensorNodeManager:
         connection_attempt_time = time()
         disconnected = True
         while disconnected:
-            await self.stu.connect_with_device_number(
-                sensor_node.device_number
+            await self.stu.connect_with_sensor_node_number(
+                sensor_node.sensor_node_number
             )
             retry_time_s = 3
             end_time_retry = time() + retry_time_s
@@ -170,7 +170,7 @@ class SensorDeviceInfo(NamedTuple):
     """Used to store information about a (disconnected) STH"""
 
     name: str  # The (Bluetooth advertisement) name of the STH
-    device_number: int  # The device number of the STH
+    sensor_node_number: int  # The device number of the STH
     mac_address: EUI  # The (Bluetooth) MAC address of the STH
     rssi: int  # The RSSI of the STH
 
@@ -179,7 +179,7 @@ class SensorDeviceInfo(NamedTuple):
 
         attributes = ", ".join([
             f"Name: {self.name}",
-            f"Device Number: {self.device_number}",
+            f"Device Number: {self.sensor_node_number}",
             f"MAC Address: {self.mac_address}",
             f"RSSI: {self.rssi}",
         ])
@@ -304,13 +304,13 @@ class STU(Node):
 
         return available_devices
 
-    async def get_name(self, device_number: int) -> str:
+    async def get_name(self, sensor_node_number: int) -> str:
         """Retrieve the name of a sensor device
 
         Parameters
         ----------
 
-        device_number:
+        sensor_node_number:
             The number of the Bluetooth device (0 up to the number of
             available devices - 1)
 
@@ -341,16 +341,18 @@ class STU(Node):
         """
 
         return await self.spu.get_name(
-            node=self.id, device_number=device_number
+            node=self.id, sensor_node_number=sensor_node_number
         )
 
-    async def connect_with_device_number(self, device_number: int = 0) -> bool:
+    async def connect_with_sensor_node_number(
+        self, sensor_node_number: int = 0
+    ) -> bool:
         """Connect to a Bluetooth device using a device number
 
         Parameters
         ----------
 
-        device_number:
+        sensor_node_number:
             The number of the Bluetooth device (0 up to the number of
             available devices - 1)
 
@@ -372,18 +374,18 @@ class STU(Node):
 
         Connect to device “0”
 
-        >>> async def connect_bluetooth_device_number():
+        >>> async def connect_bluetooth_sensor_node_number():
         ...     async with Connection() as stu:
         ...         await stu.activate_bluetooth()
         ...         # We assume that at least one STH is available
         ...         connected = before = await stu.is_connected()
         ...         while not connected:
-        ...             connected = await stu.connect_with_device_number(0)
+        ...             connected = await stu.connect_with_sensor_node_number(0)
         ...         await stu.deactivate_bluetooth()
         ...         after = await stu.is_connected()
         ...         # Return status of Bluetooth device connect response
         ...         return before, connected, after
-        >>> run(connect_bluetooth_device_number())
+        >>> run(connect_bluetooth_sensor_node_number())
         (False, True, False)
 
         """
@@ -391,8 +393,8 @@ class STU(Node):
         response = await self.spu.request_bluetooth(
             node=self.id,
             subcommand=7,
-            device_number=device_number,
-            description=f"connect to “{device_number}” from “{self.id}”",
+            sensor_node_number=sensor_node_number,
+            description=f"connect to “{sensor_node_number}” from “{self.id}”",
         )
 
         return bool(response.data[2])
@@ -479,13 +481,13 @@ class STU(Node):
         ...         connected_start = await stu.is_connected()
         ...
         ...         # We assume that at least one STH is available
-        ...         await stu.connect_with_device_number(0)
+        ...         await stu.connect_with_sensor_node_number(0)
         ...         # Wait for device connection
         ...         connected_between = False
         ...         while not connected_between:
         ...             connected_between = await stu.is_connected()
         ...             await sleep(0.1)
-        ...             await stu.connect_with_device_number(0)
+        ...             await stu.connect_with_sensor_node_number(0)
         ...
         ...         # Deactivate Bluetooth connection
         ...         await stu.deactivate_bluetooth()
@@ -510,13 +512,13 @@ class STU(Node):
 
         return bool(response.data[2])
 
-    async def get_rssi(self, device_number: int):
+    async def get_rssi(self, sensor_node_number: int):
         """Retrieve the RSSI (Received Signal Strength Indication) of an STH
 
         Parameters
         ----------
 
-        device_number:
+        sensor_node_number:
             The number of the Bluetooth device (0 up to the number of
             available devices)
 
@@ -546,11 +548,11 @@ class STU(Node):
         """
 
         return await self.spu.get_rssi(
-            node=self.id, device_number=device_number
+            node=self.id, sensor_node_number=sensor_node_number
         )
 
     async def get_mac_address(
-        self, device_number: int = DEVICE_NUMBER_SELF_ADDRESSING
+        self, sensor_node_number: int = DEVICE_NUMBER_SELF_ADDRESSING
     ) -> EUI:
         """Retrieve the MAC address of the STU or a sensor device
 
@@ -561,7 +563,7 @@ class STU(Node):
         Parameters
         ----------
 
-        device_number:
+        sensor_node_number:
             The device number of the Bluetooth device (0 up to the number of
             available devices - 1) or `0x00` (`DEVICE_NUMBER_SELF_ADDRESSING`)
             to retrieve the MAC address of the STU itself
@@ -591,7 +593,7 @@ class STU(Node):
 
         """
 
-        return await self.spu.get_mac_address(self.id, device_number)
+        return await self.spu.get_mac_address(self.id, sensor_node_number)
 
     async def get_sensor_nodes(self) -> list[SensorDeviceInfo]:
         """Retrieve a list of available sensor devices
@@ -631,7 +633,7 @@ class STU(Node):
         True
         >>> device = devices[0]
 
-        >>> device.device_number
+        >>> device.sensor_node_number
         0
 
         >>> isinstance(device.name, str)
@@ -657,7 +659,7 @@ class STU(Node):
 
             devices.append(
                 SensorDeviceInfo(
-                    device_number=device,
+                    sensor_node_number=device,
                     mac_address=mac_address,
                     name=name,
                     rssi=rssi,

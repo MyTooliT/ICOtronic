@@ -138,7 +138,7 @@ class SPU:
         node: str | NodeId,
         subcommand: int,
         description: str,
-        device_number: int | None = None,
+        sensor_node_number: int | None = None,
         data: list[int] | None = None,
         response_data: list[int | None] | None = None,
     ) -> CANMessage:
@@ -153,7 +153,7 @@ class SPU:
         subcommand:
             The number of the Bluetooth subcommand
 
-        device_number:
+        sensor_node_number:
             The device number of the Bluetooth device
 
         description:
@@ -172,7 +172,9 @@ class SPU:
 
         """
 
-        device_number = 0 if device_number is None else device_number
+        sensor_node_number = (
+            0 if sensor_node_number is None else sensor_node_number
+        )
         data = [0] * 6 if data is None else data
         message = Message(
             block="System",
@@ -180,7 +182,7 @@ class SPU:
             sender=self.id,
             receiver=node,
             request=True,
-            data=[subcommand, device_number] + data,
+            data=[subcommand, sensor_node_number] + data,
         )
 
         # The Bluetooth subcommand and device number should be the same in the
@@ -213,7 +215,7 @@ class SPU:
         }:
             expected_data = [None, None]
         else:
-            expected_data = [subcommand, device_number]
+            expected_data = [subcommand, sensor_node_number]
 
         if response_data is not None:
             expected_data.extend(response_data)
@@ -263,7 +265,7 @@ class SPU:
     # pylint: enable=too-many-arguments, too-many-positional-arguments
 
     async def get_name(
-        self, node: str | NodeId = "STU 1", device_number: int = 0xFF
+        self, node: str | NodeId = "STU 1", sensor_node_number: int = 0xFF
     ) -> str:
         """Retrieve the name of a Bluetooth device
 
@@ -289,7 +291,7 @@ class SPU:
         node:
             The node which has access to the Bluetooth device
 
-        device_number:
+        sensor_node_number:
             The number of the Bluetooth device (0 up to the number of
             available devices - 1; 0xff for self addressing).
 
@@ -300,12 +302,12 @@ class SPU:
 
         """
 
-        description = f"name of device “{device_number}” from “{node}”"
+        description = f"name of device “{sensor_node_number}” from “{node}”"
 
         answer = await self.request_bluetooth(
             node=node,
             subcommand=5,
-            device_number=device_number,
+            sensor_node_number=sensor_node_number,
             description=f"get first part of {description}",
         )
 
@@ -313,7 +315,7 @@ class SPU:
 
         answer = await self.request_bluetooth(
             node=node,
-            device_number=device_number,
+            sensor_node_number=sensor_node_number,
             subcommand=6,
             description=f"get second part of {description}",
         )
@@ -323,7 +325,7 @@ class SPU:
         return first_part + second_part
 
     async def get_rssi(
-        self, node: str | NodeId = "STH 1", device_number: int = 0xFF
+        self, node: str | NodeId = "STH 1", sensor_node_number: int = 0xFF
     ):
         """Retrieve the RSSI (Received Signal Strength Indication) of a device
 
@@ -348,7 +350,7 @@ class SPU:
         node:
             The node which should retrieve the RSSI
 
-        device_number:
+        sensor_node_number:
             The number of the Bluetooth device (0 up to the number of
             available devices - 1; 0xff for self addressing).
 
@@ -380,9 +382,9 @@ class SPU:
 
         response = await self.request_bluetooth(
             node=node,
-            device_number=device_number,
+            sensor_node_number=sensor_node_number,
             subcommand=12,
-            description=f"get RSSI of “{device_number}” from “{node}”",
+            description=f"get RSSI of “{sensor_node_number}” from “{node}”",
         )
 
         return int.from_bytes(
@@ -390,7 +392,7 @@ class SPU:
         )
 
     async def get_mac_address(
-        self, node: str | NodeId = "STH 1", device_number: int = 0xFF
+        self, node: str | NodeId = "STH 1", sensor_node_number: int = 0xFF
     ) -> EUI:
         """Retrieve the Bluetooth MAC address of a device
 
@@ -416,7 +418,7 @@ class SPU:
         node:
             The node which should retrieve the MAC address
 
-        device_number:
+        sensor_node_number:
             The number of the Bluetooth device (0 up to the number of
             available devices - 1; 0xff for self addressing).
 
@@ -429,9 +431,11 @@ class SPU:
 
         response = await self.request_bluetooth(
             node=node,
-            device_number=device_number,
+            sensor_node_number=sensor_node_number,
             subcommand=17,
-            description=f"get MAC address of “{device_number}” from “{node}”",
+            description=(
+                f"get MAC address of “{sensor_node_number}” from “{node}”"
+            ),
         )
 
         return EUI(":".join(f"{byte:02x}" for byte in response.data[:1:-1]))

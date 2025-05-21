@@ -229,7 +229,7 @@ class SensorNode(Node):
         """
 
         return await self.spu.get_name(
-            node=self.id, device_number=DEVICE_NUMBER_SELF_ADDRESSING
+            node=self.id, sensor_node_number=DEVICE_NUMBER_SELF_ADDRESSING
         )
 
     async def set_name(self, name: str) -> None:
@@ -290,7 +290,7 @@ class SensorNode(Node):
         await self.spu.request_bluetooth(
             node=node,
             subcommand=3,
-            device_number=DEVICE_NUMBER_SELF_ADDRESSING,
+            sensor_node_number=DEVICE_NUMBER_SELF_ADDRESSING,
             data=bytes_name[:6],
             description=f"set first part of {description}",
         )
@@ -298,7 +298,7 @@ class SensorNode(Node):
         await self.spu.request_bluetooth(
             node=node,
             subcommand=4,
-            device_number=DEVICE_NUMBER_SELF_ADDRESSING,
+            sensor_node_number=DEVICE_NUMBER_SELF_ADDRESSING,
             data=bytes_name[6:] + [0] * 4,
             description=f"set second part of {description}",
         )
@@ -341,7 +341,7 @@ class SensorNode(Node):
 
         response = await self.spu.request_bluetooth(
             node=self.id,
-            device_number=DEVICE_NUMBER_SELF_ADDRESSING,
+            sensor_node_number=DEVICE_NUMBER_SELF_ADDRESSING,
             subcommand=13,
             description="get reduced energy time values of sensor device",
         )
@@ -423,7 +423,7 @@ class SensorNode(Node):
 
         await self.spu.request_bluetooth(
             node=self.id,
-            device_number=DEVICE_NUMBER_SELF_ADDRESSING,
+            sensor_node_number=DEVICE_NUMBER_SELF_ADDRESSING,
             subcommand=14,
             data=data,
             response_data=list(data),
@@ -468,7 +468,7 @@ class SensorNode(Node):
 
         response = await self.spu.request_bluetooth(
             node=self.id,
-            device_number=DEVICE_NUMBER_SELF_ADDRESSING,
+            sensor_node_number=DEVICE_NUMBER_SELF_ADDRESSING,
             subcommand=15,
             description="get lowest energy mode time values of sensor device",
         )
@@ -547,7 +547,7 @@ class SensorNode(Node):
 
         await self.spu.request_bluetooth(
             node=self.id,
-            device_number=DEVICE_NUMBER_SELF_ADDRESSING,
+            sensor_node_number=DEVICE_NUMBER_SELF_ADDRESSING,
             subcommand=16,
             data=data,
             response_data=list(data),

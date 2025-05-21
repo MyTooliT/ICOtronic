@@ -233,7 +233,7 @@ def measurement_time(value: str) -> float:
         ) from error
 
 
-def device_number(value: str) -> int:
+def sensor_node_number(value: str) -> int:
     """Check if the given number is valid Bluetooth device number
 
     Returns
@@ -244,18 +244,18 @@ def device_number(value: str) -> int:
     Examples
     --------
 
-    >>> device_number("0")
+    >>> sensor_node_number("0")
     0
 
-    >>> device_number("123")
+    >>> sensor_node_number("123")
     123
 
-    >>> device_number("-1")
+    >>> sensor_node_number("-1")
     Traceback (most recent call last):
        ...
     argparse.ArgumentTypeError: “-1” is not a valid Bluetooth device number
 
-    >>> device_number("hello")
+    >>> sensor_node_number("hello")
     Traceback (most recent call last):
        ...
     argparse.ArgumentTypeError: “hello” is not a valid Bluetooth device number
@@ -355,7 +355,7 @@ def add_identifier_arguments(parser: ArgumentParser) -> None:
     identifier_group.add_argument(
         "-d",
         "--device-number",
-        type=device_number,
+        type=sensor_node_number,
         dest="identifier",
         metavar="DEVICE_NUMBER",
         help="Bluetooth device number of sensor device",
