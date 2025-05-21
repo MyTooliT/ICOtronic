@@ -1518,7 +1518,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 </ol>
 <div id="development:section:extended-tests" class="section level5 hasAnchor" number="8.3.3.2.1">
 <h5><span class="header-section-number">8.3.3.2.1</span> Extended Tests<a href="#development:section:extended-tests" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<p>The text below specifies extended manual test that should be executed before we <a href="#development:section:release">release a new version of ICOtronic</a>. Please note that the tests assume that you use more or less the <a href="https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml">default configuration values</a>.</p>
+<p>The text below specifies extended manual test that should be executed before we <a href="#development:section:release">release a new version of the ICOtronic package</a>. Please note that the tests assume that you more or less use the <a href="https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml">default configuration values</a>.</p>
 <div id="check-the-performance-of-the-library" class="section level6 hasAnchor" number="8.3.3.2.1.1">
 <h6><span class="header-section-number">8.3.3.2.1.1</span> Check the Performance of the Library<a href="#check-the-performance-of-the-library" class="anchor-section" aria-label="Anchor link to header"></a></h6>
 <ol style="list-style-type: decimal">
@@ -1535,7 +1535,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <div class="sourceCode" id="cb117"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb117-1"><a href="#cb117-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-t</span> 300 <span class="at">-n</span> Test-STH</span></code></pre></div>
 <ul>
 <li>The command should not print any <strong>no error messages</strong>.</li>
-<li>The <strong>data loss must be below 0.1 (1 %)</strong>.</li>
+<li>The <strong>data loss must be below 1 %</strong>.</li>
 </ul></li>
 <li><p>Check that the repo now contains a HDF5 (<code>*.hdf5</code>) file</p>
 <div class="sourceCode" id="cb118"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb118-1"><a href="#cb118-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
@@ -1543,12 +1543,12 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <li><p>Check that the timestamp of the last value in the <code>acceleration</code> table has <strong>approximately the value <code>30 000 000</code></strong> (all values above <code>29 900 000</code> should be fine).</p></li>
 </ol>
 </div>
-<div id="check-command-line-interface" class="section level6 hasAnchor" number="8.3.3.2.1.2">
-<h6><span class="header-section-number">8.3.3.2.1.2</span> Check Command Line Interface<a href="#check-command-line-interface" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<div id="check-hdf5-output" class="section level6 hasAnchor" number="8.3.3.2.1.2">
+<h6><span class="header-section-number">8.3.3.2.1.2</span> Check HDF5 Output<a href="#check-hdf5-output" class="anchor-section" aria-label="Anchor link to header"></a></h6>
 <ol style="list-style-type: decimal">
 <li><p>Repeat steps 1. – 4. from the test above</p></li>
 <li><p>Measure data for 10 seconds using the following command:</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb119-1"><a href="#cb119-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-n</span> <span class="st">&#39;Test-STH&#39;</span> <span class="at">-r</span> 10</span></code></pre></div></li>
+<div class="sourceCode" id="cb119"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb119-1"><a href="#cb119-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-n</span> <span class="st">&#39;Test-STH&#39;</span> <span class="at">-t</span> 10</span></code></pre></div></li>
 <li><p>Check that the repo now contains a HDF5 (<code>*.hdf5</code>) file</p>
 <div class="sourceCode" id="cb120"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb120-1"><a href="#cb120-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
 <li><p>Open the file in <a href="#measurement-data">HDFView</a></p></li>
