@@ -228,7 +228,9 @@ class SensorNode(Node):
 
         """
 
-        return await self.spu.get_name(node=self.id, device_number=0xFF)
+        return await self.spu.get_name(
+            node=self.id, device_number=DEVICE_NUMBER_SELF_ADDRESSING
+        )
 
     async def set_name(self, name: str) -> None:
         """Set the name of a sensor device
