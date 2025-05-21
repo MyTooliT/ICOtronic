@@ -11,7 +11,7 @@ from typing import NamedTuple, Type
 
 from netaddr import EUI
 
-from icotronic.can.constants import DEVICE_NUMBER_SELF_ADDRESSING
+from icotronic.can.constants import SENSOR_NODE_NUMBER_SELF_ADDRESSING
 from icotronic.can.node.eeprom.node import NodeEEPROM
 from icotronic.can.error import ErrorResponseError, NoResponseError
 from icotronic.can.node.basic import Node
@@ -548,7 +548,7 @@ class STU(Node):
         )
 
     async def get_mac_address(
-        self, sensor_node_number: int = DEVICE_NUMBER_SELF_ADDRESSING
+        self, sensor_node_number: int = SENSOR_NODE_NUMBER_SELF_ADDRESSING
     ) -> EUI:
         """Retrieve the MAC address of the STU or a sensor node
 
@@ -561,7 +561,8 @@ class STU(Node):
 
         sensor_node_number:
             The device number of the Bluetooth device (0 up to the number of
-            available devices - 1) or `0x00` (`DEVICE_NUMBER_SELF_ADDRESSING`)
+            available devices - 1) or
+            `0x00` (`SENSOR_NODE_NUMBER_SELF_ADDRESSING`)
             to retrieve the MAC address of the STU itself
 
         Returns
