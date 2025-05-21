@@ -15,7 +15,7 @@ from icotronic.can.node.eeprom.status import EEPROMStatus
 
 
 class NodeEEPROM(EEPROM):
-    """Read and write device specific EEPROM data (STU/sensor devices)"""
+    """Read and write device specific EEPROM data (STU/sensor nodes)"""
 
     # ========================
     # = System Configuration =

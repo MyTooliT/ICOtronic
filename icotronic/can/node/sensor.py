@@ -1,4 +1,4 @@
-"""Support for sensor devices (SHA, SMH and STH)"""
+"""Support for sensor nodes (SHA, SMH and STH)"""
 
 # pylint: disable=too-many-lines
 
@@ -43,7 +43,7 @@ from icotronic.measurement.voltage import convert_raw_to_supply_voltage
 
 
 class DataStreamContextManager:
-    """Open and close a data stream from a sensor device"""
+    """Open and close a data stream from a sensor node"""
 
     def __init__(
         self,
@@ -51,13 +51,13 @@ class DataStreamContextManager:
         channels: StreamingConfiguration,
         timeout: float,
     ) -> None:
-        """Create a new stream context manager for the given sensor device
+        """Create a new stream context manager for the given sensor node
 
         Parameters
         ----------
 
         sensor_node:
-            The sensor device for which this context manager handles
+            The sensor node for which this context manager handles
             the streaming data
 
         channels:
@@ -174,12 +174,12 @@ class Times(NamedTuple):
 
 
 class SensorNode(Node):
-    """Communicate and control a connected sensor device (SHA, STH, SMH)"""
+    """Communicate and control a connected sensor node (SHA, STH, SMH)"""
 
     def __init__(
         self, spu: SPU, eeprom: type[SensorNodeEEPROM] = SensorNodeEEPROM
     ) -> None:
-        """Initialize the sensor device
+        """Initialize the sensor node
 
         spu:
             The SPU object used to connect to this sensor node
@@ -200,7 +200,7 @@ class SensorNode(Node):
     # -------------
 
     async def get_name(self) -> str:
-        """Retrieve the name of the sensor device
+        """Retrieve the name of the sensor node
 
         Returns
         -------
@@ -217,7 +217,7 @@ class SensorNode(Node):
 
         >>> async def get_sensor_node_name():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             return await sensor_node.get_name()
         >>> name = run(get_sensor_node_name())
@@ -233,7 +233,7 @@ class SensorNode(Node):
         )
 
     async def set_name(self, name: str) -> None:
-        """Set the name of a sensor device
+        """Set the name of a sensor node
 
         Parameters
         ----------
@@ -247,11 +247,11 @@ class SensorNode(Node):
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
 
-        Change the name of a sensor device
+        Change the name of a sensor node
 
         >>> async def test_naming(name):
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         # and that this device currently does not have the name
         ...         # specified in the variable `name`.
         ...         async with stu.connect_sensor_node(0) as sensor_node:
@@ -304,7 +304,7 @@ class SensorNode(Node):
         )
 
     async def get_energy_mode_reduced(self) -> Times:
-        """Read the reduced energy mode (mode 1) sensor device time values
+        """Read the reduced energy mode (mode 1) sensor node time values
 
         See also:
 
@@ -324,11 +324,11 @@ class SensorNode(Node):
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
 
-        Retrieve the reduced energy time values of a sensor device
+        Retrieve the reduced energy time values of a sensor node
 
         >>> async def read_energy_mode_reduced():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             return await sensor_node.get_energy_mode_reduced()
         >>> times = run(read_energy_mode_reduced())
@@ -343,7 +343,7 @@ class SensorNode(Node):
             node=self.id,
             sensor_node_number=DEVICE_NUMBER_SELF_ADDRESSING,
             subcommand=13,
-            description="get reduced energy time values of sensor device",
+            description="get reduced energy time values of sensor node",
         )
 
         wait_time = int.from_bytes(response.data[2:6], byteorder="little")
@@ -382,11 +382,11 @@ class SensorNode(Node):
         >>> from icotronic.can.connection import Connection
 
 
-        Read and write the reduced energy time values of a sensor device
+        Read and write the reduced energy time values of a sensor node
 
         >>> async def read_write_energy_mode_reduced(sleep, advertisement):
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             await sensor_node.set_energy_mode_reduced(
         ...                 Times(sleep=sleep, advertisement=advertisement))
@@ -427,7 +427,7 @@ class SensorNode(Node):
             subcommand=14,
             data=data,
             response_data=list(data),
-            description="set reduced energy time values of sensor device",
+            description="set reduced energy time values of sensor node",
         )
 
     async def get_energy_mode_lowest(self) -> Times:
@@ -451,11 +451,11 @@ class SensorNode(Node):
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
 
-        Retrieve the reduced energy time values of a sensor device
+        Retrieve the reduced energy time values of a sensor node
 
         >>> async def read_energy_mode_lowest():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             return await sensor_node.get_energy_mode_lowest()
         >>> times = run(read_energy_mode_lowest())
@@ -470,7 +470,7 @@ class SensorNode(Node):
             node=self.id,
             sensor_node_number=DEVICE_NUMBER_SELF_ADDRESSING,
             subcommand=15,
-            description="get lowest energy mode time values of sensor device",
+            description="get lowest energy mode time values of sensor node",
         )
 
         wait_time = int.from_bytes(response.data[2:6], byteorder="little")
@@ -506,11 +506,11 @@ class SensorNode(Node):
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
 
-        Read and write the reduced energy time values of a sensor device
+        Read and write the reduced energy time values of a sensor node
 
         >>> async def read_write_energy_mode_lowest(sleep, advertisement):
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             await sensor_node.set_energy_mode_lowest(
         ...                 Times(sleep=sleep, advertisement=advertisement))
@@ -551,16 +551,16 @@ class SensorNode(Node):
             subcommand=16,
             data=data,
             response_data=list(data),
-            description="set reduced energy time values of sensor device",
+            description="set reduced energy time values of sensor node",
         )
 
     async def get_mac_address(self) -> EUI:
-        """Retrieve the MAC address of the sensor device
+        """Retrieve the MAC address of the sensor node
 
         Returns
         -------
 
-        The MAC address of the specified sensor device
+        The MAC address of the specified sensor node
 
         Example
         -------
@@ -572,7 +572,7 @@ class SensorNode(Node):
 
         >>> async def get_bluetooth_mac():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             return await sensor_node.get_mac_address()
         >>> mac_address = run(get_bluetooth_mac())
@@ -599,7 +599,7 @@ class SensorNode(Node):
         self,
         channels=StreamingConfiguration(first=True, second=True, third=True),
     ) -> StreamingData:
-        """Read a single set of raw ADC values from the sensor device
+        """Read a single set of raw ADC values from the sensor node
 
         Parameters
         ----------
@@ -611,7 +611,7 @@ class SensorNode(Node):
         Returns
         -------
 
-        The latest three ADC values measured by the sensor device
+        The latest three ADC values measured by the sensor node
 
         Examples
         --------
@@ -623,7 +623,7 @@ class SensorNode(Node):
 
         >>> async def read_sensor_values():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             return await sensor_node.get_streaming_data_single()
         >>> data = run(read_sensor_values())
@@ -797,7 +797,7 @@ class SensorNode(Node):
 
         >>> async def read_streaming_data():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             channels = StreamingConfiguration(first=True,
         ...                                               third=True)
@@ -833,7 +833,7 @@ class SensorNode(Node):
         Returns
         -------
 
-        The supply voltage of the sensor device
+        The supply voltage of the sensor node
 
         Example
         -------
@@ -841,11 +841,11 @@ class SensorNode(Node):
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
 
-        Read the supply voltage of the sensor device with device number 0
+        Read the supply voltage of the sensor node with device number 0
 
         >>> async def get_supply_voltage():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             return await sensor_node.get_supply_voltage()
         >>> supply_voltage = run(get_supply_voltage())
@@ -903,11 +903,11 @@ class SensorNode(Node):
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
 
-        Read ADC sensor config of sensor device with device id 0
+        Read ADC sensor config of sensor node with device id 0
 
         >>> async def read_adc_config():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             return await sensor_node.get_adc_configuration()
         >>> run(read_adc_config()) # doctest:+NORMALIZE_WHITESPACE
@@ -940,7 +940,7 @@ class SensorNode(Node):
         acquisition_time: int = 8,
         oversampling_rate: int = 64,
     ) -> None:
-        """Change the ADC configuration of a connected sensor device
+        """Change the ADC configuration of a connected sensor node
 
         Parameters
         ----------
@@ -969,7 +969,7 @@ class SensorNode(Node):
 
         >>> async def write_read_adc_config():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             await sensor_node.set_adc_configuration(
         ...                 3.3, 8, 8, 64)
@@ -1049,7 +1049,7 @@ class SensorNode(Node):
 
         >>> async def read_sensor_config():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             return await sensor_node.get_sensor_configuration()
         >>> config = run(
@@ -1110,7 +1110,7 @@ class SensorNode(Node):
 
         >>> async def set_sensor_config():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             await sensor_node.set_sensor_configuration(
         ...                 SensorConfiguration(first=0, second=0, third=0))

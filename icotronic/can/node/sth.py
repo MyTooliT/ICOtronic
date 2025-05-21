@@ -1,4 +1,4 @@
-"""Support for acceleration based sensor devices (SHA and STH)"""
+"""Support for acceleration based sensor nodes (SHA and STH)"""
 
 # -- Imports ------------------------------------------------------------------
 
@@ -103,7 +103,7 @@ class STH(SensorNode):
 
         >>> async def test_self_test():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             await sth.activate_acceleration_self_test()
         ...             await sth.deactivate_acceleration_self_test()
@@ -159,7 +159,7 @@ class STH(SensorNode):
 
         >>> async def read_acceleration_voltage():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             before = await sth.get_acceleration_voltage()
         ...             await sth.activate_acceleration_self_test()
@@ -232,7 +232,7 @@ class STH(SensorNode):
 
         >>> async def read_sensor_range():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             return (await
         ...                     sth.get_acceleration_sensor_range_in_g())
@@ -267,7 +267,7 @@ class STH(SensorNode):
 
         >>> async def read_sensor_values():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             convert_to_g = (
         ...                 await sth.get_acceleration_conversion_function())

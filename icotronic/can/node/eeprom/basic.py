@@ -131,7 +131,7 @@ class EEPROM:
 
         >>> async def read_slope():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             return await sth.eeprom.read_float(address=8, offset=0)
         >>> slope = run(read_slope())

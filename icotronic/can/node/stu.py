@@ -24,7 +24,7 @@ from icotronic.utility.data import convert_bytes_to_text
 
 
 class AsyncSensorNodeManager:
-    """Context manager for connection to sensor device"""
+    """Context manager for connection to sensor node"""
 
     def __init__(
         self,
@@ -41,7 +41,7 @@ class AsyncSensorNodeManager:
             The STU instance that created the context manager
 
         identifier:
-            The identifier of the sensor device
+            The identifier of the sensor node
 
         sensor_node_class:
             The sensor node class returned by the context manager
@@ -53,12 +53,12 @@ class AsyncSensorNodeManager:
         self.sensor_node_class = sensor_node_class
 
     async def __aenter__(self) -> SensorNode:
-        """Create the connection to the sensor device"""
+        """Create the connection to the sensor node"""
 
         def get_sensor_node(
             devices: list[SensorDeviceInfo], identifier: int | str | EUI
         ) -> SensorDeviceInfo | None:
-            """Get the MAC address of a sensor device"""
+            """Get the MAC address of a sensor node"""
 
             for device in devices:
                 if (
@@ -87,10 +87,10 @@ class AsyncSensorNodeManager:
                     [repr(device) for device in sensor_nodes]
                 )
                 device_info = (
-                    "Found the following sensor devices:\n"
+                    "Found the following sensor nodes:\n"
                     f"{sensor_nodes_representation}"
                     if len(sensor_nodes) > 0
-                    else "No sensor devices found"
+                    else "No sensor nodes found"
                 )
 
                 identifier_description = (
@@ -103,7 +103,7 @@ class AsyncSensorNodeManager:
                     )
                 )
                 raise TimeoutError(
-                    "Unable to find sensor device with "
+                    "Unable to find sensor node with "
                     f"{identifier_description} “{self.identifier}” in "
                     f"{timeout_in_s} seconds\n\n{device_info}"
                 )
@@ -123,7 +123,7 @@ class AsyncSensorNodeManager:
                 if time() > end_time:
                     connection_time = time() - connection_attempt_time
                     raise TimeoutError(
-                        "Unable to connect to sensor device"
+                        "Unable to connect to sensor node"
                         f" “{sensor_node}” in"
                         f" {connection_time:.3f} seconds"
                     )
@@ -142,7 +142,7 @@ class AsyncSensorNodeManager:
         exception_value: BaseException | None,
         traceback: TracebackType | None,
     ) -> None:
-        """Disconnect the sensor device and clean up resources
+        """Disconnect the sensor node and clean up resources
 
         Parameters
         ----------
@@ -261,12 +261,12 @@ class STU(Node):
         )
 
     async def get_available_devices(self) -> int:
-        """Retrieve the number of available sensor devices
+        """Retrieve the number of available sensor nodes
 
         Returns
         -------
 
-        The number of available sensor devices
+        The number of available sensor nodes
 
         Examples
         --------
@@ -303,7 +303,7 @@ class STU(Node):
         return available_devices
 
     async def get_name(self, sensor_node_number: int) -> str:
-        """Retrieve the name of a sensor device
+        """Retrieve the name of a sensor node
 
         Parameters
         ----------
@@ -379,7 +379,7 @@ class STU(Node):
         ...             connected = await stu.connect_with_number(0)
         ...         await stu.deactivate_bluetooth()
         ...         after = await stu.is_connected()
-        ...         # Return status of Bluetooth device connect response
+        ...         # Return astatus of Bluetooth device connect response
         ...         return before, connected, after
         >>> run(connect_bluetooth_sensor_node_number())
         (False, True, False)
@@ -396,13 +396,13 @@ class STU(Node):
         return bool(response.data[2])
 
     async def connect_with_mac_address(self, mac_address: EUI) -> None:
-        """Connect to a Bluetooth sensor device using its MAC address
+        """Connect to a Bluetooth sensor node using its MAC address
 
         Parameters
         ----------
 
         mac_address:
-            The MAC address of the sensor device
+            The MAC address of the sensor node
 
         Examples
         --------
@@ -550,7 +550,7 @@ class STU(Node):
     async def get_mac_address(
         self, sensor_node_number: int = DEVICE_NUMBER_SELF_ADDRESSING
     ) -> EUI:
-        """Retrieve the MAC address of the STU or a sensor device
+        """Retrieve the MAC address of the STU or a sensor node
 
         Note: Bluetooth needs to be activated before calling this coroutine,
               otherwise an incorrect MAC address will be returned (for sensor
@@ -567,7 +567,7 @@ class STU(Node):
         Returns
         -------
 
-        The MAC address of the specified sensor device
+        The MAC address of the specified sensor node
 
         Example
         -------
@@ -592,7 +592,7 @@ class STU(Node):
         return await self.spu.get_mac_address(self.id, sensor_node_number)
 
     async def get_sensor_nodes(self) -> list[SensorDeviceInfo]:
-        """Retrieve a list of available sensor devices
+        """Retrieve a list of available sensor nodes
 
         Returns
         -------
@@ -617,7 +617,7 @@ class STU(Node):
 
         >>> async def get_sensor_nodes():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         devices = []
         ...         while not devices:
         ...             devices = await stu.get_sensor_nodes()
@@ -669,7 +669,7 @@ class STU(Node):
         identifier: int | str | EUI,
         sensor_node_class: Type[SensorNode] = SensorNode,
     ) -> AsyncSensorNodeManager:
-        """Connect to a sensor device (e.g. SHA, SMH or STH)
+        """Connect to a sensor node (e.g. SHA, SMH or STH)
 
         Parameters
         ----------
@@ -681,7 +681,7 @@ class STU(Node):
             - name (`str`), or
             - device number (`int`)
 
-            of the sensor device we want to connect to
+            of the sensor node we want to connect to
 
         sensor_node_class:
             Sensor device subclass that should be returned by context manager
@@ -692,7 +692,7 @@ class STU(Node):
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
 
-        Connect to the sensor device with device number `0`
+        Connect to the sensor node with device number `0`
 
         >>> async def connect_sensor_node():
         ...     async with Connection() as stu:

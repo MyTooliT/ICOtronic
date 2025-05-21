@@ -45,7 +45,7 @@ def parse_arguments():
 
 
 class EEPROMCheck:
-    """Write and check the content of a sensor device EEPROM page"""
+    """Write and check the content of a sensor node EEPROM page"""
 
     def __init__(self, sensor_node, value):
         """Initialize the EEPROM check with the given arguments
@@ -54,7 +54,7 @@ class EEPROMCheck:
         ----------
 
         sensor_node:
-            The sensor device where the EEPROM check should take place
+            The sensor node where the EEPROM check should take place
 
         value:
             The value that the EEPROM checker should write into the EEPROM

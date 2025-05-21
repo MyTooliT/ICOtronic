@@ -340,7 +340,7 @@ def add_identifier_arguments(parser: ArgumentParser) -> None:
         "--name",
         dest="identifier",
         metavar="NAME",
-        help="Name of sensor device",
+        help="Name of sensor node",
         default="Test-STH",
         type=sth_name,
     )
@@ -349,7 +349,7 @@ def add_identifier_arguments(parser: ArgumentParser) -> None:
         "--mac-address",
         dest="identifier",
         metavar="MAC_ADRESS",
-        help="Bluetooth MAC address of sensor device",
+        help="Bluetooth MAC address of sensor node",
         type=mac_address,
     )
     identifier_group.add_argument(
@@ -358,7 +358,7 @@ def add_identifier_arguments(parser: ArgumentParser) -> None:
         type=sensor_node_number,
         dest="identifier",
         metavar="DEVICE_NUMBER",
-        help="Bluetooth device number of sensor device",
+        help="Bluetooth device number of sensor node",
     )
 
 
@@ -504,7 +504,7 @@ def create_icon_parser() -> ArgumentParser:
     # = List =
     # ========
 
-    subparsers.add_parser("list", help="List sensor devices")
+    subparsers.add_parser("list", help="List sensor nodes")
 
     # ===========
     # = Measure =
@@ -535,7 +535,7 @@ def create_icon_parser() -> ArgumentParser:
     # ==========
 
     rename_parser = subparsers.add_parser(
-        "rename", help="Rename a sensor device"
+        "rename", help="Rename a sensor node"
     )
     add_identifier_arguments(rename_parser)
     rename_parser.add_argument(

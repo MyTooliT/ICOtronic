@@ -164,7 +164,7 @@ async def command_dataloss(arguments: Namespace) -> None:
 async def command_list(
     arguments: Namespace,  # pylint: disable=unused-argument
 ) -> None:
-    """Print a list of available sensor devices
+    """Print a list of available sensor nodes
 
     Parameters
     ----------
@@ -179,9 +179,9 @@ async def command_list(
         sensor_nodes: List[SensorDeviceInfo] = []
         sensor_nodes_before: List[SensorDeviceInfo] = []
 
-        # - First request for sensor devices will produce empty list
-        # - Subsequent retries should provide all available sensor devices
-        # - We wait until the number of sensor devices is larger than 1 and
+        # - First request for sensor nodes will produce empty list
+        # - Subsequent retries should provide all available sensor nodes
+        # - We wait until the number of sensor nodes is larger than 1 and
         #   has not changed between one iteration or the timeout is reached
         while (
             len(sensor_nodes) <= 0
@@ -291,7 +291,7 @@ async def command_measure(arguments: Namespace) -> None:
 
 
 async def command_rename(arguments: Namespace) -> None:
-    """Rename a sensor device
+    """Rename a sensor node
 
     Parameters
     ----------
@@ -312,7 +312,7 @@ async def command_rename(arguments: Namespace) -> None:
             await sensor_node.set_name(name)
             name = await sensor_node.get_name()
             print(
-                f"Renamed sensor device “{old_name}” with MAC "
+                f"Renamed sensor node “{old_name}” with MAC "
                 f"address “{mac_address}” to “{name}”"
             )
 
@@ -340,7 +340,7 @@ async def command_stu(arguments: Namespace) -> None:
             #   advertisement for the STU.
             # - Even a **hard STU reset does not turn off the advertisement**.
             # - One way to turn off the advertisement seems to be to initiate a
-            #   connection with a sensor device.
+            #   connection with a sensor node.
             await stu.activate_bluetooth()
         elif subcommand == "mac":
             print(await stu.get_mac_address())

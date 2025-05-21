@@ -405,7 +405,7 @@ class StorageData:
         ----------
 
         adc_configuration:
-            The current ADC configuration of the sensor device
+            The current ADC configuration of the sensor node
 
         >>> filepath = Path("test.hdf5")
         >>> adc_configuration = ADCConfiguration(

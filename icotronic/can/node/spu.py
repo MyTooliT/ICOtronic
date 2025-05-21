@@ -276,7 +276,7 @@ class SPU:
 
         devices.
 
-        1. For disconnected sensor devices you will usually use the STU (e.g.
+        1. For disconnected sensor nodes you will usually use the STU (e.g.
            `STU 1`) and the device number at the STU (in the range `0` up to
            the number of devices - 1) to retrieve the name.
 

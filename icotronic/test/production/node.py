@@ -315,7 +315,7 @@ class BaseTestCases:
         async def test_connection(self):
             """Check connection to node"""
 
-            # The sensor devices need a little more time to switch from the
+            # The sensor nodes need a little more time to switch from the
             # “Startup” to the “Operating” state
             await sleep(1)
 
@@ -678,31 +678,31 @@ class BaseTestCases:
             ----------
 
             name:
-                The (Bluetooth advertisement) name of the sensor device
+                The (Bluetooth advertisement) name of the sensor node
 
             """
 
             await super()._connect()  # Connect to STU
             stu = self.node
             self.sensor_node_connection = stu.connect_sensor_node(name, STH)
-            # New node is sensor device
+            # New node is sensor node
             self.node = await self.sensor_node_connection.__aenter__()
             self.stu = stu
 
         async def _disconnect_device(self) -> None:
-            """Disconnect from sensor device and STU"""
+            """Disconnect from sensor node and STU"""
 
             await self.sensor_node_connection.__aexit__(None, None, None)
             await super()._disconnect()  # Disconnect from STU
 
         async def _test_name(self, name: str) -> str:
-            """Check if writing and reading the name of a sensor device works
+            """Check if writing and reading the name of a sensor node works
 
             Parameters
             ----------
 
             name:
-                The text that should be used as name for the sensor device
+                The text that should be used as name for the sensor node
 
             Returns
             -------

@@ -17,9 +17,9 @@ Check help output for main command:
     {config,dataloss,list,measure,rename,stu}
       config              Open config file in default application
       dataloss            Check data loss at different sample rates
-      list                List sensor devices
+      list                List sensor nodes
       measure             Store measurement data
-      rename              Rename a sensor device
+      rename              Rename a sensor node
       stu                 Execute commands related to stationary receiver unit
 
 Check help output of config command:
@@ -64,11 +64,11 @@ Check help output of measure command:
                           - 255; 0 to disable)
   
   Sensor Device Identifier:
-    -n* Name of sensor device (glob)
+    -n* Name of sensor node (glob)
     -m* (glob)
-                          Bluetooth MAC address of sensor device
+                          Bluetooth MAC address of sensor node
     -d* DEVICE_NUMBER (glob)
-                          Bluetooth device number of sensor device
+                          Bluetooth device number of sensor node
   
   ADC:
     -s* (glob)
@@ -92,11 +92,11 @@ Check help output of rename command:
     -h, --help            show this help message and exit
   
   Sensor Device Identifier:
-    -n* Name of sensor device (glob)
+    -n* Name of sensor node (glob)
     -m* MAC_ADRESS (glob)
-                          Bluetooth MAC address of sensor device
+                          Bluetooth MAC address of sensor node
     -d* DEVICE_NUMBER (glob)
-                          Bluetooth device number of sensor device
+                          Bluetooth device number of sensor node
 
 Check help output of STU command:
 

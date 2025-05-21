@@ -17,7 +17,7 @@ from icotronic.utility.data import convert_bytes_to_text
 
 
 class Node:
-    """Contains functionality shared by STU and sensor devices"""
+    """Contains functionality shared by STU and sensor nodes"""
 
     def __init__(
         self, spu: SPU, eeprom_class: type[NodeEEPROM], node_id: NodeId
@@ -59,11 +59,11 @@ class Node:
         ...         await stu.reset()
         >>> run(reset())
 
-        Reset a sensor device
+        Reset a sensor node
 
         >>> async def reset():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             await sensor_node.reset()
         ...             # Wait some time for reset to take place
@@ -113,11 +113,11 @@ class Node:
         >>> run(get_state())
         Get State, Location: Application, State: Operating
 
-        Get state of sensor device
+        Get state of sensor node
 
         >>> async def get_state():
         ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor device is available
+        ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             state = await sensor_node.get_state()
         ...             # Sensor device might be still in startup state
