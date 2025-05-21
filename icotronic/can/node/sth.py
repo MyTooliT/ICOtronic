@@ -22,7 +22,7 @@ class STH(SensorNode):
         """Initialize the node
 
         spu:
-            The SPU object used to communicate with the device
+            The SPU object used to communicate with the node
 
         """
 

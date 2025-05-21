@@ -56,7 +56,7 @@ class BaseTestCases:
         of the superclass before you do that.
 
         The various `_test` methods in this class can be used to run certain
-        tests for a device as part of a test method (i.e. a method that starts
+        tests for a node as part of a test method (i.e. a method that starts
         with the string `test`).
 
         """
@@ -83,7 +83,7 @@ class BaseTestCases:
         def setUpClass(cls):
             """Set up data for whole test"""
 
-            # Add basic test attributes that all devices share
+            # Add basic test attributes that all nodes share
             cls.add_attribute(
                 "EEPROM Status", "{cls.eeprom_status}", pdf=False
             )
@@ -671,8 +671,8 @@ class BaseTestCases:
                 pdf=False,
             )
 
-        async def _connect_device(self, name: str) -> None:
-            """Create a connection to the device with the specified name
+        async def _connect_node(self, name: str) -> None:
+            """Create a connection to the node with the specified name
 
             Parameters
             ----------
@@ -689,7 +689,7 @@ class BaseTestCases:
             self.node = await self.sensor_node_connection.__aenter__()
             self.stu = stu
 
-        async def _disconnect_device(self) -> None:
+        async def _disconnect_node(self) -> None:
             """Disconnect from sensor node and STU"""
 
             await self.sensor_node_connection.__aexit__(None, None, None)
@@ -749,7 +749,7 @@ class BaseTestCases:
                 write_function=self.node.eeprom.write_sleep_time_1,
                 variable="sleep_time_1",
                 description="Sleep Time 1",
-                milliseconds=settings.sensory_device.bluetooth.sleep_time_1,
+                milliseconds=settings.sensor_node.bluetooth.sleep_time_1,
             )
 
             await read_write_time(
@@ -758,7 +758,7 @@ class BaseTestCases:
                 variable="advertisement_time_1",
                 description="Advertisement Time 1",
                 milliseconds=(
-                    settings.sensory_device.bluetooth.advertisement_time_1
+                    settings.sensor_node.bluetooth.advertisement_time_1
                 ),
             )
 
@@ -767,7 +767,7 @@ class BaseTestCases:
                 write_function=self.node.eeprom.write_sleep_time_2,
                 variable="sleep_time_2",
                 description="Sleep Time 2",
-                milliseconds=settings.sensory_device.bluetooth.sleep_time_2,
+                milliseconds=settings.sensor_node.bluetooth.sleep_time_2,
             )
 
             await read_write_time(
@@ -776,6 +776,6 @@ class BaseTestCases:
                 variable="advertisement_time_2",
                 description="Advertisement Time 2",
                 milliseconds=(
-                    settings.sensory_device.bluetooth.advertisement_time_2
+                    settings.sensor_node.bluetooth.advertisement_time_2
                 ),
             )

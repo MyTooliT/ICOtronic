@@ -1,4 +1,4 @@
-"""Basic EEPROM support for ICOtronic devices"""
+"""Basic EEPROM support for ICOtronic nodes"""
 
 # -- Imports ------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ from icotronic.utility.data import convert_bytes_to_text
 
 
 class EEPROM:
-    """Read and write EEPROM data of ICOtronic devices"""
+    """Read and write EEPROM data of ICOtronic nodes"""
 
     def __init__(self, spu: SPU, node: NodeId) -> None:
         """Create an EEPROM instance using the given arguments

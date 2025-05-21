@@ -234,7 +234,7 @@ def measurement_time(value: str) -> float:
 
 
 def sensor_node_number(value: str) -> int:
-    """Check if the given number is valid Bluetooth device number
+    """Check if the given number is valid Bluetooth node number
 
     Returns
     -------
@@ -253,12 +253,12 @@ def sensor_node_number(value: str) -> int:
     >>> sensor_node_number("-1")
     Traceback (most recent call last):
        ...
-    argparse.ArgumentTypeError: “-1” is not a valid Bluetooth device number
+    argparse.ArgumentTypeError: “-1” is not a valid Bluetooth node number
 
     >>> sensor_node_number("hello")
     Traceback (most recent call last):
        ...
-    argparse.ArgumentTypeError: “hello” is not a valid Bluetooth device number
+    argparse.ArgumentTypeError: “hello” is not a valid Bluetooth node number
 
     """
 
@@ -269,7 +269,7 @@ def sensor_node_number(value: str) -> int:
         return number
     except ValueError as error:
         raise ArgumentTypeError(
-            f"“{value}” is not a valid Bluetooth device number"
+            f"“{value}” is not a valid Bluetooth node number"
         ) from error
 
 
@@ -320,10 +320,10 @@ def sth_name(name: str) -> str:
 
 
 def add_identifier_arguments(parser: ArgumentParser) -> None:
-    """Add device identifier arguments to given argument parser
+    """Add node identifier arguments to given argument parser
 
     parser:
-        The parser which should include the device identifier arguments
+        The parser which should include the node identifier arguments
 
     """
 
@@ -354,11 +354,11 @@ def add_identifier_arguments(parser: ArgumentParser) -> None:
     )
     identifier_group.add_argument(
         "-d",
-        "--device-number",
+        "--node-number",
         type=sensor_node_number,
         dest="identifier",
         metavar="DEVICE_NUMBER",
-        help="Bluetooth device number of sensor node",
+        help="Bluetooth node number of sensor node",
     )
 
 

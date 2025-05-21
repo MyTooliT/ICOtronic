@@ -181,8 +181,8 @@ class Settings(Dynaconf):
             """Check that all elements of a list are ints"""
             return element_is_type(nodes, name, element_type=int)
 
-        def device_validators(name: str):
-            """Return shared validator for ICOtronic device (STH, STU, SMH)"""
+        def node_validators(name: str):
+            """Return shared validator for ICOtronic node (STH, STU, SMH)"""
 
             return [
                 must_exist(
@@ -223,7 +223,7 @@ class Settings(Dynaconf):
         def sensor_node_validators(name: str):
             """Return shared validator for STH or SMH"""
 
-            return device_validators(name) + [
+            return node_validators(name) + [
                 must_exist(
                     f"{name}.name",
                     is_type_of=str,
@@ -301,12 +301,12 @@ class Settings(Dynaconf):
             ),
         ]
         operator_validators = [must_exist("operator.name", is_type_of=str)]
-        sensory_device_validators = [
+        general_sensor_node_validators = [
             must_exist(
-                "sensory_device.bluetooth.advertisement_time_1",
-                "sensory_device.bluetooth.advertisement_time_2",
-                "sensory_device.bluetooth.sleep_time_1",
-                "sensory_device.bluetooth.sleep_time_2",
+                "sensor_node.bluetooth.advertisement_time_1",
+                "sensor_node.bluetooth.advertisement_time_2",
+                "sensor_node.bluetooth.sleep_time_1",
+                "sensor_node.bluetooth.sleep_time_2",
                 is_type_of=int,
             )
         ]
@@ -343,7 +343,7 @@ class Settings(Dynaconf):
                 ),
             ),
         ]
-        stu_validators = device_validators("stu")
+        stu_validators = node_validators("stu")
 
         self.validators.register(
             *can_validators,
@@ -351,7 +351,7 @@ class Settings(Dynaconf):
             *logger_validators,
             *measurement_validators,
             *operator_validators,
-            *sensory_device_validators,
+            *general_sensor_node_validators,
             *smh_validators,
             *sth_validators,
             *stu_validators,

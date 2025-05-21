@@ -41,7 +41,7 @@ async def get_acceleration_sensor_range_in_g(sth: STH) -> float:
     ------------
 
     The STH object given as parameter needs to be connected to a sensor
-    device before you call this coroutine
+    node before you call this coroutine
 
     Parameters
     ----------
@@ -192,8 +192,8 @@ async def command_list(
             sensor_nodes = await stu.get_sensor_nodes()
             await sleep(0.5)
 
-        for device in sensor_nodes:
-            print(device)
+        for node in sensor_nodes:
+            print(node)
 
 
 # pylint: disable=too-many-locals

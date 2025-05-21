@@ -70,7 +70,7 @@ class DataStreamContextManager:
 
         """
 
-        self.device = sensor_node
+        self.node = sensor_node
         self.channels = channels
         self.timeout = timeout
         self.reader: AsyncStreamBuffer | None = None
@@ -87,7 +87,7 @@ class DataStreamContextManager:
 
         """
 
-        adc_config = await self.device.get_adc_configuration()
+        adc_config = await self.node.get_adc_configuration()
         # Raise exception if there if there is more than one second worth
         # of buffered data
         self.reader = AsyncStreamBuffer(
@@ -96,8 +96,8 @@ class DataStreamContextManager:
             max_buffer_size=round(adc_config.sample_rate()),
         )
 
-        self.device.spu.notifier.add_listener(self.reader)
-        await self.device.start_streaming_data(self.channels)
+        self.node.spu.notifier.add_listener(self.reader)
+        await self.node.start_streaming_data(self.channels)
         self.logger.debug("Entered data stream context manager")
 
         return self.reader
@@ -126,13 +126,13 @@ class DataStreamContextManager:
 
         if self.reader is not None:
             self.reader.stop()
-            self.device.spu.notifier.remove_listener(self.reader)
+            self.node.spu.notifier.remove_listener(self.reader)
 
         if exception_type is None or isinstance(
             exception_type, type(CancelledError)
         ):
             self.logger.info("Stopping stream")
-            await self.device.stop_streaming_data()
+            await self.node.stop_streaming_data()
         else:
             # If there was an error while streaming data, then stoping the
             # stream will usually also fail. Because of this we only try once
@@ -146,9 +146,7 @@ class DataStreamContextManager:
             self.logger.info(
                 "Stopping stream after error (%s)", exception_type
             )
-            await self.device.stop_streaming_data(
-                retries=1, ignore_errors=True
-            )
+            await self.node.stop_streaming_data(retries=1, ignore_errors=True)
 
 
 class Times(NamedTuple):
@@ -185,7 +183,7 @@ class SensorNode(Node):
             The SPU object used to connect to this sensor node
 
         eeprom:
-            The EEPROM class of the device
+            The EEPROM class of the node
 
         """
 
@@ -205,7 +203,7 @@ class SensorNode(Node):
         Returns
         -------
 
-        The (Bluetooth broadcast) name of the device
+        The (Bluetooth broadcast) name of the node
 
         Examples
         --------
@@ -213,7 +211,7 @@ class SensorNode(Node):
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
 
-        Get Bluetooth advertisement name of device “0”
+        Get Bluetooth advertisement name of node “0”
 
         >>> async def get_sensor_node_name():
         ...     async with Connection() as stu:
@@ -239,7 +237,7 @@ class SensorNode(Node):
         ----------
 
         name:
-            The new name for the device
+            The new name for the node
 
         Examples
         --------
@@ -252,7 +250,7 @@ class SensorNode(Node):
         >>> async def test_naming(name):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor node is available
-        ...         # and that this device currently does not have the name
+        ...         # and that this node currently does not have the name
         ...         # specified in the variable `name`.
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             before = await sensor_node.get_name()
@@ -314,7 +312,7 @@ class SensorNode(Node):
         -------
 
         A tuple containing the advertisement time in the reduced energy mode
-        in milliseconds and the time until the device will switch from the
+        in milliseconds and the time until the node will switch from the
         disconnected state to the low energy mode (mode 1) – if there is no
         activity – in milliseconds
 
@@ -368,7 +366,7 @@ class SensorNode(Node):
 
         times:
             The values for the advertisement time in the reduced energy mode
-            in milliseconds and the time until the device will go into the low
+            in milliseconds and the time until the node will go into the low
             energy mode (mode 1) from the disconnected state – if there is no
             activity – in milliseconds.
 
@@ -405,7 +403,7 @@ class SensorNode(Node):
         """
 
         if times is None:
-            time_settings = settings.sensory_device.bluetooth
+            time_settings = settings.sensor_node.bluetooth
             times = Times(
                 sleep=time_settings.sleep_time_1,
                 advertisement=time_settings.advertisement_time_1,
@@ -441,7 +439,7 @@ class SensorNode(Node):
         -------
 
         A tuple containing the advertisement time in the lowest energy mode in
-        milliseconds and the time until the device will switch from the
+        milliseconds and the time until the node will switch from the
         reduced energy mode (mode 1) to the lowest energy mode (mode 2) – if
         there is no activity – in milliseconds
 
@@ -493,7 +491,7 @@ class SensorNode(Node):
 
         times:
             The values for the advertisement time in the reduced energy mode
-            in milliseconds and the time until the device will go into the
+            in milliseconds and the time until the node will go into the
             lowest energy mode (mode 2) from the reduced energy mode (mode 1)
             – if there is no activity – in milliseconds.
 
@@ -529,7 +527,7 @@ class SensorNode(Node):
         """
 
         if times is None:
-            time_settings = settings.sensory_device.bluetooth
+            time_settings = settings.sensor_node.bluetooth
             times = Times(
                 sleep=time_settings.sleep_time_2,
                 advertisement=time_settings.advertisement_time_2,
@@ -841,7 +839,7 @@ class SensorNode(Node):
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
 
-        Read the supply voltage of the sensor node with device number 0
+        Read the supply voltage of the sensor node with node number 0
 
         >>> async def get_supply_voltage():
         ...     async with Connection() as stu:
@@ -903,7 +901,7 @@ class SensorNode(Node):
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
 
-        Read ADC sensor config of sensor node with device id 0
+        Read ADC sensor config of sensor node with node id 0
 
         >>> async def read_adc_config():
         ...     async with Connection() as stu:
@@ -1045,7 +1043,7 @@ class SensorNode(Node):
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
 
-        Reading sensor config from device without sensor config support fails
+        Reading sensor config from node without sensor config support fails
 
         >>> async def read_sensor_config():
         ...     async with Connection() as stu:
@@ -1106,7 +1104,7 @@ class SensorNode(Node):
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
 
-        Setting sensor config from device without sensor config support fails
+        Setting sensor config from node without sensor config support fails
 
         >>> async def set_sensor_config():
         ...     async with Connection() as stu:

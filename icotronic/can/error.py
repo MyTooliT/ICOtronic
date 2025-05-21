@@ -4,7 +4,7 @@
 
 
 class UnsupportedFeatureException(Exception):
-    """Indicate that a certain feature is not supported by a device"""
+    """Indicate that a certain feature is not supported by a node"""
 
 
 class CANConnectionError(Exception):

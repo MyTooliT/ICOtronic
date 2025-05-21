@@ -68,7 +68,7 @@ Check help output of measure command:
     -m* (glob)
                           Bluetooth MAC address of sensor node
     -d* DEVICE_NUMBER (glob)
-                          Bluetooth device number of sensor node
+                          Bluetooth node number of sensor node
   
   ADC:
     -s* (glob)
@@ -96,7 +96,7 @@ Check help output of rename command:
     -m* MAC_ADRESS (glob)
                           Bluetooth MAC address of sensor node
     -d* DEVICE_NUMBER (glob)
-                          Bluetooth device number of sensor node
+                          Bluetooth node number of sensor node
 
 Check help output of STU command:
 

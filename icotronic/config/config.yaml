@@ -91,7 +91,7 @@ operator:
   name: Dummy User
 
 # Shared values for SMH/STH
-sensory_device:
+sensor_node:
   bluetooth:
     # Advertisement time 1 in ms
     advertisement time 1: 1250

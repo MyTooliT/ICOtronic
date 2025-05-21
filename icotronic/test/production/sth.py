@@ -134,12 +134,12 @@ class TestSTH(BaseTestCases.TestSensorNode):
     async def _connect(self):
         """Create a connection to the STH"""
 
-        await super()._connect_device(settings.sth_name())
+        await super()._connect_node(settings.sth_name())
 
     async def _disconnect(self):
         """Tear down connection to STH"""
 
-        await super()._disconnect_device()
+        await super()._disconnect_node()
 
     async def _read_data(self):
         """Read data from connected STH"""

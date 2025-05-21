@@ -1,4 +1,4 @@
-"""Read name of STH with device number 0"""
+"""Read name of STH with node number 0"""
 
 # -- Imports ------------------------------------------------------------------
 

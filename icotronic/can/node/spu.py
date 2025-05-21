@@ -155,7 +155,7 @@ class SPU:
             The number of the Bluetooth subcommand
 
         sensor_node_number:
-            The device number of the Bluetooth device
+            The node number of the Bluetooth node
 
         description:
             A description of the request used in error messages
@@ -186,10 +186,10 @@ class SPU:
             data=[subcommand, sensor_node_number] + data,
         )
 
-        # The Bluetooth subcommand and device number should be the same in the
+        # The Bluetooth subcommand and node number should be the same in the
         # response message.
         #
-        # Unfortunately the device number is currently not the same for:
+        # Unfortunately the node number is currently not the same for:
         #
         # - the subcommand that sets the second part of the name, and
         # - the subcommand that retrieves the MAC address
@@ -270,42 +270,42 @@ class SPU:
         node: str | NodeId = "STU 1",
         sensor_node_number: int = SENSOR_NODE_NUMBER_SELF_ADDRESSING,
     ) -> str:
-        """Retrieve the name of a Bluetooth device
+        """Retrieve the name of a Bluetooth node
 
         You can use this method to name of both
 
         1. disconnected and
         2. connected
 
-        devices.
+        nodes.
 
         1. For disconnected sensor nodes you will usually use the STU (e.g.
-           `STU 1`) and the device number at the STU (in the range `0` up to
-           the number of devices - 1) to retrieve the name.
+           `STU 1`) and the node number at the STU (in the range `0` up to
+           the number of nodes - 1) to retrieve the name.
 
-        2. For connected devices you will use the device name and the special
-           “self addressing” device number (`0xff`) to ask a device about its
+        2. For connected nodes you will use the node name and the special
+           “self addressing” node number (`0xff`) to ask a node about its
            own name. **Note**: A connected STH will return its own name,
-           regardless of the value of the device number.
+           regardless of the value of the node number.
 
         Parameters
         ----------
 
         node:
-            The node which has access to the Bluetooth device
+            The node which has access to the Bluetooth node
 
         sensor_node_number:
-            The number of the Bluetooth device (0 up to the number of
-            available devices - 1; 0xff for self addressing).
+            The number of the Bluetooth node (0 up to the number of
+            available nodes - 1; 0xff for self addressing).
 
         Returns
         -------
 
-        The (Bluetooth broadcast) name of the device
+        The (Bluetooth broadcast) name of the node
 
         """
 
-        description = f"name of device “{sensor_node_number}” from “{node}”"
+        description = f"name of node “{sensor_node_number}” from “{node}”"
 
         answer = await self.request_bluetooth(
             node=node,
@@ -332,21 +332,21 @@ class SPU:
         node: str | NodeId = "STH 1",
         sensor_node_number: int = SENSOR_NODE_NUMBER_SELF_ADDRESSING,
     ):
-        """Retrieve the RSSI (Received Signal Strength Indication) of a device
+        """Retrieve the RSSI (Received Signal Strength Indication) of a node
 
         You can use this method to retrieve the RSSI of both
 
         1. disconnected and
         2. connected
 
-        devices.
+        nodes.
 
-        1. For disconnected devices (STHs) you will usually use the STU (e.g.
-           `STU 1`) and the device number at the STU (in the range `0` up to
-           the number of devices - 1) to retrieve the RSSI.
+        1. For disconnected nodes (STHs) you will usually use the STU (e.g.
+           `STU 1`) and the node number at the STU (in the range `0` up to
+           the number of nodes - 1) to retrieve the RSSI.
 
-        2. For connected devices you will use the device name and the special
-           “self addressing” device number (`0xff`) to ask a device about its
+        2. For connected nodes you will use the node name and the special
+           “self addressing” node number (`0xff`) to ask a node about its
            own RSSI.
 
         Parameters
@@ -356,13 +356,13 @@ class SPU:
             The node which should retrieve the RSSI
 
         sensor_node_number:
-            The number of the Bluetooth device (0 up to the number of
-            available devices - 1; 0xff for self addressing).
+            The number of the Bluetooth node (0 up to the number of
+            available nodes - 1; 0xff for self addressing).
 
         Returns
         -------
 
-        The RSSI of the device specified via node and device number
+        The RSSI of the node specified via node and node number
 
         Examples
         --------
@@ -377,7 +377,7 @@ class SPU:
         ...         await stu.activate_bluetooth()
         ...
         ...         # We assume that at least one STH is available
-        ...         # Get the RSSI of device “0”
+        ...         # Get the RSSI of node “0”
         ...         return await stu.spu.get_rssi('STU 1', 0)
         >>> rssi = run(get_bluetooth_rssi())
         >>> -70 < rssi < 0
@@ -401,23 +401,23 @@ class SPU:
         node: str | NodeId = "STH 1",
         sensor_node_number: int = SENSOR_NODE_NUMBER_SELF_ADDRESSING,
     ) -> EUI:
-        """Retrieve the Bluetooth MAC address of a device
+        """Retrieve the Bluetooth MAC address of a node
 
         You can use this method to retrieve the address of both
 
         1. disconnected and
         2. connected
 
-        devices.
+        nodes.
 
-        1. For disconnected devices (STHs) you will usually use the STU (e.g.
-           `STU 1`) and the device number at the STU (in the range `0` up to
-           the number of devices - 1) to retrieve the MAC address.
+        1. For disconnected nodes (STHs) you will usually use the STU (e.g.
+           `STU 1`) and the node number at the STU (in the range `0` up to
+           the number of nodes - 1) to retrieve the MAC address.
 
-        2. For connected devices you will use the device name and the special
-           “self addressing” device number (`0xff`) to ask a device about its
-           own device number. **Note**: A connected STH will return its own
-           MAC address, regardless of the value of the device number.
+        2. For connected nodes you will use the node name and the special
+           “self addressing” node number (`0xff`) to ask a node about its
+           own node number. **Note**: A connected STH will return its own
+           MAC address, regardless of the value of the node number.
 
         Parameters
         ----------
@@ -426,13 +426,13 @@ class SPU:
             The node which should retrieve the MAC address
 
         sensor_node_number:
-            The number of the Bluetooth device (0 up to the number of
-            available devices - 1; 0xff for self addressing).
+            The number of the Bluetooth node (0 up to the number of
+            available nodes - 1; 0xff for self addressing).
 
         Returns
         -------
 
-        The MAC address of the device specified via node and device number
+        The MAC address of the node specified via node and node number
 
         """
 

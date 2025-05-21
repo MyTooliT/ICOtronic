@@ -34,12 +34,12 @@ class TestSMH(BaseTestCases.TestSensorNode):
     async def _connect(self):
         """Create a connection to the SMH"""
 
-        await super()._connect_device(settings.smh.name)
+        await super()._connect_node(settings.smh.name)
 
     async def _disconnect(self):
         """Tear down connection to SMH"""
 
-        await super()._disconnect_device()
+        await super()._disconnect_node()
 
     def _read_data(self):
         """Read data from connected SMH"""
@@ -71,7 +71,7 @@ class TestSMH(BaseTestCases.TestSensorNode):
     def test_connection(self):
         """Check connection to SMH"""
 
-        super()._test_connection_device()
+        super()._test_connection_node()
 
     async def test_eeprom(self):
         """Test if reading and writing the EEPROM works"""

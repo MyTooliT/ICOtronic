@@ -1,4 +1,4 @@
-"""Read some acceleration data of STH with device name Test-STH"""
+"""Read some acceleration data of STH with node name Test-STH"""
 
 # -- Imports ------------------------------------------------------------------
 

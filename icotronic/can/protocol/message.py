@@ -233,24 +233,24 @@ class Message:
                 verb = "Acknowledge" if is_acknowledgment else "Request"
                 data_explanation = f"{verb} Bluetooth activation"
             elif subcommand == 2:
-                data_explanation = f"{verb} number of available devices"
+                data_explanation = f"{verb} number of available nodes"
                 if is_acknowledgment:
-                    number_devices_text = convert_bytes_to_text(self.data[2:])
+                    number_nodes_text = convert_bytes_to_text(self.data[2:])
                     data_explanation += ": "
                     try:
-                        number_devices = int(number_devices_text)
-                        data_explanation += f"{number_devices}"
+                        number_nodes = int(number_nodes_text)
+                        data_explanation += f"{number_nodes}"
                     except ValueError:
                         data_explanation += (
                             "Unable to convert text "
-                            f"“{number_devices_text}” to number"
+                            f"“{number_nodes_text}” to number"
                         )
 
             elif subcommand in (5, 6):
                 part = "first" if subcommand == 5 else "second"
                 data_explanation = (
-                    f"{verb} {part} part of name of device "
-                    f"with device number “{sensor_node_number}”"
+                    f"{verb} {part} part of name of node "
+                    f"with node number “{sensor_node_number}”"
                 )
                 if is_acknowledgment and len(self.data) >= 2:
                     name = convert_bytes_to_text(self.data[2:])
@@ -262,7 +262,7 @@ class Message:
                     else "Request connection"
                 )
                 data_explanation = (
-                    f"{info} to device with device number"
+                    f"{info} to node with node number"
                     f" “{sensor_node_number}”"
                 )
             elif subcommand == 8:
@@ -283,8 +283,8 @@ class Message:
                     data_explanation += f": {counter}"
             elif subcommand == 12:
                 data_explanation = (
-                    f"{verb} RSSI of device "
-                    f"with device number “{sensor_node_number}”"
+                    f"{verb} RSSI of node "
+                    f"with node number “{sensor_node_number}”"
                 )
                 if is_acknowledgment and len(self.data) >= 3:
                     rssi = int.from_bytes(
@@ -308,8 +308,8 @@ class Message:
                     ])
             elif subcommand == 17:
                 data_explanation = (
-                    f"{verb} MAC address of device "
-                    f"with device number “{sensor_node_number}”"
+                    f"{verb} MAC address of node "
+                    f"with node number “{sensor_node_number}”"
                 )
                 if is_acknowledgment and len(self.data) >= 8:
                     data_explanation += f": {mac_address()}"
@@ -320,7 +320,7 @@ class Message:
                     else "Request connection"
                 )
                 data_explanation = (
-                    f"{verb} to device with MAC address “{mac_address()}”"
+                    f"{verb} to node with MAC address “{mac_address()}”"
                 )
 
         return data_explanation

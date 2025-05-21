@@ -91,7 +91,7 @@ class Report:
         """
 
         self.node = node
-        device_name = {
+        node_name = {
             "SMH": "Sensory Milling Head",
             "STH": "Sensory Tool Holder",
             "STU": "Stationary Transceiver Unit",
@@ -101,7 +101,7 @@ class Report:
             f"{node} Test.pdf",
             author="MyTooliT",
             title="Test Report",
-            subject=f"{device_name[node]} Test",
+            subject=f"{node_name[node]} Test",
         )
         self.story = [Spacer(1, 3 * cm)]
         self.styles = get_style_sheet()

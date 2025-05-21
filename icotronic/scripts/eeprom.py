@@ -1,4 +1,4 @@
-"""Check EEPROM of ICOtronic device"""
+"""Check EEPROM of ICOtronic node"""
 
 # -- Imports ------------------------------------------------------------------
 
@@ -131,7 +131,7 @@ async def check_eeprom(arguments):
 
     async with Connection() as stu:
         async with stu.connect_sensor_node(arguments.mac) as sensor_node:
-            print(f"Connected to device “{await sensor_node.get_name()}”")
+            print(f"Connected to node “{await sensor_node.get_name()}”")
             check = EEPROMCheck(sensor_node, arguments.value)
             await check.write_eeprom()
             await check.print_eeprom_incorrect()
@@ -149,7 +149,7 @@ async def check_eeprom(arguments):
 
 
 def main():
-    """Check EEPROM of device specified via command line argument"""
+    """Check EEPROM of node specified via command line argument"""
     run(check_eeprom(parse_arguments()))
 
 

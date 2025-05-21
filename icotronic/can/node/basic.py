@@ -1,4 +1,4 @@
-"""Communicate and control an ICOtronic device"""
+"""Communicate and control an ICOtronic node"""
 
 # -- Imports ------------------------------------------------------------------
 
@@ -25,13 +25,13 @@ class Node:
         """Initialize the node
 
         spu:
-            The SPU object used to communicate with the device
+            The SPU object used to communicate with the node
 
         eeprom:
-            The EEPROM class of the device
+            The EEPROM class of the node
 
         id:
-            The node identifier for the device
+            The node identifier for the node
 
         """
 
@@ -120,7 +120,7 @@ class Node:
         ...         # We assume that at least one sensor node is available
         ...         async with stu.connect_sensor_node(0) as sensor_node:
         ...             state = await sensor_node.get_state()
-        ...             # Sensor device might be still in startup state
+        ...             # Sensor node might be still in startup state
         ...             while state.state_name() == 'Startup':
         ...                 await sleep(1)
         ...                 state = await sensor_node.get_state()

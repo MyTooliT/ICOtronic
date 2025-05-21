@@ -15,7 +15,7 @@ from icotronic.can.node.eeprom.status import EEPROMStatus
 
 
 class NodeEEPROM(EEPROM):
-    """Read and write device specific EEPROM data (STU/sensor nodes)"""
+    """Read and write node specific EEPROM data (STU/sensor nodes)"""
 
     # ========================
     # = System Configuration =
@@ -200,7 +200,7 @@ class NodeEEPROM(EEPROM):
         Returns
         -------
 
-        The hardware version of the device
+        The hardware version of the node
 
         Example
         -------
@@ -229,7 +229,7 @@ class NodeEEPROM(EEPROM):
         ----------
 
         version:
-            The new hardware version of the device
+            The new hardware version of the node
 
         Examples
         --------
@@ -265,7 +265,7 @@ class NodeEEPROM(EEPROM):
         Returns
         -------
 
-        The firmware version of the device
+        The firmware version of the node
 
         Example
         -------

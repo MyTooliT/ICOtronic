@@ -62,8 +62,8 @@ class Commander:
             "programmer not connected": (
                 "Programming board is not connected to computer"
             ),
-            "device not connected": (
-                "Programming board is not connected to device"
+            "node not connected": (
+                "Programming board is not connected to node"
             ),
         }
 
@@ -210,7 +210,7 @@ class Commander:
         return result.stdout
 
     def enable_debug_mode(self) -> None:
-        """Enable debug mode for external device
+        """Enable debug mode for external node
 
         Example
         -------
@@ -235,18 +235,18 @@ class Commander:
             regex_output="Setting debug mode to OUT",
         )
 
-    def unlock_device(self) -> None:
-        """Unlock device for debugging
+    def unlock_node(self) -> None:
+        """Unlock node for debugging
 
-        Calling this method will erase the flash of the device!
+        Calling this method will erase the flash of the node!
 
         """
 
         self._run_command(
-            command="device unlock".split() + self.identification_arguments,
-            description="unlock device",
+            command="node unlock".split() + self.identification_arguments,
+            description="unlock node",
             possible_error_reasons=[
-                "device not connected",
+                "node not connected",
                 "programmer not connected",
                 "incorrect serial",
             ],
@@ -254,7 +254,7 @@ class Commander:
         )
 
     def upload_flash(self, filepath: Union[str, Path]) -> None:
-        """Upload code into the flash memory of the device
+        """Upload code into the flash memory of the node
 
         Parameters
         ----------
@@ -269,8 +269,8 @@ class Commander:
         # programmer board.
         self.enable_debug_mode()
 
-        # Unlock device (triggers flash erase)
-        self.unlock_device()
+        # Unlock node (triggers flash erase)
+        self.unlock_node()
 
         self._run_command(
             command=["flash", f"{filepath}", "--address", "0x0"]
