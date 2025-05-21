@@ -218,7 +218,7 @@ class SensorNode(Node):
         >>> async def get_sensor_device_name():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             return await sensor_device.get_name()
         >>> name = run(get_sensor_device_name())
         >>> isinstance(name, str)
@@ -252,7 +252,7 @@ class SensorNode(Node):
         ...         # We assume that at least one sensor device is available
         ...         # and that this device currently does not have the name
         ...         # specified in the variable `name`.
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             before = await sensor_device.get_name()
         ...             await sensor_device.set_name(name)
         ...             updated = await sensor_device.get_name()
@@ -327,7 +327,7 @@ class SensorNode(Node):
         >>> async def read_energy_mode_reduced():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             return await sensor_device.get_energy_mode_reduced()
         >>> times = run(read_energy_mode_reduced())
         >>> round(times.advertisement)
@@ -385,7 +385,7 @@ class SensorNode(Node):
         >>> async def read_write_energy_mode_reduced(sleep, advertisement):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             await sensor_device.set_energy_mode_reduced(
         ...                 Times(sleep=sleep, advertisement=advertisement))
         ...             times = await sensor_device.get_energy_mode_reduced()
@@ -454,7 +454,7 @@ class SensorNode(Node):
         >>> async def read_energy_mode_lowest():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             return await sensor_device.get_energy_mode_lowest()
         >>> times = run(read_energy_mode_lowest())
         >>> round(times.advertisement)
@@ -509,7 +509,7 @@ class SensorNode(Node):
         >>> async def read_write_energy_mode_lowest(sleep, advertisement):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             await sensor_device.set_energy_mode_lowest(
         ...                 Times(sleep=sleep, advertisement=advertisement))
         ...             times = await sensor_device.get_energy_mode_lowest()
@@ -571,7 +571,7 @@ class SensorNode(Node):
         >>> async def get_bluetooth_mac():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             return await sensor_device.get_mac_address()
         >>> mac_address = run(get_bluetooth_mac())
         >>> isinstance(mac_address, EUI)
@@ -622,7 +622,7 @@ class SensorNode(Node):
         >>> async def read_sensor_values():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             return await sensor_device.get_streaming_data_single()
         >>> data = run(read_sensor_values())
         >>> len(data.values)
@@ -796,7 +796,7 @@ class SensorNode(Node):
         >>> async def read_streaming_data():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             channels = StreamingConfiguration(first=True,
         ...                                               third=True)
         ...             async with sensor_device.open_data_stream(
@@ -844,7 +844,7 @@ class SensorNode(Node):
         >>> async def get_supply_voltage():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             return await sensor_device.get_supply_voltage()
         >>> supply_voltage = run(get_supply_voltage())
         >>> 3 <= supply_voltage <= 4.2
@@ -906,7 +906,7 @@ class SensorNode(Node):
         >>> async def read_adc_config():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             return await sensor_device.get_adc_configuration()
         >>> run(read_adc_config()) # doctest:+NORMALIZE_WHITESPACE
         Get, Prescaler: 2, Acquisition Time: 8, Oversampling Rate: 64,
@@ -968,7 +968,7 @@ class SensorNode(Node):
         >>> async def write_read_adc_config():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             await sensor_device.set_adc_configuration(
         ...                 3.3, 8, 8, 64)
         ...             modified_config1 = (await
@@ -1048,7 +1048,7 @@ class SensorNode(Node):
         >>> async def read_sensor_config():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             return await sensor_device.get_sensor_configuration()
         >>> config = run(
         ...     read_sensor_config()) #doctest: +IGNORE_EXCEPTION_DETAIL
@@ -1109,7 +1109,7 @@ class SensorNode(Node):
         >>> async def set_sensor_config():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             await sensor_device.set_sensor_configuration(
         ...                 SensorConfiguration(first=0, second=0, third=0))
         >>> config = run(

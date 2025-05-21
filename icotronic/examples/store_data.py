@@ -14,7 +14,7 @@ from icotronic.measurement import Storage
 
 async def store_streaming_data(identifier):
     async with Connection() as stu:
-        async with stu.connect_sensor_device(identifier, STH) as sth:
+        async with stu.connect_sensor_node(identifier, STH) as sth:
 
             conversion_to_g = await sth.get_acceleration_conversion_function()
 

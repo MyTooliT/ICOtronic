@@ -505,7 +505,7 @@ class TestSTH(BaseTestCases.TestSensorNode):
         await self.stu.reset()
 
         try:
-            async with self.stu.connect_sensor_device(
+            async with self.stu.connect_sensor_node(
                 cls.name  # pylint: disable=no-member
             ):
                 pass  # Reconnected to STH

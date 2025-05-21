@@ -130,16 +130,14 @@ async def check_eeprom(arguments):
     times = 5
 
     async with Connection() as stu:
-        async with stu.connect_sensor_device(arguments.mac) as sensor_device:
+        async with stu.connect_sensor_node(arguments.mac) as sensor_device:
             print(f"Connected to device “{await sensor_device.get_name()}”")
             check = EEPROMCheck(sensor_device, arguments.value)
             await check.write_eeprom()
             await check.print_eeprom_incorrect()
             print()
         for counter in range(times):
-            async with stu.connect_sensor_device(
-                arguments.mac
-            ) as sensor_device:
+            async with stu.connect_sensor_node(arguments.mac) as sensor_device:
                 check = EEPROMCheck(sensor_device, arguments.value)
                 await check.print_eeprom_incorrect()
                 print()

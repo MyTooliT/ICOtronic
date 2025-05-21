@@ -32,7 +32,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> async def read_x_axis_acceleration_slope():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             return (await
         ...                     sth.eeprom.read_x_axis_acceleration_slope())
         >>> x_axis_acceleration_slope = run(read_x_axis_acceleration_slope())
@@ -66,7 +66,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> async def write_read_x_axis_acceleration_slope(slope):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             await sth.eeprom.write_x_axis_acceleration_slope(slope)
         ...             return await (
         ...                 sth.eeprom.read_x_axis_acceleration_slope())
@@ -102,7 +102,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> async def read_x_axis_acceleration_offset():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             return (await
         ...                 sth.eeprom.read_x_axis_acceleration_offset())
         >>> x_axis_acceleration_offset = run(read_x_axis_acceleration_offset())
@@ -135,7 +135,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> async def write_read_x_axis_acceleration_offset(offset):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             await sth.eeprom.write_x_axis_acceleration_offset(
         ...                 offset)
         ...             return (await
@@ -170,7 +170,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> async def read_y_axis_acceleration_slope():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             return (await
         ...                     sth.eeprom.read_y_axis_acceleration_slope())
         >>> y_axis_acceleration_slope = run(read_y_axis_acceleration_slope())
@@ -204,7 +204,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> async def write_read_y_axis_acceleration_slope(slope):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             await sth.eeprom.write_y_axis_acceleration_slope(slope)
         ...             return (await
         ...                     sth.eeprom.read_y_axis_acceleration_slope())
@@ -239,7 +239,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> async def read_y_axis_acceleration_offset():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             return (await
         ...                     sth.eeprom.read_y_axis_acceleration_offset())
         >>> y_axis_acceleration_offset = run(read_y_axis_acceleration_offset())
@@ -272,7 +272,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> async def write_read_y_axis_acceleration_offset(offset):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             await sth.eeprom.write_y_axis_acceleration_offset(
         ...                 offset)
         ...             return (await
@@ -307,7 +307,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> async def read_z_axis_acceleration_slope():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             return (await
         ...                     sth.eeprom.read_z_axis_acceleration_slope())
         >>> z_axis_acceleration_slope = run(read_z_axis_acceleration_slope())
@@ -341,7 +341,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> async def write_read_z_axis_acceleration_slope(slope):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             await sth.eeprom.write_z_axis_acceleration_slope(slope)
         ...             return (await
         ...                     sth.eeprom.read_z_axis_acceleration_slope())
@@ -376,7 +376,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> async def read_z_axis_acceleration_offset():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             return (await
         ...                     sth.eeprom.read_z_axis_acceleration_offset())
         >>> z_axis_acceleration_offset = run(read_z_axis_acceleration_offset())
@@ -409,7 +409,7 @@ class STHEEPROM(SensorNodeEEPROM):
         >>> async def write_read_z_axis_acceleration_offset(offset):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0, STH) as sth:
+        ...         async with stu.connect_sensor_node(0, STH) as sth:
         ...             await sth.eeprom.write_z_axis_acceleration_offset(
         ...                 offset)
         ...             return (await

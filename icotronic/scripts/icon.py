@@ -97,7 +97,7 @@ async def command_dataloss(arguments: Namespace) -> None:
 
     async with Connection() as stu:
         logger.info("Connecting to “%s”", identifier)
-        async with stu.connect_sensor_device(identifier, STH) as sth:
+        async with stu.connect_sensor_node(identifier, STH) as sth:
             assert isinstance(sth, STH)
             logger.info("Connected to “%s”", identifier)
 
@@ -216,7 +216,7 @@ async def command_measure(arguments: Namespace) -> None:
     measurement_time_s = arguments.time
 
     async with Connection() as stu:
-        async with stu.connect_sensor_device(identifier, STH) as sth:
+        async with stu.connect_sensor_node(identifier, STH) as sth:
             assert isinstance(sth, STH)
 
             adc_config = ADCConfiguration(
@@ -305,7 +305,7 @@ async def command_rename(arguments: Namespace) -> None:
     name = arguments.name
 
     async with Connection() as stu:
-        async with stu.connect_sensor_device(identifier) as sensor_device:
+        async with stu.connect_sensor_node(identifier) as sensor_device:
             old_name = await sensor_device.get_name()
             mac_address = await sensor_device.get_mac_address()
 

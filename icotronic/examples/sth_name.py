@@ -11,7 +11,7 @@ from icotronic.can import Connection
 
 async def read_name(identifier):
     async with Connection() as stu:
-        async with stu.connect_sensor_device(identifier) as sensor_device:
+        async with stu.connect_sensor_node(identifier) as sensor_device:
             name = await sensor_device.get_name()
             print(f"Connected to sensor device “{name}”")
 

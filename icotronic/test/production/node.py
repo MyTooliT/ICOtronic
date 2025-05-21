@@ -684,9 +684,7 @@ class BaseTestCases:
 
             await super()._connect()  # Connect to STU
             stu = self.node
-            self.sensor_device_connection = stu.connect_sensor_device(
-                name, STH
-            )
+            self.sensor_device_connection = stu.connect_sensor_node(name, STH)
             # New node is sensor device
             self.node = await self.sensor_device_connection.__aenter__()
             self.stu = stu

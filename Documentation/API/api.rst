@@ -8,7 +8,7 @@ API
    :members: __aenter__
 
 .. autoclass:: STU
-   :members: connect_sensor_device
+   :members: connect_sensor_node
 
 .. autoclass:: StreamingConfiguration
 .. autoclass:: StreamingData

@@ -64,7 +64,7 @@ class Node:
         >>> async def reset():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             await sensor_device.reset()
         ...             # Wait some time for reset to take place
         ...             await sleep(1)
@@ -118,7 +118,7 @@ class Node:
         >>> async def get_state():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             state = await sensor_device.get_state()
         ...             # Sensor device might be still in startup state
         ...             while state.state_name() == 'Startup':

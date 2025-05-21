@@ -666,7 +666,7 @@ class STU(Node):
 
         return devices
 
-    def connect_sensor_device(
+    def connect_sensor_node(
         self,
         identifier: int | str | EUI,
         sensor_node_class: Type[SensorNode] = SensorNode,
@@ -696,13 +696,13 @@ class STU(Node):
 
         Connect to the sensor device with device number `0`
 
-        >>> async def connect_sensor_device():
+        >>> async def connect_sensor_node():
         ...     async with Connection() as stu:
-        ...         async with stu.connect_sensor_device(0):
+        ...         async with stu.connect_sensor_node(0):
         ...             connected = await stu.is_connected()
         ...         after = await stu.is_connected()
         ...         return (connected, after)
-        >>> run(connect_sensor_device())
+        >>> run(connect_sensor_node())
         (True, False)
 
         """

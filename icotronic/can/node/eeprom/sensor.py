@@ -34,7 +34,7 @@ class SensorNodeEEPROM(NodeEEPROM):
         >>> async def read_sleep_time_1():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             return await sensor_device.eeprom.read_sleep_time_1()
         >>> sleep_time = run(read_sleep_time_1())
         >>> isinstance(sleep_time, int)
@@ -64,7 +64,7 @@ class SensorNodeEEPROM(NodeEEPROM):
         >>> async def write_read_sleep_time_1(milliseconds):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             await sensor_device.eeprom.write_sleep_time_1(
         ...                 milliseconds)
         ...             return await sensor_device.eeprom.read_sleep_time_1()
@@ -94,7 +94,7 @@ class SensorNodeEEPROM(NodeEEPROM):
         >>> async def read_advertisement_time_1():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             return await (
         ...                 sensor_device.eeprom.read_advertisement_time_1())
         >>> advertisement_time = run(read_advertisement_time_1())
@@ -130,7 +130,7 @@ class SensorNodeEEPROM(NodeEEPROM):
         >>> async def write_read_advertisement_time_1(milliseconds):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             await sensor_device.eeprom.write_advertisement_time_1(
         ...                 milliseconds)
         ...             return await (
@@ -170,7 +170,7 @@ class SensorNodeEEPROM(NodeEEPROM):
         >>> async def read_sleep_time_2():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             return await sensor_device.eeprom.read_sleep_time_2()
         >>> sleep_time = run(read_sleep_time_2())
         >>> isinstance(sleep_time, int)
@@ -200,7 +200,7 @@ class SensorNodeEEPROM(NodeEEPROM):
         >>> async def write_read_sleep_time_2(milliseconds):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             await (sensor_device.eeprom.write_sleep_time_2(
         ...                    milliseconds))
         ...             return await sensor_device.eeprom.read_sleep_time_2()
@@ -232,7 +232,7 @@ class SensorNodeEEPROM(NodeEEPROM):
         >>> async def read_advertisement_time_2():
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             return await (
         ...                 sensor_device.eeprom.read_advertisement_time_2())
         >>> advertisement_time = run(read_advertisement_time_2())
@@ -267,7 +267,7 @@ class SensorNodeEEPROM(NodeEEPROM):
         >>> async def write_read_advertisement_time_2(milliseconds):
         ...     async with Connection() as stu:
         ...         # We assume that at least one sensor device is available
-        ...         async with stu.connect_sensor_device(0) as sensor_device:
+        ...         async with stu.connect_sensor_node(0) as sensor_device:
         ...             await sensor_device.eeprom.write_advertisement_time_2(
         ...                 milliseconds)
         ...             return await (

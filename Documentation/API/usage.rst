@@ -25,7 +25,7 @@ Connecting to Sensor Device
 
 .. currentmodule:: icotronic.can.node.stu
 
-To connect to a sensor device (e.g. SHA, SMH, STH) use the async context manager of the coroutine :meth:`stu.connect_sensor_device`. To connect to a device you need to know one of the `identifiers of the device`_. In the example below we connect to a device with the name `Test-STH`:
+To connect to a sensor device (e.g. SHA, SMH, STH) use the async context manager of the coroutine :meth:`stu.connect_sensor_node`. To connect to a device you need to know one of the `identifiers of the device`_. In the example below we connect to a device with the name `Test-STH`:
 
 .. doctest::
 
@@ -35,14 +35,14 @@ To connect to a sensor device (e.g. SHA, SMH, STH) use the async context manager
 
    >>> async def connect_to_sensor_device(identifier):
    ...     async with Connection() as stu:
-   ...         async with stu.connect_sensor_device(identifier) as sensor_device:
+   ...         async with stu.connect_sensor_node(identifier) as sensor_device:
    ...             return await sensor_device.get_mac_address()
 
    >>> mac_address = run(connect_to_sensor_device("Test-STH"))
    >>> isinstance(mac_address, EUI)
    True
 
-By default :meth:`stu.connect_sensor_device` assumes that you want to connect to a generic sensor device (e.g. a sensory milling head (SMH)). To connect to an STH (a sensor device with additional functionality), use :class:`STH` for the `sensor_node_class` parameter:
+By default :meth:`stu.connect_sensor_node` assumes that you want to connect to a generic sensor device (e.g. a sensory milling head (SMH)). To connect to an STH (a sensor device with additional functionality), use :class:`STH` for the `sensor_node_class` parameter:
 
 .. doctest::
 
@@ -51,7 +51,7 @@ By default :meth:`stu.connect_sensor_device` assumes that you want to connect to
 
    >>> async def get_sensor_range(identifier):
    ...     async with Connection() as stu:
-   ...         async with stu.connect_sensor_device(identifier, STH) as sth:
+   ...         async with stu.connect_sensor_node(identifier, STH) as sth:
    ...             return await sth.get_acceleration_sensor_range_in_g()
 
    >>> sensor_range = run(get_sensor_range("Test-STH"))
@@ -76,7 +76,7 @@ After your are connected to the a device you can read its (advertisement) name u
 
    >>> async def read_sensor_name(name):
    ...     async with Connection() as stu:
-   ...         async with stu.connect_sensor_device(name) as sensor_device:
+   ...         async with stu.connect_sensor_node(name) as sensor_device:
    ...             sensor_name = await sensor_device.get_name()
    ...             return sensor_name
 
@@ -99,7 +99,7 @@ After you connected to the sensor device use the coroutine :meth:`SensorNode.ope
 
    >>> async def read_streaming_data():
    ...     async with Connection() as stu:
-   ...         async with stu.connect_sensor_device("Test-STH") as sensor_device:
+   ...         async with stu.connect_sensor_node("Test-STH") as sensor_device:
    ...             channels = StreamingConfiguration(first=True)
    ...             async with sensor_device.open_data_stream(channels) as stream:
    ...                 async for data, lost_messages in stream:
@@ -147,7 +147,7 @@ In the example below we convert the first retrieved streaming data object and re
 
    >>> async def read_streaming_data_g():
    ...     async with Connection() as stu:
-   ...         async with stu.connect_sensor_device("Test-STH", STH) as sth:
+   ...         async with stu.connect_sensor_node("Test-STH", STH) as sth:
    ...             conversion_to_g = (await
    ...                 sth.get_acceleration_conversion_function())
    ...             channels = StreamingConfiguration(first=True)
@@ -216,7 +216,7 @@ The example code below shows how to use this method:
 
    >>> async def determine_data_loss(identifier):
    ...     async with Connection() as stu:
-   ...         async with stu.connect_sensor_device(identifier) as sensor_device:
+   ...         async with stu.connect_sensor_node(identifier) as sensor_device:
    ...              end = monotonic() + 1 # Read data for roughly one second
    ...              channels = StreamingConfiguration(first=True)
    ...              async with sensor_device.open_data_stream(channels) as stream:
@@ -240,7 +240,7 @@ If you want to calculate the amount of data loss for a specific time-span you ca
 
    >>> async def determine_data_loss(identifier):
    ...       async with Connection() as stu:
-   ...           async with stu.connect_sensor_device(identifier) as sensor_device:
+   ...           async with stu.connect_sensor_node(identifier) as sensor_device:
    ...               start = monotonic()
    ...               end = start + 2.1
    ...               last_reset = start
