@@ -135,7 +135,7 @@ and make sure that it reports no test failures.
 
 ##### Extended Tests {#development:section:extended-tests}
 
-The text below specifies extended manual test that should be executed before we [release a new version of ICOtronic](#development:section:release). Please note that the tests assume that you use more or less the [default configuration values](https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml).
+The text below specifies extended manual test that should be executed before we [release a new version of the ICOtronic package](#development:section:release). Please note that the tests assume that you more or less use the [default configuration values](https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml).
 
 ###### Check the Performance of the Library
 
@@ -164,7 +164,7 @@ The text below specifies extended manual test that should be executed before we 
    ```
 
    - The command should not print any **no error messages**.
-   - The **data loss must be below 0.1 (1 %)**.
+   - The **data loss must be below 1 %**.
 
 6. Check that the repo now contains a HDF5 (`*.hdf5`) file
 
@@ -176,14 +176,14 @@ The text below specifies extended manual test that should be executed before we 
 
 8. Check that the timestamp of the last value in the `acceleration` table has **approximately the value `30 000 000`** (all values above `29 900 000` should be fine).
 
-###### Check Command Line Interface
+###### Check HDF5 Output
 
 1. Repeat steps 1. – 4. from the test above
 
 2. Measure data for 10 seconds using the following command:
 
    ```sh
-   icon measure -n 'Test-STH' -r 10
+   icon measure -n 'Test-STH' -t 10
    ```
 
 3. Check that the repo now contains a HDF5 (`*.hdf5`) file
