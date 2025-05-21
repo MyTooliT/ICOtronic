@@ -191,7 +191,7 @@ sth:
           #   after the self test
           # in mV.
           tolerance: 20
-    # Values for the Analog devices ± 50g digital accelerometer sensor ADXL1002.
+    # Values for the Analog Devices ± 50g digital accelerometer sensor ADXL1002.
     # Please check the comments for sensor `ADXL1001` for a more detailed
     # description of the config values.
     adxl1002:
@@ -205,7 +205,7 @@ sth:
         voltage:
           difference: 160
           tolerance: 30
-    # Values for the Analog devices ± 40g digital accelerometer sensor ADXL356.
+    # Values for the Analog Devices ± 40g digital accelerometer sensor ADXL356.
     # Please check the comments for sensor `ADXL1001` for a more detailed
     # description of the config values.
     adxl356:
