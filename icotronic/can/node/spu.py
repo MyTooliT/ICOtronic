@@ -10,6 +10,7 @@ from logging import getLogger
 from can import BusABC, Message as CANMessage, Notifier
 from netaddr import EUI
 
+from icotronic.can.constants import SENSOR_NODE_NUMBER_SELF_ADDRESSING
 from icotronic.can.protocol.message import Message
 from icotronic.can.error import ErrorResponseError, NoResponseError
 from icotronic.can.listener import ResponseListener
@@ -265,7 +266,9 @@ class SPU:
     # pylint: enable=too-many-arguments, too-many-positional-arguments
 
     async def get_name(
-        self, node: str | NodeId = "STU 1", sensor_node_number: int = 0xFF
+        self,
+        node: str | NodeId = "STU 1",
+        sensor_node_number: int = SENSOR_NODE_NUMBER_SELF_ADDRESSING,
     ) -> str:
         """Retrieve the name of a Bluetooth device
 
@@ -325,7 +328,9 @@ class SPU:
         return first_part + second_part
 
     async def get_rssi(
-        self, node: str | NodeId = "STH 1", sensor_node_number: int = 0xFF
+        self,
+        node: str | NodeId = "STH 1",
+        sensor_node_number: int = SENSOR_NODE_NUMBER_SELF_ADDRESSING,
     ):
         """Retrieve the RSSI (Received Signal Strength Indication) of a device
 
@@ -392,7 +397,9 @@ class SPU:
         )
 
     async def get_mac_address(
-        self, node: str | NodeId = "STH 1", sensor_node_number: int = 0xFF
+        self,
+        node: str | NodeId = "STH 1",
+        sensor_node_number: int = SENSOR_NODE_NUMBER_SELF_ADDRESSING,
     ) -> EUI:
         """Retrieve the Bluetooth MAC address of a device
 
