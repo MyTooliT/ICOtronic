@@ -20,7 +20,7 @@ async def read_name(identifier):
 
 if __name__ == "__main__":
     # Possible Identifiers:
-    # - Name:          e.g. `"Test-STH"`
-    # - Device Number: e.g. `1`
-    # - MAC Address:   e.g. `netaddr.EUI('08-6B-D7-01-DE-81')`
+    # - Name:               e.g. `"Test-STH"`
+    # - Sensor Node Number: e.g. `1`
+    # - MAC Address:        e.g. `netaddr.EUI('08-6B-D7-01-DE-81')`
     run(read_name(identifier=0))

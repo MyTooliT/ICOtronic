@@ -43,7 +43,7 @@ Check help output of measure command:
   $ icon measure --help
   usage: icon measure [-h] [-t TIME] [-1 [FIRST_CHANNEL]] [-2 [SECOND_CHANNEL]]
                       [-3 [THIRD_CHANNEL]]* (glob)
-                      *-d DEVICE_NUMBER) [-s * (glob)
+                      *-d SENSOR_NODE_NUMBER) [-s * (glob)
                       [-a {1,2,3,4,8,16,32,64,128,256}]
                       [-o {1,2,4,8,16,32,64,128,256,512,1024,2048,4096}]
                       [-v {1.25,1.65,1.8,2.1,2.2,2.5,2.7,3.3,5,6.6}]
@@ -63,12 +63,12 @@ Check help output of measure command:
                           sensor channel number for third measurement channel (1
                           - 255; 0 to disable)
   
-  Sensor Device Identifier:
+  Sensor Node Identifier:
     -n* Name of sensor node (glob)
     -m* (glob)
                           Bluetooth MAC address of sensor node
-    -d* DEVICE_NUMBER (glob)
-                          Bluetooth node number of sensor node
+    -d* SENSOR_NODE_NUMBER (glob)
+                          Node number of sensor node
   
   ADC:
     -s* (glob)
@@ -83,7 +83,8 @@ Check help output of measure command:
 Check help output of rename command:
 
   $ icon rename -h
-  usage: icon rename [-h] (-n NAME | -m MAC_ADRESS | -d DEVICE_NUMBER) [name]
+  usage: icon rename [-h] (-n NAME | -m MAC_ADRESS | -d SENSOR_NODE_NUMBER)
+                     [name]
   
   positional arguments:
     name                  New name of STH
@@ -91,12 +92,12 @@ Check help output of rename command:
   option.* (re)
     -h, --help            show this help message and exit
   
-  Sensor Device Identifier:
+  Sensor Node Identifier:
     -n* Name of sensor node (glob)
     -m* MAC_ADRESS (glob)
                           Bluetooth MAC address of sensor node
-    -d* DEVICE_NUMBER (glob)
-                          Bluetooth node number of sensor node
+    -d* SENSOR_NODE_NUMBER (glob)
+                          Node number of sensor node
 
 Check help output of STU command:
 

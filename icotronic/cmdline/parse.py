@@ -328,7 +328,7 @@ def add_identifier_arguments(parser: ArgumentParser) -> None:
     """
 
     identifier_arg_group = parser.add_argument_group(
-        title="Sensor Device Identifier"
+        title="Sensor Node Identifier"
     )
 
     identifier_group = identifier_arg_group.add_mutually_exclusive_group(
@@ -354,11 +354,11 @@ def add_identifier_arguments(parser: ArgumentParser) -> None:
     )
     identifier_group.add_argument(
         "-d",
-        "--node-number",
+        "--sensor-node-number",
         type=sensor_node_number,
         dest="identifier",
-        metavar="DEVICE_NUMBER",
-        help="Bluetooth node number of sensor node",
+        metavar="SENSOR_NODE_NUMBER",
+        help="Node number of sensor node",
     )
 
 

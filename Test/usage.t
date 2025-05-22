@@ -9,7 +9,7 @@ Check handling of non-existing option
   $ output="$(icon measure -b '12-12-12-12-12' 2>&1)"
   [2]
   $ printf '%s\n' "$output" | tail -n1
-  icon measure: error: one of the arguments -n/--name -m/--mac-address -d/--node-number is required
+  icon measure: error: one of the arguments -n/--name -m/--mac-address -d/--sensor-node-number is required
 
 Check that incorrect names are handled correctly
 

@@ -78,7 +78,7 @@ class Report:
 
     story: List[Flowable]  # Improve happiness of PyCharm type checker
 
-    def __init__(self, node="Device"):
+    def __init__(self, node="Node"):
         """Initialize the report
 
         Parameters
@@ -95,7 +95,7 @@ class Report:
             "SMH": "Sensory Milling Head",
             "STH": "Sensory Tool Holder",
             "STU": "Stationary Transceiver Unit",
-            "Device": "Device",
+            "Node": "Node",
         }
         self.document = SimpleDocTemplate(
             f"{node} Test.pdf",
