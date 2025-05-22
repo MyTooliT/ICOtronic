@@ -14,13 +14,13 @@ The [ICOtronic package](https://pypi.org/project/icotronic) provides two differe
 
 [ICOc]: https://github.com/mytoolit/ICOc
 
-## Sensor Device Identifiers
+## Sensor Node Identifiers
 
 To connect to a sensor node (SHA, STH, SMH) you need to know an identifier for the node, which can be one of the following:
 
 - Bluetooth advertisement **name**: up to 8 characters, no special characters allowed
 - Bluetooth **[MAC address](https://en.wikipedia.org/wiki/MAC_address)**: 8 Bytes, usually written in [hexadecimal format](https://en.wikipedia.org/wiki/Hexadecimal)
-- **Device number**: starting with 0, up to the number of available sensor nodes minus one (e.g. for 8 sensor nodes, the maximum sensor node number will be 7)
+- **Node number**: starting with 0, up to the number of available sensor nodes minus one (e.g. for 8 sensor nodes, the maximum sensor node number will be 7)
 
 If you do not know any of the above identifiers for your node you can use the command
 

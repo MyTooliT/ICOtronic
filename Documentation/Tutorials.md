@@ -116,7 +116,7 @@ To show the available options for a certain subcommand add the subcommand before
 icon measure -h
 ```
 
-### Listing Available Sensor Devices
+### Listing Available Sensor Nodes
 
 To print a list of all available sensor nodes, including their identifiers (name, MAC address, node number), please use the subcommand `list`:
 
@@ -256,7 +256,7 @@ For example, to use a sampling rate of about 2381 Hz you can use the following c
 icon measure --prescaler 2 --acquisition 8 --oversampling 256
 ```
 
-### Renaming a Sensor Device {#tutorials:section:sth-renaming}
+### Renaming a Sensor Node {#tutorials:section:sth-renaming}
 
 To change the name of a sensor you can use the subcommand `rename`. For example, to change the name of the sensor node with the Bluetooth MAC address `08-6B-D7-01-DE-81` to `Test-STH` use the following command:
 
@@ -320,7 +320,7 @@ This tutorial lists the usual steps to test a sensory holder assembly or a senso
 
 To run the production tests for one of the ICOtronic nodes, please execute one of the following commands:
 
-| Device                                                   | Command    |
+| Node                                                   | Command    |
 | -------------------------------------------------------- | ---------- |
 | Stationary Transceiver Unit (STU)                        | `test-stu` |
 | Sensory Holder Assembly (SHA), Sensory Tool Holder (STH) | `test-sth` |
@@ -432,7 +432,7 @@ The following description shows you how to run the STU tests.
 
 The (non-exhaustive) table below shows the compatible firmware for a certain node. The production tests assume that you use **firmware that includes the bootloader**.
 
-| Device | Hardware Version | Microcontroller | Firmware                                                                                                                                                                 |
+| Node | Hardware Version | Microcontroller | Firmware                                                                                                                                                                 |
 | ------ | ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | STH    | `1.3`            | BGM113          | • [Version 2.1.10](https://github.com/MyTooliT/STH/releases/tag/2.1.10)                                                                                                  |
 | STH    | `2.2`            | BGM123          | • [Aladdin](https://github.com/MyTooliT/STH/releases/tag/Aladdin)                                                                                                        |
