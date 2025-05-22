@@ -18,7 +18,7 @@ for the [ICOtronic system](https://www.mytoolit.com/ICOtronic/). Currently the m
   - the script [`icon`](#icon-cli-tool)
 - **Testing** the functionality of
   - a [Stationary Transceiver Unit (STU)](#tutorials:section:stu) or
-  - a sensor device/node, such as a
+  - a sensor node, such as a
     - [Sensory Holder Assembly (SHA)/Sensory Tool Holder (STH)](#tutorials:section:sth) or
     - [Sensory Milling Head (SMH)](#tutorials:section:smh)
 
