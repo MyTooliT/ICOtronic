@@ -271,7 +271,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 </ul>
-<p>The software reads data from the Stationary Transceiver Unit (STU) via CAN using the <a href="https://mytoolit.github.io/Documentation/#mytoolit-communication-protocol">MyTooliT protocol</a>. The STU itself reads from and writes data to the sensor devices via Bluetooth.</p>
+<p>The software reads data from the Stationary Transceiver Unit (STU) via CAN using the <a href="https://mytoolit.github.io/Documentation/#mytoolit-communication-protocol">MyTooliT protocol</a>. The STU itself reads from and writes data to the sensor nodes via Bluetooth.</p>
 <div id="requirements" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Requirements<a href="#requirements" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="hardware" class="section level3 hasAnchor" number="1.1.1">
@@ -291,7 +291,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </blockquote></li>
 <li><p>a <a href="https://www.mytoolit.com/ICOtronic/">Stationary Transceiver Unit</a>:</p>
 <p><img src="https://cdn.bitrix24.de/b5488381/landing/5fa/5fa2ce04fd1326e07bf39866e44f4e61/IMG_6338_2x.jpg" alt="STU" width="400"></p></li>
-<li><p>a sensor device, such as a <a href="https://www.mytoolit.com/ICOtronic/">Sensory Tool Holder</a>:
+<li><p>a sensor node, such as a <a href="https://www.mytoolit.com/ICOtronic/">Sensory Tool Holder</a>:
 <img src="https://cdn.bitrix24.de/b5488381/landing/cbe/cbe07df56cea688299533819c1e8a8d3/IMG_6350_2x_2x.jpg" alt="Sensory Tool Holder" width="400"></p></li>
 </ul>
 <div id="setup" class="section level4 hasAnchor" number="1.1.1.1">
@@ -303,7 +303,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>the power supply unit.</li>
 </ol></li>
 <li>Connect the USB connector of the PCAN adapter to your computer.</li>
-<li>Make sure that your sensor device (SHA/STH/SMH) is connected to a power source. For an STH this usually means that you should check that the battery is (fully) charged.</li>
+<li>Make sure that your sensor node (SHA/STH/SMH) is connected to a power source. For an STH this usually means that you should check that the battery is (fully) charged.</li>
 </ol>
 </div>
 </div>
@@ -518,19 +518,19 @@ Consider using a build backend that supports PEP 660.</code></pre>
 </blockquote>
 <div id="sensor-device-identifiers" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Sensor Device Identifiers<a href="#sensor-device-identifiers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>To connect to a sensor device (SHA, STH, SMH) you need to know an identifier for the device, which can be one of the following:</p>
+<p>To connect to a sensor node (SHA, STH, SMH) you need to know an identifier for the node, which can be one of the following:</p>
 <ul>
 <li>Bluetooth advertisement <strong>name</strong>: up to 8 characters, no special characters allowed</li>
 <li>Bluetooth <strong><a href="https://en.wikipedia.org/wiki/MAC_address">MAC address</a></strong>: 8 Bytes, usually written in <a href="https://en.wikipedia.org/wiki/Hexadecimal">hexadecimal format</a></li>
-<li><strong>Device number</strong>: starting with 0, up to the number of available sensor devices minus one (e.g. for 8 sensor devices, the maximum sensor device number will 7)</li>
+<li><strong>Device number</strong>: starting with 0, up to the number of available sensor nodes minus one (e.g. for 8 sensor nodes, the maximum sensor node number will be 7)</li>
 </ul>
-<p>If you do not know any of the above identifiers for your device you can use the command</p>
+<p>If you do not know any of the above identifiers for your node you can use the command</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="ex">icon</span> list</span></code></pre></div>
-<p>to show the available devices:</p>
-<pre><code>🤖 Name: Test-STH, Device Number: 0, MAC Address: 08-6B-D7-01-DE-81, RSSI: -51</code></pre>
-<p>In the example above, we see that one sensor device is available with the following identifiers:</p>
+<p>to show the available nodes:</p>
+<pre><code>🤖 Name: Test-STH, Number: 0, MAC Address: 08-6B-D7-01-DE-81, RSSI: -51</code></pre>
+<p>In the example above, we see that one sensor node is available with the following identifiers:</p>
 <ul>
-<li>device number: <code>0</code></li>
+<li>node number: <code>0</code></li>
 <li>name: <code>Test-STH</code></li>
 <li>MAC address: <code>08-6B-D7-01-DE-81</code></li>
 </ul>
@@ -540,7 +540,7 @@ Consider using a build backend that supports PEP 660.</code></pre>
 </div>
 <div id="collecting-data" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Collecting Data<a href="#collecting-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>After you determined one of the identifiers (name, MAC address, device number) of your sensor device you can use the command:</p>
+<p>After you determined one of the identifiers (name, MAC address, node number) of your sensor node you can use the command:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="ex">icon</span> measure</span></code></pre></div>
 <p>to collect measurement data. For example, to collect data from an STH with the name “Test-STH” for 10 seconds you can use the following command:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">--name</span> Test-STH <span class="at">--time</span> 10</span></code></pre></div>
@@ -558,7 +558,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <div id="measurement-data" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Measurement Data<a href="#measurement-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <blockquote>
-<p><strong>Note:</strong> ICOn <strong>assumes</strong> that the sensor device always measures <strong>acceleration data</strong> in multiples of the <a href="https://en.wikipedia.org/wiki/Gravity_of_Earth">gravity of earth</a>, commonly referred as <span class="math inline">\(g\)</span> or <span class="math inline">\(g_0\)</span>. While this is true for most of the sensor hardware (such as STHs), some sensor devices measure other values, e.g. force or temperature. Even in this case the measurement software will (incorrectly) <a href="https://github.com/MyTooliT/ICOtronic/blob/dc636ce2cda8f380aa0f031fc743062820eb3443/mytoolit/measurement/acceleration.py#L50-L51">convert the data into multiples of <span class="math inline">\(g\)</span></a>. We are <strong>working on adding support for configuring the sensor type</strong> in the firmware and the ICOtronic package to <strong>fix this issue</strong>.</p>
+<p><strong>Note:</strong> ICOn <strong>assumes</strong> that the sensor node always measures <strong>acceleration data</strong> in multiples of the <a href="https://en.wikipedia.org/wiki/Gravity_of_Earth">gravity of earth</a>, commonly referred as <span class="math inline">\(g\)</span> or <span class="math inline">\(g_0\)</span>. While this is true for most of the sensor hardware (such as STHs), some sensor nodes measure other values, e.g. force or temperature. Even in this case the measurement software will (incorrectly) <a href="https://github.com/MyTooliT/ICOtronic/blob/dc636ce2cda8f380aa0f031fc743062820eb3443/mytoolit/measurement/acceleration.py#L50-L51">convert the data into multiples of <span class="math inline">\(g\)</span></a>. We are <strong>working on adding support for configuring the sensor type</strong> in the firmware and the ICOtronic package to <strong>fix this issue</strong>.</p>
 </blockquote>
 <p>To take a look at the measurement data you can use the tool <a href="https://www.hdfgroup.org/downloads/hdfview/">HDFView</a>. Unfortunately you need to create a free account to download the program. If you do not want to register, then you can try if <a href="http://bugmenot.com/view/hdfgroup.org">one of the accounts listed at BugMeNot</a> works. Another option is to download the application from <a href="https://support.hdfgroup.org/ftp/HDF5/releases/HDF-JAVA/">here</a>. Just click on the folder for the latest version of the application (<code>hdfview-…</code>) and afterwards on the folder <code>bin</code> to see a list of compressed binaries (<code>.zip</code> &amp; <code>.tar.gz</code>) for the different supported operating systems.</p>
 <p>The screenshot below shows a measurement file produced by the ICOtronic library:</p>
@@ -695,17 +695,17 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co"># Specify the holder type (the holder that contains the PCB)</span></span>
 <span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="co"># as “D 10x130 HSK-A63”</span></span>
 <span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a><span class="fu">holder type</span><span class="kw">:</span><span class="at"> </span><span class="ot">&amp;holder_type</span><span class="at"> D 10x130 HSK-A63</span></span></code></pre></div></li>
-<li><p>Change the holder name (Bluetooth advertisement name) to the one of your sensor device. If your are not sure about the name you can use the <a href="#icon-cli-tool"><code>icon</code></a> command line tool to determine the name. The STH and SMH tests use this value to connect to the device.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="co"># Connect to the sensor device with the name “untested”</span></span>
+<li><p>Change the holder name (Bluetooth advertisement name) to the one of your sensor node. If your are not sure about the name you can use the <a href="#icon-cli-tool"><code>icon</code></a> command line tool to determine the name. The STH and SMH tests use this value to connect to the node.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="co"># Connect to the sensor node with the name “untested”</span></span>
 <span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="fu">holder name</span><span class="kw">:</span><span class="at"> </span><span class="ot">&amp;holder_name</span><span class="at"> untested</span></span></code></pre></div></li>
-<li><p>Update the serial number of the sensor device. The STH and SMH tests change the sensor device Bluetooth advertisement name to this value, after the EEPROM (part of the) test was executed, <strong>if the state value is set to <code>Epoxied</code></strong>.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="co"># Use the value “tested” as sensor device name,</span></span>
+<li><p>Update the serial number of the sensor node. The STH and SMH tests change the sensor node Bluetooth advertisement name to this value, after the EEPROM (part of the) test was executed, <strong>if the state value is set to <code>Epoxied</code></strong>.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="co"># Use the value “tested” as sensor node name,</span></span>
 <span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a><span class="co"># after the EEPROM test (succeeded)</span></span>
 <span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a><span class="fu">holder serial number</span><span class="kw">:</span><span class="at"> </span><span class="ot">&amp;holder_serial</span><span class="at"> tested</span></span></code></pre></div></li>
 <li><p>Change the state value to</p>
 <ul>
-<li><code>Bare PCB</code>, if the <strong>sensor device test</strong> (SMH/STH test) should flash <strong>the sensor device</strong> or to</li>
-<li><code>Epoxied</code> if the test should not flash the sensor device.</li>
+<li><code>Bare PCB</code>, if the <strong>sensor node test</strong> (SMH/STH test) should flash <strong>the sensor node</strong> or to</li>
+<li><code>Epoxied</code> if the test should not flash the sensor node.</li>
 </ul>
 <div class="sourceCode" id="cb33"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co"># Do not flash the chip in the SMH/STH test</span></span>
 <span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="ot">&amp;state</span><span class="at"> Epoxied</span></span></code></pre></div></li>
@@ -723,7 +723,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 </div>
 <div id="listing-available-sensor-devices" class="section level3 hasAnchor" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> Listing Available Sensor Devices<a href="#listing-available-sensor-devices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>To print a list of all available sensor devices, including their identifiers (name, MAC address, device number), please use the subcommand <code>list</code>:</p>
+<p>To print a list of all available sensor nodes, including their identifiers (name, MAC address, node number), please use the subcommand <code>list</code>:</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="ex">icon</span> list</span></code></pre></div>
 </div>
 <div id="collecting-measurement-data" class="section level3 hasAnchor" number="3.2.3">
@@ -733,12 +733,12 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <p>By default the command will collect streaming data for 10 seconds for the first measurement channel and store the data in a file starting with the name <code>Measurement</code> and the extension <code>.hdf5</code> in the current working directory.</p>
 <div id="specifying-the-sensor-hardware" class="section level4 hasAnchor" number="3.2.3.1">
 <h4><span class="header-section-number">3.2.3.1</span> Specifying the Sensor Hardware<a href="#specifying-the-sensor-hardware" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>The <code>measure</code> subcommand requires that you specify one of the identifiers of a sensor device.</p>
-<p>To connect to a sensor device by <strong>name</strong> use the option <code>-n</code> or <code>--name</code>. For example, the command below collects data from the sensor device with the name <code>Test-STH</code>:</p>
+<p>The <code>measure</code> subcommand requires that you specify one of the identifiers of a sensor node.</p>
+<p>To connect to a sensor node by <strong>name</strong> use the option <code>-n</code> or <code>--name</code>. For example, the command below collects data from the sensor node with the name <code>Test-STH</code>:</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-n</span> <span class="st">&#39;Test-STH&#39;</span></span></code></pre></div>
-<p>You can also use the MAC address to connect to a certain sensor device with the option <code>-m</code> or <code>--mac-address</code>:</p>
+<p>You can also use the MAC address to connect to a certain sensor node with the option <code>-m</code> or <code>--mac-address</code>:</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-m</span> <span class="st">&#39;08-6B-D7-01-DE-81&#39;</span></span></code></pre></div>
-<p>To connect using the device number use the option <code>-d</code> or <code>--device-number</code>:</p>
+<p>To connect using the node number use the option <code>-d</code> or <code>--node-number</code>:</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-d</span> 0</span></code></pre></div>
 </div>
 <div id="changing-the-run-time" class="section level4 hasAnchor" number="3.2.3.2">
@@ -797,7 +797,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 </div>
 <div id="changing-the-reference-voltage" class="section level4 hasAnchor" number="3.2.3.4">
 <h4><span class="header-section-number">3.2.3.4</span> Changing the Reference Voltage<a href="#changing-the-reference-voltage" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>For certain sensor devices you have to change the reference voltage to retrieve a proper measurement value. For example, STHs that use a ± 40 g acceleration sensor (<a href="https://www.analog.com/en/products/adxl356.html">ADXL356</a>) require a reference voltage of 1.8 V instead of the usual supply voltage (<code>VDD</code>) of 3.3 V. To select the correct reference voltage for these devices at startup use the option <code>-v 1.8</code>:</p>
+<p>For certain sensor nodes you have to change the reference voltage to retrieve a proper measurement value. For example, STHs that use a ± 40 g acceleration sensor (<a href="https://www.analog.com/en/products/adxl356.html">ADXL356</a>) require a reference voltage of 1.8 V instead of the usual supply voltage (<code>VDD</code>) of 3.3 V. To select the correct reference voltage for these nodes at startup use the option <code>-v 1.8</code>:</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-v</span> 1.8</span></code></pre></div>
 </div>
 <div id="changing-the-sampling-rate" class="section level4 hasAnchor" number="3.2.3.5">
@@ -815,7 +815,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 </div>
 <div id="tutorials:section:sth-renaming" class="section level3 hasAnchor" number="3.2.4">
 <h3><span class="header-section-number">3.2.4</span> Renaming a Sensor Device<a href="#tutorials:section:sth-renaming" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>To change the name of a sensor you can use the subcommand <code>rename</code>. For example, to change the name of the sensor device with the Bluetooth MAC address <code>08-6B-D7-01-DE-81</code> to <code>Test-STH</code> use the following command:</p>
+<p>To change the name of a sensor you can use the subcommand <code>rename</code>. For example, to change the name of the sensor node with the Bluetooth MAC address <code>08-6B-D7-01-DE-81</code> to <code>Test-STH</code> use the following command:</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="ex">icon</span> rename <span class="at">-m</span> 08-6B-D7-01-DE-81 Test-STH</span></code></pre></div>
 <p>For more information about the command you can use the option <code>-h</code>/<code>--help</code>:</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="ex">icon</span> rename <span class="at">-h</span></span></code></pre></div>
@@ -852,7 +852,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <p>This tutorial lists the usual steps to test a sensory holder assembly or a sensory tool holder.</p>
 <div id="tutorials:section:general" class="section level3 hasAnchor" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> General<a href="#tutorials:section:general" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>To run the production tests for one of the ICOtronic devices, please execute one of the following commands:</p>
+<p>To run the production tests for one of the ICOtronic nodes, please execute one of the following commands:</p>
 <table>
 <colgroup>
 <col width="84%" />
@@ -954,7 +954,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 </div>
 <div id="firmware-versions" class="section level3 hasAnchor" number="3.3.5">
 <h3><span class="header-section-number">3.3.5</span> Firmware Versions<a href="#firmware-versions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The (non-exhaustive) table below shows the compatible firmware for a certain device. The production tests assume that you use <strong>firmware that includes the bootloader</strong>.</p>
+<p>The (non-exhaustive) table below shows the compatible firmware for a certain node. The production tests assume that you use <strong>firmware that includes the bootloader</strong>.</p>
 <table>
 <colgroup>
 <col width="2%" />
