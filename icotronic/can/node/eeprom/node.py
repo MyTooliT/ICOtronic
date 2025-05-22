@@ -1,4 +1,4 @@
-"""Device specific EEPROM support"""
+"""Node specific EEPROM support"""
 
 # -- Imports ------------------------------------------------------------------
 

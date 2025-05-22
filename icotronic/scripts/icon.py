@@ -22,7 +22,7 @@ from tqdm import tqdm
 from icotronic.can import Connection
 from icotronic.can.adc import ADCConfiguration
 from icotronic.can.error import CANConnectionError, UnsupportedFeatureException
-from icotronic.can.node.stu import SensorDeviceInfo
+from icotronic.can.node.stu import SensorNodeInfo
 from icotronic.can.node.sth import STH
 from icotronic.can.streaming import StreamingTimeoutError
 from icotronic.cmdline.parse import create_icon_parser
@@ -176,8 +176,8 @@ async def command_list(
 
     async with Connection() as stu:
         timeout = time() + 5
-        sensor_nodes: List[SensorDeviceInfo] = []
-        sensor_nodes_before: List[SensorDeviceInfo] = []
+        sensor_nodes: List[SensorNodeInfo] = []
+        sensor_nodes_before: List[SensorNodeInfo] = []
 
         # - First request for sensor nodes will produce empty list
         # - Subsequent retries should provide all available sensor nodes

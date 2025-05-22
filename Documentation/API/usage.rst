@@ -1,8 +1,8 @@
 .. currentmodule:: icotronic.can
 
-*****************
-Device Connection
-*****************
+**********
+Connection
+**********
 
 Connecting to STU
 =================
@@ -20,8 +20,8 @@ To communicate with the ICOtronic system use the the async context manager of th
 
    >>> run(create_and_shutdown_connection())
 
-Connecting to Sensor Device
-===========================
+Connecting to Sensor Node
+=========================
 
 .. currentmodule:: icotronic.can.node.stu
 

@@ -56,8 +56,8 @@ class AsyncSensorNodeManager:
         """Create the connection to the sensor node"""
 
         def get_sensor_node(
-            nodes: list[SensorDeviceInfo], identifier: int | str | EUI
-        ) -> SensorDeviceInfo | None:
+            nodes: list[SensorNodeInfo], identifier: int | str | EUI
+        ) -> SensorNodeInfo | None:
             """Get the MAC address of a sensor node"""
 
             for node in nodes:
@@ -80,7 +80,7 @@ class AsyncSensorNodeManager:
         end_time = time() + timeout_in_s
 
         sensor_node = None
-        sensor_nodes: list[SensorDeviceInfo] = []
+        sensor_nodes: list[SensorNodeInfo] = []
         while sensor_node is None:
             if time() > end_time:
                 sensor_nodes_representation = "\n".join(
@@ -164,7 +164,7 @@ class AsyncSensorNodeManager:
             pass
 
 
-class SensorDeviceInfo(NamedTuple):
+class SensorNodeInfo(NamedTuple):
     """Used to store information about a (disconnected) STH"""
 
     name: str  # The (Bluetooth advertisement) name of the STH
@@ -177,7 +177,7 @@ class SensorDeviceInfo(NamedTuple):
 
         attributes = ", ".join([
             f"Name: {self.name}",
-            f"Device Number: {self.sensor_node_number}",
+            f"Number: {self.sensor_node_number}",
             f"MAC Address: {self.mac_address}",
             f"RSSI: {self.rssi}",
         ])
@@ -592,7 +592,7 @@ class STU(Node):
 
         return await self.spu.get_mac_address(self.id, sensor_node_number)
 
-    async def get_sensor_nodes(self) -> list[SensorDeviceInfo]:
+    async def get_sensor_nodes(self) -> list[SensorNodeInfo]:
         """Retrieve a list of available sensor nodes
 
         Returns
@@ -655,7 +655,7 @@ class STU(Node):
             name = await self.get_name(node)
 
             nodes.append(
-                SensorDeviceInfo(
+                SensorNodeInfo(
                     sensor_node_number=node,
                     mac_address=mac_address,
                     name=name,
