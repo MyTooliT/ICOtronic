@@ -320,7 +320,7 @@ This tutorial lists the usual steps to test a sensory holder assembly or a senso
 
 To run the production tests for one of the ICOtronic nodes, please execute one of the following commands:
 
-| Node                                                   | Command    |
+| Node                                                     | Command    |
 | -------------------------------------------------------- | ---------- |
 | Stationary Transceiver Unit (STU)                        | `test-stu` |
 | Sensory Holder Assembly (SHA), Sensory Tool Holder (STH) | `test-sth` |
@@ -433,7 +433,7 @@ The following description shows you how to run the STU tests.
 The (non-exhaustive) table below shows the compatible firmware for a certain node. The production tests assume that you use **firmware that includes the bootloader**.
 
 | Node | Hardware Version | Microcontroller | Firmware                                                                                                                                                                 |
-| ------ | ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| STH    | `1.3`            | BGM113          | • [Version 2.1.10](https://github.com/MyTooliT/STH/releases/tag/2.1.10)                                                                                                  |
-| STH    | `2.2`            | BGM123          | • [Aladdin](https://github.com/MyTooliT/STH/releases/tag/Aladdin)                                                                                                        |
-| SMH    | `2.1`            | BGM121          | • [Version 3.0.0](https://github.com/MyTooliT/STH/releases/tag/3.0.0) <br/>• [Version E3016 Beta](<https://github.com/MyTooliT/STH/releases/tag/E3016_BETA(11_Sensors)>) |
+| ---- | ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| STH  | `1.3`            | BGM113          | • [Version 2.1.10](https://github.com/MyTooliT/STH/releases/tag/2.1.10)                                                                                                  |
+| STH  | `2.2`            | BGM123          | • [Aladdin](https://github.com/MyTooliT/STH/releases/tag/Aladdin)                                                                                                        |
+| SMH  | `2.1`            | BGM121          | • [Version 3.0.0](https://github.com/MyTooliT/STH/releases/tag/3.0.0) <br/>• [Version E3016 Beta](<https://github.com/MyTooliT/STH/releases/tag/E3016_BETA(11_Sensors)>) |
