@@ -176,30 +176,6 @@ The text below specifies extended manual test that should be executed before we 
 
 8. Check that the timestamp of the last value in the `acceleration` table has **approximately the value `30 000 000`** (all values above `29 900 000` should be fine).
 
-###### Check HDF5 Output
-
-1. Repeat steps 1. – 4. from the test above
-
-2. Measure data for 10 seconds using the following command:
-
-   ```sh
-   icon measure -n 'Test-STH' -t 10
-   ```
-
-3. Check that the repo now contains a HDF5 (`*.hdf5`) file
-
-   ```sh
-   ls *.hdf5
-   ```
-
-4. Open the file in [HDFView](#measurement-data)
-5. Check that the table `acceleration` contains about 95 000 values
-6. Check that the table contains three columns
-7. Check that the meta attributes `Sample_Rate`, `Sensor_Range` and `Start_Time` exist
-8. Check that `Sample_Rate` contains the value `9523.81 Hz (Prescaler: 2, Acquisition Time: 8, Oversampling Rate: 64)`
-9. Check that `Sensor_Range` contains the correct maximum acceleration values for “Test-STH”
-10. Check that `Start_Time` contains (roughly) the date and time when you executed the command from step 5
-
 ### Combined Checks & Tests
 
 While you need to execute some test for the ICOtronic package manually, other tests and checks can be automated.
