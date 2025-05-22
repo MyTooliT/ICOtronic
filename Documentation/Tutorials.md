@@ -75,25 +75,25 @@ which will open the the user configuration in your default text editor. You can 
    holder type: &holder_type D 10x130 HSK-A63
    ```
 
-6. Change the holder name (Bluetooth advertisement name) to the one of your sensor device. If your are not sure about the name you can use the [`icon`](#icon-cli-tool) command line tool to determine the name. The STH and SMH tests use this value to connect to the device.
+6. Change the holder name (Bluetooth advertisement name) to the one of your sensor node. If your are not sure about the name you can use the [`icon`](#icon-cli-tool) command line tool to determine the name. The STH and SMH tests use this value to connect to the node.
 
    ```yaml
-   # Connect to the sensor device with the name “untested”
+   # Connect to the sensor node with the name “untested”
    holder name: &holder_name untested
    ```
 
-7. Update the serial number of the sensor device. The STH and SMH tests change the sensor device Bluetooth advertisement name to this value, after the EEPROM (part of the) test was executed, **if the state value is set to `Epoxied`**.
+7. Update the serial number of the sensor node. The STH and SMH tests change the sensor node Bluetooth advertisement name to this value, after the EEPROM (part of the) test was executed, **if the state value is set to `Epoxied`**.
 
    ```yaml
-   # Use the value “tested” as sensor device name,
+   # Use the value “tested” as sensor node name,
    # after the EEPROM test (succeeded)
    holder serial number: &holder_serial tested
    ```
 
 8. Change the state value to
 
-   - `Bare PCB`, if the **sensor device test** (SMH/STH test) should flash **the sensor device** or to
-   - `Epoxied` if the test should not flash the sensor device.
+   - `Bare PCB`, if the **sensor node test** (SMH/STH test) should flash **the sensor node** or to
+   - `Epoxied` if the test should not flash the sensor node.
 
    ```yaml
    # Do not flash the chip in the SMH/STH test
@@ -118,7 +118,7 @@ icon measure -h
 
 ### Listing Available Sensor Devices
 
-To print a list of all available sensor devices, including their identifiers (name, MAC address, device number), please use the subcommand `list`:
+To print a list of all available sensor nodes, including their identifiers (name, MAC address, node number), please use the subcommand `list`:
 
 ```sh
 icon list
@@ -136,21 +136,21 @@ By default the command will collect streaming data for 10 seconds for the first 
 
 #### Specifying the Sensor Hardware
 
-The `measure` subcommand requires that you specify one of the identifiers of a sensor device.
+The `measure` subcommand requires that you specify one of the identifiers of a sensor node.
 
-To connect to a sensor device by **name** use the option `-n` or `--name`. For example, the command below collects data from the sensor device with the name `Test-STH`:
+To connect to a sensor node by **name** use the option `-n` or `--name`. For example, the command below collects data from the sensor node with the name `Test-STH`:
 
 ```sh
 icon measure -n 'Test-STH'
 ```
 
-You can also use the MAC address to connect to a certain sensor device with the option `-m` or `--mac-address`:
+You can also use the MAC address to connect to a certain sensor node with the option `-m` or `--mac-address`:
 
 ```sh
 icon measure -m '08-6B-D7-01-DE-81'
 ```
 
-To connect using the device number use the option `-d` or `--device-number`:
+To connect using the node number use the option `-d` or `--node-number`:
 
 ```sh
 icon measure -d 0
@@ -234,7 +234,7 @@ icon measure -2 -3
 
 #### Changing the Reference Voltage
 
-For certain sensor devices you have to change the reference voltage to retrieve a proper measurement value. For example, STHs that use a ± 40 g acceleration sensor ([ADXL356](https://www.analog.com/en/products/adxl356.html)) require a reference voltage of 1.8 V instead of the usual supply voltage (`VDD`) of 3.3 V. To select the correct reference voltage for these devices at startup use the option `-v 1.8`:
+For certain sensor nodes you have to change the reference voltage to retrieve a proper measurement value. For example, STHs that use a ± 40 g acceleration sensor ([ADXL356](https://www.analog.com/en/products/adxl356.html)) require a reference voltage of 1.8 V instead of the usual supply voltage (`VDD`) of 3.3 V. To select the correct reference voltage for these nodes at startup use the option `-v 1.8`:
 
 ```sh
 icon measure -v 1.8
@@ -258,7 +258,7 @@ icon measure --prescaler 2 --acquisition 8 --oversampling 256
 
 ### Renaming a Sensor Device {#tutorials:section:sth-renaming}
 
-To change the name of a sensor you can use the subcommand `rename`. For example, to change the name of the sensor device with the Bluetooth MAC address `08-6B-D7-01-DE-81` to `Test-STH` use the following command:
+To change the name of a sensor you can use the subcommand `rename`. For example, to change the name of the sensor node with the Bluetooth MAC address `08-6B-D7-01-DE-81` to `Test-STH` use the following command:
 
 ```sh
 icon rename -m 08-6B-D7-01-DE-81 Test-STH
@@ -318,7 +318,7 @@ This tutorial lists the usual steps to test a sensory holder assembly or a senso
 
 ### General {#tutorials:section:general}
 
-To run the production tests for one of the ICOtronic devices, please execute one of the following commands:
+To run the production tests for one of the ICOtronic nodes, please execute one of the following commands:
 
 | Device                                                   | Command    |
 | -------------------------------------------------------- | ---------- |
@@ -430,7 +430,7 @@ The following description shows you how to run the STU tests.
 
 ### Firmware Versions
 
-The (non-exhaustive) table below shows the compatible firmware for a certain device. The production tests assume that you use **firmware that includes the bootloader**.
+The (non-exhaustive) table below shows the compatible firmware for a certain node. The production tests assume that you use **firmware that includes the bootloader**.
 
 | Device | Hardware Version | Microcontroller | Firmware                                                                                                                                                                 |
 | ------ | ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |

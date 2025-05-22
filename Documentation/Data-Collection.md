@@ -16,27 +16,27 @@ The [ICOtronic package](https://pypi.org/project/icotronic) provides two differe
 
 ## Sensor Device Identifiers
 
-To connect to a sensor device (SHA, STH, SMH) you need to know an identifier for the device, which can be one of the following:
+To connect to a sensor node (SHA, STH, SMH) you need to know an identifier for the node, which can be one of the following:
 
 - Bluetooth advertisement **name**: up to 8 characters, no special characters allowed
 - Bluetooth **[MAC address](https://en.wikipedia.org/wiki/MAC_address)**: 8 Bytes, usually written in [hexadecimal format](https://en.wikipedia.org/wiki/Hexadecimal)
-- **Device number**: starting with 0, up to the number of available sensor devices minus one (e.g. for 8 sensor devices, the maximum sensor device number will 7)
+- **Device number**: starting with 0, up to the number of available sensor nodes minus one (e.g. for 8 sensor nodes, the maximum sensor node number will be 7)
 
-If you do not know any of the above identifiers for your device you can use the command
+If you do not know any of the above identifiers for your node you can use the command
 
 ```sh
 icon list
 ```
 
-to show the available devices:
+to show the available nodes:
 
 ```
-🤖 Name: Test-STH, Device Number: 0, MAC Address: 08-6B-D7-01-DE-81, RSSI: -51
+🤖 Name: Test-STH, Number: 0, MAC Address: 08-6B-D7-01-DE-81, RSSI: -51
 ```
 
-In the example above, we see that one sensor device is available with the following identifiers:
+In the example above, we see that one sensor node is available with the following identifiers:
 
-- device number: `0`
+- node number: `0`
 - name: `Test-STH`
 - MAC address: `08-6B-D7-01-DE-81`
 
@@ -44,7 +44,7 @@ In the example above, we see that one sensor device is available with the follow
 
 ## Collecting Data
 
-After you determined one of the identifiers (name, MAC address, device number) of your sensor device you can use the command:
+After you determined one of the identifiers (name, MAC address, node number) of your sensor node you can use the command:
 
 ```sh
 icon measure
@@ -74,7 +74,7 @@ By default measurement files will be stored in the current working directory wit
 
 ## Measurement Data
 
-> **Note:** ICOn **assumes** that the sensor device always measures **acceleration data** in multiples of the [gravity of earth](https://en.wikipedia.org/wiki/Gravity_of_Earth), commonly referred as $g$ or $g_0$. While this is true for most of the sensor hardware (such as STHs), some sensor devices measure other values, e.g. force or temperature. Even in this case the measurement software will (incorrectly) [convert the data into multiples of $g$](https://github.com/MyTooliT/ICOtronic/blob/dc636ce2cda8f380aa0f031fc743062820eb3443/mytoolit/measurement/acceleration.py#L50-L51). We are **working on adding support for configuring the sensor type** in the firmware and the ICOtronic package to **fix this issue**.
+> **Note:** ICOn **assumes** that the sensor node always measures **acceleration data** in multiples of the [gravity of earth](https://en.wikipedia.org/wiki/Gravity_of_Earth), commonly referred as $g$ or $g_0$. While this is true for most of the sensor hardware (such as STHs), some sensor nodes measure other values, e.g. force or temperature. Even in this case the measurement software will (incorrectly) [convert the data into multiples of $g$](https://github.com/MyTooliT/ICOtronic/blob/dc636ce2cda8f380aa0f031fc743062820eb3443/mytoolit/measurement/acceleration.py#L50-L51). We are **working on adding support for configuring the sensor type** in the firmware and the ICOtronic package to **fix this issue**.
 
 To take a look at the measurement data you can use the tool [HDFView][]. Unfortunately you need to create a free account to download the program. If you do not want to register, then you can try if [one of the accounts listed at BugMeNot](http://bugmenot.com/view/hdfgroup.org) works. Another option is to download the application from [here](https://support.hdfgroup.org/ftp/HDF5/releases/HDF-JAVA/). Just click on the folder for the latest version of the application (`hdfview-…`) and afterwards on the folder `bin` to see a list of compressed binaries (`.zip` & `.tar.gz`) for the different supported operating systems.
 
