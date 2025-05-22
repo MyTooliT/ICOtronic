@@ -43,8 +43,8 @@ Check help output of measure command:
   $ icon measure --help
   usage: icon measure [-h] [-t TIME] [-1 [FIRST_CHANNEL]] [-2 [SECOND_CHANNEL]]
                       [-3 [THIRD_CHANNEL]]* (glob)
-                      *-d SENSOR_NODE_NUMBER) [-s * (glob)
-                      [-a {1,2,3,4,8,16,32,64,128,256}]
+                      *-d SENSOR_NODE_NUMBER* (glob)
+                      *-a {1,2,3,4,8,16,32,64,128,256}* (glob)
                       [-o {1,2,4,8,16,32,64,128,256,512,1024,2048,4096}]
                       [-v {1.25,1.65,1.8,2.1,2.2,2.5,2.7,3.3,5,6.6}]
   
