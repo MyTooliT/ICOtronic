@@ -354,10 +354,10 @@ def add_identifier_arguments(parser: ArgumentParser) -> None:
     )
     identifier_group.add_argument(
         "-d",
-        "--sensor-node-number",
+        "--number",
         type=sensor_node_number,
         dest="identifier",
-        metavar="SENSOR_NODE_NUMBER",
+        metavar="NUMBER",
         help="Node number of sensor node",
     )
 
