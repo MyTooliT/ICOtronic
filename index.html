@@ -151,7 +151,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path=""><a href="#data-collection"><i class="fa fa-check"></i><b>2</b> Data Collection</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path=""><a href="#sensor-device-identifiers"><i class="fa fa-check"></i><b>2.1</b> Sensor Device Identifiers</a></li>
+<li class="chapter" data-level="2.1" data-path=""><a href="#sensor-node-identifiers"><i class="fa fa-check"></i><b>2.1</b> Sensor Node Identifiers</a></li>
 <li class="chapter" data-level="2.2" data-path=""><a href="#collecting-data"><i class="fa fa-check"></i><b>2.2</b> Collecting Data</a></li>
 <li class="chapter" data-level="2.3" data-path=""><a href="#measurement-data"><i class="fa fa-check"></i><b>2.3</b> Measurement Data</a>
 <ul>
@@ -168,9 +168,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2" data-path=""><a href="#icon-cli-tool"><i class="fa fa-check"></i><b>3.2</b> ICOn CLI Tool</a>
 <ul>
 <li class="chapter" data-level="3.2.1" data-path=""><a href="#help"><i class="fa fa-check"></i><b>3.2.1</b> Help</a></li>
-<li class="chapter" data-level="3.2.2" data-path=""><a href="#listing-available-sensor-devices"><i class="fa fa-check"></i><b>3.2.2</b> Listing Available Sensor Devices</a></li>
+<li class="chapter" data-level="3.2.2" data-path=""><a href="#listing-available-sensor-nodes"><i class="fa fa-check"></i><b>3.2.2</b> Listing Available Sensor Nodes</a></li>
 <li class="chapter" data-level="3.2.3" data-path=""><a href="#collecting-measurement-data"><i class="fa fa-check"></i><b>3.2.3</b> Collecting Measurement Data</a></li>
-<li class="chapter" data-level="3.2.4" data-path=""><a href="#tutorials:section:sth-renaming"><i class="fa fa-check"></i><b>3.2.4</b> Renaming a Sensor Device</a></li>
+<li class="chapter" data-level="3.2.4" data-path=""><a href="#tutorials:section:sth-renaming"><i class="fa fa-check"></i><b>3.2.4</b> Renaming a Sensor Node</a></li>
 <li class="chapter" data-level="3.2.5" data-path=""><a href="#opening-the-user-configuration"><i class="fa fa-check"></i><b>3.2.5</b> Opening the User Configuration</a></li>
 <li class="chapter" data-level="3.2.6" data-path=""><a href="#stu-commands"><i class="fa fa-check"></i><b>3.2.6</b> STU Commands</a></li>
 </ul></li>
@@ -516,13 +516,13 @@ Consider using a build backend that supports PEP 660.</code></pre>
 <li><a href="https://mytoolit.github.io/ICOc/#basic-usage">ICOc</a>: A text based UI for Windows</li>
 </ul>
 </blockquote>
-<div id="sensor-device-identifiers" class="section level2 hasAnchor" number="2.1">
-<h2><span class="header-section-number">2.1</span> Sensor Device Identifiers<a href="#sensor-device-identifiers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="sensor-node-identifiers" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Sensor Node Identifiers<a href="#sensor-node-identifiers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To connect to a sensor node (SHA, STH, SMH) you need to know an identifier for the node, which can be one of the following:</p>
 <ul>
 <li>Bluetooth advertisement <strong>name</strong>: up to 8 characters, no special characters allowed</li>
 <li>Bluetooth <strong><a href="https://en.wikipedia.org/wiki/MAC_address">MAC address</a></strong>: 8 Bytes, usually written in <a href="https://en.wikipedia.org/wiki/Hexadecimal">hexadecimal format</a></li>
-<li><strong>Device number</strong>: starting with 0, up to the number of available sensor nodes minus one (e.g. for 8 sensor nodes, the maximum sensor node number will be 7)</li>
+<li><strong>Node number</strong>: starting with 0, up to the number of available sensor nodes minus one (e.g. for 8 sensor nodes, the maximum sensor node number will be 7)</li>
 </ul>
 <p>If you do not know any of the above identifiers for your node you can use the command</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="ex">icon</span> list</span></code></pre></div>
@@ -721,8 +721,8 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <p>To show the available options for a certain subcommand add the subcommand before the option. For example, to show the help text for the subcommand <code>measure</code> you can use the following command:</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-h</span></span></code></pre></div>
 </div>
-<div id="listing-available-sensor-devices" class="section level3 hasAnchor" number="3.2.2">
-<h3><span class="header-section-number">3.2.2</span> Listing Available Sensor Devices<a href="#listing-available-sensor-devices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="listing-available-sensor-nodes" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Listing Available Sensor Nodes<a href="#listing-available-sensor-nodes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To print a list of all available sensor nodes, including their identifiers (name, MAC address, node number), please use the subcommand <code>list</code>:</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="ex">icon</span> list</span></code></pre></div>
 </div>
@@ -814,7 +814,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 </div>
 </div>
 <div id="tutorials:section:sth-renaming" class="section level3 hasAnchor" number="3.2.4">
-<h3><span class="header-section-number">3.2.4</span> Renaming a Sensor Device<a href="#tutorials:section:sth-renaming" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<h3><span class="header-section-number">3.2.4</span> Renaming a Sensor Node<a href="#tutorials:section:sth-renaming" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To change the name of a sensor you can use the subcommand <code>rename</code>. For example, to change the name of the sensor node with the Bluetooth MAC address <code>08-6B-D7-01-DE-81</code> to <code>Test-STH</code> use the following command:</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="ex">icon</span> rename <span class="at">-m</span> 08-6B-D7-01-DE-81 Test-STH</span></code></pre></div>
 <p>For more information about the command you can use the option <code>-h</code>/<code>--help</code>:</p>
@@ -860,7 +860,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 </colgroup>
 <thead>
 <tr class="header">
-<th>Device</th>
+<th>Node</th>
 <th>Command</th>
 </tr>
 </thead>
@@ -964,7 +964,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 </colgroup>
 <thead>
 <tr class="header">
-<th>Device</th>
+<th>Node</th>
 <th>Hardware Version</th>
 <th>Microcontroller</th>
 <th>Firmware</th>
