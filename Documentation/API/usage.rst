@@ -60,30 +60,6 @@ By default :meth:`stu.connect_sensor_node` assumes that you want to connect to a
 
 .. _identifiers of the node: https://mytoolit.github.io/ICOtronic/#sensor-node-identifiers
 
-***********************
-Auxiliary Functionality
-***********************
-
-Reading Names
-=============
-
-After your are connected to the a node you can read its (advertisement) name using the coroutine :meth:`SensorNode.get_name`:
-
-.. doctest::
-
-   >>> from asyncio import run
-   >>> from icotronic.can import Connection
-
-   >>> async def read_sensor_name(name):
-   ...     async with Connection() as stu:
-   ...         async with stu.connect_sensor_node(name) as sensor_node:
-   ...             sensor_name = await sensor_node.get_name()
-   ...             return sensor_name
-
-   >>> sensor_name = "Test-STH"
-   >>> run(read_sensor_name(sensor_name))
-   'Test-STH'
-
 *********
 Streaming
 *********
@@ -272,3 +248,27 @@ Slow Processing of Data
 The buffer of the CAN controller is only able to store a certain amount of streaming messages before it has to drop them to make room for new ones. For this reason the ICOtronic library will raise a :class:`StreamingBufferError`, if the buffer for streaming messages exceeds a certain threshold (default: 10 000 messages):
 
 .. autoexception:: StreamingBufferError
+
+***********************
+Auxiliary Functionality
+***********************
+
+Reading Names
+=============
+
+After your are connected to the a node you can read its (advertisement) name using the coroutine :meth:`SensorNode.get_name`:
+
+.. doctest::
+
+   >>> from asyncio import run
+   >>> from icotronic.can import Connection
+
+   >>> async def read_sensor_name(name):
+   ...     async with Connection() as stu:
+   ...         async with stu.connect_sensor_node(name) as sensor_node:
+   ...             sensor_name = await sensor_node.get_name()
+   ...             return sensor_name
+
+   >>> sensor_name = "Test-STH"
+   >>> run(read_sensor_name(sensor_name))
+   'Test-STH'
