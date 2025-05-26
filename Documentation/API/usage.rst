@@ -203,11 +203,7 @@ In both cases there will be some form of data loss. The ICOtronic library curren
 Bad Connection
 --------------
 
-The iterator for streaming data :class:`AsyncStreamBuffer` will raise a :class:`StreamingTimeoutError`, if there is **no streaming data for a certain amount of time** (default: 5 seconds):
-
-.. autoexception:: StreamingTimeoutError
-
-:class:`AsyncStreamBuffer` also provides access to statistics that can be used to determine the amount of lost data. For example, if you iterate through the streaming messages with ``async for``, then in addition to the streaming data the iterator will also return the **amount of lost messages since the last successfully received message** (``lost_messages`` in the example below):
+The iterator for streaming data :class:`AsyncStreamBuffer` will raise a :class:`StreamingTimeoutError`, if there is **no streaming data for a certain amount of time** (default: 5 seconds). The class :class:`AsyncStreamBuffer` also provides access to statistics that can be used to determine the amount of lost data. For example, if you iterate through the streaming messages with ``async for``, then in addition to the streaming data the iterator will also return the **amount of lost messages since the last successfully received message** (``lost_messages`` in the example below):
 
 .. code-block::
    :emphasize-lines: 2
@@ -217,11 +213,7 @@ The iterator for streaming data :class:`AsyncStreamBuffer` will raise a :class:`
            if lost_messages > 0:
                print(f"Lost {lost_messages} messages!")
 
-To access the overall data quality, since the start of streaming you can use the method :meth:`AsyncStreamBuffer.dataloss`:
-
-.. automethod:: AsyncStreamBuffer.dataloss
-
-The example code below shows how to use this method:
+To access the overall data quality, since the start of streaming you can use the method :meth:`AsyncStreamBuffer.dataloss`. The example code below shows how to use this method:
 
 .. doctest::
 
@@ -284,9 +276,7 @@ If you want to calculate the amount of data loss for a specific time-span you ca
 Slow Processing of Data
 -----------------------
 
-The buffer of the CAN controller is only able to store a certain amount of streaming messages before it has to drop them to make room for new ones. For this reason the ICOtronic library will raise a :class:`StreamingBufferError`, if the buffer for streaming messages exceeds a certain threshold (default: 10 000 messages):
-
-.. autoexception:: StreamingBufferError
+The buffer of the CAN controller is only able to store a certain amount of streaming messages before it has to drop them to make room for new ones. For this reason the ICOtronic library will raise a :class:`StreamingBufferError`, if the buffer for streaming messages exceeds a certain threshold (default: 10 000 messages).
 
 ***********************
 Auxiliary Functionality
