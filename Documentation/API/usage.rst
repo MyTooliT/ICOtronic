@@ -23,8 +23,6 @@ To communicate with the ICOtronic system use the the async context manager of th
 Connecting to Sensor Node
 =========================
 
-.. currentmodule:: icotronic.can.node.stu
-
 To connect to a sensor node (e.g. SHA, SMH, STH) use the async context manager of the coroutine :meth:`stu.connect_sensor_node`. To connect to a node you need to know one of the `identifiers of the node`_. In the example below we connect to a node with the name `Test-STH`:
 
 .. doctest::
@@ -91,8 +89,6 @@ After you connected to the sensor node use the coroutine :meth:`SensorNode.open_
 - receives a single streaming message and
   prints its representation.
 
-.. currentmodule:: icotronic.can.streaming
-
 The data returned by the ``async for`` (``stream``) is an object of the class :class:`StreamingData` with the following attributes:
 
 - :attr:`StreamingData.values`: a list containing either two or three values,
@@ -140,8 +136,6 @@ In the example below we convert the first retrieved streaming data object and re
 
 Storing Data
 ============
-
-.. currentmodule:: icotronic.measurement.storage
 
 If you want to store streaming data for later use you can use the :class:`Storage` class to open a context manager that lets you store data as `HDF5`_ file via the method :func:`add_streaming_data` of the class :class:`StorageData`. The code below shows how to store one second of measurement data in a file called ``measurement.hdf5``.
 
