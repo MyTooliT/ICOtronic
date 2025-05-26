@@ -237,6 +237,7 @@ class StorageData:
 
         name = "acceleration"
         if channels:
+            self.streaming_configuration = channels
             self.axes = channels.axes()
             self.acceleration = self.hdf.create_table(
                 self.hdf.root,
@@ -249,14 +250,22 @@ class StorageData:
         else:
             try:
                 self.acceleration = self.hdf.get_node(f"/{name}")
-                self.axes = []
-                for axis in "xyz":
+                streaming_config = {
+                    "first": False,
+                    "second": False,
+                    "third": False,
+                }
+                for axis, channel in zip("xyz", streaming_config.keys()):
                     try:
                         getattr(self.acceleration.description, axis)
-                        self.axes.append(axis)
+                        streaming_config[channel] = True
                     except AttributeError:
                         pass
 
+                self.streaming_configuration = StreamingConfiguration(
+                    **streaming_config
+                )
+                self.axes = self.streaming_configuration.axes()
                 self.start_time = self.acceleration[-1][1] / 1000
 
             except NoSuchNodeError as error:
