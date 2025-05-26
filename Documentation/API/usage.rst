@@ -143,11 +143,43 @@ Storing Data
 
 .. currentmodule:: icotronic.measurement.storage
 
-If you want to store streaming data for later use you can use the :class:`Storage` class to open a context manager that lets you store data as `HDF5 <https://en.wikipedia.org/wiki/Hierarchical_Data_Format>`_ file via the method :func:`add_streaming_data` of the class :class:`StorageData`:
+If you want to store streaming data for later use you can use the :class:`Storage` class to open a context manager that lets you store data as `HDF5 <https://en.wikipedia.org/wiki/Hierarchical_Data_Format>`_ file via the method :func:`add_streaming_data` of the class :class:`StorageData`.
 
-.. automethod:: StorageData.add_streaming_data
+.. doctest::
 
-For a more complete example, please take a look at the :ref:`HDF5 example code<Examples>`.
+   >>> from pathlib import Path
+   >>> from time import monotonic
+   >>> from icotronic.measurement import Storage
+
+   >>> async def store_streaming_data(identifier, storage):
+   ...     async with Connection() as stu:
+   ...         async with stu.connect_sensor_node(identifier, STH) as sth:
+   ...             conversion_to_g = (await
+   ...                 sth.get_acceleration_conversion_function())
+   ...
+   ...             # Store acceleration range as metadata
+   ...             storage.write_sensor_range(
+   ...                 await sth.get_acceleration_sensor_range_in_g()
+   ...             )
+   ...             # Store sampling rate (and ADC configuration as metadata)
+   ...             storage.write_sample_rate(await sth.get_adc_configuration())
+   ...
+   ...             async with sth.open_data_stream(
+   ...                 storage.streaming_configuration
+   ...             ) as stream:
+   ...                 # Read data for about one seconds
+   ...                 end = monotonic() + 1
+   ...                 async for data, _ in stream:
+   ...                     # Convert from ADC bit value into multiples of g
+   ...                     storage.add_streaming_data(
+   ...                         data.apply(conversion_to_g))
+   ...                     if monotonic() > end:
+   ...                         break
+
+   >>> filepath = Path("test.hdf5")
+   >>> with Storage(filepath, StreamingConfiguration(first=True)) as storage:
+   ...     run(store_streaming_data("Test-STH", storage))
+   >>> filepath.unlink() # Remove data after measurement
 
 Determining Data Loss
 =====================
