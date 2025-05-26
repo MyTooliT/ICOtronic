@@ -147,7 +147,7 @@ If you want to store streaming data for later use you can use the :class:`Storag
 
 .. _HDF5: https://en.wikipedia.org/wiki/Hierarchical_Data_Format
 
-.. doctest::
+.. doctest:: store
 
    >>> from pathlib import Path
    >>> from time import monotonic
@@ -181,6 +181,9 @@ If you want to store streaming data for later use you can use the :class:`Storag
    >>> filepath = Path("measurement.hdf5") # Store data in HDF5 file
    >>> with Storage(filepath, StreamingConfiguration(first=True)) as storage:
    ...     run(store_streaming_data("Test-STH", storage))
+
+.. testcleanup:: store
+
    >>> filepath.unlink() # Remove data after you are done working with it
 
 Since `HDF5`_ is a standard file format you can use general purpose tools such as `HDFView`_ to view the stored data. To specifically analyze the data produced by the ICOtronic package you can also use one of the scripts of the `ICOlyzer package`_.
