@@ -8,12 +8,18 @@ Purpose
 
 The ICOtronic package contains
 
-- a set of command line tools (``icon``, ``test-sth``, …) and
-- a Python library
+- a set of command line tools (`icon`_, `test-sth`_, …) and
+- a `Python library`_
+
+.. |icon| replace:: ``icon``
+.. _icon: https://mytoolit.github.io/ICOtronic/#icon-cli-tool
+.. |test-sth| replace:: ``test-sth``
+.. _test-sth: https://mytoolit.github.io/ICOtronic/#tutorials:section:production-tests
+.. _Python library: https://pypi.org/project/icotronic/
 
 to
 
-- control the ICOtronic system,
+- control the `ICOtronic system`_,
 - acquire data, and
 - test ICOtronic hardware (e.g. stationary transceiver units and sensory tool holders).
 
