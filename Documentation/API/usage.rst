@@ -42,7 +42,7 @@ To connect to a sensor node (e.g. SHA, SMH, STH) use the async context manager o
    >>> isinstance(mac_address, EUI)
    True
 
-By default :meth:`stu.connect_sensor_node` assumes that you want to connect to a generic sensor node (e.g. a sensory milling head (SMH)). To connect to an STH (a sensor node with additional functionality), use :class:`STH` for the `sensor_node_class` parameter:
+By default :meth:`stu.connect_sensor_node` assumes that you want to connect to a generic sensor node (e.g. a sensory milling head (SMH)). To connect to an STH (a sensor node with additional functionality), use :class:`STH` for the ``sensor_node_class`` parameter:
 
 .. doctest::
 
