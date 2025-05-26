@@ -106,8 +106,8 @@ The data returned by the ``async for`` (``stream``) is an object of the class :c
    - for the three enabled channels
 
      - the first value belongs to the first channel,
-     - the second value to the second channel,
-     - and the third value to the third channel.
+     - the second value belongs to the second channel,
+     - and the third value belongs to the third channel.
 
 .. |recommended amount of one or three enabled channels| replace:: **recommended amount** of one or three enabled channels
 .. _recommended amount of one or three enabled channels: https://mytoolit.github.io/ICOtronic/#channel-selection
