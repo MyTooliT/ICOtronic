@@ -391,6 +391,9 @@ class StorageData:
         sensor_range_in_g:
             The measurement range of the sensor in multiples of g
 
+        Examples
+        --------
+
         >>> filepath = Path("test.hdf5")
         >>> with Storage(filepath,
         ...              StreamingConfiguration(third=True)) as storage:
@@ -415,6 +418,9 @@ class StorageData:
 
         adc_configuration:
             The current ADC configuration of the sensor node
+
+        Examples
+        --------
 
         >>> filepath = Path("test.hdf5")
         >>> adc_configuration = ADCConfiguration(
