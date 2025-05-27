@@ -344,7 +344,7 @@ class ADCConfiguration(Mapping):
 
     @reference_voltage.setter
     def reference_voltage(self, reference_voltage: float) -> None:
-        """Change the reference voltage value
+        """Change the reference voltage
 
         Parameters
         ----------

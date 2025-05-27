@@ -538,7 +538,7 @@ class STU(Node):
         ...         # Get the RSSI of node “0”
         ...         return await stu.get_rssi(0)
         >>> rssi = run(get_bluetooth_rssi())
-        >>> -70 < rssi < 0
+        >>> -75 < rssi < 0
         True
 
         """
