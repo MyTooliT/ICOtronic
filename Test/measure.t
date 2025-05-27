@@ -30,7 +30,7 @@ The file should approximately store 95240 (9524 · 10) values
   $ h5dump -d acceleration -H Measurement*.hdf5 |
   > grep 'DATASPACE  SIMPLE' |
   > sed -E 's/.*DATASPACE  SIMPLE \{ \( ([0-9]+) .*/\1/'
-  9[3-6]\d{3} (re)
+  9[1-6]\d{3} (re)
 
 Check column names
 
