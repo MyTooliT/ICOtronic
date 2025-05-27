@@ -98,15 +98,10 @@ class ADCConfiguration(Mapping):
         # =============
 
         if prescaler is not None:
-            if not 1 <= prescaler <= 127:
-                raise ValueError(
-                    f"Prescaler value of “{prescaler}” out of range"
-                    ", please use a value between 1 and 127"
-                )
-            self.data[1] = prescaler
+            self.prescaler = prescaler
         elif self.data[1] == 0:
             # Make sure default prescaler value makes sense
-            self.data[1] = 8
+            self.prescaler = 8
 
         # ====================
         # = Acquisition Time =
@@ -376,12 +371,41 @@ class ADCConfiguration(Mapping):
         Examples
         --------
 
-        >>> ADCConfiguration(prescaler=127).prescaler
+        >>> config = ADCConfiguration(prescaler=127)
+        >>> config.prescaler
         127
+
+        >>> config.prescaler = 20
+        >>> config.prescaler
+        20
+
+        >>> config.prescaler = 128 # doctest:+ELLIPSIS
+        Traceback (most recent call last):
+           ...
+        ValueError: Prescaler value of “128” out of range, please use ...
 
         """
 
         return self.data[1]
+
+    @prescaler.setter
+    def prescaler(self, prescaler: int) -> None:
+        """Change the prescaler value
+
+        Parameters
+        ----------
+
+        prescaler:
+            The new value for the prescaler
+
+        """
+
+        if not 1 <= prescaler <= 127:
+            raise ValueError(
+                f"Prescaler value of “{prescaler}” out of range"
+                ", please use a value between 1 and 127"
+            )
+        self.data[1] = prescaler
 
     @property
     def acquisition_time(self) -> int:
