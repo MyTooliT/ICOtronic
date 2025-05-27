@@ -1,11 +1,14 @@
+*****
+Usage
+*****
+
 .. currentmodule:: icotronic.can
 
-**********
 Connection
-**********
+##########
 
 Connecting to STU
-=================
+*****************
 
 To communicate with the ICOtronic system use the the async context manager of the :class:`Connection` class to open and close the connection to the STU:
 
@@ -21,7 +24,7 @@ To communicate with the ICOtronic system use the the async context manager of th
    >>> run(create_and_shutdown_connection())
 
 Connecting to Sensor Node
-=========================
+*************************
 
 To connect to a sensor node (e.g. SHA, SMH, STH) use the async context manager of the coroutine :meth:`stu.connect_sensor_node`. To connect to a node you need to know one of the `identifiers of the node`_. In the example below we connect to a node with the name `Test-STH`:
 
@@ -58,12 +61,11 @@ By default :meth:`stu.connect_sensor_node` assumes that you want to connect to a
 
 .. _identifiers of the node: https://mytoolit.github.io/ICOtronic/#sensor-node-identifiers
 
-*********
 Streaming
-*********
+#########
 
 Reading Data
-============
+************
 
 After you connected to the sensor node use the coroutine :meth:`SensorNode.open_data_stream` to open the data stream and an ``async for`` statement to iterate over the received streaming data. The following code:
 
@@ -135,7 +137,7 @@ In the example below we convert the first retrieved streaming data object and re
    True
 
 Storing Data
-============
+************
 
 If you want to store streaming data for later use you can use the :class:`Storage` class to open a context manager that lets you store data as `HDF5`_ file via the method :func:`add_streaming_data` of the class :class:`StorageData`. The code below shows how to store one second of measurement data in a file called ``measurement.hdf5``.
 
@@ -189,7 +191,7 @@ For more information about the measurement format, please take a look at the sec
 .. _“Measurement Data”: https://mytoolit.github.io/ICOtronic/#measurement-data
 
 Determining Data Loss
-=====================
+*********************
 
 .. currentmodule:: icotronic.can.streaming
 
@@ -201,7 +203,7 @@ Sometimes the
 In both cases there will be some form of data loss. The ICOtronic library currently takes multiple measures to detect data loss.
 
 Bad Connection
---------------
+==============
 
 The iterator for streaming data :class:`AsyncStreamBuffer` will raise a :class:`StreamingTimeoutError`, if there is **no streaming data for a certain amount of time** (default: 5 seconds). The class :class:`AsyncStreamBuffer` also provides access to statistics that can be used to determine the amount of lost data. For example, if you iterate through the streaming messages with ``async for``, then in addition to the streaming data, the iterator will also return the **amount of lost messages since the last successfully received message** (``lost_messages`` in the example below):
 
@@ -278,12 +280,11 @@ Slow Processing of Data
 
 The buffer of the CAN controller is only able to store a certain amount of streaming messages before it has to drop them to make room for new ones. For this reason the ICOtronic library will raise a :class:`StreamingBufferError`, if the buffer for streaming messages exceeds a certain threshold (default: 10 000 messages).
 
-***********************
 Auxiliary Functionality
-***********************
+#######################
 
 Reading Names
-=============
+*************
 
 After your are connected to the a node you can read its (advertisement) name using the coroutine :meth:`SensorNode.get_name`:
 
@@ -303,7 +304,7 @@ After your are connected to the a node you can read its (advertisement) name usi
    'Test-STH'
 
 Changing ADC Configuration
-==========================
+**************************
 
 To change
 
