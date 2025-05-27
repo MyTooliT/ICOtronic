@@ -49,6 +49,9 @@ dev = [
     "Flake8-pyproject>=1.2.3",
     "mypy",
     "pylint>=3.3.1",
+    "sphinx",
+    "sphinx-copybutton",
+    "sphinx_toggleprompt",
     "toml",
 ]
 test = [

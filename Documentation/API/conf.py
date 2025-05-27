@@ -1,6 +1,7 @@
 # -- Imports ------------------------------------------------------------------
 
 import maisie_sphinx_theme
+
 from icotronic import __version__
 
 # -- Project information ------------------------------------------------------
@@ -15,6 +16,8 @@ release = __version__
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.doctest",
+    "sphinx_copybutton",
+    "sphinx_toggleprompt",
 ]
 
 # Run doctest from doctest directive, but not nested tests from autodoc code
@@ -28,3 +31,5 @@ html_theme_path = maisie_sphinx_theme.html_theme_path()
 html_theme = "maisie_sphinx_theme"
 # Register the theme as an extension to generate a sitemap.xml
 extensions.append("maisie_sphinx_theme")
+
+toggleprompt_offset_right = 35
