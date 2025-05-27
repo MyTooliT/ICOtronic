@@ -150,20 +150,11 @@ class ADCConfiguration(Mapping):
         # = Reference Voltage =
         # =====================
 
-        cls = type(self)
         if reference_voltage is not None:
-            if reference_voltage not in cls.REFERENCE_VOLTAGES:
-                raise ValueError(
-                    f"Reference voltage of “{oversampling_rate}” out of range"
-                    ", please use one of the following values: "
-                    + ", ".join(map(str, cls.REFERENCE_VOLTAGES))
-                )
-
-            self.data[4] = int(reference_voltage * 20)
+            self.reference_voltage = reference_voltage
         elif self.data[4] == 0:
             # Make sure default reference voltage value makes sense
-            supply_voltage = 3.3
-            self.data[4] = int(supply_voltage * 20)
+            self.reference_voltage = 3.3
 
         self.attributes = {
             "reference_voltage": self.reference_voltage,
@@ -325,18 +316,53 @@ class ADCConfiguration(Mapping):
         Examples
         --------
 
-        >>> ADCConfiguration(reference_voltage=3.3).reference_voltage
+        >>> config = ADCConfiguration(reference_voltage=3.3)
+        >>> config.reference_voltage
         3.3
-
-        >>> ADCConfiguration(reference_voltage=6.6).reference_voltage
+        >>> config.reference_voltage = 6.6
+        >>> config.reference_voltage
         6.6
 
-        >>> ADCConfiguration(reference_voltage=1.8).reference_voltage
+        >>> config = ADCConfiguration(reference_voltage=6.6)
+        >>> config.reference_voltage
+        6.6
+        >>> config.reference_voltage = 1.8
+        >>> config.reference_voltage
         1.8
+
+        >>> config = ADCConfiguration(reference_voltage=1.8)
+        >>> config.reference_voltage
+        1.8
+        >>> config.reference_voltage = 0 # doctest:+ELLIPSIS
+        Traceback (most recent call last):
+           ...
+        ValueError: Reference voltage of “0” V out of range, please use ...
 
         """
 
         return self.data[4] / 20
+
+    @reference_voltage.setter
+    def reference_voltage(self, reference_voltage: float) -> None:
+        """Change the reference voltage value
+
+        Parameters
+        ----------
+
+        reference_voltage:
+            The new value for the reference voltage in V
+
+        """
+
+        cls = type(self)
+        if reference_voltage not in cls.REFERENCE_VOLTAGES:
+            raise ValueError(
+                f"Reference voltage of “{reference_voltage}” V out of range"
+                ", please use one of the following values: "
+                + ", ".join(map(str, cls.REFERENCE_VOLTAGES))
+            )
+
+        self.data[4] = int(reference_voltage * 20)
 
     @property
     def prescaler(self) -> int:
