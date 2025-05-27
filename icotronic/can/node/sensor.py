@@ -876,7 +876,7 @@ class SensorNode(Node):
 
         return convert_raw_to_supply_voltage(
             voltage_raw,
-            reference_voltage=adc_configuration.reference_voltage(),
+            reference_voltage=adc_configuration.reference_voltage,
         )
 
     # =================

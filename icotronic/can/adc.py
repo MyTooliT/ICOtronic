@@ -209,7 +209,7 @@ class ADCConfiguration(Mapping):
 
         """
 
-        return self.attributes[item]()
+        return self.attributes[item]
 
     def __iter__(self) -> Iterator:
         """Return an iterator over the mapping provided by this class
@@ -305,14 +305,15 @@ class ADCConfiguration(Mapping):
 
         parts = [
             "Set" if set_values else "Get",
-            f"Prescaler: {self.prescaler()}",
-            f"Acquisition Time: {self.acquisition_time()}",
-            f"Oversampling Rate: {self.oversampling_rate()}",
-            f"Reference Voltage: {self.reference_voltage()} V",
+            f"Prescaler: {self.prescaler}",
+            f"Acquisition Time: {self.acquisition_time}",
+            f"Oversampling Rate: {self.oversampling_rate}",
+            f"Reference Voltage: {self.reference_voltage} V",
         ]
 
         return ", ".join(parts)
 
+    @property
     def reference_voltage(self) -> float:
         """Get the reference voltage
 
@@ -324,19 +325,20 @@ class ADCConfiguration(Mapping):
         Examples
         --------
 
-        >>> ADCConfiguration(reference_voltage=3.3).reference_voltage()
+        >>> ADCConfiguration(reference_voltage=3.3).reference_voltage
         3.3
 
-        >>> ADCConfiguration(reference_voltage=6.6).reference_voltage()
+        >>> ADCConfiguration(reference_voltage=6.6).reference_voltage
         6.6
 
-        >>> ADCConfiguration(reference_voltage=1.8).reference_voltage()
+        >>> ADCConfiguration(reference_voltage=1.8).reference_voltage
         1.8
 
         """
 
         return self.data[4] / 20
 
+    @property
     def prescaler(self) -> int:
         """Get the prescaler value
 
@@ -348,13 +350,14 @@ class ADCConfiguration(Mapping):
         Examples
         --------
 
-        >>> ADCConfiguration(prescaler=127).prescaler()
+        >>> ADCConfiguration(prescaler=127).prescaler
         127
 
         """
 
         return self.data[1]
 
+    @property
     def acquisition_time(self) -> int:
         """Get the acquisition time
 
@@ -366,7 +369,7 @@ class ADCConfiguration(Mapping):
         Examples
         --------
 
-        >>> ADCConfiguration(acquisition_time=2).acquisition_time()
+        >>> ADCConfiguration(acquisition_time=2).acquisition_time
         2
 
         """
@@ -379,6 +382,7 @@ class ADCConfiguration(Mapping):
             else 2 ** (acquisition_time_byte - 1)
         )
 
+    @property
     def oversampling_rate(self) -> int:
         """Get the oversampling rate
 
@@ -390,7 +394,7 @@ class ADCConfiguration(Mapping):
         Examples
         --------
 
-        >>> ADCConfiguration(oversampling_rate=128).oversampling_rate()
+        >>> ADCConfiguration(oversampling_rate=128).oversampling_rate
         128
 
         """
@@ -429,9 +433,9 @@ class ADCConfiguration(Mapping):
         clock_frequency = 38_400_000
 
         return clock_frequency / (
-            (self.prescaler() + 1)
-            * (self.acquisition_time() + 13)
-            * self.oversampling_rate()
+            (self.prescaler + 1)
+            * (self.acquisition_time + 13)
+            * self.oversampling_rate
         )
 
 
