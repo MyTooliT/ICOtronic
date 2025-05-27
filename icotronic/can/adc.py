@@ -115,15 +115,7 @@ class ADCConfiguration(Mapping):
         # =====================
 
         if oversampling_rate is not None:
-            possible_oversampling_rates = [2**value for value in range(13)]
-            if oversampling_rate not in possible_oversampling_rates:
-                raise ValueError(
-                    f"Oversampling rate of “{oversampling_rate}” out of "
-                    "range, please use one of the following values: "
-                    + ", ".join(map(str, possible_oversampling_rates))
-                )
-
-            self.data[3] = int(log2(oversampling_rate))
+            self.oversampling_rate = oversampling_rate
 
         # =====================
         # = Reference Voltage =
@@ -468,14 +460,46 @@ class ADCConfiguration(Mapping):
         Examples
         --------
 
-        >>> ADCConfiguration(oversampling_rate=128).oversampling_rate
+        >>> config = ADCConfiguration(oversampling_rate=128)
+        >>> config.oversampling_rate
         128
+
+        >>> config.oversampling_rate = 512
+        >>> config.oversampling_rate
+        512
+
+        >>> config.oversampling_rate = 3 # doctest:+ELLIPSIS
+        Traceback (most recent call last):
+           ...
+        ValueError: Oversampling rate of “3” out of range, please use ...
 
         """
 
         oversampling_rate_byte = self.data[3]
 
         return 2**oversampling_rate_byte
+
+    @oversampling_rate.setter
+    def oversampling_rate(self, oversampling_rate: int) -> None:
+        """Change the oversampling rate
+
+        Parameters
+        ----------
+
+        oversampling_rate:
+            The new value for the oversampling rate
+
+        """
+
+        possible_oversampling_rates = [2**value for value in range(13)]
+        if oversampling_rate not in possible_oversampling_rates:
+            raise ValueError(
+                f"Oversampling rate of “{oversampling_rate}” out of "
+                "range, please use one of the following values: "
+                + ", ".join(map(str, possible_oversampling_rates))
+            )
+
+        self.data[3] = int(log2(oversampling_rate))
 
     def sample_rate(self) -> float:
         """Calculate the sampling rate for the current ADC configuration
