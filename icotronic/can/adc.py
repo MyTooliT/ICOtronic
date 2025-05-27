@@ -108,23 +108,7 @@ class ADCConfiguration(Mapping):
         # ====================
 
         if acquisition_time is not None:
-            possible_acquisition_times = list(range(1, 5)) + [
-                2**value for value in range(3, 9)
-            ]
-            if acquisition_time not in possible_acquisition_times:
-                raise ValueError(
-                    f"Acquisition time of “{acquisition_time}” out of range"
-                    ", please use one of the following values: "
-                    + ", ".join(map(str, possible_acquisition_times))
-                )
-
-            acquisition_time_byte = (
-                acquisition_time - 1
-                if acquisition_time <= 3
-                else int(log2(acquisition_time)) + 1
-            )
-
-            self.data[2] = acquisition_time_byte
+            self.acquisition_time = acquisition_time
 
         # =====================
         # = Oversampling Rate =
@@ -419,8 +403,18 @@ class ADCConfiguration(Mapping):
         Examples
         --------
 
-        >>> ADCConfiguration(acquisition_time=2).acquisition_time
+        >>> config = ADCConfiguration(acquisition_time=2)
+        >>> config.acquisition_time
         2
+
+        >>> config.acquisition_time = 128
+        >>> config.acquisition_time
+        128
+
+        >>> config.acquisition_time = 5 # doctest:+ELLIPSIS
+        Traceback (most recent call last):
+           ...
+        ValueError: Acquisition time of “5” out of range, please use ...
 
         """
 
@@ -431,6 +425,36 @@ class ADCConfiguration(Mapping):
             if acquisition_time_byte <= 3
             else 2 ** (acquisition_time_byte - 1)
         )
+
+    @acquisition_time.setter
+    def acquisition_time(self, acquisition_time: int) -> None:
+        """Change the acquisition time value
+
+        Parameters
+        ----------
+
+        acquisition_time:
+            The new value for the acquisition time
+
+        """
+
+        possible_acquisition_times = list(range(1, 5)) + [
+            2**value for value in range(3, 9)
+        ]
+        if acquisition_time not in possible_acquisition_times:
+            raise ValueError(
+                f"Acquisition time of “{acquisition_time}” out of range"
+                ", please use one of the following values: "
+                + ", ".join(map(str, possible_acquisition_times))
+            )
+
+        acquisition_time_byte = (
+            acquisition_time - 1
+            if acquisition_time <= 3
+            else int(log2(acquisition_time)) + 1
+        )
+
+        self.data[2] = acquisition_time_byte
 
     @property
     def oversampling_rate(self) -> int:
