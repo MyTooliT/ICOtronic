@@ -143,4 +143,5 @@ clean: cleanup
 
 .PHONY: doc-api
 doc-api:
+	sphinx-apidoc -f -o $(SPHINX_DIRECTORY) $(SPHINX_INPUT_DIRECTORY)
 	sphinx-build -M html $(SPHINX_INPUT_DIRECTORY) $(SPHINX_DIRECTORY)
