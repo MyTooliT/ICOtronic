@@ -141,14 +141,6 @@ class TestSTH(BaseTestCases.TestSensorNode):
 
         await super()._disconnect_node()
 
-    async def _read_data(self):
-        """Read data from connected STH"""
-
-        await super()._read_data()
-
-        cls = type(self)
-        cls.name = settings.sth_name()
-
     @skipIf(
         settings.sth.status == "Epoxied",
         f"Flash test skipped because of status “{settings.sth.status}”",
