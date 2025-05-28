@@ -193,7 +193,8 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 ## Release {#development:section:release}
 
 1.  Check that the [**CI jobs** for the `main` branch finish successfully](https://github.com/MyTooliT/ICOtronic/actions)
-2.  Check that the **checks and tests** run without any problems on **Linux**, **macOS** and **Windows**
+2.  Check that the most recent [“Read the Docs” build of the documentation finishes successfully](https://app.readthedocs.org/projects/icotronic/)
+3.  Check that the **checks and tests** run without any problems on **Linux**, **macOS** and **Windows**
 
     1. Set the value of `sth` → `status` in the [configuration](#changing-configuration-values) to `Epoxied`
     2. Execute the command:
@@ -204,7 +205,7 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 
        in the root of the repository
 
-3.  Check that the **firmware flash** works in Windows
+4.  Check that the **firmware flash** works in Windows
 
     - Execute `test-sth`
 
@@ -215,9 +216,9 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 
       If you follow the steps above you make sure that the **flash tests work** for both STU and STH, and there are **no unintentional consequences of (not) flashing the chip** before you run the other parts of the test suite.
 
-4.  Execute the **[extended manual tests](#development:section:extended-tests)** in Windows and check that everything works as expected
+5.  Execute the **[extended manual tests](#development:section:extended-tests)** in Windows and check that everything works as expected
 
-5.  Create a new release [here](https://github.com/MyTooliT/ICOtronic/releases/new)
+6.  Create a new release [here](https://github.com/MyTooliT/ICOtronic/releases/new)
 
     1. Open the [release notes](Releases) for the latest version
     2. Replace links with a permanent version:
@@ -236,18 +237,18 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
     7. Remove the very first header
     8. Check that all links work correctly
 
-6.  Change the [`__version__`](../icotronic/__init__.py) number inside the [`icotronic`](../icotronic) package
-7.  Add a tag with the version number to the latest commit
+7.  Change the [`__version__`](../icotronic/__init__.py) number inside the [`icotronic`](../icotronic) package
+8.  Add a tag with the version number to the latest commit
 
     **Note:** GitHub CI will publish a package based on this commit and upload it to [PyPi](https://pypi.org/project/icotronic/)
 
-8.  Push the latest updates
-9.  Insert the version number (e.g. `1.0.5`) into the tag field
-10. For the release title use “Version VERSION”, where `VERSION` specifies the version number (e.g. “Version 1.0.5”)
-11. Click on “Publish Release”
-12. Close the [milestone][] for the latest release number
-13. Create a new [milestone][] for the next release
-14. Go to [Read The Docs](https://readthedocs.org/projects/icotronic/) and enable the documentation for the latest release
+9.  Push the latest updates
+10. Insert the version number (e.g. `1.0.5`) into the tag field
+11. For the release title use “Version VERSION”, where `VERSION` specifies the version number (e.g. “Version 1.0.5”)
+12. Click on “Publish Release”
+13. Close the [milestone][] for the latest release number
+14. Create a new [milestone][] for the next release
+15. Go to [Read The Docs](https://readthedocs.org/projects/icotronic/) and enable the documentation for the latest release
     1. Click on “Versions”
     2. Click on the button “Activate” next to the version number of the latest release
 
