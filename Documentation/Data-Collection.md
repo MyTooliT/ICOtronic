@@ -76,7 +76,9 @@ By default measurement files will be stored in the current working directory wit
 
 > **Note:** ICOn **assumes** that the sensor node always measures **acceleration data** in multiples of the [gravity of earth](https://en.wikipedia.org/wiki/Gravity_of_Earth), commonly referred as $g$ or $g_0$. While this is true for most of the sensor hardware (such as STHs), some sensor nodes measure other values, e.g. force or temperature. Even in this case the measurement software will (incorrectly) [convert the data into multiples of $g$](https://github.com/MyTooliT/ICOtronic/blob/dc636ce2cda8f380aa0f031fc743062820eb3443/mytoolit/measurement/acceleration.py#L50-L51). We are **working on adding support for configuring the sensor type** in the firmware and the ICOtronic package to **fix this issue**.
 
-To take a look at the measurement data you can use the tool [HDFView][]. Unfortunately you need to create a free account to download the program. If you do not want to register, then you can try if [one of the accounts listed at BugMeNot](http://bugmenot.com/view/hdfgroup.org) works. Another option is to download the application from [here](https://support.hdfgroup.org/ftp/HDF5/releases/HDF-JAVA/). Just click on the folder for the latest version of the application (`hdfview-…`) and afterwards on the folder `bin` to see a list of compressed binaries (`.zip` & `.tar.gz`) for the different supported operating systems.
+To take a look at the measurement data you can use the tool [HDFView][].
+
+> **Note:** Unfortunately you need to create a free account to download the program. If you do not want to register, then you can try if [one of the accounts listed at BugMeNot](http://bugmenot.com/view/hdfgroup.org) works. Another option is to download the application from [here](https://support.hdfgroup.org/ftp/HDF5/releases/HDF-JAVA/). Just click on the folder for the latest version of the application (`hdfview-…`) and afterwards on the folder `bin` to see a list of compressed binaries (`.zip` & `.tar.gz`) for the different supported operating systems.
 
 [hdfview]: https://www.hdfgroup.org/downloads/hdfview/
 
