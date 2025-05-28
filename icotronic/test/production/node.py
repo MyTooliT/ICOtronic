@@ -269,13 +269,13 @@ class BaseTestCases:
 
             await self._connect()
 
-            # Only read node specific data once, even if we run multiple
-            # tests
-            if not type(self).read_attributes:
-                cls = type(self)
+            cls = type(self)
+            # Only read node specific data once, even if we run multiple tests
+            if not cls.read_attributes:
                 cls.bluetooth_mac = await self.node.get_mac_address()
                 cls.firmware_version = await self.node.get_firmware_version()
                 cls.release_name = await self.node.get_firmware_release_name()
+                cls.read_attributes = True
 
         async def asyncTearDown(self):
             """Clean up after single test case"""
