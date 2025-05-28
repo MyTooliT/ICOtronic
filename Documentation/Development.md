@@ -94,7 +94,7 @@ mypy icotronic
 We currently use [Pylint](https://github.com/PyCQA/pylint) to check the code:
 
 ```sh
-pylint icotronic
+pylint .
 ```
 
 ### Automatic Tests
