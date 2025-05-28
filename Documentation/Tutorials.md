@@ -164,7 +164,7 @@ To change the run time of the measurement you can use the option `-t`, which tak
 icon measure -t 300
 ```
 
-for example, would change the runtime to 300 seconds (5 minutes).
+for example, changes the runtime to 300 seconds (5 minutes).
 
 #### Channel Selection
 
