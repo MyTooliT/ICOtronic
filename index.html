@@ -311,7 +311,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">1.1.2</span> Software<a href="#software" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="python" class="section level4 hasAnchor" number="1.1.2.1">
 <h4><span class="header-section-number">1.1.2.1</span> Python<a href="#python" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>The ICOtronic package requires at least Python <code>3.10</code>. The software also supports Python <code>3.11</code>, <code>3.12</code> and <code>3.13</code>. We recommend you use the 64-bit version of Python.</p>
+<p>The ICOtronic package supports <code>3.10</code> and later. We recommend you use the 64-bit version of Python.</p>
 <p>You can download Python <a href="https://www.python.org/downloads">here</a>. When you install the software, please do not forget to enable the checkbox <strong>“Add Python to PATH”</strong> in the setup window of the installer.</p>
 </div>
 <div id="pcan-driver" class="section level4 hasAnchor" number="1.1.2.2">
@@ -327,7 +327,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>You need to make sure that your CAN adapter is available via the <a href="https://en.wikipedia.org/wiki/SocketCAN">SocketCAN</a> interface.</p>
 <p>The following steps describe one possible option to configure the CAN interface on (<a href="https://getfedora.org">Fedora</a>, <a href="https://ubuntu.com">Ubuntu</a>) Linux <strong>manually</strong>.</p>
 <ol style="list-style-type: decimal">
-<li><p>Connect the CAN adapter to the computer that runs Linux (or alternatively the Linux VM)</p></li>
+<li><p>Connect the CAN adapter to the computer that runs Linux (or alternatively a Linux VM)</p></li>
 <li><p>Check the list of available interfaces:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">networkctl</span> list</span></code></pre></div>
 <p>The command output should list the CAN interface with the name <code>can0</code></p></li>
@@ -362,7 +362,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="introduction:section:pcan-driver:macos" class="section level5 hasAnchor" number="1.1.2.2.2">
 <h5><span class="header-section-number">1.1.2.2.2</span> macOS<a href="#introduction:section:pcan-driver:macos" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<p>On macOS you can use the <a href="https://github.com/mac-can/PCBUSB-Library">PCBUSB</a> library to add support for the PCAN adapter. For more information on how to install this library please take a look at the issue <a href="https://github.com/mac-can/PCBUSB-Library/issues/10#issuecomment-1188682027">“How to install the PCBUSB-Library on Mac”</a>.</p>
+<p>On macOS you can use the <a href="https://github.com/mac-can/PCBUSB-Library">PCBUSB</a> library to add support for the PCAN adapter. For more information on how to install this library, please take a look at the issue <a href="https://github.com/mac-can/PCBUSB-Library/issues/10#issuecomment-1188682027">“How to install the PCBUSB-Library on Mac”</a>.</p>
 </div>
 <div id="introduction:section:pcan-driver:windows" class="section level5 hasAnchor" number="1.1.2.2.3">
 <h5><span class="header-section-number">1.1.2.2.3</span> Windows<a href="#introduction:section:pcan-driver:windows" class="anchor-section" aria-label="Anchor link to header"></a></h5>
@@ -396,7 +396,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="additional-notes" class="section level5 hasAnchor" number="1.1.2.3.4">
 <h5><span class="header-section-number">1.1.2.3.4</span> Additional Notes<a href="#additional-notes" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <ul>
-<li>If you <strong>do not want to change the config</strong>, and Simplicity Commander (<code>commander</code>) is not part of the standard locations for your operating system, then please make sure that <code>commander</code> is accessible via the <code>PATH</code> environment variable.</li>
+<li>If you <strong>do not want to change the config</strong>, and Simplicity Commander (<code>commander</code>) is not part of the standard search locations for your operating system, then please make sure that <code>commander</code> is accessible via the <code>PATH</code> environment variable.</li>
 <li>Please note, that you <strong>do not need to install Simplicity Commander</strong> if you just want to <strong>collect data</strong> with the ICOtronic library.</li>
 </ul>
 </div>
@@ -512,7 +512,7 @@ Consider using a build backend that supports PEP 660.</code></pre>
 <blockquote>
 <p><strong>Note:</strong> Since ICOn currently only provides very basic functionality for data collection you might be happier using one of the tools below. Both are currently based on an <a href="https://github.com/mytoolit/ICOc">older (deprecated) version of this Python package</a>:</p>
 <ul>
-<li><a href="https://git.ift.tuwien.ac.at/lab/ift/icotronic/icogui">ICOgui</a>: A closed source Electron application for Windows</li>
+<li><a href="https://git.ift.tuwien.ac.at/lab/ift/icotronic/icodaq">ICOdaq</a>: A closed source Electron application for Windows</li>
 <li><a href="https://mytoolit.github.io/ICOc/#basic-usage">ICOc</a>: A text based UI for Windows</li>
 </ul>
 </blockquote>
@@ -524,7 +524,7 @@ Consider using a build backend that supports PEP 660.</code></pre>
 <li>Bluetooth <strong><a href="https://en.wikipedia.org/wiki/MAC_address">MAC address</a></strong>: 8 Bytes, usually written in <a href="https://en.wikipedia.org/wiki/Hexadecimal">hexadecimal format</a></li>
 <li><strong>Node number</strong>: starting with 0, up to the number of available sensor nodes minus one (e.g. for 8 sensor nodes, the maximum sensor node number will be 7)</li>
 </ul>
-<p>If you do not know any of the above identifiers for your node you can use the command</p>
+<p>If you do not know any of the above identifiers for your sensor node you can use the command</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="ex">icon</span> list</span></code></pre></div>
 <p>to show the available nodes:</p>
 <pre><code>🤖 Name: Test-STH, Number: 0, MAC Address: 08-6B-D7-01-DE-81, RSSI: -51</code></pre>
@@ -560,7 +560,10 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <blockquote>
 <p><strong>Note:</strong> ICOn <strong>assumes</strong> that the sensor node always measures <strong>acceleration data</strong> in multiples of the <a href="https://en.wikipedia.org/wiki/Gravity_of_Earth">gravity of earth</a>, commonly referred as <span class="math inline">\(g\)</span> or <span class="math inline">\(g_0\)</span>. While this is true for most of the sensor hardware (such as STHs), some sensor nodes measure other values, e.g. force or temperature. Even in this case the measurement software will (incorrectly) <a href="https://github.com/MyTooliT/ICOtronic/blob/dc636ce2cda8f380aa0f031fc743062820eb3443/mytoolit/measurement/acceleration.py#L50-L51">convert the data into multiples of <span class="math inline">\(g\)</span></a>. We are <strong>working on adding support for configuring the sensor type</strong> in the firmware and the ICOtronic package to <strong>fix this issue</strong>.</p>
 </blockquote>
-<p>To take a look at the measurement data you can use the tool <a href="https://www.hdfgroup.org/downloads/hdfview/">HDFView</a>. Unfortunately you need to create a free account to download the program. If you do not want to register, then you can try if <a href="http://bugmenot.com/view/hdfgroup.org">one of the accounts listed at BugMeNot</a> works. Another option is to download the application from <a href="https://support.hdfgroup.org/ftp/HDF5/releases/HDF-JAVA/">here</a>. Just click on the folder for the latest version of the application (<code>hdfview-…</code>) and afterwards on the folder <code>bin</code> to see a list of compressed binaries (<code>.zip</code> &amp; <code>.tar.gz</code>) for the different supported operating systems.</p>
+<p>To take a look at the measurement data you can use the tool <a href="https://www.hdfgroup.org/downloads/hdfview/">HDFView</a>.</p>
+<blockquote>
+<p><strong>Note:</strong> Unfortunately you need to create a free account to download the program. If you do not want to register, then you can try if <a href="http://bugmenot.com/view/hdfgroup.org">one of the accounts listed at BugMeNot</a> works. Another option is to download the application from <a href="https://support.hdfgroup.org/ftp/HDF5/releases/HDF-JAVA/">here</a>. Just click on the folder for the latest version of the application (<code>hdfview-…</code>) and afterwards on the folder <code>bin</code> to see a list of compressed binaries (<code>.zip</code> &amp; <code>.tar.gz</code>) for the different supported operating systems.</p>
+</blockquote>
 <p>The screenshot below shows a measurement file produced by the ICOtronic library:</p>
 <p><img src="Documentation/Pictures/HDFView-File.png" alt="Main Window of HDFView" /></p>
 <p>As you can see the table with the name <code>acceleration</code> stores the acceleration data. The screenshot above displays the metadata of the table. The most important meta attributes here are probably:</p>
@@ -612,7 +615,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 </ol>
 <p>The screenshot below shows an example of such a graph:</p>
 <p><img src="Documentation/Pictures/HDFView-Graph.png" alt="Acceleration Graph in HDFView" /></p>
-<p>For a more advanced analysis of the data files you can use our collection of measurement utility software <a href="https://github.com/MyTooliT/ICOlyzer">ICOlyzer</a>.</p>
+<p>For a more advanced analysis of the data files you can use our collection of measurement utilities <a href="https://github.com/MyTooliT/ICOlyzer">ICOlyzer</a>.</p>
 <div id="adding-custom-metadata" class="section level3 hasAnchor" number="2.3.1">
 <h3><span class="header-section-number">2.3.1</span> Adding Custom Metadata<a href="#adding-custom-metadata" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Sometimes you also want to add additional data about a measurement. To do that you can also use <a href="https://www.hdfgroup.org/downloads/hdfview/">HDFView</a>. Since the tool opens files in read-only mode by default you need to change the default file access mode to “Read/Write” first:</p>
@@ -745,7 +748,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <h4><span class="header-section-number">3.2.3.2</span> Changing the Run Time<a href="#changing-the-run-time" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To change the run time of the measurement you can use the option <code>-t</code>, which takes the runtime in seconds as argument. The command</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-t</span> 300</span></code></pre></div>
-<p>for example, would change the runtime to 300 seconds (5 minutes).</p>
+<p>for example, changes the runtime to 300 seconds (5 minutes).</p>
 </div>
 <div id="channel-selection" class="section level4 hasAnchor" number="3.2.3.3">
 <h4><span class="header-section-number">3.2.3.3</span> Channel Selection<a href="#channel-selection" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -808,7 +811,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <li><strong>Acquisition Time</strong>: Time the ADC holds a value to get a sampling point (<code>-a</code>, <code>--acquisition</code>)</li>
 <li><strong>Oversampling Rate</strong>: Oversampling rate of the ADC (<code>-o</code>, <code>--oversampling</code>)</li>
 </ul>
-<p>The formula which can be used to calculate the sampling rate can be found in the <a href="https://mytoolit.github.io/Documentation/#sampling-rate">documentation of the CAN commands</a>. Please be aware that the actual sample rate might be slightly lower, even if there is no data loss.</p>
+<p>The formula which can be used to calculate the sampling rate can be found in the general ICOtronic system documentation under the section <a href="https://mytoolit.github.io/Documentation/#sampling-rate">“Sampling Rate”</a>. Please be aware that the actual sample rate might be slightly lower, even if there is no data loss.</p>
 <p>For example, to use a sampling rate of about 2381 Hz you can use the following command:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">--prescaler</span> 2 <span class="at">--acquisition</span> 8 <span class="at">--oversampling</span> 256</span></code></pre></div>
 </div>
@@ -824,7 +827,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <h3><span class="header-section-number">3.2.5</span> Opening the User Configuration<a href="#opening-the-user-configuration" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To open the user configuration file, you can use the subcommand <code>config</code>:</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a><span class="ex">icon</span> config</span></code></pre></div>
-<p>If the file does not exist yet, then it will be created and filled with the content of the <a href="https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/user.yaml">default user configuration</a>. For more information on how to change the configuration, please take a look <a href="#changing-configuration-values">here</a>.</p>
+<p>If the file does not exist yet, then it will be created and filled with the content of the <a href="https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/user.yaml">default user configuration</a>. For more information on how to change the configuration, please take a look at the section <a href="#changing-configuration-values">“Changing Configuration Values”</a>.</p>
 </div>
 <div id="stu-commands" class="section level3 hasAnchor" number="3.2.6">
 <h3><span class="header-section-number">3.2.6</span> STU Commands<a href="#stu-commands" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -855,27 +858,27 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <p>To run the production tests for one of the ICOtronic nodes, please execute one of the following commands:</p>
 <table>
 <colgroup>
-<col width="84%" />
 <col width="15%" />
+<col width="84%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th>Node</th>
 <th>Command</th>
+<th>Node</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Stationary Transceiver Unit (STU)</td>
 <td><code>test-stu</code></td>
+<td>Stationary Transceiver Unit (STU)</td>
 </tr>
 <tr class="even">
-<td>Sensory Holder Assembly (SHA), Sensory Tool Holder (STH)</td>
 <td><code>test-sth</code></td>
+<td>Sensory Holder Assembly (SHA), Sensory Tool Holder (STH)</td>
 </tr>
 <tr class="odd">
-<td>Sensory Milling Head (SMH)</td>
 <td><code>test-smh</code></td>
+<td>Sensory Milling Head (SMH)</td>
 </tr>
 </tbody>
 </table>
@@ -913,7 +916,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <li><p><strong>Name</strong>: Please change the Bluetooth advertisement name (<code>sth</code> → <code>name</code> ) to the name of the STH you want to test.</p></li>
 <li><p><strong>Serial Number of Programming Board</strong>: Please make sure, that the variable <code>sth</code> → <code>programming board</code> → <code>serial number</code> contains the serial number of the programming board connected to the STH. This serial number should be displayed on the bottom right of the LCD on the programming board.</p></li>
 </ul></li>
-<li><p>Please open your favorite Terminal application and execute, the STH test using the command <code>test-sth</code>. For more information about this command, please take a look at the section <a href="#tutorials:section:general">“General”</a> above.</p>
+<li><p>Please open your favorite Terminal application and execute the STH test using the command <code>test-sth</code>. For more information about this command, please take a look at the section <a href="#tutorials:section:general">“General”</a> above.</p>
 <p>Please note, that the test will rename the tested STH</p>
 <ul>
 <li><p>to a <a href="#mac-address-conversion"><strong>Base64 encoded version of the Bluetooth MAC address</strong></a>, if <code>sth</code> → <code>status</code> is set to <code>Bare PCB</code>, or</p></li>
@@ -1400,15 +1403,15 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 </div>
 <div id="section:scripts:test-sth" class="section level2 hasAnchor" number="7.4">
 <h2><span class="header-section-number">7.4</span> Test-STH<a href="#section:scripts:test-sth" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The command <code>test-sth</code> executes the tests for the STH (<a href="../icotronic/test/production/sth.py"><code>sth.py</code></a>). All command line arguments of the wrapper will be forwarded to <a href="../icotronic/test/production/sth.py"><code>sth.py</code></a>.</p>
+<p>The command <code>test-sth</code> executes the tests for the STH (<a href="https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/sth.py"><code>sth.py</code></a>). All command line arguments of the wrapper will be forwarded to <a href="https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/sth.py"><code>sth.py</code></a>.</p>
 </div>
 <div id="section:scripts:test-stu" class="section level2 hasAnchor" number="7.5">
 <h2><span class="header-section-number">7.5</span> Test-STU<a href="#section:scripts:test-stu" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The command <code>test-stu</code> is a wrapper that executes the tests for the STU (<a href="../icotronic/test/production/stu.py"><code>stu.py</code></a>). All command line arguments of the wrapper will be forwarded to <a href="../icotronic/test/production/stu.py"><code>stu.py</code></a>.</p>
+<p>The command <code>test-stu</code> is a wrapper that executes the tests for the STU (<a href="https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/stu.py"><code>stu.py</code></a>). All command line arguments of the wrapper will be forwarded to <a href="https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/stu.py"><code>stu.py</code></a>.</p>
 </div>
 <div id="section:scripts:test-smh" class="section level2 hasAnchor" number="7.6">
 <h2><span class="header-section-number">7.6</span> Test-SMH<a href="#section:scripts:test-smh" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The command <code>test-smh</code> is a wrapper that executes the tests for the SMH (<a href="../icotronic/test/production/smh.py"><code>smh.py</code></a>). All command line arguments of the wrapper will be forwarded to <a href="../icotronic/test/production/smh.py"><code>smh.py</code></a>.</p>
+<p>The command <code>test-smh</code> is a wrapper that executes the tests for the SMH (<a href="https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/smh.py"><code>smh.py</code></a>). All command line arguments of the wrapper will be forwarded to <a href="https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/smh.py"><code>smh.py</code></a>.</p>
 
 </div>
 </div>
@@ -1475,12 +1478,12 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <p>To check the type hint in the code base we use the static code checker <a href="https://mypy.readthedocs.io">mypy</a>:</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1" tabindex="-1"></a><span class="ex">pip</span> install mypy</span></code></pre></div>
 <p>Please use the following command in the root of the repository to check the code base for type problems:</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1" tabindex="-1"></a><span class="ex">mypy</span> mytoolit</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1" tabindex="-1"></a><span class="ex">mypy</span> icotronic</span></code></pre></div>
 </div>
 <div id="pylint" class="section level4 hasAnchor" number="8.3.1.3">
 <h4><span class="header-section-number">8.3.1.3</span> Pylint<a href="#pylint" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We currently use <a href="https://github.com/PyCQA/pylint">Pylint</a> to check the code:</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1" tabindex="-1"></a><span class="ex">pylint</span> mytoolit</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1" tabindex="-1"></a><span class="ex">pylint</span> .</span></code></pre></div>
 </div>
 </div>
 <div id="automatic-tests" class="section level3 hasAnchor" number="8.3.2">
