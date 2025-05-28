@@ -112,48 +112,44 @@ class TestSMH(BaseTestCases.TestSensorNode):
             additional_values = len(stream_data) - length
             return stream_data[:-additional_values]
 
-        async def test_sensors():
-            cls = type(self)
+        cls = type(self)
 
-            for test_channel in range(1, settings.smh.channels + 1):
-                await self.can.write_sensor_configuration(
-                    SensorConfiguration(first=test_channel)
-                )
-                config = await self.can.read_sensor_configuration()
-                self.assertEqual(
-                    config.first,
-                    test_channel,
-                    f"Read sensor channel number “{config.first}” does "
-                    f"not match expected channel number “{test_channel}”",
-                )
-                stream_data = await read_streaming_data_amount(1000)
-                values = [
-                    timestamped.value for timestamped in stream_data.first
-                ]
-                sensor = guess_sensor(values)
-                cls.sensors.append(sensor)
+        for test_channel in range(1, settings.smh.channels + 1):
+            await self.node.set_sensor_configuration(
+                SensorConfiguration(first=test_channel)
+            )
+            config = await self.node.get_sensor_configuration()
+            self.assertEqual(
+                config.first,
+                test_channel,
+                f"Read sensor channel number “{config.first}” does "
+                f"not match expected channel number “{test_channel}”",
+            )
+            stream_data = await read_streaming_data_amount(1000)
+            sensor = guess_sensor(stream_data)
+            cls.sensors.append(sensor)
 
-            non_working_sensors = [
-                str(sensor_number)
-                for sensor_number, sensor in enumerate(cls.sensors, start=1)
-                if not sensor.works()
-            ]
+        non_working_sensors = [
+            str(sensor_number)
+            for sensor_number, sensor in enumerate(cls.sensors, start=1)
+            if not sensor.works()
+        ]
 
-            if len(non_working_sensors) >= 1:
-                if len(non_working_sensors) == 1:
-                    error_text = f"channel {non_working_sensors.pop()} seems"
-                elif len(non_working_sensors) >= 2:
-                    channels = (
-                        ", ".join(non_working_sensors[:-1])
-                        + f" & {non_working_sensors[-1]}"
-                    )
-                    error_text = f"channels {channels} seem"
-                plural = "" if len(non_working_sensors) <= 1 else "s"
-                self.assertFalse(
-                    non_working_sensors,
-                    f"The sensor{plural} on measurement {error_text} "
-                    "to not work correctly.",
+        if len(non_working_sensors) >= 1:
+            if len(non_working_sensors) == 1:
+                error_text = f"channel {non_working_sensors.pop()} seems"
+            elif len(non_working_sensors) >= 2:
+                channels = (
+                    ", ".join(non_working_sensors[:-1])
+                    + f" & {non_working_sensors[-1]}"
                 )
+                error_text = f"channels {channels} seem"
+            plural = "" if len(non_working_sensors) <= 1 else "s"
+            self.assertFalse(
+                non_working_sensors,
+                f"The sensor{plural} on measurement {error_text} "
+                "to not work correctly.",
+            )
 
     def test_power_usage_disconnected(self) -> None:
         """Check power usage in disconnected state"""
