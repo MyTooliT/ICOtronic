@@ -22,7 +22,7 @@ To connect to a sensor node (SHA, STH, SMH) you need to know an identifier for t
 - Bluetooth **[MAC address](https://en.wikipedia.org/wiki/MAC_address)**: 8 Bytes, usually written in [hexadecimal format](https://en.wikipedia.org/wiki/Hexadecimal)
 - **Node number**: starting with 0, up to the number of available sensor nodes minus one (e.g. for 8 sensor nodes, the maximum sensor node number will be 7)
 
-If you do not know any of the above identifiers for your node you can use the command
+If you do not know any of the above identifiers for your sensor node you can use the command
 
 ```sh
 icon list
