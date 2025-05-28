@@ -248,7 +248,7 @@ You can change the sampling rate by modifying the parameters of the ADC (analog 
 - **Acquisition Time**: Time the ADC holds a value to get a sampling point (`-a`, `--acquisition`)
 - **Oversampling Rate**: Oversampling rate of the ADC (`-o`, `--oversampling`)
 
-The formula which can be used to calculate the sampling rate can be found in the [documentation of the CAN commands](https://mytoolit.github.io/Documentation/#sampling-rate). Please be aware that the actual sample rate might be slightly lower, even if there is no data loss.
+The formula which can be used to calculate the sampling rate can be found in the general ICOtronic system documentation under the section [“Sampling Rate”](https://mytoolit.github.io/Documentation/#sampling-rate). Please be aware that the actual sample rate might be slightly lower, even if there is no data loss.
 
 For example, to use a sampling rate of about 2381 Hz you can use the following command:
 
@@ -278,7 +278,7 @@ To open the user configuration file, you can use the subcommand `config`:
 icon config
 ```
 
-If the file does not exist yet, then it will be created and filled with the content of the [default user configuration](https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/user.yaml). For more information on how to change the configuration, please take a look [here](#changing-configuration-values).
+If the file does not exist yet, then it will be created and filled with the content of the [default user configuration](https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/user.yaml). For more information on how to change the configuration, please take a look at the section [“Changing Configuration Values”](#changing-configuration-values).
 
 ### STU Commands
 
