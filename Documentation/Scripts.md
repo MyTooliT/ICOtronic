@@ -50,16 +50,16 @@ convert-base64-mac CGvXAd6B
 
 The command `test-sth` executes the tests for the STH ([`sth.py`][]). All command line arguments of the wrapper will be forwarded to [`sth.py`][].
 
-[`sth.py`]: ../icotronic/test/production/sth.py
+[`sth.py`]: https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/sth.py
 
 ## Test-STU {#section:scripts:test-stu}
 
 The command `test-stu` is a wrapper that executes the tests for the STU ([`stu.py`][]). All command line arguments of the wrapper will be forwarded to [`stu.py`][].
 
-[`stu.py`]: ../icotronic/test/production/stu.py
+[`stu.py`]: https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/stu.py
 
 ## Test-SMH {#section:scripts:test-smh}
 
 The command `test-smh` is a wrapper that executes the tests for the SMH ([`smh.py`][]). All command line arguments of the wrapper will be forwarded to [`smh.py`][].
 
-[`smh.py`]: ../icotronic/test/production/smh.py
+[`smh.py`]: https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/smh.py
