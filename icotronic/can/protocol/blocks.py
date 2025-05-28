@@ -249,28 +249,6 @@ class Blocks:
 
 # pylint: enable=too-few-public-methods
 
-
-# ==================
-# = Generated Code =
-# ==================
-
-# Please do not edit the code below. Instead:
-#
-# 1. Update `MyToolItCommands.py`
-# 2. Run the command:
-#
-#    ```sh
-#    python mytoolit/old/MyToolItCommands.py
-#    ```
-#
-# 3. Replace the assignment below with output of the command
-# 4. Reformat this file (with Black)
-#
-# In the future:
-#
-# 1. Remove the old code (including `MyToolItCommands.py`)
-# 2. Remove this comment block
-#
 blocks = Blocks([
     Block(
         0x00,
