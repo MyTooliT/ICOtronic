@@ -82,7 +82,7 @@ You need to make sure that your CAN adapter is available via the [SocketCAN](htt
 
 The following steps describe one possible option to configure the CAN interface on ([Fedora](https://getfedora.org), [Ubuntu](https://ubuntu.com)) Linux **manually**.
 
-1. Connect the CAN adapter to the computer that runs Linux (or alternatively the Linux VM)
+1. Connect the CAN adapter to the computer that runs Linux (or alternatively a Linux VM)
 2. Check the list of available interfaces:
 
    ```sh
@@ -144,7 +144,7 @@ IDX LINK   TYPE     OPERATIONAL SETUP
 
 ##### macOS {#introduction:section:pcan-driver:macos}
 
-On macOS you can use the [PCBUSB](https://github.com/mac-can/PCBUSB-Library) library to add support for the PCAN adapter. For more information on how to install this library please take a look at the issue [“How to install the PCBUSB-Library on Mac”](https://github.com/mac-can/PCBUSB-Library/issues/10#issuecomment-1188682027).
+On macOS you can use the [PCBUSB](https://github.com/mac-can/PCBUSB-Library) library to add support for the PCAN adapter. For more information on how to install this library, please take a look at the issue [“How to install the PCBUSB-Library on Mac”](https://github.com/mac-can/PCBUSB-Library/issues/10#issuecomment-1188682027).
 
 ##### Windows {#introduction:section:pcan-driver:windows}
 
@@ -177,7 +177,7 @@ If you install Simplicity Studio or Simplicity Commander in the standard install
 
 ##### Additional Notes
 
-- If you **do not want to change the config**, and Simplicity Commander (`commander`) is not part of the standard locations for your operating system, then please make sure that `commander` is accessible via the `PATH` environment variable.
+- If you **do not want to change the config**, and Simplicity Commander (`commander`) is not part of the standard search locations for your operating system, then please make sure that `commander` is accessible via the `PATH` environment variable.
 - Please note, that you **do not need to install Simplicity Commander** if you just want to **collect data** with the ICOtronic library.
 
 ## Install
