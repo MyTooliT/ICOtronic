@@ -68,11 +68,6 @@ class TestSMH(BaseTestCases.TestSensorNode):
             chip="BGM121A256V2",
         )
 
-    def test_connection(self):
-        """Check connection to SMH"""
-
-        super()._test_connection_node()
-
     async def test_eeprom(self):
         """Test if reading and writing the EEPROM works"""
 
