@@ -86,7 +86,7 @@ pip install mypy
 Please use the following command in the root of the repository to check the code base for type problems:
 
 ```sh
-mypy mytoolit
+mypy icotronic
 ```
 
 #### Pylint
@@ -94,7 +94,7 @@ mypy mytoolit
 We currently use [Pylint](https://github.com/PyCQA/pylint) to check the code:
 
 ```sh
-pylint mytoolit
+pylint icotronic
 ```
 
 ### Automatic Tests
