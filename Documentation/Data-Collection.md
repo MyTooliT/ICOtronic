@@ -9,7 +9,7 @@ The [ICOtronic package](https://pypi.org/project/icotronic) provides two differe
 
 > **Note:** Since ICOn currently only provides very basic functionality for data collection you might be happier using one of the tools below. Both are currently based on an [older (deprecated) version of this Python package][ICOc]:
 >
-> - [ICOgui](https://git.ift.tuwien.ac.at/lab/ift/icotronic/icogui): A closed source Electron application for Windows
+> - [ICOdaq](https://git.ift.tuwien.ac.at/lab/ift/icotronic/icodaq): A closed source Electron application for Windows
 > - [ICOc](https://mytoolit.github.io/ICOc/#basic-usage): A text based UI for Windows
 
 [ICOc]: https://github.com/mytoolit/ICOc
