@@ -320,11 +320,11 @@ This tutorial lists the usual steps to test a sensory holder assembly or a senso
 
 To run the production tests for one of the ICOtronic nodes, please execute one of the following commands:
 
-| Node                                                     | Command    |
-| -------------------------------------------------------- | ---------- |
-| Stationary Transceiver Unit (STU)                        | `test-stu` |
-| Sensory Holder Assembly (SHA), Sensory Tool Holder (STH) | `test-sth` |
-| Sensory Milling Head (SMH)                               | `test-smh` |
+| Command    | Node                                                     |
+| ---------- | -------------------------------------------------------- |
+| `test-stu` | Stationary Transceiver Unit (STU)                        |
+| `test-sth` | Sensory Holder Assembly (SHA), Sensory Tool Holder (STH) |
+| `test-smh` | Sensory Milling Head (SMH)                               |
 
 For a list of available command line options, please use the option `-h` after one of the commands e.g.:
 
