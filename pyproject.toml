@@ -50,8 +50,8 @@ dev = [
     "mypy",
     "pylint>=3.3.1",
     "sphinx",
-    "sphinx-copybutton",
-    "sphinx_toggleprompt",
+    "sphinx-copybutton>=0.5.2",
+    "sphinx_toggleprompt>=0.6.0",
     "toml",
 ]
 test = [
