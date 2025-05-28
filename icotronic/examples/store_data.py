@@ -13,6 +13,7 @@ from icotronic.measurement import Storage
 
 
 async def store_streaming_data(identifier):
+    """Store streaming data in HDF5 file"""
     async with Connection() as stu:
         async with stu.connect_sensor_node(identifier, STH) as sth:
 

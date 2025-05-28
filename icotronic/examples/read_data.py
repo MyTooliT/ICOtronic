@@ -10,6 +10,7 @@ from icotronic.can import Connection, StreamingConfiguration
 
 
 async def read_streaming_data(identifier):
+    """Read and output streaming data"""
     async with Connection() as stu:
         async with stu.connect_sensor_node(identifier) as sensor_node:
             # Read data of first channel

@@ -1,4 +1,4 @@
-"""Read name of STH with node number 0"""
+"""Read name of sensor node with node number 0"""
 
 # -- Imports ------------------------------------------------------------------
 
@@ -10,6 +10,7 @@ from icotronic.can import Connection
 
 
 async def read_name(identifier):
+    """Read sensor node name"""
     async with Connection() as stu:
         async with stu.connect_sensor_node(identifier) as sensor_node:
             name = await sensor_node.get_name()
