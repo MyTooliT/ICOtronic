@@ -39,7 +39,7 @@ run: check test hardware-test
 check:
 	flake8
 	mypy icotronic
-	pylint icotronic
+	pylint .
 
 .PHONY: test
 test: pytest-test

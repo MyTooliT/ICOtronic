@@ -1,3 +1,7 @@
+"""Sphinx configuration"""
+
+# pylint: disable=invalid-name
+
 # -- Imports ------------------------------------------------------------------
 
 import maisie_sphinx_theme
@@ -7,7 +11,9 @@ from icotronic import __version__
 # -- Project information ------------------------------------------------------
 
 project = "ICOtronic"
+# pylint: disable=redefined-builtin
 copyright = "2025, Clemens Burgstaller, René Schwaiger"
+# pylint: enable=redefined-builtin
 author = "Clemens Burgstaller, René Schwaiger"
 release = __version__
 
@@ -34,3 +40,5 @@ html_theme = "maisie_sphinx_theme"
 extensions.append("maisie_sphinx_theme")
 
 toggleprompt_offset_right = 35
+
+# pylint: enable=invalid-name

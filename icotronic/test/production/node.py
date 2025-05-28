@@ -34,7 +34,11 @@ from icotronic import __version__
 # Use inner test class so we do not execute test methods of base class in
 # addition to the test method of the super class.
 # Source: https://stackoverflow.com/questions/1323455
+
+
+# pylint: disable=too-few-public-methods
 class BaseTestCases:
+    """Collection of base test classes"""
 
     class TestNode(IsolatedAsyncioTestCase):
         """This class contains shared test code for STH and STU
@@ -301,7 +305,9 @@ class BaseTestCases:
 
             # pylint: disable=attribute-defined-outside-init
             self.connection = Connection()
+            # pylint: disable=unnecessary-dunder-call
             self.node = await self.connection.__aenter__()
+            # pylint: enable=unnecessary-dunder-call
             # pylint: enable=attribute-defined-outside-init
             await self.node.reset()
             # Wait for reset to take place
@@ -684,9 +690,13 @@ class BaseTestCases:
 
             await super()._connect()  # Connect to STU
             stu = self.node
+
+            # pylint: disable=attribute-defined-outside-init
             self.sensor_node_connection = stu.connect_sensor_node(name, STH)
             # New node is sensor node
+            # pylint: disable=unnecessary-dunder-call
             self.node = await self.sensor_node_connection.__aenter__()
+            # pylint: enable=unnecessary-dunder-call
             self.stu = stu
 
         async def _disconnect_node(self) -> None:
@@ -779,3 +789,6 @@ class BaseTestCases:
                     settings.sensor_node.bluetooth.advertisement_time_2
                 ),
             )
+
+
+# pylint: enable=too-few-public-methods
