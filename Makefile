@@ -1,5 +1,9 @@
 # -- Variables -----------------------------------------------------------------
 
+MODULE := icotronic
+STH_TEST := $(MODULE)/test/production/sth.py
+STU_TEST := $(MODULE)/test/production/stu.py
+
 BOOKDOWN_DIRECTORY := Bookdown
 SPHINX_DIRECTORY := Sphinx
 SPHINX_INPUT_DIRECTORY := Documentation/API
@@ -13,7 +17,7 @@ HTML_FILE := $(BOOKDOWN_DIRECTORY)/$(OUTPUT_NAME).html
 # Note: The pytest plugin `pytest-sphinx` (version 0.6.3) does unfortunately not
 # find our API documentation doctests, hence we specify the test files (*.rst)
 # manually.
-TEST_LOCATIONS := $(SPHINX_INPUT_DIRECTORY)/usage.rst icotronic Test
+TEST_LOCATIONS := $(SPHINX_INPUT_DIRECTORY)/usage.rst $(MODULE) Test
 
 ifeq ($(OS), Windows_NT)
 	OPERATING_SYSTEM := windows
@@ -30,7 +34,7 @@ endif
 
 # -- Rules ---------------------------------------------------------------------
 
-run: check test hardware-test
+run: check test hardware-test coverage
 
 # =========
 # = Tests =
@@ -38,7 +42,7 @@ run: check test hardware-test
 
 check:
 	flake8
-	mypy icotronic
+	mypy $(MODULE)
 	pylint .
 
 .PHONY: test
@@ -50,7 +54,7 @@ test-no-hardware: pytest-test-no-hardware
 # ----------
 
 pytest-test:
-	pytest $(TEST_LOCATIONS)
+	coverage run -m pytest $(TEST_LOCATIONS)
 
 pytest-test-no-hardware:
 	pytest --ignore-glob='*cmdline/commander.py' \
@@ -78,8 +82,8 @@ pytest-test-no-hardware:
 hardware-test: run-hardware-test open-test-report-$(OPERATING_SYSTEM)
 
 run-hardware-test:
-	test-sth -v
-	test-stu -k eeprom -k connection
+	coverage run -a $(STH_TEST) -v
+	coverage run -a $(STU_TEST) -v -k eeprom -k connection
 
 open-test-report-windows:
 	@powershell -c "Invoke-Item (Join-Path $$PWD 'STH Test.pdf')"
@@ -96,6 +100,14 @@ open-test-report-linux:
 	  xdg-open 'STH Test.pdf'; \
 	  xdg-open 'STU Test.pdf'; \
 	fi
+
+# ------------
+# - Coverage -
+# ------------
+
+.PHONY: coverage
+coverage:
+	coverage report
 
 # =================
 # = Documentation =
