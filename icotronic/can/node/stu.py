@@ -355,12 +355,14 @@ class STU(Node):
         Returns
         -------
 
-        - True, if
+        True, if
+
           1. in search mode,
           2. at least single node was found,
           3. no legacy mode,
           4. and scanning mode active
-        - False, otherwise
+
+        False, otherwise
 
         Example
         -------
