@@ -81,11 +81,11 @@ class SPU:
         Raises
         ------
 
-        NoResponseError:
+        NoResponseError
             If the receiver did not respond to the message after retries
             amount of messages sent
 
-        ErrorResponseError:
+        ErrorResponseError
             If the receiver answered with an error message
 
         """

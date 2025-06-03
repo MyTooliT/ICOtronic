@@ -109,7 +109,8 @@ class Block(CANIdPart):
         Raises
         ------
 
-        UnknownBlockCommandError if the command block is not part of the block
+        UnknownBlockCommandError
+            if the command block is not part of the block
 
         Examples
         --------
@@ -178,7 +179,8 @@ class Blocks:
         Raises
         ------
 
-        UnknownBlockCommandError if the command block is not part of the block
+        UnknownBlockCommandError
+            if the command block is not part of the block
 
         Examples
         --------

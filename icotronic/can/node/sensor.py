@@ -1029,8 +1029,8 @@ class SensorNode(Node):
         Raises
         ------
 
-        A `UnsupportedFeatureException` in case the sensor node replies with
-        an error message
+        UnsupportedFeatureException
+            in case the sensor node replies with an error message
 
         Returns
         -------

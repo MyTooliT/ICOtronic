@@ -29,7 +29,8 @@ def open_file_windows(filepath: Union[Path, str]) -> None:
     Raises
     ------
 
-    An `UnableToOpenError` if opening the file failed
+    UnableToOpenError
+        if opening the file failed
 
     """
 
@@ -57,7 +58,8 @@ def open_file_other(filepath: Union[Path, str]) -> None:
     Raises
     ------
 
-    An `UnableToOpenError` if opening the file failed
+    UnableToOpenError
+        if opening the file failed
 
     """
 
@@ -85,7 +87,8 @@ def open_file(filepath: Union[Path, str]) -> None:
     Raises
     ------
 
-    An `UnableToOpenError` if opening the file failed
+    UnableToOpenError
+        if opening the file failed
 
     Examples
     --------

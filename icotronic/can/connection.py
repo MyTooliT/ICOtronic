@@ -63,7 +63,8 @@ class Connection:
         Raises
         ------
 
-        `CANInitError` if the CAN initialization fails
+        CANInitError
+            if the CAN initialization fails
 
         Examples
         --------

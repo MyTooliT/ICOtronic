@@ -367,7 +367,8 @@ class SensorConfiguration(Mapping):
         Raises
         ------
 
-        ValueError, if none of the measurement channels is enabled
+        ValueError
+            if none of the measurement channels is enabled
 
         Examples
         --------

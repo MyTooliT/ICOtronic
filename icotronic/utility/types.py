@@ -21,7 +21,8 @@ def check_list(
     Raises
     ------
 
-    A ValueError if the given object is not a list or is too long
+    ValueError
+        if the given object is not a list or is too long
 
     """
 

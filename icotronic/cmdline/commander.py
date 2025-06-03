@@ -129,11 +129,12 @@ class Commander:
         Raises
         ------
 
-        A `CommanderException` if
+        CommanderException
 
-        - the command returned unsuccessfully or
-        - the standard output did not match the optional regular expression
-          specified in `regex_output`
+            - if the command returned unsuccessfully or
+
+            - if the standard output did not match the optional regular
+              expression specified in `regex_output`
 
         Returns
         -------

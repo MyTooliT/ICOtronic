@@ -66,7 +66,8 @@ class StreamingConfiguration:
         Raises
         ------
 
-        `ValueError`, if none of the channels is active
+        ValueError
+            if none of the channels is active
 
         Examples
         --------

@@ -188,8 +188,8 @@ def measurement_time(value: str) -> float:
     Raises
     ------
 
-    An argument type error in case the given text is not a valid measurement
-    time value
+    ArgumentTypeError
+         if the given text is not a valid measurement time value
 
     Returns
     -------
