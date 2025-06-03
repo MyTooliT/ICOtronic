@@ -1563,8 +1563,8 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <div id="development:section:release" class="section level2 hasAnchor" number="8.4">
 <h2><span class="header-section-number">8.4</span> Release<a href="#development:section:release" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ol style="list-style-type: decimal">
-<li><p>Check that the <a href="https://github.com/MyTooliT/ICOtronic/actions"><strong>CI jobs</strong> for the <code>main</code> branch finish successfully</a></p></li>
-<li><p>Check that the most recent <a href="https://app.readthedocs.org/projects/icotronic/">“Read the Docs” build of the documentation finishes successfully</a></p></li>
+<li><p>Check that the <a href="https://github.com/MyTooliT/ICOtronic/actions"><strong>CI jobs</strong> for the <code>main</code> branch finished successfully</a></p></li>
+<li><p>Check that the most recent <a href="https://app.readthedocs.org/projects/icotronic/">“Read the Docs” build of the documentation ran successfully</a></p></li>
 <li><p>Check that the <strong>checks and tests</strong> run without any problems on <strong>Linux</strong>, <strong>macOS</strong> and <strong>Windows</strong></p>
 <ol style="list-style-type: decimal">
 <li><p>Set the value of <code>sth</code> → <code>status</code> in the <a href="#changing-configuration-values">configuration</a> to <code>Epoxied</code></p></li>
@@ -1602,6 +1602,10 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 </ol></li>
 <li><p>Change the <a href="../icotronic/__init__.py"><code>__version__</code></a> number inside the <a href="../icotronic"><code>icotronic</code></a> package</p></li>
 <li><p>Add a tag with the version number to the latest commit</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb121-1"><a href="#cb121-1" tabindex="-1"></a><span class="bu">export</span> <span class="va">icotronic_version</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">python</span> <span class="at">-c</span> <span class="st">&#39;</span></span>
+<span id="cb121-2"><a href="#cb121-2" tabindex="-1"></a><span class="st">from icotronic import __version__</span></span>
+<span id="cb121-3"><a href="#cb121-3" tabindex="-1"></a><span class="st">print(__version__)&#39;</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb121-4"><a href="#cb121-4" tabindex="-1"></a><span class="fu">git</span> tag <span class="st">&quot;</span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span></code></pre></div>
 <p><strong>Note:</strong> GitHub CI will publish a package based on this commit and upload it to <a href="https://pypi.org/project/icotronic/">PyPi</a></p></li>
 <li><p>Push the latest updates</p></li>
 <li><p>Insert the version number (e.g. <code>1.0.5</code>) into the tag field</p></li>
