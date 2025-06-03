@@ -192,8 +192,8 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 
 ## Release {#development:section:release}
 
-1.  Check that the [**CI jobs** for the `main` branch finish successfully](https://github.com/MyTooliT/ICOtronic/actions)
-2.  Check that the most recent [“Read the Docs” build of the documentation finishes successfully](https://app.readthedocs.org/projects/icotronic/)
+1.  Check that the [**CI jobs** for the `main` branch finished successfully](https://github.com/MyTooliT/ICOtronic/actions)
+2.  Check that the most recent [“Read the Docs” build of the documentation ran successfully](https://app.readthedocs.org/projects/icotronic/)
 3.  Check that the **checks and tests** run without any problems on **Linux**, **macOS** and **Windows**
 
     1. Set the value of `sth` → `status` in the [configuration](#changing-configuration-values) to `Epoxied`
