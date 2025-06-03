@@ -242,13 +242,9 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 
     ```sh
     export icotronic_version="$(python -c '
-    from pathlib import Path
-    from re import search
-
-    content = Path(\'icotronic/__init__.py\').read_text()
-    version = search(r"""__version__\\s*=\\s*(?:[\'"])([^"\']+)(?:[\'"])""", content)[1]
-    print(version, end="")')"
-    git tag -d "$icotronic_version"
+    from icotronic import __version__
+    print(__version__)')"
+    git tag "$icotronic_version"
     ```
 
     **Note:** GitHub CI will publish a package based on this commit and upload it to [PyPi](https://pypi.org/project/icotronic/)
