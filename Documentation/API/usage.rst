@@ -71,6 +71,8 @@ After you connected to the sensor node use the coroutine :meth:`SensorNode.open_
 
 .. doctest::
 
+   >>> from asyncio import run
+   >>> from icotronic.can import Connection
    >>> from icotronic.can import StreamingConfiguration
 
    >>> async def read_streaming_data():
@@ -119,6 +121,10 @@ In the example below we convert the first retrieved streaming data object and re
 
 .. doctest::
 
+   >>> from asyncio import run
+   >>> from icotronic.can import Connection
+   >>> from icotronic.can import STH, StreamingConfiguration
+
    >>> async def read_streaming_data_g():
    ...     async with Connection() as stu:
    ...         async with stu.connect_sensor_node("Test-STH", STH) as sth:
@@ -145,8 +151,10 @@ If you want to store streaming data for later use you can use the :class:`Storag
 
 .. doctest:: store
 
+   >>> from asyncio import run
    >>> from pathlib import Path
    >>> from time import monotonic
+   >>> from icotronic.can import Connection, STH, StreamingConfiguration
    >>> from icotronic.measurement import Storage
 
    >>> async def store_streaming_data(identifier, storage):
@@ -221,7 +229,7 @@ To access the overall data quality, since the start of streaming you can use the
 
    >>> from asyncio import run
    >>> from time import monotonic
-   >>> from icotronic.can import Connection
+   >>> from icotronic.can import Connection, StreamingConfiguration
 
    >>> async def determine_data_loss(identifier):
    ...     async with Connection() as stu:
@@ -245,7 +253,7 @@ If you want to calculate the amount of data loss for a specific time-span you ca
 
    >>> from asyncio import run
    >>> from time import monotonic
-   >>> from icotronic.can import Connection
+   >>> from icotronic.can import Connection, StreamingConfiguration
 
    >>> async def determine_data_loss(identifier):
    ...       async with Connection() as stu:
@@ -359,6 +367,7 @@ please take a look at the section `“Sampling Rate”`_ of the general ICOtroni
 
    >>> from asyncio import run
    >>> from icotronic.can import Connection
+   >>> from icotronic.can.adc import ADCConfiguration
 
    >>> async def change_sample_rate(name):
    ...     async with Connection() as stu:
