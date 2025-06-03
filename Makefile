@@ -34,7 +34,7 @@ endif
 
 # -- Rules ---------------------------------------------------------------------
 
-run: check test hardware-test coverage
+run: check test
 
 # =========
 # = Tests =
@@ -46,7 +46,7 @@ check:
 	pylint .
 
 .PHONY: test
-test: pytest-test
+test: pytest-test hardware-test coverage
 test-no-hardware: pytest-test-no-hardware
 
 # ----------
