@@ -31,3 +31,4 @@ __pycache__/
 .spyderproject
 .spyproject
 /Sphinx
+/.coverage
