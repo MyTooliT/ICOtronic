@@ -23,7 +23,6 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.doctest",
-    "sphinx_copybutton",
     "sphinx_toggleprompt",
 ]
 
@@ -38,7 +37,5 @@ html_theme_path = maisie_sphinx_theme.html_theme_path()
 html_theme = "maisie_sphinx_theme"
 # Register the theme as an extension to generate a sitemap.xml
 extensions.append("maisie_sphinx_theme")
-
-toggleprompt_offset_right = 35
 
 # pylint: enable=invalid-name
