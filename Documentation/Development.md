@@ -237,7 +237,7 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
     7. Remove the very first header
     8. Check that all links work correctly
 
-7.  Change the [`__version__`](../icotronic/__init__.py) number inside the [`icotronic`](../icotronic) package
+7.  Change the [`__version__`](../icotronic/__init__.py) number inside the [`icotronic`](../icotronic) package and commit your update
 8.  Add a tag with the version number to the latest commit
 
     ```sh
