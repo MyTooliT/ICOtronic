@@ -240,6 +240,17 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 7.  Change the [`__version__`](../icotronic/__init__.py) number inside the [`icotronic`](../icotronic) package
 8.  Add a tag with the version number to the latest commit
 
+    ```sh
+    export icotronic_version="$(python -c '
+    from pathlib import Path
+    from re import search
+
+    content = Path(\'icotronic/__init__.py\').read_text()
+    version = search(r"""__version__\\s*=\\s*(?:[\'"])([^"\']+)(?:[\'"])""", content)[1]
+    print(version, end="")')"
+    git tag -d "$icotronic_version"
+    ```
+
     **Note:** GitHub CI will publish a package based on this commit and upload it to [PyPi](https://pypi.org/project/icotronic/)
 
 9.  Push the latest updates
