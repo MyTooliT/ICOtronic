@@ -860,11 +860,14 @@ class StreamingData:
     ) -> StreamingData:
         """Apply a certain function to the streaming data
 
-        Note: This function changes the stored values in the streaming data
-              and (as convience feature) also returns the modified streaming
-              data itself. This is useful if you want to use the modified
-              streaming as paramter in a function call, i.e. you can
-              use something like `function(stream_data.apply())`.
+        Note
+        ----
+
+        This function changes the stored values in the streaming data and (as
+        convenience feature) also returns the modified streaming data itself.
+        This is useful if you want to use the modified streaming as parameter
+        in a function call, i.e. you can use something like
+        ``function(stream_data.apply())``.
 
         Parameters
         ----------

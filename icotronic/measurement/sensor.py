@@ -64,8 +64,10 @@ class SensorConfiguration(Mapping):
     def __getitem__(self, item: str) -> int:
         """Return values of the mapping provided by this class
 
-        Note: This method allow access to the object via the splat
-              operators (*, **)
+        Note
+        ----
+
+        This method allow access to the object via the splat operators (*, **)
 
         Parameters
         ----------
@@ -99,8 +101,10 @@ class SensorConfiguration(Mapping):
     def __iter__(self) -> Iterator:
         """Return an iterator over the mapping provided by this class
 
-        Note: This method allow access to the object via the splat
-              operators (*, **)
+        Note
+        ----
+
+        This method allow access to the object via the splat operators (*, **)
 
         Returns
         -------
@@ -127,8 +131,10 @@ class SensorConfiguration(Mapping):
     def __len__(self) -> int:
         """Return the length of the mapping provided by this class
 
-        Note: This method allow access to the object via the splat
-              operators (*, **)
+        Note
+        ----
+
+        This method allow access to the object via the splat operators (*, **)
 
         Returns
         -------

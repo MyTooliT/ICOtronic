@@ -552,9 +552,11 @@ class STU(Node):
     ) -> EUI:
         """Retrieve the MAC address of the STU or a sensor node
 
-        Note: Bluetooth needs to be activated before calling this coroutine,
-              otherwise an incorrect MAC address will be returned (for sensor
-              nodes).
+        Note
+        ----
+
+        Bluetooth needs to be activated before calling this coroutine,
+        otherwise an incorrect MAC address will be returned (for sensor nodes).
 
         Parameters
         ----------
