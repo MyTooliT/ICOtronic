@@ -22,28 +22,16 @@ from icotronic.can.protocol.blocks import (
 
 
 class Command:
-    """This class represents a command including error and acknowledge bits"""
+    """This class represents a command including error and acknowledge bits
 
-    def __init__(
-        self,
-        *command: int,
-        block: Union[None, str, int] = None,
-        block_command: Union[None, str, int] = None,
-        request: Optional[bool] = None,
-        error: Optional[bool] = None,
-    ) -> None:
-        """Create a new command from the given arguments
+    Usually you will either specify the command directly, or provide
+    block, block command and values for the error and acknowledge/request
+    bits. If you decide to specify both the command value and one of the
+    keyword arguments, then the keyword arguments will be used to
+    overwrite specific parts of the command. For more information, please
+    take a look at the examples.
 
-        Usually you will either specify the command directly, or provide
-        block, block_command and values for the error and acknowledge/request
-        bits. If you decide to specify both the command value and one of the
-        keyword arguments, then the keyword arguments will be used to
-        overwrite specific parts of the command. For more information, please
-        take a look at the examples.
-
-
-        Parameters
-        ---------
+    Args:
 
         command:
             A 16 bit number that specifies the command including acknowledge
@@ -62,13 +50,14 @@ class Command:
         error:
             A boolean value that defines if there was an error or not
 
-        Examples
-        --------
+    Examples:
+
+        Create some valid commands
 
         >>> Command(block=0, block_command=0).value
         0
 
-                        block   command A E
+        >>> #           block  command  A E
         >>> command = 0b001000_00000100_0_0
         >>> bin(Command(command).value)
         '0b10000000010000'
@@ -77,21 +66,34 @@ class Command:
         >>> command.block_name()
         'System'
 
+        >>> command = Command(block='Streaming', block_command='Data')
+        >>> command.block_command_name()
+        'Data'
+
+        Specifying an incorrect block will cause an error
+
         >>> Command(block='Does Not Exist')
         Traceback (most recent call last):
             ...
         ValueError: Unknown block: Does Not Exist
 
-        >>> command = Command(block='Streaming', block_command='Data')
-        >>> command.block_command_name()
-        'Data'
+        Specifying an incorrect block command will cause an error
 
         >>> Command(block='Streaming', block_command='Does Not Exist')
         Traceback (most recent call last):
             ...
         ValueError: Unknown block command: Does Not Exist
 
-        """
+    """
+
+    def __init__(
+        self,
+        *command: int,
+        block: Union[None, str, int] = None,
+        block_command: Union[None, str, int] = None,
+        request: Optional[bool] = None,
+        error: Optional[bool] = None,
+    ) -> None:
 
         def set_part(start, width, number):
             """Store bit pattern number at bit start of the identifier"""
@@ -160,23 +162,23 @@ class Command:
     def __repr__(self) -> str:
         """Get a textual representation of the command
 
-        Returns
-        -------
+        Returns:
 
-        A string that describes the various attributes of the command
+            A string that describes the various attributes of the command
 
-        Examples
-        --------
+        Examples:
 
-                      block   command A E
-        >>> Command(0b001000_00000100_0_0)
-        Block: StatisticalData, Command: ProductionDate, Acknowledge
+            Get the string representation of some example commands
 
-                      block   command A E
-        >>> Command(block=0, block_command=0x0c, request=True, error=False)
-        Block: System, Command: Routing, Request
+            >>> #         block  command  A E
+            >>> Command(0b001000_00000100_0_0)
+            Block: StatisticalData, Command: ProductionDate, Acknowledge
+
+            >>> Command(block=0, block_command=0x0c, request=True, error=False)
+            Block: System, Command: Routing, Request
 
         """
+
         error = self.value & 1
 
         attributes = filter(
@@ -194,17 +196,17 @@ class Command:
     def block(self) -> int:
         """Get the block
 
-        Returns
-        -------
+        Returns:
 
-        The block number of the command
+            The block number of the command
 
-        Example
-        -------
+        Examples:
 
-                      block   command A E
-        >>> Command(0b000011_00000000_0_0).block()
-        3
+            Get the block number of a example command
+
+            >>> #         block  command  A E
+            >>> Command(0b000011_00000000_0_0).block()
+            3
 
         """
 
@@ -213,24 +215,27 @@ class Command:
     def block_name(self) -> str:
         """Get a short description of the block
 
-        Returns
-        -------
+        Returns:
 
-        A short textual representation of the block number
+            A short textual representation of the block number
 
-        Examples
-        --------
-                      block   command A E
-        >>> Command(0b101000_00000010_0_0).block_name()
-        'Configuration'
+        Examples:
 
-                      block   command A E
-        >>> Command(0b111101_00000010_0_0).block_name()
-        'EEPROM'
+            Get the block name of some example commands
 
-                      block   command A E
-        >>> Command(0b100000_00000010_0_0).block_name()
-        'Unknown'
+            >>> #         block  command  A E
+            >>> Command(0b101000_00000010_0_0).block_name()
+            'Configuration'
+
+            >>> #         block  command  A E
+            >>> Command(0b111101_00000010_0_0).block_name()
+            'EEPROM'
+
+            Get the block name of an unknown block
+
+            >>> #         block  command  A E
+            >>> Command(0b100000_00000010_0_0).block_name()
+            'Unknown'
 
         """
 
@@ -242,17 +247,17 @@ class Command:
     def block_command(self) -> int:
         """Get the block command number
 
-        Returns
-        -------
+        Returns:
 
-        The block command number of the command
+            The block command number of the command
 
-        Example
-        -------
+        Examples:
 
-                      block   command A E
-        >>> Command(0b001000_00000100_0_0).block_command()
-        4
+            Get the block command number of an example command
+
+            >>> #         block  command  A E
+            >>> Command(0b001000_00000100_0_0).block_command()
+            4
 
         """
 
@@ -261,21 +266,21 @@ class Command:
     def block_command_name(self) -> str:
         """Get the name of the block command
 
-        Returns
-        -------
+        Returns:
 
-        A short textual representation of the block command
+            A short textual representation of the block command
 
-        Examples
-        --------
+        Examples:
 
-                      block   command A E
-        >>> Command(0b101000_00000000_0_0).block_command_name()
-        'Get/Set ADC Configuration'
+            Get the block command name of some example commands
 
-                      block   command A E
-        >>> Command(0b000000_00001011_0_0).block_command_name()
-        'Bluetooth'
+            >>> #         block  command  A E
+            >>> Command(0b101000_00000000_0_0).block_command_name()
+            'Get/Set ADC Configuration'
+
+            >>> #         block  command  A E
+            >>> Command(0b000000_00001011_0_0).block_command_name()
+            'Bluetooth'
 
         """
 
@@ -287,20 +292,21 @@ class Command:
     def is_acknowledgment(self) -> bool:
         """Checks if this command represents an acknowledgment
 
-        Returns
-        -------
+        Returns:
 
-        True if the command is for an acknowledgement, or false otherwise
+            - ``True`` if the command is for an acknowledgement
+            - ``False`` otherwise
 
-        Examples
-        --------
+        Examples:
 
-                      block   command A E
-        >>> Command(0b101000_00000000_0_0).is_acknowledgment()
-        True
+            Check if some example commands represent an acknowledgment
 
-        >>> Command(request=True).is_acknowledgment()
-        False
+            >>> #         block  command  A E
+            >>> Command(0b101000_00000000_0_0).is_acknowledgment()
+            True
+
+            >>> Command(request=True).is_acknowledgment()
+            False
 
         """
 
@@ -309,20 +315,22 @@ class Command:
     def is_error(self) -> bool:
         """Checks if the command represents an error
 
-        Returns
-        -------
+        Returns:
 
-        True if the command represents an error, or false otherwise
+            - ``True`` if the command represents an error
+            - ``False`` otherwise
 
-        Examples
-        --------
-                      block   command A E
-        >>> Command(0b101011_00000001_1_0).is_error()
-        False
+        Examples:
 
-                      block   command A E
-        >>> Command(0b101010_00000000_0_1).is_error()
-        True
+            Check if some example commands represent an error
+
+            >>> #         block  command  A E
+            >>> Command(0b101011_00000001_1_0).is_error()
+            False
+
+            >>> #         block  command  A E
+            >>> Command(0b101010_00000000_0_1).is_error()
+            True
 
         """
 
@@ -331,29 +339,28 @@ class Command:
     def set_acknowledgment(self, value: bool = True) -> Command:
         """Set the acknowledgment bit to the given value
 
-        Parameters
-        ---------
+        Parameters:
 
-        value:
-            A boolean that specifies if the command represents an
-            acknowledgment or not
+            value:
+                A boolean that specifies if the command represents an
+                acknowledgment or not
 
-        Examples
-        --------
+        Returns:
 
-        >>> Command().set_acknowledgment().is_acknowledgment()
-        True
+            The modified command object
 
-        >>> Command().set_acknowledgment(True).is_acknowledgment()
-        True
+        Examples:
 
-        >>> Command().set_acknowledgment(False).is_acknowledgment()
-        False
+            Check if some example commands represent an acknowledgment
 
-        Returns
-        -------
+            >>> Command().set_acknowledgment().is_acknowledgment()
+            True
 
-        The modified command object
+            >>> Command().set_acknowledgment(True).is_acknowledgment()
+            True
+
+            >>> Command().set_acknowledgment(False).is_acknowledgment()
+            False
 
         """
 
@@ -371,28 +378,28 @@ class Command:
     def set_error(self, error: bool = True) -> Command:
         """Set the error bit to the given value
 
-        Parameters
-        ----------
+        Args:
 
-        error:
-            A boolean that specifies if the command represents an error or not
+            error:
+                A boolean that specifies if the command represents an error or
+                not
 
-        Examples
-        --------
+        Returns:
 
-        >>> Command().set_error().is_error()
-        True
+            The modified command object
 
-        >>> Command().set_error(True).is_error()
-        True
+        Examples:
 
-        >>> Command().set_error(False).is_error()
-        False
+            Set the error bit of some commands and check the result
 
-        Returns
-        -------
+            >>> Command().set_error().is_error()
+            True
 
-        The modified command object
+            >>> Command().set_error(True).is_error()
+            True
+
+            >>> Command().set_error(False).is_error()
+            False
 
         """
 

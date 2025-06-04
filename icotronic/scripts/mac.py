@@ -12,6 +12,7 @@ from icotronic.utility.naming import convert_mac_base64
 
 def main():
     """Convert MAC address specified via command line argument to Base64"""
+
     parser = ArgumentParser(
         description="Convert a MAC address to an 8 character Base64 text"
     )

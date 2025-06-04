@@ -11,68 +11,66 @@ from icotronic.config import ConfigurationUtility
 
 
 def get_log_file_handler(filename: str) -> FileHandler:
-    """Get file log handler that stores data in users log directory
+    """Get file log handler that stores data in user’s log directory
 
-    Parameters
-    ----------
+    Args:
 
-    filename:
-        The filename of the log file that should be stored in the user’s log
-        directory
+        filename:
+            The filename of the log file that should be stored in the user’s
+            log directory
 
-    Example
-    -------
+    Examples:
 
-    Initialize test data
+        Initialize test data
 
-    >>> from logging import getLogger
-    >>> from platform import system
-    >>> from re import match
-    >>> from sys import platform
+        >>> from logging import getLogger
+        >>> from platform import system
+        >>> from re import match
+        >>> from sys import platform
 
-    >>> filename = "test.log"
-    >>> log_filepath = user_log_path(
-    ...     appname=ConfigurationUtility.app_name,
-    ...     appauthor=ConfigurationUtility.app_author) / filename
+        >>> filename = "test.log"
+        >>> log_filepath = user_log_path(
+        ...     appname=ConfigurationUtility.app_name,
+        ...     appauthor=ConfigurationUtility.app_author) / filename
 
-    Workaround for missing support to remove files while “in use” on Windows
-    (aka “The process cannot access the file because it is being used by
-     another process”)
+        Workaround for missing support to remove files while “in use” on
+        Windows (aka “The process cannot access the file because it is being
+        used by another process”)
 
-    >>> if system() == "Windows":
-    ...     log_filepath.unlink(missing_ok=True)
+        >>> if system() == "Windows":
+        ...     log_filepath.unlink(missing_ok=True)
 
-    Initialize logger
+        Initialize logger
 
-    >>> logger = getLogger()
-    >>> logger.addHandler(get_log_file_handler(filename))
+        >>> logger = getLogger()
+        >>> logger.addHandler(get_log_file_handler(filename))
 
-    The log file should not exist until we add something to it
+        The log file should not exist until we add something to it
 
-    >>> log_filepath = user_log_path(
-    ...     appname=ConfigurationUtility.app_name,
-    ...     appauthor=ConfigurationUtility.app_author) / "test.log"
-    >>> log_filepath.exists()
-    False
+        >>> log_filepath = user_log_path(
+        ...     appname=ConfigurationUtility.app_name,
+        ...     appauthor=ConfigurationUtility.app_author) / "test.log"
+        >>> log_filepath.exists()
+        False
 
-    The log file should exist after we add log information
+        The log file should exist after we add log information
 
-    >>> logger.error("We are all gonna die")
-    >>> log_filepath.exists()
-    True
+        >>> logger.error("We are all gonna die")
+        >>> log_filepath.exists()
+        True
 
-    The log file should contain the relevant logging information
+        The log file should contain the relevant logging information
 
-    >>> log_content = open(log_filepath, encoding="utf8").readlines()
-    >>> len(log_content)
-    1
-    >>> "We are all gonna die" in log_content[0]
-    True
+        >>> log_content = open(log_filepath, encoding="utf8").readlines()
+        >>> len(log_content)
+        1
+        >>> "We are all gonna die" in log_content[0]
+        True
 
-    Remove test log file
+        Remove test log file
 
-    >>> if system() != "Windows":
-    ...     log_filepath.unlink()
+        >>> if system() != "Windows":
+        ...     log_filepath.unlink()
 
     """
 

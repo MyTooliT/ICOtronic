@@ -10,31 +10,32 @@ from icotronic.measurement.constants import ADC_MAX_VALUE
 def convert_raw_to_supply_voltage(
     voltage_raw: int, reference_voltage: float = 3.3
 ) -> float:
-    """Convert a raw 2 byte supply voltage value to a voltage value
+    """Convert a raw 2 byte ADC value to a voltage value
 
-    Parameters
-    ----------
+    Args:
 
-    voltage_raw:
-        A 2 byte supply voltage value (returned by the `Streaming` command)
+        voltage_raw:
+            A 2 byte supply voltage value (returned by the `Streaming` command)
 
-    reference_voltage:
-        The ADC reference voltage
+        reference_voltage:
+            The ADC reference voltage
 
-    Returns
-    -------
+    Returns:
 
-    The supply voltage in volts
+        The supply voltage in volts
 
-    Example:
+    Examples:
 
-    >>> voltage = convert_raw_to_supply_voltage(11000)
-    >>> 3.15 < voltage < 3.16
-    True
+        Convert some ADC values into supply voltage values
 
-    >>> voltage = convert_raw_to_supply_voltage(2**15, reference_voltage=1.8)
-    >>> 5.12 < voltage < 5.14
-    True
+        >>> voltage = convert_raw_to_supply_voltage(11000)
+        >>> 3.15 < voltage < 3.16
+        True
+
+        >>> voltage = convert_raw_to_supply_voltage(2**15,
+        ...                                         reference_voltage=1.8)
+        >>> 5.12 < voltage < 5.14
+        True
 
     """
 

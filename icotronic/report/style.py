@@ -24,7 +24,12 @@ def get_style_sheet() -> StyleSheet1:
     """Get the default style sheet for PDF reports
 
     This is more or less a slightly modified version of the
-    function `getSampleStyleSheet` shipped with ReportLab.
+    function ``getSampleStyleSheet`` shipped with ReportLab.
+
+    Returns:
+
+        Style sheet for PDF report
+
     """
 
     stylesheet = StyleSheet1()

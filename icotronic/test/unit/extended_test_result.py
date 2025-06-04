@@ -15,6 +15,7 @@ class ExtendedTestResult(TextTestResult):
         """Store additional data of a test result
 
         We use this class to store test information in a PDF report.
+
         """
 
         class Status(Enum):
@@ -25,7 +26,6 @@ class ExtendedTestResult(TextTestResult):
             ERROR = 2
 
         def __init__(self):
-            """Initialize a new test info object"""
 
             self.status = type(self).Status.SUCCESS
             self.message = ""
@@ -33,11 +33,11 @@ class ExtendedTestResult(TextTestResult):
         def set_error(self, message):
             """Set the status of the test to error
 
-            Parameters
-            ----------
+            Args:
 
-            message:
-                Specifies the error message
+                message:
+                    Specifies the error message
+
             """
 
             self.status = type(self).Status.ERROR
@@ -46,11 +46,11 @@ class ExtendedTestResult(TextTestResult):
         def set_failure(self, message):
             """Set the status of the test to failure
 
-            Parameters
-            ----------
+            Args:
 
-            message:
-                Specifies the failure message
+                message:
+                    Specifies the failure message
+
             """
 
             self.status = type(self).Status.FAILURE
@@ -65,10 +65,10 @@ class ExtendedTestResult(TextTestResult):
         def error(self):
             """Check if there was an error
 
-            Returns
-            -------
+            Returns:
 
-            True if there was an error, False otherwise
+                ``True`` if there was an error, ``False`` otherwise
+
             """
 
             return self.status == type(self).Status.ERROR
@@ -76,16 +76,15 @@ class ExtendedTestResult(TextTestResult):
         def failure(self):
             """Check if there test failed
 
-            Returns
-            -------
+            Returns:
 
-            True if the test failed, False otherwise
+                ``True`` if the test failed, ``False`` otherwise
+
             """
 
             return self.status == type(self).Status.FAILURE
 
     def __init__(self, *arguments, **keyword_arguments):
-        """Initialize the test result"""
 
         super().__init__(*arguments, **keyword_arguments)
 
@@ -94,15 +93,15 @@ class ExtendedTestResult(TextTestResult):
     def addFailure(self, test, err):
         """Add information about the latest failure
 
-        Parameters
-        ----------
+        Args:
 
-        test:
-            The test case that produced the failure
+            test:
+                The test case that produced the failure
 
-        err:
-            A tuple of the form returned by `sys.exc_info()`:
-            (type, value, traceback)
+            err:
+                A tuple of the form returned by ``sys.exc_info()``:
+                ``(type, value, traceback)``
+
         """
 
         super().addFailure(test, err)
@@ -122,15 +121,15 @@ class ExtendedTestResult(TextTestResult):
         This should usually not happen unless there are problems with the
         connection or the syntax of the current code base.
 
-        Parameters
-        ----------
+        Args:
 
-        test:
-            The test case that produced the error
+            test:
+                The test case that produced the error
 
-        err:
-            A tuple of the form returned by `sys.exc_info()`:
-            (type, value, traceback)
+            err:
+                A tuple of the form returned by ``sys.exc_info()``:
+                ``(type, value, traceback)``
+
         """
 
         super().addError(test, err)
@@ -140,11 +139,11 @@ class ExtendedTestResult(TextTestResult):
     def addSuccess(self, test):
         """Add information about latest successful test
 
-        Parameters
-        ----------
+        Args:
 
-        test:
-            The successful test
+            test:
+                The successful test
+
         """
 
         super().addSuccess(test)

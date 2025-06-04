@@ -17,12 +17,9 @@ from icotronic.utility.data import convert_bytes_to_text
 
 
 class Node:
-    """Contains functionality shared by STU and sensor nodes"""
+    """Contains functionality shared by STU and sensor nodes
 
-    def __init__(
-        self, spu: SPU, eeprom_class: type[NodeEEPROM], node_id: NodeId
-    ) -> None:
-        """Initialize the node
+    Args:
 
         spu:
             The SPU object used to communicate with the node
@@ -33,7 +30,11 @@ class Node:
         id:
             The node identifier for the node
 
-        """
+    """
+
+    def __init__(
+        self, spu: SPU, eeprom_class: type[NodeEEPROM], node_id: NodeId
+    ) -> None:
 
         self.spu = spu
         self.id = node_id
@@ -46,29 +47,30 @@ class Node:
     async def reset(self) -> None:
         """Reset the node
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run, sleep
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Reset the current STU
+            >>> from asyncio import run, sleep
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def reset():
-        ...     async with Connection() as stu:
-        ...         await stu.reset()
-        >>> run(reset())
+            Reset the current STU
 
-        Reset a sensor node
+            >>> async def reset():
+            ...     async with Connection() as stu:
+            ...         await stu.reset()
+            >>> run(reset())
 
-        >>> async def reset():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             await sensor_node.reset()
-        ...             # Wait some time for reset to take place
-        ...             await sleep(1)
-        >>> run(reset())
+            Reset a sensor node
+
+            >>> async def reset():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             await sensor_node.reset()
+            ...             # Wait some time for reset to take place
+            ...             await sleep(1)
+            >>> run(reset())
 
         """
 
@@ -94,39 +96,39 @@ class Node:
     async def get_state(self) -> State:
         """Get the current state of the node
 
-        Returns
-        -------
+        Returns:
 
-        The state of the node
+            The state of the node
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run, sleep
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Get the state of the current STU
+            >>> from asyncio import run, sleep
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def get_state():
-        ...     async with Connection() as stu:
-        ...         return await stu.get_state()
-        >>> run(get_state())
-        Get State, Location: Application, State: Operating
+            Get the state of the current STU
 
-        Get state of sensor node
+            >>> async def get_state():
+            ...     async with Connection() as stu:
+            ...         return await stu.get_state()
+            >>> run(get_state())
+            Get State, Location: Application, State: Operating
 
-        >>> async def get_state():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             state = await sensor_node.get_state()
-        ...             # Sensor node might be still in startup state
-        ...             while state.state_name() == 'Startup':
-        ...                 await sleep(1)
-        ...                 state = await sensor_node.get_state()
-        ...             return state
-        >>> run(get_state())
-        Get State, Location: Application, State: Operating
+            Get state of sensor node
+
+            >>> async def get_state():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             state = await sensor_node.get_state()
+            ...             # Sensor node might be still in startup state
+            ...             while state.state_name() == 'Startup':
+            ...                 await sleep(1)
+            ...                 state = await sensor_node.get_state()
+            ...             return state
+            >>> run(get_state())
+            Get State, Location: Application, State: Operating
 
         """
 
@@ -153,25 +155,25 @@ class Node:
     async def get_gtin(self) -> int:
         """Retrieve the GTIN (Global Trade Identification Number) of the node
 
-        Returns
-        -------
+        Returns:
 
-        The Global Trade Identification Number
+            The Global Trade Identification Number
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read the GTIN of STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_gtin():
-        ...     async with Connection() as stu:
-        ...         return await stu.get_gtin()
-        >>> gtin = run(read_gtin())
-        >>> isinstance(gtin, int)
-        True
+            Read the GTIN of STU 1
+
+            >>> async def read_gtin():
+            ...     async with Connection() as stu:
+            ...         return await stu.get_gtin()
+            >>> gtin = run(read_gtin())
+            >>> isinstance(gtin, int)
+            True
 
         """
 
@@ -187,25 +189,25 @@ class Node:
     async def get_hardware_version(self) -> Version:
         """Retrieve the hardware version of a node
 
-        Returns
-        -------
+        Returns:
 
-        The hardware version of the node
+            The hardware version of the node
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read the hardware version of STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_hardware_version():
-        ...     async with Connection() as stu:
-        ...         return await stu.get_hardware_version()
-        >>> hardware_version = run(read_hardware_version())
-        >>> hardware_version.major
-        1
+            Read the hardware version of STU 1
+
+            >>> async def read_hardware_version():
+            ...     async with Connection() as stu:
+            ...         return await stu.get_hardware_version()
+            >>> hardware_version = run(read_hardware_version())
+            >>> hardware_version.major
+            1
 
         """
 
@@ -222,25 +224,25 @@ class Node:
     async def get_firmware_version(self) -> Version:
         """Retrieve the firmware version of the node
 
-        Returns
-        -------
+        Returns:
 
-        The firmware version of the node
+            The firmware version of the node
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read the firmware version of STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_firmware_version():
-        ...     async with Connection() as stu:
-        ...         return await stu.get_firmware_version()
-        >>> firmware_version = run(read_firmware_version())
-        >>> firmware_version.major
-        2
+            Read the firmware version of STU 1
+
+            >>> async def read_firmware_version():
+            ...     async with Connection() as stu:
+            ...         return await stu.get_firmware_version()
+            >>> firmware_version = run(read_firmware_version())
+            >>> firmware_version.major
+            2
 
         """
 
@@ -257,24 +259,24 @@ class Node:
     async def get_firmware_release_name(self) -> str:
         """Retrieve the firmware release name of a node
 
-        Returns
-        -------
+        Returns:
 
-        The firmware release name of the specified node
+            The firmware release name of the specified node
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read the firmware release name of STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_release_name():
-        ...     async with Connection() as stu:
-        ...         return await stu.get_firmware_release_name()
-        >>> run(read_release_name())
-        'Valerie'
+            Read the firmware release name of STU 1
+
+            >>> async def read_release_name():
+            ...     async with Connection() as stu:
+            ...         return await stu.get_firmware_release_name()
+            >>> run(read_release_name())
+            'Valerie'
 
         """
 
@@ -291,27 +293,27 @@ class Node:
     async def get_serial_number(self) -> str:
         """Retrieve the serial number of a node
 
-        Returns
-        -------
+        Returns:
 
-        The serial number of the node
+            The serial number of the node
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read the serial number of STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_serial_number():
-        ...     async with Connection() as stu:
-        ...         return await stu.get_serial_number()
-        >>> serial_number = run(read_serial_number())
-        >>> isinstance(serial_number, str)
-        True
-        >>> 0 <= len(serial_number) <= 32
-        True
+            Read the serial number of STU 1
+
+            >>> async def read_serial_number():
+            ...     async with Connection() as stu:
+            ...         return await stu.get_serial_number()
+            >>> serial_number = run(read_serial_number())
+            >>> isinstance(serial_number, str)
+            True
+            >>> 0 <= len(serial_number) <= 32
+            True
 
         """
 
@@ -336,27 +338,27 @@ class Node:
     async def get_product_name(self) -> str:
         """Retrieve the product name of a node
 
-        Returns
-        -------
+        Returns:
 
-        The product name of the node
+            The product name of the node
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read the product name of STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_product_name():
-        ...     async with Connection() as stu:
-        ...         return await stu.get_product_name()
-        >>> product_name = run(read_product_name())
-        >>> isinstance(product_name, str)
-        True
-        >>> 0 <= len(product_name) <= 128
-        True
+            Read the product name of STU 1
+
+            >>> async def read_product_name():
+            ...     async with Connection() as stu:
+            ...         return await stu.get_product_name()
+            >>> product_name = run(read_product_name())
+            >>> isinstance(product_name, str)
+            True
+            >>> 0 <= len(product_name) <= 128
+            True
 
         """
 
@@ -382,27 +384,27 @@ class Node:
     async def get_oem_data(self) -> bytearray:
         """Retrieve the OEM (free use) data
 
-        Returns
-        -------
+        Returns:
 
-        The OEM data of the node
+            The OEM data of the node
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read the OEM data of STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_oem_data():
-        ...     async with Connection() as stu:
-        ...         return await stu.get_oem_data()
-        >>> oem_data = run(read_oem_data())
-        >>> isinstance(oem_data, bytearray)
-        True
-        >>> len(oem_data)
-        64
+            Read the OEM data of STU 1
+
+            >>> async def read_oem_data():
+            ...     async with Connection() as stu:
+            ...         return await stu.get_oem_data()
+            >>> oem_data = run(read_oem_data())
+            >>> isinstance(oem_data, bytearray)
+            True
+            >>> len(oem_data)
+            64
 
         """
 

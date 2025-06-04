@@ -44,15 +44,9 @@ class StreamingConfigBits(LittleEndianStructure):
 
 
 class StreamingConfiguration:
-    """Streaming configuration"""
+    """Streaming configuration
 
-    def __init__(
-        self, first: bool = True, second: bool = False, third: bool = False
-    ) -> None:
-        """Initialize the streaming configuration with the given values
-
-        Parameters
-        ----------
+    Args:
 
         first:
             Specifies if the first channel is enabled or not
@@ -63,20 +57,20 @@ class StreamingConfiguration:
         third:
             Specifies if the third channel is enabled or not
 
-        Raises
-        ------
+    Raises:
 
-        ValueError
+        ValueError:
             if none of the channels is active
 
-        Examples
-        --------
+    Examples:
+
+        Create some example streaming configurations
 
         >>> config = StreamingConfiguration()
         >>> config = StreamingConfiguration(
         ...          first=False, second=True, third=True)
 
-        Check invalid configuration
+        Creating streaming configurations without active channels will fail
 
         >>> config = StreamingConfiguration(first=False)
         Traceback (most recent call last):
@@ -89,7 +83,11 @@ class StreamingConfiguration:
            ...
         ValueError: At least one channel needs to be active
 
-        """
+    """
+
+    def __init__(
+        self, first: bool = True, second: bool = False, third: bool = False
+    ) -> None:
 
         if first + second + third <= 0:
             raise ValueError("At least one channel needs to be active")
@@ -101,17 +99,18 @@ class StreamingConfiguration:
     def __repr__(self) -> str:
         """Return the string representation of the streaming configuration
 
-        Examples
-        --------
+        Examples:
 
-        >>> StreamingConfiguration()
-        Channel 1 enabled, Channel 2 disabled, Channel 3 disabled
+            Get the textual representation of some example streaming configs
 
-        >>> StreamingConfiguration(first=False, second=True, third=False)
-        Channel 1 disabled, Channel 2 enabled, Channel 3 disabled
+            >>> StreamingConfiguration()
+            Channel 1 enabled, Channel 2 disabled, Channel 3 disabled
 
-        >>> StreamingConfiguration(first=True, second=True, third=True)
-        Channel 1 enabled, Channel 2 enabled, Channel 3 enabled
+            >>> StreamingConfiguration(first=False, second=True, third=False)
+            Channel 1 disabled, Channel 2 enabled, Channel 3 disabled
+
+            >>> StreamingConfiguration(first=True, second=True, third=True)
+            Channel 1 enabled, Channel 2 enabled, Channel 3 enabled
 
         """
 
@@ -127,24 +126,24 @@ class StreamingConfiguration:
     def enabled_channels(self) -> int:
         """Get the number of activated channels
 
-        Returns
-        -------
+        Returns:
 
-        The number of enabled channels
+            The number of enabled channels
 
-        Examples
-        --------
+        Examples:
 
-        >>> StreamingConfiguration(first=True).enabled_channels()
-        1
+            Get the number of enabled channels for example streaming configs
 
-        >>> StreamingConfiguration(first=False, second=True, third=False
-        ...                       ).enabled_channels()
-        1
+            >>> StreamingConfiguration(first=True).enabled_channels()
+            1
 
-        >>> StreamingConfiguration(first=True, second=True, third=True
-        ...                       ).enabled_channels()
-        3
+            >>> StreamingConfiguration(first=False, second=True, third=False
+            ...                       ).enabled_channels()
+            1
+
+            >>> StreamingConfiguration(first=True, second=True, third=True
+            ...                       ).enabled_channels()
+            3
 
         """
 
@@ -160,32 +159,33 @@ class StreamingConfiguration:
         - 2 (when 2 channels are active), or
         - 3 (when 1 or 3 channels are active)
 
-        For more information, please take a look
-        [here](https://mytoolit.github.io/Documentation/#command-data)
+        For more information, please take a look `here`_.
 
-        Returns
-        -------
+        .. _here: https://mytoolit.github.io/Documentation/#command-data
 
-        The length of the streaming data resulting from this channel
-        configuration
+        Returns:
 
-        Examples
-        --------
+            The length of the streaming data resulting from this channel
+            configuration
 
-        >>> StreamingConfiguration().data_length()
-        3
+        Examples:
 
-        >>> StreamingConfiguration(
-        ...     first=False, second=True, third=False).data_length()
-        3
+            Get the data length of example streaming configurations
 
-        >>> StreamingConfiguration(
-        ...     first=True, second=True, third=True).data_length()
-        3
+            >>> StreamingConfiguration().data_length()
+            3
 
-        >>> StreamingConfiguration(
-        ...     first=False, second=True, third=True).data_length()
-        2
+            >>> StreamingConfiguration(
+            ...     first=False, second=True, third=False).data_length()
+            3
+
+            >>> StreamingConfiguration(
+            ...     first=True, second=True, third=True).data_length()
+            3
+
+            >>> StreamingConfiguration(
+            ...     first=False, second=True, third=True).data_length()
+            2
 
         """
 
@@ -194,20 +194,20 @@ class StreamingConfiguration:
     def axes(self) -> List[str]:
         """Get the activated axes returned by this streaming configuration
 
-        Returns
-        -------
+        Returns:
 
-        A list containing all activated axes in alphabetical order
+            A list containing all activated axes in alphabetical order
 
-        Examples
-        --------
+        Examples:
 
-        >>> StreamingConfiguration(
-        ...     first=False, second=True, third=True).axes()
-        ['y', 'z']
-        >>> StreamingConfiguration(
-        ...     first=True, second=True, third=False).axes()
-        ['x', 'y']
+            Get the activated axes for example streaming configurations
+
+            >>> StreamingConfiguration(
+            ...     first=False, second=True, third=True).axes()
+            ['y', 'z']
+            >>> StreamingConfiguration(
+            ...     first=True, second=True, third=False).axes()
+            ['x', 'y']
 
         """
 
@@ -225,18 +225,20 @@ class StreamingConfiguration:
     def first(self) -> bool:
         """Check the activation state of the first channel
 
-        Returns
-        -------
+        Returns:
 
-        `True`, if the first channel is enabled or `False` otherwise
+        ``True``, if the first channel is enabled or ``False`` otherwise
 
-        Examples
-        --------
+        Examples:
 
-        >>> StreamingConfiguration(first=True, second=False, third=False).first
-        True
-        >>> StreamingConfiguration(first=False, second=False, third=True).first
-        False
+            Check channel one activation status for example configs
+
+            >>> StreamingConfiguration(first=True, second=False,
+            ...                        third=False).first
+            True
+            >>> StreamingConfiguration(first=False, second=False,
+            ...                        third=True).first
+            False
 
         """
 
@@ -246,20 +248,20 @@ class StreamingConfiguration:
     def second(self) -> bool:
         """Check the activation state of the second channel
 
-        Returns
-        -------
+        Returns:
 
-        `True`, if the second channel is enabled or `False` otherwise
+            ``True``, if the second channel is enabled or ``False`` otherwise
 
-        Examples
-        --------
+        Examples:
 
-        >>> StreamingConfiguration(
-        ...     first=True, second=False, third=False).second
-        False
-        >>> StreamingConfiguration(
-        ...     first=False, second=True, third=True).second
-        True
+            Check channel two activation status for example configs
+
+            >>> StreamingConfiguration(
+            ...     first=True, second=False, third=False).second
+            False
+            >>> StreamingConfiguration(
+            ...     first=False, second=True, third=True).second
+            True
 
         """
 
@@ -269,20 +271,20 @@ class StreamingConfiguration:
     def third(self) -> bool:
         """Check the activation state of the third channel
 
-        Returns
-        -------
+        Returns:
 
-        `True`, if the third channel is enabled or `False` otherwise
+        ``True``, if the third channel is enabled or ``False`` otherwise
 
-        Examples
-        --------
+        Examples:
 
-        >>> StreamingConfiguration(
-        ...     first=True, second=False, third=False).third
-        False
-        >>> StreamingConfiguration(
-        ...     first=False, second=False, third=True).third
-        True
+            Check channel three activation status for example configs
+
+            >>> StreamingConfiguration(
+            ...     first=True, second=False, third=False).third
+            False
+            >>> StreamingConfiguration(
+            ...     first=False, second=False, third=True).third
+            True
 
         """
 
@@ -293,18 +295,16 @@ class StreamingConfiguration:
 
 
 class MessageStats:
-    """Store message statistics"""
+    """Store message statistics
 
-    def __init__(self, retrieved: int = 0, lost: int = 0):
-        """Initialize message statistics with the given arguments
-
-        Parameters
-        ----------
+    Args:
 
         retrieved:
             The number of successfully retrieved messages
 
-        """
+    """
+
+    def __init__(self, retrieved: int = 0, lost: int = 0):
 
         self.retrieved = retrieved
         self.lost = lost
@@ -312,20 +312,18 @@ class MessageStats:
     def dataloss(self) -> float:
         """Get the amount of data loss
 
-        Returns
-        -------
+        Returns:
 
-        The overall amount of data loss as number between 0 (no data loss) and
-        1 (all data lost).
+            The overall amount of data loss as number between 0 (no data loss)
+            and 1 (all data lost).
 
-        Examples
-        --------
+        Examples:
 
-        >>> MessageStats().dataloss()
-        0
+            >>> MessageStats().dataloss()
+            0
 
-        >>> MessageStats(50, 50).dataloss()
-        0.5
+            >>> MessageStats(50, 50).dataloss()
+            0.5
 
         """
 
@@ -336,15 +334,14 @@ class MessageStats:
     def reset(self) -> None:
         """Reset the amount of retrieved and lost messages to 0
 
-        Examples
-        --------
+        Examples:
 
-        >>> stats = MessageStats(10, 90)
-        >>> stats.dataloss()
-        0.9
-        >>> stats.reset()
-        >>> stats.dataloss()
-        0
+            >>> stats = MessageStats(10, 90)
+            >>> stats.dataloss()
+            0.9
+            >>> stats.reset()
+            >>> stats.dataloss()
+            0
 
         """
 
@@ -356,18 +353,9 @@ class MessageStats:
 
 
 class AsyncStreamBuffer(Listener):
-    """Buffer for streaming data"""
+    """Buffer for streaming data
 
-    def __init__(
-        self,
-        configuration: StreamingConfiguration,
-        timeout: float,
-        max_buffer_size: int,
-    ) -> None:
-        """Initialize object using the given arguments
-
-        Parameters
-        ----------
+    Args:
 
         configuration:
             A streaming configuration that specifies which of the three
@@ -375,17 +363,24 @@ class AsyncStreamBuffer(Listener):
 
         timeout:
             The amount of seconds between two consecutive messages, before
-            a `StreamingTimeoutError` will be raised
+            a ``StreamingTimeoutError`` will be raised
 
         max_buffer_size:
             Maximum amount of buffered messages kept by the stream buffer.
             If this amount is exceeded, then this listener will raise a
-            `StreamingBufferError`. A large buffer indicates that the
+            ``StreamingBufferError``. A large buffer indicates that the
             application is not able to keep up with the current rate of
             retrieved messages and therefore the probability of losing
             messages is quite high.
 
-        """
+    """
+
+    def __init__(
+        self,
+        configuration: StreamingConfiguration,
+        timeout: float,
+        max_buffer_size: int,
+    ) -> None:
 
         # Expected identifier of received streaming messages
         self.identifier = Identifier(
@@ -405,11 +400,10 @@ class AsyncStreamBuffer(Listener):
     def __aiter__(self) -> AsyncIterator[Tuple[StreamingData, int]]:
         """Retrieve iterator for collected data
 
-        Returns
-        -------
+        Returns:
 
-        An iterator over the received streaming data including the number of
-        lost messages
+            An iterator over the received streaming data including the number
+            of lost messages
 
         """
 
@@ -418,14 +412,13 @@ class AsyncStreamBuffer(Listener):
     async def __anext__(self) -> Tuple[StreamingData, int]:
         """Retrieve next stream data object in collected data
 
-        Returns
-        -------
+        Returns:
 
-        A tuple containing:
+            A tuple containing:
 
-        - the data of the streaming message and
-        - the number of lost streaming messages right before the returned
-          streaming message
+            - the data of the streaming message and
+            - the number of lost streaming messages right before the returned
+              streaming message
 
         """
 
@@ -445,11 +438,10 @@ class AsyncStreamBuffer(Listener):
     def on_message_received(self, msg: Message) -> None:
         """Handle received messages
 
-        Parameters
-        ----------
+        Args:
 
-        msg:
-            The received CAN message
+            msg:
+                The received CAN message
 
         """
 
@@ -491,11 +483,10 @@ class AsyncStreamBuffer(Listener):
     def on_error(self, exc: Exception) -> None:
         """This method is called to handle any exception in the receive thread.
 
-        Parameters
-        ----------
+        Args:
 
-        exc:
-            The exception causing the thread to stop
+            exc:
+                The exception causing the thread to stop
 
         """
 
@@ -519,11 +510,10 @@ class AsyncStreamBuffer(Listener):
     def dataloss(self) -> float:
         """Calculate the overall amount of data loss
 
-        Returns
-        -------
+        Returns:
 
-        The overall amount of data loss as number between 0 (no data loss) and
-        1 (all data lost).
+            The overall amount of data loss as number between 0 (no data loss)
+            and 1 (all data lost).
 
         """
 
@@ -531,13 +521,41 @@ class AsyncStreamBuffer(Listener):
 
 
 class StreamingFormat:
-    """Support for specifying the data streaming format
+    """Support for specifying the `data streaming format`_
 
-    See also: https://mytoolit.github.io/Documentation/#block-streaming
+    .. _data streaming format:
+       https://mytoolit.github.io/Documentation/#block-streaming
+
+    Args:
+
+        *value:
+            The value of the streaming format byte
+
+        streaming:
+            Specifies if this is a request for a stream of data bytes;
+            If this value is not set or set to ``False``, then the request is
+            only for a single value (or set of values).
+
+        width:
+            Specifies the width of a single value (either 2 or 3 bytes)
+
+        channels:
+            Specifies for which channels data should be transmitted or not
+
+        sets:
+            Specifies the number of data sets that should be transmitted
+
+            The value 0 stops the stream. Other possible values for the
+            number of sets are 1, 3, 6, 10, 15, 20 and 30.
+
+        value_explanations:
+            Three strings used to describe the first, second and third data
+            value
+
     """
 
-    # Possible number of data sets
     data_set = [0, 1, 3, 6, 10, 15, 20, 30]
+    """Possible number of data sets"""
 
     # pylint: disable=too-many-arguments
 
@@ -554,39 +572,6 @@ class StreamingFormat:
             "Value 3",
         ),
     ) -> None:
-        """Initialize the streaming format using the given arguments
-
-        Positional Parameters
-        ---------------------
-
-        value:
-            The value of the streaming format byte
-
-        Keyword Parameters
-        ------------------
-
-        streaming:
-            Specifies if this is a request for a stream of data bytes;
-            If this value is not set or set to `False`, then the request is
-            only for a single value (or set of values).
-
-        width:
-            Specifies the width of a single value (either 2 or 3 bytes)
-
-        channels:
-            Specifies for which channels data should be transmitted or not
-
-        sets:
-            Specifies the number of data sets that should be transmitted
-
-            The value 0 stops the stream. Other possible values for the number
-            of sets are 1, 3, 6, 10, 15, 20 and 30.
-
-        value_explanations:
-            Three strings used to describe the first, second and third data
-            value
-
-        """
 
         def set_part(start, width, number):
             """Store bit pattern number at bit start of the identifier"""
@@ -653,24 +638,24 @@ class StreamingFormat:
     def __repr__(self) -> str:
         """Retrieve the textual representation of the streaming format
 
-        Returns
-        -------
+        Returns:
 
-        A string that describes the streaming format
+            A string that describes the streaming format
 
-        Examples
-        --------
+        Examples:
 
-        >>> StreamingFormat(width=3,
-        ...                 channels=StreamingConfiguration(first=True),
-        ...                 sets=15)
-        Single Request, 3 Bytes, 15 Data Sets, Read Value 1
+            Get the textual representation of some example streaming formats
 
-        >>> StreamingFormat(0b001, streaming=True)
-        Streaming, 2 Bytes, 1 Data Set
+            >>> StreamingFormat(width=3,
+            ...                 channels=StreamingConfiguration(first=True),
+            ...                 sets=15)
+            Single Request, 3 Bytes, 15 Data Sets, Read Value 1
 
-        >>> StreamingFormat(0b110111)
-        Single Request, 2 Bytes, 30 Data Sets, Read Value 1, Read Value 2
+            >>> StreamingFormat(0b001, streaming=True)
+            Streaming, 2 Bytes, 1 Data Set
+
+            >>> StreamingFormat(0b110111)
+            Single Request, 2 Bytes, 30 Data Sets, Read Value 1, Read Value 2
 
         """
 
@@ -714,26 +699,26 @@ class StreamingFormat:
     def data_sets(self) -> int:
         """Get the number of data sets of the streaming format
 
-        Returns
-        -------
+        Returns:
 
-        The number of data sets
+            The number of data sets
 
-        Examples
-        --------
+        Examples:
 
-        >>> StreamingFormat(
-        ...     width=3,
-        ...     channels=StreamingConfiguration(first=True),
-        ...     sets=15
-        ... ).data_sets()
-        15
+            Retrieve the number of data sets for some example streaming formats
 
-        >>> StreamingFormat(
-        ...     channels=StreamingConfiguration(first=True, second=False),
-        ...     sets=3
-        ... ).data_sets()
-        3
+            >>> StreamingFormat(
+            ...     width=3,
+            ...     channels=StreamingConfiguration(first=True),
+            ...     sets=15
+            ... ).data_sets()
+            15
+
+            >>> StreamingFormat(
+            ...     channels=StreamingConfiguration(first=True, second=False),
+            ...     sets=3
+            ... ).data_sets()
+            3
 
         """
 
@@ -745,24 +730,24 @@ class StreamingFormat:
     def data_bytes(self) -> int:
         """Get the number of data bytes used for a single value
 
-        Returns
-        -------
+        Returns:
 
-        The number of data bytes that represent a single streaming value
+            The number of data bytes that represent a single streaming value
 
-        Examples
-        --------
+        Examples:
 
-        >>> StreamingFormat(width=3,
-        ...                 channels=StreamingConfiguration(first=True),
-        ...                 sets=15).data_bytes()
-        3
+            Retrieve the number of data bytes for some streaming formats
 
-        >>> StreamingFormat(
-        ...     channels=StreamingConfiguration(first=True, second=False),
-        ...     width=2
-        ... ).data_bytes()
-        2
+            >>> StreamingFormat(width=3,
+            ...                 channels=StreamingConfiguration(first=True),
+            ...                 sets=15).data_bytes()
+            3
+
+            >>> StreamingFormat(
+            ...     channels=StreamingConfiguration(first=True, second=False),
+            ...     width=2
+            ... ).data_bytes()
+            2
 
         """
 
@@ -770,10 +755,9 @@ class StreamingFormat:
 
 
 class StreamingFormatVoltage(StreamingFormat):
-    """Support for specifying the streaming format of voltage data"""
+    """Support for specifying the streaming format of voltage data
 
-    def __init__(self, *arguments, **keyword_arguments) -> None:
-        """Initialize the voltage streaming format using the given arguments
+    Args:
 
         value:
             The value of the streaming format byte
@@ -790,10 +774,12 @@ class StreamingFormatVoltage(StreamingFormat):
         sets:
             Specifies the number of data sets that should be transmitted
 
-            The value 0 stops the stream. Other possible values for the number
-            of sets are 1, 3, 6, 10, 15, 20 and 30.
+            The value 0 stops the stream. Other possible values for the
+            number of sets are 1, 3, 6, 10, 15, 20 and 30.
 
-        """
+    """
+
+    def __init__(self, *arguments, **keyword_arguments) -> None:
 
         super().__init__(
             *arguments,
@@ -803,15 +789,9 @@ class StreamingFormatVoltage(StreamingFormat):
 
 
 class StreamingData:
-    """Support for storing data of a streaming message"""
+    """Support for storing data of a streaming message
 
-    def __init__(
-        self, counter: int, timestamp: float, values: Sequence[float]
-    ) -> None:
-        """Initialize the streaming data with the given arguments
-
-        Parameters
-        ----------
+    Args:
 
         counter:
             The message counter value
@@ -822,8 +802,7 @@ class StreamingData:
         values:
             The streaming values
 
-        Examples
-        --------
+    Examples:
 
         Create new streaming data
 
@@ -837,12 +816,17 @@ class StreamingData:
         ...
         ValueError: Incorrect number of streaming values: 1 (instead of 2 or 3)
 
-        >>> StreamingData(values=[1, 2, 3, 4], counter=21, timestamp=1)
+        >>> StreamingData(values=[1, 2, 3, 4], counter=21, timestamp=1
+        ...              ) # doctest:+ELLIPSIS
         Traceback (most recent call last):
         ...
-        ValueError: Incorrect number of streaming values: 4 (instead of 2 or 3)
+        ValueError: Incorrect number of ... values: 4 (instead of 2 or 3)
 
-        """
+    """
+
+    def __init__(
+        self, counter: int, timestamp: float, values: Sequence[float]
+    ) -> None:
 
         if not 2 <= len(values) <= 3:
             raise ValueError(
@@ -860,34 +844,32 @@ class StreamingData:
     ) -> StreamingData:
         """Apply a certain function to the streaming data
 
-        Note
-        ----
+        Note:
 
-        This function changes the stored values in the streaming data and (as
-        convenience feature) also returns the modified streaming data itself.
-        This is useful if you want to use the modified streaming as parameter
-        in a function call, i.e. you can use something like
-        ``function(stream_data.apply())``.
+            This function changes the stored values in the streaming data and
+            (as convenience feature) also returns the modified streaming data
+            itself. This is useful if you want to use the modified streaming
+            as parameter in a function call, i.e. you can use something like
+            ``function(stream_data.apply())``.
 
-        Parameters
-        ----------
+        Args:
 
-        function:
-            The function that should be applied to the streaming data
+            function:
+                The function that should be applied to the streaming data
 
-        Returns
-        -------
+        Returns:
 
-        The modified streaming data
+            The modified streaming data
 
-        Examples
-        --------
+        Examples:
 
-        >>> data = StreamingData(values=[1, 2, 3], counter=21, timestamp=1)
-        >>> data.apply(lambda value: value + 10)
-        [11, 12, 13]@1 #21
-        >>> data.values
-        [11, 12, 13]
+            Add the constant 10 to some example streaming data
+
+            >>> data = StreamingData(values=[1, 2, 3], counter=21, timestamp=1)
+            >>> data.apply(lambda value: value + 10)
+            [11, 12, 13]@1 #21
+            >>> data.values
+            [11, 12, 13]
 
         """
 
@@ -900,11 +882,12 @@ class StreamingData:
     def __repr__(self):
         """Get the string representation of the stream data
 
-        Examples
-        --------
+        Examples:
 
-        >>> StreamingData(values=[1, 2, 3], counter=21, timestamp=1)
-        [1, 2, 3]@1 #21
+            Get the string representation of some streaming data
+
+            >>> StreamingData(values=[1, 2, 3], counter=21, timestamp=1)
+            [1, 2, 3]@1 #21
 
         """
 

@@ -2,7 +2,7 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Namespace
 from asyncio import run
 from collections import Counter
 
@@ -12,15 +12,15 @@ from icotronic.cmdline.parse import byte_value, mac_address
 # -- Function -----------------------------------------------------------------
 
 
-def parse_arguments():
+def parse_arguments() -> Namespace:
     """Parse the arguments of the EEPROM checker command line tool
 
-    Returns
-    -------
+    Returns:
 
-    A simple object storing the MAC address (attribute `mac`) of an STH and an
-    byte value that should be stored into the cells of the EEPROM (attribute
-    `value`)
+        A simple object storing the MAC address (attribute ``mac``) of an STH
+        and an byte value that should be stored into the cells of the EEPROM
+        (attribute ``value``)
+
     """
 
     parser = ArgumentParser(
@@ -45,13 +45,9 @@ def parse_arguments():
 
 
 class EEPROMCheck:
-    """Write and check the content of a sensor node EEPROM page"""
+    """Write and check the content of a sensor node EEPROM page
 
-    def __init__(self, sensor_node, value):
-        """Initialize the EEPROM check with the given arguments
-
-        Parameters
-        ----------
+    Args:
 
         sensor_node:
             The sensor node where the EEPROM check should take place
@@ -59,7 +55,9 @@ class EEPROMCheck:
         value:
             The value that the EEPROM checker should write into the EEPROM
 
-        """
+    """
+
+    def __init__(self, sensor_node, value):
 
         self.sensor_node = sensor_node
         self.eeprom_address = 1
@@ -81,7 +79,8 @@ class EEPROMCheck:
 
         Returns:
 
-        A list of the byte values stored in the EEPROM page
+            A list of the byte values stored in the EEPROM page
+
         """
 
         return await self.sensor_node.eeprom.read(
@@ -124,8 +123,15 @@ class EEPROMCheck:
 # -- Functions ----------------------------------------------------------------
 
 
-async def check_eeprom(arguments):
-    """Check EEPROM functionality"""
+async def check_eeprom(arguments: Namespace):
+    """Check EEPROM functionality
+
+    Args:
+
+        arguments:
+            Command line arguments
+
+    """
 
     times = 5
 

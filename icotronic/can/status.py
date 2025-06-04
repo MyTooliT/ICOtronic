@@ -14,6 +14,30 @@ class State:
 
     See also: https://mytoolit.github.io/Documentation/#command:get-set-state
 
+    Args:
+
+        value:
+            The value of the state byte
+
+        mode:
+            Specifies if the state should be set or retrieved (get)
+
+        location:
+            A string or number that specifies the code location
+
+        state:
+            A string or number that specifies the network state
+
+    Examples:
+
+        Create some example state objects
+
+        >>> State(mode='Get', location='Bootloader', state='Operating')
+        Get State, Location: Bootloader, State: Operating
+
+        >>> State(mode='Set', state='Operating').value == 0b1_0000_101
+        True
+
     """
 
     node_states = bidict({
@@ -41,33 +65,6 @@ class State:
         location: Union[None, int, str] = None,
         state: Union[None, int, str] = None,
     ) -> None:
-        """Initialize the node status word using the given arguments
-
-        Parameters
-        -----------
-
-        value:
-            The value of the state byte
-
-        mode:
-            Specifies if the state should be set or retrieved (get)
-
-        location:
-            A string or number that specifies the code location
-
-        state:
-            A string or number that specifies the network state
-
-        Examples
-        --------
-
-        >>> State(mode='Get', location='Bootloader', state='Operating')
-        Get State, Location: Bootloader, State: Operating
-
-        >>> State(mode='Set', state='Operating').value == 0b1_0000_101
-        True
-
-        """
 
         def set_part(start, width, number):
             """Store bit pattern number at bit start of the identifier"""
@@ -124,35 +121,34 @@ class State:
     def __eq__(self, other: object) -> bool:
         """Compare this state to another object
 
-        Parameters
-        ----------
+        Args:
 
-        other:
-            The other object this state should be compared to
+            other:
+                The other object this state should be compared to
 
-        Returns
-        -------
+        Returns:
 
-        - True, if the given object is a state and it has the same
-          value as this state
+            - ``True``, if the given object is a state and it has the same
+              value as this state
 
-        - False, otherwise
+            - ``False``, otherwise
 
-        Examples
-        --------
+        Examples:
 
-        >>> state1 = State(mode='Get',
-        ...                location='Bootloader',
-        ...                state='Operating')
-        >>> state2 = State(mode='Set',
-        ...                location='Bootloader',
-        ...                state='Operating')
+            Compare some example state objects
 
-        >>> state1 == state2
-        False
+            >>> state1 = State(mode='Get',
+            ...                location='Bootloader',
+            ...                state='Operating')
+            >>> state2 = State(mode='Set',
+            ...                location='Bootloader',
+            ...                state='Operating')
 
-        >>> state1 == State(state2.value, mode='Get')
-        True
+            >>> state1 == state2
+            False
+
+            >>> state1 == State(state2.value, mode='Get')
+            True
 
         """
 
@@ -164,20 +160,21 @@ class State:
     def is_set(self) -> bool:
         """Check if the status should be set
 
-        If this method returns `False`, then the state should be retrieved
+        If this method returns ``False``, then the state should be retrieved
         (get) instead.
 
-        Examples
-        --------
+        Examples:
 
-        >>> State(0b1_0000000).is_set()
-        True
-        >>> State(0b0_0000000).is_set()
-        False
-        >>> State(mode='Get').is_set()
-        False
-        >>> State(mode='Set').is_set()
-        True
+            Check if the network state should be set/get for example states
+
+            >>> State(0b1_0000000).is_set()
+            True
+            >>> State(0b0_0000000).is_set()
+            False
+            >>> State(mode='Get').is_set()
+            False
+            >>> State(mode='Set').is_set()
+            True
 
         """
 
@@ -186,20 +183,20 @@ class State:
     def location_name(self) -> str:
         """Retrieve the name of the current (code) location
 
-        Returns
-        -------
+        Returns:
 
-        The name of the node state represented by this state object
+            The name of the node state represented by this state object
 
-        Examples
-        --------
+        Examples:
 
-        >>> State(0b00_1010).location_name()
-        'No Change'
-        >>> State(0b01_1010).location_name()
-        'Bootloader'
-        >>> State(location='Application').location_name()
-        'Application'
+            Get the location name for some example states
+
+            >>> State(0b00_1010).location_name()
+            'No Change'
+            >>> State(0b01_1010).location_name()
+            'Bootloader'
+            >>> State(location='Application').location_name()
+            'Application'
 
         """
 
@@ -207,24 +204,25 @@ class State:
         cls = type(self)
         # pylint: disable=unsubscriptable-object
         return cls.node_states.inverse[location]
+        # pylint: enable=unsubscriptable-object
 
     def state_name(self) -> str:
         """Retrieve the name of the network state
 
-        Returns
-        -------
+        Returns:
 
-        The name of the network state represented by this state object
+            The name of the network state represented by this state object
 
-        Examples
-        --------
+        Examples:
 
-        >>> State(0b000).state_name()
-        'Failure'
-        >>> State(0b101).state_name()
-        'Operating'
-        >>> State(state='Startup').state_name()
-        'Startup'
+            Get the state name for some example states
+
+            >>> State(0b000).state_name()
+            'Failure'
+            >>> State(0b101).state_name()
+            'Operating'
+            >>> State(state='Startup').state_name()
+            'Startup'
 
         """
 
@@ -232,22 +230,23 @@ class State:
         cls = type(self)
         # pylint: disable=unsubscriptable-object
         return cls.network_states.inverse[network_state]
+        # pylint: enable=unsubscriptable-object
 
     def __repr__(self) -> str:
         """Retrieve the textual representation of the state
 
-        Returns
-        -------
+        Returns:
 
-        A string that describes the attributes of the state
+            A string that describes the attributes of the state
 
-        Examples
-        --------
+        Examples:
 
-        >>> State(0b1_0_01_0_110)
-        Set State, Location: Bootloader, State: Startup
-        >>> State(0b0_1_11_1_001)
-        Get State, Location: Reserved, State: Error
+            Get the string representation of some example states
+
+            >>> State(0b1_0_01_0_110)
+            Set State, Location: Bootloader, State: Startup
+            >>> State(0b0_1_11_1_001)
+            Get State, Location: Reserved, State: Error
 
         """
 
@@ -266,19 +265,16 @@ class NodeStatus:
     Please do not use this class directly, but instead use one of the
     two specific status classes for the STH and STU.
 
-    """
-
-    def __init__(self, value: Union[List[int], int]) -> None:
-        """Initialize the node status word using the given arguments
-
-        Parameters
-        ----------
+    Args:
 
         value:
             A 32 bit integer or list of bytes that specifies the value of the
             node status word
 
-        """
+
+    """
+
+    def __init__(self, value: Union[List[int], int]) -> None:
 
         # Currently only the first byte (of the little endian version) of
         # status word 0 contains (non-reserved) data
@@ -287,22 +283,22 @@ class NodeStatus:
     def __repr__(self) -> str:
         """Retrieve the textual representation of the node status word
 
-        Returns
-        -------
+        Returns:
 
-        A string that describes the attributes of the node status word
+            A string that describes the attributes of the node status word
 
-        Examples
-        --------
+        Examples:
 
-        >>> NodeStatus(0b1010)
-        State: Operating, No Error
+            Get the textual representation of some node status words
 
-        >>> NodeStatus([0b1010, 0, 0, 0])
-        State: Operating, No Error
+            >>> NodeStatus(0b1010)
+            State: Operating, No Error
 
-        >>> NodeStatus(0b1)
-        State: Failure, Error
+            >>> NodeStatus([0b1010, 0, 0, 0])
+            State: Operating, No Error
+
+            >>> NodeStatus(0b1)
+            State: Failure, Error
 
         """
 
@@ -316,19 +312,19 @@ class NodeStatus:
     def error(self) -> bool:
         """Retrieve the status of the error bit
 
-        Returns
-        -------
+        Returns:
 
-        True if the error bit was set or False otherwise
+            ``True`` if the error bit was set or ``False`` otherwise
 
-        Examples
-        --------
+        Examples:
 
-        >>> NodeStatus(0b0).error()
-        False
+            Check if the error bit was set or not for some example status words
 
-        >>> NodeStatus(0b1).error()
-        True
+            >>> NodeStatus(0b0).error()
+            False
+
+            >>> NodeStatus(0b1).error()
+            True
 
         """
 
@@ -337,19 +333,19 @@ class NodeStatus:
     def state_name(self) -> str:
         """Get the name of the state represented by the node status word
 
-        Returns
-        -------
+        Returns:
 
-        A textual representation of the current node state
+            A textual representation of the current node state
 
-        Examples
-        --------
+        Examples:
 
-        >>> NodeStatus(0b1010).state_name()
-        'Operating'
+            Get the textual representation of some example node status words
 
-        >>> NodeStatus(0b1110).state_name()
-        'No Change'
+            >>> NodeStatus(0b1010).state_name()
+            'Operating'
+
+            >>> NodeStatus(0b1110).state_name()
+            'No Change'
 
         """
 
@@ -368,17 +364,17 @@ class NodeStatusSTU(NodeStatus):
     def __repr__(self) -> str:
         """Retrieve the textual representation of the node status word
 
-        Returns
-        -------
+        Returns:
 
-        A string that describes the attributes of the node status word
+            A string that describes the attributes of the node status word
 
-        Example
-        -------
+        Examples:
 
-        >>> NodeStatusSTU(0b1101010) # doctest:+NORMALIZE_WHITESPACE
-        State: Operating, No Error, Radio Port Disabled,
-        CAN Port Enabled, Bluetooth Connected
+            Get the string representation of an STU node status word
+
+            >>> NodeStatusSTU(0b1101010) # doctest:+NORMALIZE_WHITESPACE
+            State: Operating, No Error, Radio Port Disabled,
+            CAN Port Enabled, Bluetooth Connected
 
         """
 
@@ -407,19 +403,16 @@ class ErrorStatus:
 
     Please do not use this class directly, but instead use one of the
     two specific error status classes for the STH and STU.
+
+    Args:
+
+        value:
+            A 32 bit integer or list of bytes that specifies the value of
+            the error status word
+
     """
 
     def __init__(self, value: Union[List[int], int]) -> None:
-        """Initialize the error status word using the given arguments
-
-        Parameters
-        ----------
-
-        value:
-            A 32 bit integer or list of bytes that specifies the value of the
-            error status word
-
-        """
 
         # Currently only the first byte (of the little endian version) of
         # status word contains (non-reserved) data
@@ -428,19 +421,19 @@ class ErrorStatus:
     def transmission_error(self) -> bool:
         """Retrieve the status of the transmission error bit
 
-        Returns
-        -------
+        Returns:
 
-        True if the error bit was set or False otherwise
+            True if the error bit was set or False otherwise
 
-        Examples
-        --------
+        Examples:
 
-        >>> ErrorStatus(0b0).transmission_error()
-        False
+            Check some error status words for transmission errors
 
-        >>> ErrorStatus(0b1).transmission_error()
-        True
+            >>> ErrorStatus(0b0).transmission_error()
+            False
+
+            >>> ErrorStatus(0b1).transmission_error()
+            True
 
         """
 
@@ -456,22 +449,22 @@ class ErrorStatusSTH(ErrorStatus):
     def __repr__(self) -> str:
         """Retrieve the textual representation of the error status word
 
-        Returns
-        -------
+        Returns:
 
-        A string that describes the attributes of the error status word
+            A string that describes the attributes of the error status word
 
-        Examples
-        --------
+        Examples:
 
-        >>> ErrorStatusSTH(0b0)
-        No Error
+            Get the textual representation of some STH error status words
 
-        >>> ErrorStatusSTH(0b11)
-        Bluetooth Transmission Error, ADC Overrun Error
+            >>> ErrorStatusSTH(0b0)
+            No Error
 
-        >>> ErrorStatusSTH(0b10)
-        ADC Overrun Error
+            >>> ErrorStatusSTH(0b11)
+            Bluetooth Transmission Error, ADC Overrun Error
+
+            >>> ErrorStatusSTH(0b10)
+            ADC Overrun Error
 
         """
 
@@ -491,22 +484,22 @@ class ErrorStatusSTH(ErrorStatus):
     def adc_overrun(self) -> bool:
         """Retrieve the status of the ADC overrun bit
 
-        Returns
-        -------
+        Returns:
 
-        True if the ADC overrun error bit is set or False otherwise
+            ``True`` if the ADC overrun error bit is set or ``False`` otherwise
 
-        Examples
-        --------
+        Examples:
 
-        >>> ErrorStatusSTH(0b10).adc_overrun()
-        True
+            Check some STH error status words for overrun errors
 
-        >>> ErrorStatusSTH(0b11).adc_overrun()
-        True
+            >>> ErrorStatusSTH(0b10).adc_overrun()
+            True
 
-        >>> ErrorStatusSTH(0b01).adc_overrun()
-        False
+            >>> ErrorStatusSTH(0b11).adc_overrun()
+            True
+
+            >>> ErrorStatusSTH(0b01).adc_overrun()
+            False
 
         """
 
@@ -519,19 +512,19 @@ class ErrorStatusSTU(ErrorStatus):
     def __repr__(self) -> str:
         """Retrieve the textual representation of the error status word
 
-        Returns
-        -------
+        Returns:
 
-        A string that describes the attributes of the error status word
+            A string that describes the attributes of the error status word
 
-        Examples
-        --------
+        Examples:
 
-        >>> ErrorStatusSTU(0b0)
-        No Error
+            Get the string representation of some STU status error words
 
-        >>> ErrorStatusSTU(0b1)
-        CAN Transmission Error
+            >>> ErrorStatusSTU(0b0)
+            No Error
+
+            >>> ErrorStatusSTU(0b1)
+            CAN Transmission Error
 
         """
 

@@ -23,13 +23,11 @@ def base64_mac_address(name):
     address
 
 
-    Returns
-    -------
+    Returns:
 
     The given text on success
 
-    Examples
-    --------
+    Examples:
 
     >>> base64_mac_address("CGvXAd6B")
     'CGvXAd6B'
@@ -56,13 +54,11 @@ def byte_value(value):
     An argument type error in case the given value does not represent a
     (positive) byte value
 
-    Returns
-    -------
+    Returns:
 
     An integer representing the given value on success
 
-    Examples
-    --------
+    Examples:
 
     >>> byte_value("0xa")
     10
@@ -97,13 +93,11 @@ def channel_number(value: str):
     An argument type error in case the given value does not represent a
     channel number
 
-    Returns
-    -------
+    Returns:
 
     An integer representing the given channel number on success
 
-    Examples
-    --------
+    Examples:
 
     >>> channel_number("1")
     1
@@ -152,13 +146,11 @@ def mac_address(address: str) -> EUI:
     address of the form `xx:xx:xx:xx:xx:xx`, where `x` represents a
     hexadecimal number.
 
-    Returns
-    -------
+    Returns:
 
     The given text on success
 
-    Examples
-    --------
+    Examples:
 
     >>> mac_address("08:6b:d7:01:de:81")
     EUI('08-6B-D7-01-DE-81')
@@ -185,19 +177,16 @@ def measurement_time(value: str) -> float:
 
     0 will be interpreted as infinite measurement runtime
 
-    Raises
-    ------
+    Raises:
 
     ArgumentTypeError
          if the given text is not a valid measurement time value
 
-    Returns
-    -------
+    Returns:
 
     A float value representing the measurement time on success
 
-    Examples
-    --------
+    Examples:
 
     >>> measurement_time("0")
     inf
@@ -236,13 +225,11 @@ def measurement_time(value: str) -> float:
 def sensor_node_number(value: str) -> int:
     """Check if the given number is valid Bluetooth node number
 
-    Returns
-    -------
+    Returns:
 
     An integer representing the given channel number on success
 
-    Examples
-    --------
+    Examples:
 
     >>> sensor_node_number("0")
     0
@@ -285,13 +272,11 @@ def sth_name(name: str) -> str:
     - is longer than 8 characters or
     - contains non-ASCII data.
 
-    Returns
-    -------
+    Returns:
 
     The given name on success
 
-    Examples
-    --------
+    Examples:
 
     >>> sth_name("Blubb")
     'Blubb'
@@ -413,8 +398,7 @@ def add_adc_arguments(parser: ArgumentParser) -> None:
 def add_channel_arguments(group) -> None:
     """Add channel arguments to given argument parser group
 
-    Parameters
-    ----------
+    Args:
 
     group:
         The parser group to which the channel arguments should be added to
@@ -462,8 +446,7 @@ def add_channel_arguments(group) -> None:
 def create_icon_parser() -> ArgumentParser:
     """Create command line parser for icon
 
-    Returns
-    -------
+    Returns:
 
     A parser for the CLI arguments of icon
 

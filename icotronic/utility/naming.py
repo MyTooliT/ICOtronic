@@ -13,22 +13,19 @@ from netaddr import EUI
 def convert_mac_base64(mac: Union[str, EUI]) -> str:
     """Convert a Bluetooth MAC address to a Base64 encoded text
 
-    Parameters
-    ----------
+    Args:
 
-    mac:
-        The MAC address
+        mac:
+            The MAC address
 
-    Returns
-    -------
+    Returns:
 
-    The MAC address as Base64 encoded string
+        The MAC address as Base64 encoded string
 
-    Example
-    -------
+    Examples:
 
-    >>> convert_mac_base64("08:6b:d7:01:de:81")
-    'CGvXAd6B'
+        >>> convert_mac_base64("08:6b:d7:01:de:81")
+        'CGvXAd6B'
 
     """
 
@@ -38,22 +35,19 @@ def convert_mac_base64(mac: Union[str, EUI]) -> str:
 def convert_base64_mac(name: str) -> str:
     """Convert a Base64 encoded MAC address into a readable MAC address
 
-    Parameters
-    ----------
+    Args:
 
-    mac:
-        A Base64 encoded text that stores a (Bluetooth) MAC address
+        mac:
+            A Base64 encoded text that stores a (Bluetooth) MAC address
 
-    Returns
-    -------
+    Returns:
 
-    A MAC address as Base64 encoded string
+        A MAC address as Base64 encoded string
 
-    Example
-    -------
+    Examples:
 
-    >>> convert_base64_mac('CGvXAd6B')
-    '08:6b:d7:01:de:81'
+        >>> convert_base64_mac('CGvXAd6B')
+        '08:6b:d7:01:de:81'
 
     """
 

@@ -46,22 +46,22 @@ class BaseTestCases:
         You are not supposed to use this class directly. Instead use it as base
         class for your test class.
 
-        Every subclass of this class must set the attribute `node` to an object
-        of the correct class of (`can.node`).
+        Every subclass of this class must set the attribute ``node`` to an
+        object of the correct class of (``can.node``).
 
         Please note, that this class only connects to the STU. If you also want
-        to connect to a sensor node, please overwrite the method `_connect`.
+        to connect to a sensor node, please overwrite the method ``_connect``.
 
         To add additional test attributes shown in the standard output and
         optionally the PDF, add them as **class** variables to the subclass.
-        Then use the **class** method `add_attribute` in the method
-        `setUpClass` and use a format string where you reference the class
-        variable as value argument. Please do not forget to call `setUpClass`
+        Then use the **class** method ``add_attribute`` in the method
+        ``setUpClass`` and use a format string where you reference the class
+        variable as value argument. Please do not forget to call ``setUpClass``
         of the superclass before you do that.
 
-        The various `_test` methods in this class can be used to run certain
+        The various ``_test`` methods in this class can be used to run certain
         tests for a node as part of a test method (i.e. a method that starts
-        with the string `test`).
+        with the string ``test``).
 
         """
 
@@ -192,15 +192,16 @@ class BaseTestCases:
         def __output_data(cls, attributes, node_data=True):
             """Output data to standard output and PDF report
 
-            Parameters
-            ----------
+            Args:
 
-            attributes:
-                An iterable that stores simple name space objects created via
-                ``create_attribute``
+                attributes:
+                    An iterable that stores simple name space objects created
+                    via ``create_attribute``
 
-            node_data:
-                Specifies if this method outputs node specific or general data
+                node_data:
+                    Specifies if this method outputs node specific or general
+                    data
+
             """
 
             # Only output something, if there is at least one attribute
@@ -241,17 +242,16 @@ class BaseTestCases:
         ) -> None:
             """Add a test attribute
 
-            Parameters
-            ----------
+            Args:
 
-            name:
-                The description (name) of the attribute
+                name:
+                    The description (name) of the attribute
 
-            value:
-                The value of the attribute
+                value:
+                    The value of the attribute
 
-            pdf:
-                True if the attribute should be added to the PDF report
+                pdf:
+                    True if the attribute should be added to the PDF report
 
             """
 
@@ -295,6 +295,12 @@ class BaseTestCases:
             """Execute a single test
 
             We override this method to store data about the test outcome.
+
+            Args:
+
+                result:
+                     The unit test result of the test
+
             """
 
             super().run(result)
@@ -348,17 +354,16 @@ class BaseTestCases:
         ):
             """Upload bootloader and application into node
 
-            Parameters
-            ----------
+            Args:
 
-            flash_location:
-                The location of the flash image
+                flash_location:
+                    The location of the flash image
 
-            programmer_serial_number:
-                The serial number of the programming board
+                programmer_serial_number:
+                    The serial number of the programming board
 
-            chip:
-                The name of the chip that should be flashed
+                chip:
+                    The name of the chip that should be flashed
 
             """
 
@@ -377,12 +382,11 @@ class BaseTestCases:
         async def _test_eeprom_product_data(self, config: DynaBox) -> None:
             """Test if reading and writing the product data EEPROM page works
 
-            Parameters
-            ----------
+            Args:
 
-            config
-                A configuration object that stores the various product data
-                attributes
+                config
+                    A configuration object that stores the various product data
+                    attributes
 
             """
 
@@ -503,14 +507,13 @@ class BaseTestCases:
             EEPROM, reads them and then checks if the written and read values
             are equal.
 
-            Parameters
-            ----------
+            Args:
 
-            production_date:
-                The production date of the node
+                production_date:
+                    The production date of the node
 
-            batch_number:
-                The batch number of the node
+                batch_number:
+                    The batch number of the node
 
             """
 
@@ -646,7 +649,7 @@ class BaseTestCases:
 
         You are not supposed to use this class directly, but instead use it as
         superclass for your test class. For more information, please take a
-        look at the documentation of `TestNode`.
+        look at the documentation of ``TestNode``.
 
         """
 
@@ -680,11 +683,10 @@ class BaseTestCases:
         async def _connect_node(self, name: str) -> None:
             """Create a connection to the node with the specified name
 
-            Parameters
-            ----------
+            Args:
 
-            name:
-                The (Bluetooth advertisement) name of the sensor node
+                name:
+                    The (Bluetooth advertisement) name of the sensor node
 
             """
 
@@ -708,16 +710,14 @@ class BaseTestCases:
         async def _test_name(self, name: str) -> str:
             """Check if writing and reading the name of a sensor node works
 
-            Parameters
-            ----------
+            Args:
 
-            name:
-                The text that should be used as name for the sensor node
+                name:
+                    The text that should be used as name for the sensor node
 
-            Returns
-            -------
+            Returns:
 
-            Read back name
+                Read back name
 
             """
 

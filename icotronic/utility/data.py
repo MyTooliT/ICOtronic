@@ -15,34 +15,34 @@ def convert_bytes_to_text(
     Please note, that this function ignores non ASCII data and control
     characters
 
-    Parameters
-    ----------
+    Args:
 
-    data:
-        The byte array that should be converted
+        data:
+            The byte array that should be converted
 
-    until_null:
-        Ignore data after the first `NULL` byte (`True`) or not `False`
+        until_null:
+            Ignore data after the first ``NULL`` byte (``True``) or not
+            ``False``
 
-    Returns
-    -------
+    Returns:
 
-    An string where the (valid) bytes of the input are mapped to an ASCII
-    character
+        An string where the (valid) bytes of the input are mapped to an ASCII
+        character
 
-    Examples
-    --------
+    Examples:
 
-    >>> convert_bytes_to_text("test".encode('ASCII'))
-    'test'
+        Convert some example byte array data into strings
 
-    >>> input = bytearray([0, 255, 10, 30]) + "something".encode('ASCII')
-    >>> convert_bytes_to_text(input)
-    'something'
+        >>> convert_bytes_to_text("test".encode('ASCII'))
+        'test'
 
-    >>> input = bytearray([0, 255, 10, 30]) + "something".encode('ASCII')
-    >>> convert_bytes_to_text(input, until_null=True)
-    ''
+        >>> input = bytearray([0, 255, 10, 30]) + "something".encode('ASCII')
+        >>> convert_bytes_to_text(input)
+        'something'
+
+        >>> input = bytearray([0, 255, 10, 30]) + "something".encode('ASCII')
+        >>> convert_bytes_to_text(input, until_null=True)
+        ''
 
     """
 

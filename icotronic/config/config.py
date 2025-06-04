@@ -42,11 +42,10 @@ class ConfigurationUtility:
     def open_config_file(filepath: Path):
         """Open configuration file
 
-        Parameters
-        ----------
+        Args:
 
-        filepath:
-            Path to configuration file
+            filepath:
+                Path to configuration file
 
         """
 
@@ -89,19 +88,9 @@ class SettingsIncorrectError(Exception):
 
 
 class Settings(Dynaconf):
-    """Small extension of the settings object for our purposes"""
+    """Small extension of the settings object for our purposes
 
-    def __init__(
-        self,
-        default_settings_filepath,
-        *arguments,
-        settings_files: Optional[List[str]] = None,
-        **keyword_arguments,
-    ) -> None:
-        """Initialize the settings using the given arguments
-
-        Parameters
-        ----------
+    Args:
 
         default_settings_filepath:
             Filepath to default settings file
@@ -116,7 +105,15 @@ class Settings(Dynaconf):
         keyword_arguments:
             All keyword arguments
 
-        """
+    """
+
+    def __init__(
+        self,
+        default_settings_filepath,
+        *arguments,
+        settings_files: Optional[List[str]] = None,
+        **keyword_arguments,
+    ) -> None:
 
         if settings_files is None:
             settings_files = []
@@ -376,10 +373,11 @@ class Settings(Dynaconf):
     def acceleration_sensor(self):
         """Get the settings for the current acceleration sensor
 
-        Returns
-        -------
+        Returns:
 
-        A configuration object for the currently selected accelerometer sensor
+            A configuration object for the currently selected accelerometer
+            sensor
+
         """
 
         sensor_settings = self.sth.acceleration_sensor
@@ -388,10 +386,9 @@ class Settings(Dynaconf):
     def sth_name(self) -> str:
         """Return the current name of the STH as string
 
-        Returns
-        -------
+        Returns:
 
-        The name of the STH
+            The name of the STH
 
         """
 
@@ -400,10 +397,9 @@ class Settings(Dynaconf):
     def output_directory(self) -> Path:
         """Get the HDF output directory
 
-        Returns
-        -------
+        Returns:
 
-        The HDF output directory as path object
+            The HDF output directory as path object
 
         """
 
@@ -417,10 +413,9 @@ class Settings(Dynaconf):
         timestamp to make sure that there are no conflicts with old output
         files.
 
-        Returns
-        -------
+        Returns:
 
-        The path to the current HDF file
+            The path to the current HDF file
 
         """
 
@@ -440,8 +435,8 @@ class Settings(Dynaconf):
     def check_output_directory(self) -> None:
         """Check the output directory
 
-        If the directory does not already exist, then this function will try to
-        create it.
+        If the directory does not already exist, then this function will
+        try to create it.
 
         """
 

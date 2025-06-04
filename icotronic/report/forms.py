@@ -22,7 +22,6 @@ class Signature:
     """This class represents a form for adding a signature"""
 
     def __init__(self) -> None:
-        """Create a new signature"""
 
         self.signature = Drawing(400, 30)
 
@@ -45,10 +44,9 @@ class Signature:
     def to_flowable(self) -> Drawing:
         """Convert the signature list into a Flowable
 
-        Returns
-        -------
+        Returns:
 
-        A Flowable representing this signature
+            A Flowable representing this signature
 
         """
 
@@ -65,13 +63,8 @@ class CheckBoxList:
     checkbox list, followed by the checkbox items. At the end a optional list
     of text fields will be added. These text fields can be used to add
     additional comments.
-    """
 
-    def __init__(self, title: str = "Checks", text_fields: int = 0) -> None:
-        """Create a new checkbox list with the given title
-
-        Parameters
-        ----------
+    Args:
 
         title:
             A title that describes the purpose of the checklist
@@ -80,7 +73,9 @@ class CheckBoxList:
             The number of text fields for additional comments that should be
             added at the end of the checklist.
 
-        """
+    """
+
+    def __init__(self, title: str = "Checks", text_fields: int = 0) -> None:
 
         self.title = title
         self.checks: List[Tuple[CheckBox, str]] = []
@@ -92,15 +87,14 @@ class CheckBoxList:
     ) -> None:
         """Add a checkbox item to the checkbox list
 
-        Parameters
-        ----------
+        Args:
 
-        text:
-            The text that should be added after the checkbox item
+            text:
+                The text that should be added after the checkbox item
 
-        tooltip:
-            The tooltip for the checkbox; If you do not specify a tooltip, then
-            `text` will also be used for the tooltip.
+            tooltip:
+                The tooltip for the checkbox; If you do not specify a tooltip,
+                then ``text`` will also be used for the tooltip.
 
         """
 
@@ -110,10 +104,9 @@ class CheckBoxList:
     def to_flowable(self) -> KeepTogether:
         """Convert the checkbox list into a Flowable
 
-        Returns
-        -------
+        Returns:
 
-        A Flowable representing this checkbox list
+            A ``Flowable`` representing this checkbox list
 
         """
 
@@ -133,19 +126,16 @@ class CheckBoxList:
 
 
 class CheckBox(Flowable):
-    """A flowable checkbox"""
+    """A flowable checkbox
 
-    def __init__(self, tooltip: Optional[str] = None) -> None:
-        """Initialize the checkbox using the given arguments
-
-        Parameters
-        ----------
+    Args:
 
         tooltip:
             The text displayed in the tooltip of the checkbox
 
-        Examples
-        --------
+    Examples:
+
+        Create some example checkboxes
 
         >>> CheckBox(tooltip="The tooltip of the box")
         ☑️ Tooltip: The tooltip of the box
@@ -153,7 +143,9 @@ class CheckBox(Flowable):
         >>> CheckBox()
         ☑️
 
-        """
+    """
+
+    def __init__(self, tooltip: Optional[str] = None) -> None:
 
         super().__init__()
 
@@ -165,10 +157,9 @@ class CheckBox(Flowable):
     def __repr__(self) -> str:
         """The string representation of the checkbox
 
-        Returns
-        -------
+        Returns:
 
-        A string containing information about the checkbox
+            A string containing information about the checkbox
 
         """
 
@@ -194,24 +185,23 @@ class CheckBox(Flowable):
 
 
 class TextField(Flowable):
-    """A flowable text box"""
+    """A flowable text box
 
-    def __init__(self, tooltip: Optional[str] = None) -> None:
-        """Initialize the text box using the given arguments
-
-        Parameters
-        ----------
+    Args:
 
         tooltip:
             The text displayed in the tooltip of the text
 
-        Example
-        -------
+    Examples:
+
+        Create an example text field
 
         >>> TextField(tooltip="The tooltip of the text field")
         📝 Tooltip: The tooltip of the text field
 
-        """
+    """
+
+    def __init__(self, tooltip: Optional[str] = None) -> None:
 
         super().__init__()
 
@@ -225,10 +215,9 @@ class TextField(Flowable):
     def __repr__(self) -> str:
         """The string representation of the checkbox
 
-        Returns
-        -------
+        Returns:
 
-        A string containing information about the checkbox
+            A string containing information about the checkbox
 
         """
 

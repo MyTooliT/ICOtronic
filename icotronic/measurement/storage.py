@@ -32,23 +32,23 @@ from icotronic.can.streaming import StreamingConfiguration, StreamingData
 def create_acceleration_description(
     attributes: Dict[str, MetaAtom],
 ) -> MetaIsDescription:
-    """Create a new `IsDescription` class to store acceleration data
+    """Create a new ``IsDescription`` class to store acceleration data
 
-    Parameters
-    ----------
+    Args:
 
-    attributes:
-        A dictionary containing additional columns to store specific
-        acceleration data. The key specifies the name of the attribute, while
-        the value specifies the type.
+        attributes:
+            A dictionary containing additional columns to store specific
+            acceleration data. The key specifies the name of the attribute,
+            while the value specifies the type.
 
-    Examples
-    --------
+    Examples:
 
-    >>> description_x_acceleration = create_acceleration_description(
-    ...     dict(x=Float32Col()))
-    >>> list(description_x_acceleration.columns.keys())
-    ['counter', 'timestamp', 'x']
+        Create an example acceleration description class
+
+        >>> description_x_acceleration = create_acceleration_description(
+        ...     dict(x=Float32Col()))
+        >>> list(description_x_acceleration.columns.keys())
+        ['counter', 'timestamp', 'x']
 
     """
 
@@ -70,7 +70,10 @@ class AccelerationDescription(IsDescription):
     """Description of HDF acceleration table"""
 
     counter = UInt8Col()
-    timestamp = UInt64Col()  # Microseconds since measurement start
+    """Message counter"""
+
+    timestamp = UInt64Col()
+    """Microseconds since measurement start"""
 
 
 # pylint: enable=too-few-public-methods
@@ -81,29 +84,20 @@ class StorageException(Exception):
 
 
 class Storage:
-    """Code to store measurement data in HDF5 format"""
+    """Context manager class for storing measurement data in HDF5 format
 
-    def __init__(
-        self,
-        filepath: Union[Path, str],
-        channels: Optional[StreamingConfiguration] = None,
-    ) -> None:
-        """Initialize the storage object using the given arguments
-
-        Parameters
-        ----------
+    Args:
 
         filepath:
             The filepath of the HDF5 file in which this object should store
             measurement data
 
         channels:
-            All channels for which data should be collected or `None`, if the
+            All channels for which data should be collected or ``None``, if the
             axes data should be taken from an existing valid file at
-            `filepath`.
+            ``filepath``.
 
-        Example
-        -------
+    Examples:
 
         Create new file
 
@@ -113,7 +107,7 @@ class Storage:
         ... ) as storage:
         ...     pass
 
-        Opening an existing file but still providing channels should fail
+        Opening an existing file but still providing channel info should fail
 
         >>> with Storage(filepath,
         ...             channels=StreamingConfiguration(first=True)
@@ -124,7 +118,13 @@ class Storage:
         ValueError: File “...” exist but channels parameter is not None
         >>> filepath.unlink()
 
-        """
+    """
+
+    def __init__(
+        self,
+        filepath: Union[Path, str],
+        channels: Optional[StreamingConfiguration] = None,
+    ) -> None:
 
         self.filepath = Path(filepath).expanduser().resolve()
 
@@ -150,17 +150,16 @@ class Storage:
     ) -> None:
         """Clean up the resources used by the storage class
 
-        Parameters
-        ----------
+        Args:
 
-        exception_type:
-            The type of the exception in case of an exception
+            exception_type:
+                The type of the exception in case of an exception
 
-        exception_value:
-            The value of the exception in case of an exception
+            exception_value:
+                The value of the exception in case of an exception
 
-        traceback:
-            The traceback in case of an exception
+            traceback:
+                The traceback in case of an exception
 
         """
 
@@ -191,28 +190,19 @@ class Storage:
 
 
 class StorageData:
-    """Store HDF acceleration data"""
+    """Store HDF acceleration data
 
-    def __init__(
-        self,
-        file_handle: File,
-        channels: Optional[StreamingConfiguration] = None,
-    ) -> None:
-        """Create new storage data object using the given file handle
-
-        Parameters
-        ----------
+    Args:
 
         file_handle:
             The HDF file that should store the data
 
         channels:
-            All channels for which data should be collected or `None`, if the
+            All channels for which data should be collected or ``None``, if the
             axes data should be taken from an existing valid file at
-            `filepath`.
+            ``filepath``.
 
-        Examples
-        --------
+    Examples:
 
         Create new data
 
@@ -230,7 +220,13 @@ class StorageData:
 
         >>> filepath.unlink()
 
-        """
+    """
+
+    def __init__(
+        self,
+        file_handle: File,
+        channels: Optional[StreamingConfiguration] = None,
+    ) -> None:
 
         self.hdf = file_handle
         self.start_time: Optional[float] = None
@@ -280,47 +276,52 @@ class StorageData:
     ) -> None:
         """Add streaming data to the storage object
 
-        Parameters
-        ----------
+        Args:
 
-        streaming_data:
-            The streaming data that should be added to the storage
+            streaming_data:
+                The streaming data that should be added to the storage
 
-        Examples
-        --------
+        Examples:
 
-        >>> from icotronic.can.streaming import StreamingConfigBits
+            Import required library code
 
-        Store streaming data for single channel
+            >>> from icotronic.can.streaming import StreamingConfigBits
 
-        >>> channel3 = StreamingConfiguration(first=False, second=False,
-        ...                                   third=True)
-        >>> data1 = StreamingData(values=[1, 2, 3], counter=21, timestamp=1)
-        >>> data2 = StreamingData(values=[4, 5, 6], counter=22, timestamp=2)
-        >>> filepath = Path("test.hdf5")
-        >>> with Storage(filepath, channel3) as storage:
-        ...     storage.add_streaming_data(data1)
-        ...     storage.add_streaming_data(data2)
-        ...     # Normally the class takes care about when to store back data
-        ...     # to the disk itself. We do a manual flush here to check the
-        ...     # number of stored items.
-        ...     storage.acceleration.flush()
-        ...     print(storage.acceleration.nrows)
-        6
-        >>> filepath.unlink()
+            Store streaming data for single channel
 
-        Store streaming data for three channels
+            >>> channel3 = StreamingConfiguration(first=False, second=False,
+            ...                                   third=True)
+            >>> data1 = StreamingData(values=[1, 2, 3], counter=21,
+            ...                       timestamp=1)
+            >>> data2 = StreamingData(values=[4, 5, 6], counter=22,
+            ...                       timestamp=2)
+            >>> filepath = Path("test.hdf5")
+            >>> with Storage(filepath, channel3) as storage:
+            ...     storage.add_streaming_data(data1)
+            ...     storage.add_streaming_data(data2)
+            ...     # Normally the class takes care about when to store back
+            ...     # data to the disk itself. We do a manual flush here to
+            ...     # check the number of stored items.
+            ...     storage.acceleration.flush()
+            ...     print(storage.acceleration.nrows)
+            6
+            >>> filepath.unlink()
 
-        >>> all = StreamingConfiguration(first=True, second=True, third=True)
-        >>> data1 = StreamingData(values=[1, 2, 3], counter=21, timestamp=1)
-        >>> data2 = StreamingData(values=[4, 5, 6], counter=22, timestamp=2)
-        >>> with Storage(filepath, all) as storage:
-        ...     storage.add_streaming_data(data1)
-        ...     storage.add_streaming_data(data2)
-        ...     storage.acceleration.flush()
-        ...     print(storage.acceleration.nrows)
-        2
-        >>> filepath.unlink()
+            Store streaming data for three channels
+
+            >>> all = StreamingConfiguration(first=True, second=True,
+            ...                              third=True)
+            >>> data1 = StreamingData(values=[1, 2, 3], counter=21,
+            ...                       timestamp=1)
+            >>> data2 = StreamingData(values=[4, 5, 6], counter=22,
+            ...                       timestamp=2)
+            >>> with Storage(filepath, all) as storage:
+            ...     storage.add_streaming_data(data1)
+            ...     storage.add_streaming_data(data2)
+            ...     storage.acceleration.flush()
+            ...     print(storage.acceleration.nrows)
+            2
+            >>> filepath.unlink()
 
         """
 
@@ -354,25 +355,25 @@ class StorageData:
     def store_acceleration_meta(self, name: str, value: str) -> None:
         """Add acceleration metadata
 
-        Parameters
-        ----------
+        Args:
 
-        name:
-            The name of the meta attribute
+            name:
+                The name of the meta attribute
 
-        value:
-            The value of the meta attribute
+            value:
+                The value of the meta attribute
 
-        Example
-        -------
+        Examples:
 
-        >>> filepath = Path("test.hdf5")
-        >>> with Storage(filepath,
-        ...              StreamingConfiguration(third=True)) as storage:
-        ...     storage.store_acceleration_meta("something", "some value")
-        ...     print(storage.acceleration.attrs["something"])
-        some value
-        >>> filepath.unlink()
+            Store some example acceleration data
+
+            >>> filepath = Path("test.hdf5")
+            >>> with Storage(filepath,
+            ...              StreamingConfiguration(third=True)) as storage:
+            ...     storage.store_acceleration_meta("something", "some value")
+            ...     print(storage.acceleration.attrs["something"])
+            some value
+            >>> filepath.unlink()
 
         """
 
@@ -385,22 +386,22 @@ class StorageData:
         (e.g. a sensor with a range of 200 g measures from - 100 g up to
         + 100 g).
 
-        Parameters
-        ----------
+        Args:
 
-        sensor_range_in_g:
-            The measurement range of the sensor in multiples of g
+            sensor_range_in_g:
+                The measurement range of the sensor in multiples of g
 
-        Examples
-        --------
+        Examples:
 
-        >>> filepath = Path("test.hdf5")
-        >>> with Storage(filepath,
-        ...              StreamingConfiguration(third=True)) as storage:
-        ...     storage.write_sensor_range(200)
-        ...     print(storage.acceleration.attrs["Sensor_Range"])
-        ± 100 g₀
-        >>> filepath.unlink()
+            Add sensor range metadata to example file
+
+            >>> filepath = Path("test.hdf5")
+            >>> with Storage(filepath,
+            ...              StreamingConfiguration(third=True)) as storage:
+            ...     storage.write_sensor_range(200)
+            ...     print(storage.acceleration.attrs["Sensor_Range"])
+            ± 100 g₀
+            >>> filepath.unlink()
 
         """
 
@@ -413,27 +414,29 @@ class StorageData:
     def write_sample_rate(self, adc_configuration: ADCConfiguration) -> None:
         """Store the sample rate of the ADC
 
-        Parameters
-        ----------
+        Args:
 
-        adc_configuration:
-            The current ADC configuration of the sensor node
+            adc_configuration:
+                The current ADC configuration of the sensor node
 
-        Examples
-        --------
+        Examples:
 
-        >>> filepath = Path("test.hdf5")
-        >>> adc_configuration = ADCConfiguration(
-        ...     set=True,
-        ...     prescaler=2,
-        ...     acquisition_time=16,
-        ...     oversampling_rate=256)
-        >>> with Storage(filepath,
-        ...              StreamingConfiguration(first=True)) as storage:
-        ...     storage.write_sample_rate(adc_configuration)
-        ...     print(storage.acceleration.attrs["Sample_Rate"])
-        1724.14 Hz (Prescaler: 2, Acquisition Time: 16, Oversampling Rate: 256)
-        >>> filepath.unlink()
+            Write and read sample rate metadata in example HDF file
+
+            >>> filepath = Path("test.hdf5")
+            >>> adc_configuration = ADCConfiguration(
+            ...     set=True,
+            ...     prescaler=2,
+            ...     acquisition_time=16,
+            ...     oversampling_rate=256)
+            >>> with Storage(filepath,
+            ...              StreamingConfiguration(first=True)) as storage:
+            ...     storage.write_sample_rate(adc_configuration)
+            ...     sample_rate = storage.acceleration.attrs["Sample_Rate"]
+            ...     print(sample_rate) # doctest:+NORMALIZE_WHITESPACE
+            1724.14 Hz (Prescaler: 2, Acquisition Time: 16,
+            Oversampling Rate: 256)
+            >>> filepath.unlink()
 
         """
 
@@ -452,37 +455,38 @@ class StorageData:
     def dataloss_stats(self) -> tuple[int, int]:
         """Determine number of lost and received messages
 
-        Returns
-        -------
+        Returns:
 
-        Tuple containing the number of received and the number of lost messages
+            Tuple containing the number of received and the number of lost
+            messages
 
-        Examples
-        --------
+        Examples:
 
-        >>> def calculate_dataloss_stats():
-        ...     filepath = Path("test.hdf5")
-        ...     with Storage(filepath,
-        ...                  StreamingConfiguration(first=True)) as storage:
-        ...         for counter in range(256):
-        ...             storage.add_streaming_data(
-        ...                 StreamingData(values=[1, 2, 3],
-        ...                               counter=counter,
-        ...                               timestamp=counter/10))
-        ...         for counter in range(128, 256):
-        ...             storage.add_streaming_data(
-        ...                 StreamingData(values=[4, 5, 6],
-        ...                               counter=counter,
-        ...                               timestamp=(255 + counter)/10))
-        ...
-        ...         stats = storage.dataloss_stats()
-        ...     filepath.unlink()
-        ...     return stats
-        >>> retrieved, lost = calculate_dataloss_stats()
-        >>> retrieved
-        384
-        >>> lost
-        128
+            Get data loss statistics for an example file
+
+            >>> def calculate_dataloss_stats():
+            ...     filepath = Path("test.hdf5")
+            ...     with Storage(filepath,StreamingConfiguration(
+            ...                  first=True)) as storage:
+            ...         for counter in range(256):
+            ...             storage.add_streaming_data(
+            ...                 StreamingData(values=[1, 2, 3],
+            ...                               counter=counter,
+            ...                               timestamp=counter/10))
+            ...         for counter in range(128, 256):
+            ...             storage.add_streaming_data(
+            ...                 StreamingData(values=[4, 5, 6],
+            ...                               counter=counter,
+            ...                               timestamp=(255 + counter)/10))
+            ...
+            ...         stats = storage.dataloss_stats()
+            ...     filepath.unlink()
+            ...     return stats
+            >>> retrieved, lost = calculate_dataloss_stats()
+            >>> retrieved
+            384
+            >>> lost
+            128
 
         """
 
@@ -516,35 +520,39 @@ class StorageData:
     def dataloss(self) -> float:
         """Determine (minimum) data loss
 
-        Returns
-        -------
+        Returns:
 
-        Amount of lost messages divided by all messages (lost and retrieved)
+            Amount of lost messages divided by all messages (lost and
+            retrieved)
 
-        Examples
-        --------
+        Examples:
 
-        >>> from math import isclose
-        >>> def calculate_dataloss():
-        ...     filepath = Path("test.hdf5")
-        ...     with Storage(filepath,
-        ...                  StreamingConfiguration(first=True)) as storage:
-        ...         for counter in range(256):
-        ...             storage.add_streaming_data(
-        ...                 StreamingData(values=[1, 2, 3],
-        ...                               counter=counter,
-        ...                               timestamp=counter/10))
-        ...         for counter in range(128, 256):
-        ...             storage.add_streaming_data(
-        ...                 StreamingData(values=[4, 5, 6],
-        ...                               counter=counter,
-        ...                               timestamp=(255 + counter)/10))
-        ...
-        ...         dataloss = storage.dataloss()
-        ...     filepath.unlink()
-        ...     return dataloss
-        >>> isclose(0.25, calculate_dataloss(), rel_tol=0.005)
-        True
+            Import required library code
+
+            >>> from math import isclose
+
+            Calculate data loss for an example storage file
+
+            >>> def calculate_dataloss():
+            ...     filepath = Path("test.hdf5")
+            ...     with Storage(filepath, StreamingConfiguration(
+            ...                  first=True)) as storage:
+            ...         for counter in range(256):
+            ...             storage.add_streaming_data(
+            ...                 StreamingData(values=[1, 2, 3],
+            ...                               counter=counter,
+            ...                               timestamp=counter/10))
+            ...         for counter in range(128, 256):
+            ...             storage.add_streaming_data(
+            ...                 StreamingData(values=[4, 5, 6],
+            ...                               counter=counter,
+            ...                               timestamp=(255 + counter)/10))
+            ...
+            ...         dataloss = storage.dataloss()
+            ...     filepath.unlink()
+            ...     return dataloss
+            >>> isclose(0.25, calculate_dataloss(), rel_tol=0.005)
+            True
 
         """
 
@@ -557,33 +565,36 @@ class StorageData:
     def sampling_frequency(self) -> float:
         """Calculate sampling frequency of measurement data
 
-        Returns
-        -------
+        Returns:
 
-        Sampling frequency (of a single data channel) in Hz
+            Sampling frequency (of a single data channel) in Hz
 
-        Examples
-        --------
+        Examples:
 
-        >>> from math import isclose
-        >>> def calculate_sampling_frequency():
-        ...     filepath = Path("test.hdf5")
-        ...     with Storage(filepath, StreamingConfiguration(
-        ...             first=True, second=True, third=True)) as storage:
-        ...         storage.add_streaming_data(
-        ...             StreamingData(values=[1, 2, 3],
-        ...                           counter=1,
-        ...                           timestamp=0))
-        ...         storage.add_streaming_data(
-        ...             StreamingData(values=[1, 2, 3],
-        ...                           counter=2,
-        ...                           timestamp=1))
-        ...
-        ...         sampling_frequency = storage.sampling_frequency()
-        ...     filepath.unlink()
-        ...     return sampling_frequency
-        >>> calculate_sampling_frequency()
-        2.0
+            Import required library code
+
+            >>> from math import isclose
+
+            Calculate sampling frequency for an example file
+
+            >>> def calculate_sampling_frequency():
+            ...     filepath = Path("test.hdf5")
+            ...     with Storage(filepath, StreamingConfiguration(
+            ...             first=True, second=True, third=True)) as storage:
+            ...         storage.add_streaming_data(
+            ...             StreamingData(values=[1, 2, 3],
+            ...                           counter=1,
+            ...                           timestamp=0))
+            ...         storage.add_streaming_data(
+            ...             StreamingData(values=[1, 2, 3],
+            ...                           counter=2,
+            ...                           timestamp=1))
+            ...
+            ...         sampling_frequency = storage.sampling_frequency()
+            ...     filepath.unlink()
+            ...     return sampling_frequency
+            >>> calculate_sampling_frequency()
+            2.0
 
         """
 

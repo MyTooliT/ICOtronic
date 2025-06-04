@@ -33,10 +33,9 @@ class CommanderOutputMatchException(CommanderException):
 
 
 class Commander:
-    """Wrapper for the Simplicity Commander commandline tool"""
+    """Wrapper for the Simplicity Commander commandline tool
 
-    def __init__(self, serial_number: int, chip: str):
-        """Initialize the Simplicity Commander wrapper
+    Args:
 
         serial_number:
             The serial number of the programming board that is connected to
@@ -45,7 +44,9 @@ class Commander:
         chip:
             The identifier of the chip on the PCB e.g. “BGM121A256V2”
 
-        """
+    """
+
+    def __init__(self, serial_number: int, chip: str):
 
         self._add_path_to_environment()
         self.identification_arguments = [
@@ -68,23 +69,25 @@ class Commander:
         }
 
     def _add_path_to_environment(self) -> None:
-        """Add path to Simplicity Commander (`commander`) to `PATH`
+        """Add path to Simplicity Commander (``commander``) to ``PATH``
 
-        After calling this method you should be able to call `commander`
+        After calling this method you should be able to call ``commander``
         without its path prefix, if you installed it somewhere in the
-        locations specified below `COMMANDS` → `PATH` in the configuration.
+        locations specified below ``COMMANDS`` → ``PATH`` in the configuration.
 
-        Example
-        -------
+        Examples:
 
-        >>> commander = Commander(
-        ...     serial_number=settings.sth.programming_board.serial_number,
-        ...     chip='BGM121A256V2')
+            Check that adding the commander path to the environment works
 
-        >>> from subprocess import run
-        >>> result = run("commander --version".split(), capture_output=True)
-        >>> result.returncode == 0
-        True
+            >>> commander = Commander(
+            ...     serial_number=settings.sth.programming_board.serial_number,
+            ...     chip='BGM121A256V2')
+
+            >>> from subprocess import run
+            >>> result = run("commander --version".split(),
+            ...              capture_output=True)
+            >>> result.returncode == 0
+            True
 
         """
 
@@ -107,39 +110,36 @@ class Commander:
     ) -> str:
         """Run a Simplicity Commander command
 
-        Parameters
-        ----------
+        Args:
 
-        command:
-            The Simplicity Commander subcommand including all necessary
-            arguments
+            command:
+                The Simplicity Commander subcommand including all necessary
+                arguments
 
-        description:
-            A textual description of the purpose of the command
-            e.g. “enable debug mode”
+            description:
+                A textual description of the purpose of the command
+                e.g. “enable debug mode”
 
-        possible_error_reasons:
-            A list of dictionary keys that describe why the command might have
-            failed
+            possible_error_reasons:
+                A list of dictionary keys that describe why the command might
+                have failed
 
-        regex_output:
-            An optional regular expression that has to match part of the
-            standard output of the command
+            regex_output:
+                An optional regular expression that has to match part of the
+                standard output of the command
 
-        Raises
-        ------
+        Raises:
 
-        CommanderException
+            CommanderException
 
-            - if the command returned unsuccessfully or
+                - if the command returned unsuccessfully or
 
-            - if the standard output did not match the optional regular
-              expression specified in `regex_output`
+                - if the standard output did not match the optional regular
+                  expression specified in ``regex_output``
 
-        Returns
-        -------
+        Returns:
 
-        The standard output of the command
+            The standard output of the command
 
         """
 
@@ -213,17 +213,18 @@ class Commander:
     def enable_debug_mode(self) -> None:
         """Enable debug mode for external device
 
-        Example
-        -------
+        Examples:
 
-        Enable debug mode of STH programming board
+            Import required library code
 
-        >>> from icotronic.config import settings
+            >>> from icotronic.config import settings
 
-        >>> commander = Commander(
-        ...     serial_number=settings.sth.programming_board.serial_number,
-        ...     chip='BGM121A256V2')
-        >>> commander.enable_debug_mode()
+            Enable debug mode of STH programming board
+
+            >>> commander = Commander(
+            ...     serial_number=settings.sth.programming_board.serial_number,
+            ...     chip='BGM121A256V2')
+            >>> commander.enable_debug_mode()
 
         """
 
@@ -239,7 +240,8 @@ class Commander:
     def unlock_device(self) -> None:
         """Unlock device for debugging
 
-        Calling this method will erase the flash of the device!
+        Warning:
+            Calling this method will erase the flash of the device!
 
         """
 
@@ -257,11 +259,10 @@ class Commander:
     def upload_flash(self, filepath: Union[str, Path]) -> None:
         """Upload code into the flash memory of the device
 
-        Parameters
-        ----------
+        Args:
 
-        filepath:
-            The filepath of the flash image
+            filepath:
+                The filepath of the flash image
 
         """
 
@@ -282,29 +283,28 @@ class Commander:
     def read_power_usage(self, milliseconds: float = 1000) -> float:
         """Read the power usage of the connected hardware
 
-        Parameters
-        ----------
+        Args:
 
-        milliseconds:
-            The amount of time the power usage should be measured for
+            milliseconds:
+                The amount of time the power usage should be measured for
 
-        Returns
-        -------
+        Returns:
 
-        The measured power usage in milliwatts
+            The measured power usage in milliwatts
 
-        Example
-        -------
+        Examples:
 
-        Measure power usage of connected STH
+            Import required library code
 
-        >>> from icotronic.config import settings
+            >>> from icotronic.config import settings
 
-        >>> commander = Commander(
-        ...     serial_number=settings.sth.programming_board.serial_number,
-        ...     chip='BGM121A256V2')
-        >>> commander.read_power_usage() > 0
-        True
+            Measure power usage of connected STH
+
+            >>> commander = Commander(
+            ...     serial_number=settings.sth.programming_board.serial_number,
+            ...     chip='BGM121A256V2')
+            >>> commander.read_power_usage() > 0
+            True
 
         """
 

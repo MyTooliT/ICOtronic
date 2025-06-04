@@ -18,36 +18,22 @@ from icotronic.can.node.id import NodeId
 
 
 class Identifier:
-    """This class represents a CAN identifier of the MyTooliT protocol"""
+    """This class represents a CAN identifier of the MyTooliT protocol
 
-    def __init__(  # pylint: disable=too-many-arguments
-        self,
-        *identifier: int,
-        command: Union[Command, None, int] = None,
-        block: Union[None, str, int] = None,
-        block_command: Union[None, str, int] = None,
-        error: Optional[bool] = None,
-        request: Optional[bool] = None,
-        sender: Union[NodeId, None, str, int] = None,
-        receiver: Union[NodeId, None, str, int] = None,
-    ) -> None:
-        """Create a new identifier from a given integer
+    Usually you will either specify the identifier number directly, or
+    provide command, sender and receiver. If, you decide to specify both
+    the identifier value and one of the keyword arguments, then the
+    keyword arguments will be used to overwrite specific parts of the
+    identifier.
 
-        Usually you will either specify the identifier number directly, or
-        provide command, sender and receiver. If, you decide to specify both
-        the identifier value and one of the keyword arguments, then the
-        keyword arguments will be used to overwrite specific parts of the
-        identifier.
+    Smaller parts (smaller bit width) will overwrite larger parts. For
+    example, if you decide to both specify the command and the block
+    (which is part of the command), then the block bits will be used to
+    overwrite the block bits in the specified command.
 
-        Smaller parts (smaller bit width) will overwrite larger parts. For
-        example, if you decide to both specify the command and the block
-        (which is part of the command), then the block bits will be used to
-        overwrite the block bits in the specified command.
+    For more information, please take a look at the examples.
 
-        For more information, please take a look at the examples.
-
-        Parameters
-        ----------
+    Args:
 
         identifier:
             An extended CAN identifier (29 bit number)
@@ -76,13 +62,16 @@ class Identifier:
         receiver:
             The receiver of the message
 
-        Examples
-        --------
+    Examples:
+
+        An empty identifier has value 0
 
         >>> Identifier().value
         0
 
-                                      V  block   number A E R send. R rec.
+        The class provided various methods to retrieve parts of the identifier
+
+        >>> #                         V  block number   A E R send. R rec.
         >>> identifier = Identifier(0b0_000000_00000000_0_0_0_10000_0_00110,
         ...                         command=1337)
         >>> identifier.command()
@@ -100,7 +89,7 @@ class Identifier:
         >>> identifier.command()
         512
 
-                                      V  block   number A E R send. R rec.
+        >>> #                         V  block number   A E R send. R rec.
         >>> identifier = Identifier(0b0_000000_00000000_1_0_0_10000_0_00110)
         >>> Identifier(identifier.value, request=False).is_acknowledgment()
         True
@@ -121,7 +110,20 @@ class Identifier:
         'EEPROM'
         >>> identifier.block_command_name()
         'Read'
-        """
+
+    """
+
+    def __init__(  # pylint: disable=too-many-arguments
+        self,
+        *identifier: int,
+        command: Union[Command, None, int] = None,
+        block: Union[None, str, int] = None,
+        block_command: Union[None, str, int] = None,
+        error: Optional[bool] = None,
+        request: Optional[bool] = None,
+        sender: Union[NodeId, None, str, int] = None,
+        receiver: Union[NodeId, None, str, int] = None,
+    ) -> None:
 
         def set_part(start, width, number):
             """Store bit pattern number at bit start of the identifier"""
@@ -166,32 +168,31 @@ class Identifier:
     def __eq__(self, other: object) -> bool:
         """Compare this identifier to another object
 
-        Parameters
-        ----------
+        Args:
 
-        other:
-            The other object this identifier should be compared to
+            other:
+                The other object this identifier should be compared to
 
-        Returns
-        -------
+        Returns:
 
-        - True, if the given object is an identifier and it has the same
-          value as this identifier
+            - ``True``, if the given object is an identifier and it has the
+              same value as this identifier
 
-        - False, otherwise
+            - ``False``, otherwise
 
-        Examples
-        --------
+        Examples:
 
-        >>> identifier1 = Identifier(block='System', block_command='Reset')
-        >>> identifier2 = Identifier(block='System', block_command='Reset',
-        ...                          receiver='STH 1')
+            Compare some identifier objects for equality
 
-        >>> identifier1 == identifier2
-        False
+            >>> identifier1 = Identifier(block='System', block_command='Reset')
+            >>> identifier2 = Identifier(block='System', block_command='Reset',
+            ...                          receiver='STH 1')
 
-        >>> identifier1 == Identifier(identifier2.value, receiver=0)
-        True
+            >>> identifier1 == identifier2
+            False
+
+            >>> identifier1 == Identifier(identifier2.value, receiver=0)
+            True
 
         """
 
@@ -203,25 +204,28 @@ class Identifier:
     def __repr__(self) -> str:
         """Return the string representation of the current identifier
 
-        Returns
-        -------
+        Returns:
 
-        A string that describes the various attributes of the identifier
+            A string that describes the various attributes of the identifier
 
-        Examples
-        --------
+        Examples:
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_000000_00000000_0_0_0_00001_0_00010)
-        [STH 1 → STH 2, Block: System, Command: Verboten, Acknowledge]
+            Get the textual representation of some example identifiers
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_000100_00000001_1_1_0_00010_0_00011)
-        [STH 2 → STH 3, Block: Streaming, Command: Temperature, Request, Error]
+            >>> #            V  block number   A E R send. R rec.
+            >>> Identifier(0b0_000000_00000000_0_0_0_00001_0_00010)
+            [STH 1 → STH 2, Block: System, Command: Verboten, Acknowledge]
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_010101_10000001_1_1_0_00010_0_00011)
-        [STH 2 → STH 3, Block: Unknown, Command: Unknown, Request, Error]
+            >>> #                 V block  number   A E R send. R rec.
+            >>> id = Identifier(0b0_000100_00000001_1_1_0_00010_0_00011)
+            >>> id # doctest:+NORMALIZE_WHITESPACE
+            [STH 2 → STH 3, Block: Streaming, Command: Temperature, Request,
+             Error]
+
+            >>> #            V block  number   A E R send. R rec.
+            >>> Identifier(0b0_010101_10000001_1_1_0_00010_0_00011)
+            [STH 2 → STH 3, Block: Unknown, Command: Unknown, Request, Error]
+
         """
 
         return (
@@ -235,28 +239,30 @@ class Identifier:
         In the acknowledgment identifier receiver and sender will be swapped
         and the request (acknowledge) bit will be set to 0 (acknowledge).
 
-        Returns
-        -------
+        Returns:
 
-        An acknowledgment message for the current message
+            An acknowledgment message for the current message
 
-        Example
-        -------
+        Examples:
 
-        >>> identifier = Identifier(block='System', block_command='Reset',
-        ...                         sender='SPU 1', receiver='STH 1')
+            Retrieve the acknowledgment identifier and check the result
 
-        >>> acknowledgement_identifier = identifier.acknowledge()
-        >>> acknowledgement_identifier.receiver_name()
-        'SPU 1'
-        >>> acknowledgement_identifier.is_error()
-        False
+            >>> identifier = Identifier(block='System', block_command='Reset',
+            ...                         sender='SPU 1', receiver='STH 1')
 
-        >>> error_identifier = identifier.acknowledge(error=True)
-        >>> error_identifier.sender_name()
-        'STH 1'
-        >>> error_identifier.is_error()
-        True
+            >>> acknowledgement_identifier = identifier.acknowledge()
+            >>> acknowledgement_identifier.receiver_name()
+            'SPU 1'
+            >>> acknowledgement_identifier.is_error()
+            False
+
+            Retrieve the error identifier and check the result
+
+            >>> error_identifier = identifier.acknowledge(error=True)
+            >>> error_identifier.sender_name()
+            'STH 1'
+            >>> error_identifier.is_error()
+            True
 
         """
 
@@ -271,24 +277,26 @@ class Identifier:
     def command(self) -> int:
         """Get the command part of the identifier
 
-        Returns
-        -------
+        Returns:
 
-        The whole command including
+            The whole command including
 
-        - group,
-        - number,
-        - acknowledge bit, and
-        - error bit
+            - group,
+            - number,
+            - acknowledge bit, and
+            - error bit
 
-        for the current identifier
+            for the current identifier
 
-        Example
-        -------
+        Examples:
 
-                             V  block   number A E R send. R rec.
-        >>> bin(Identifier(0b0_000011_00000000_0_1_0_00111_0_00010).command())
-        '0b110000000001'
+            Retrieve the command number of an example identifier
+
+            >>> #                V block  number   A E R send. R rec.
+            >>> bin(Identifier(0b0_000011_00000000_0_1_0_00111_0_00010
+            ...    ).command())
+            '0b110000000001'
+
         """
 
         return (self.value >> 12) & 0xFFFF
@@ -296,18 +304,19 @@ class Identifier:
     def command_number(self) -> int:
         """Get the block and block command part of the identifier
 
-        Returns
-        -------
+        Returns:
 
-        The command without the error and acknowledge bits
+            The command without the error and acknowledge bits
 
-        Example
-        -------
+        Examples:
 
-                             V  block   number A E R send. R rec.
-        >>> bin(Identifier(0b0_100011_11000001_0_1_0_00111_0_00010
-        ...    ).command_number())
-        '0b10001111000001'
+            Retrieve the command number of an example identifier
+
+            >>> #                V block  number   A E R send. R rec.
+            >>> bin(Identifier(0b0_100011_11000001_0_1_0_00111_0_00010
+            ...    ).command_number())
+            '0b10001111000001'
+
         """
 
         return Command(self.command()).value >> 2
@@ -315,17 +324,18 @@ class Identifier:
     def block(self) -> int:
         """Get the block
 
-        Returns
-        -------
+        Returns:
 
-        The block (aka group) number for the current identifier
+            The block (aka group) number for the current identifier
 
-        Example
-        -------
+        Examples:
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_000011_00000000_0_0_0_00111_0_00010).block()
-        3
+            Get the block number of a example identifier
+
+            >>> #            V block  number   A E R send. R rec.
+            >>> Identifier(0b0_000011_00000000_0_0_0_00111_0_00010).block()
+            3
+
         """
 
         return Command(self.command()).block()
@@ -333,23 +343,22 @@ class Identifier:
     def block_name(self) -> str:
         """Get the name of the command block
 
-        Returns
-        -------
+        Returns:
 
-        A short textual description of the command block of the identifier
+            A short textual description of the command block of the identifier
 
-        Examples
-        --------
+        Examples:
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_000011_00000000_0_0_0_00111_0_00010
-        ...           ).block_name()
-        'Unknown'
+            >>> #            V  block  number  A E R send. R rec.
+            >>> Identifier(0b0_000011_00000000_0_0_0_00111_0_00010
+            ...           ).block_name()
+            'Unknown'
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_000100_00000000_0_0_0_00111_0_00010
-        ...           ).block_name()
-        'Streaming'
+            >>> #            V block  number   A E R send. R rec.
+            >>> Identifier(0b0_000100_00000000_0_0_0_00111_0_00010
+            ...           ).block_name()
+            'Streaming'
+
         """
 
         return Command(self.command()).block_name()
@@ -357,17 +366,19 @@ class Identifier:
     def block_command(self) -> int:
         """Get the block command
 
-        Returns
-        -------
+        Returns:
 
-        The block number (part of the command number) of the identifier
+            The block number (part of the command number) of the identifier
 
-        Example
-        -------
+        Examples:
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_000011_00001000_0_0_0_00111_0_00010).block_command()
-        8
+            Retrieve the block command number of an example identifier
+
+            >>> #            V  block number   A E R send. R rec.
+            >>> Identifier(0b0_000011_00001000_0_0_0_00111_0_00010
+            ...           ).block_command()
+            8
+
         """
 
         return Command(self.command()).block_command()
@@ -375,18 +386,19 @@ class Identifier:
     def block_command_name(self) -> str:
         """Get the name of the block command
 
-        Returns
-        -------
+        Returns:
 
-        A short textual description of the command (in the current block)
+            A short textual description of the command (in the current block)
 
-        Example
-        -------
+        Examples:
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_000000_00000000_0_0_0_00101_0_00010
-        ...           ).block_command_name()
-        'Verboten'
+            Retrieve the block command name of an example identifier
+
+            >>> #            V block  number   A E R send. R rec.
+            >>> Identifier(0b0_000000_00000000_0_0_0_00101_0_00010
+            ...           ).block_command_name()
+            'Verboten'
+
         """
 
         return Command(self.command()).block_command_name()
@@ -394,18 +406,20 @@ class Identifier:
     def is_acknowledgment(self) -> bool:
         """Checks if the identifier represents an acknowledgment
 
-        Returns
-        -------
+        Returns:
 
-        True if the identifier is for an acknowledgement, or false otherwise
+            ``True`` if the identifier is for an acknowledgement, or ``False``
+            otherwise
 
-        Example
-        -------
+        Examples:
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_000000_00000000_1_0_0_00101_0_00010
-        ...           ).is_acknowledgment()
-        False
+            Check if an example identifier represents an acknowledgment
+
+            >>> #            V  block number   A E R send. R rec.
+            >>> Identifier(0b0_000000_00000000_1_0_0_00101_0_00010
+            ...           ).is_acknowledgment()
+            False
+
         """
 
         return Command(self.command()).is_acknowledgment()
@@ -413,18 +427,19 @@ class Identifier:
     def is_error(self) -> bool:
         """Checks if the identifier represents an error
 
-        Returns
-        -------
+        Returns:
 
-        True if the identifier indicates an error message, or false otherwise
+            ``True`` if the identifier indicates an error message, or
+            ``False`` otherwise
 
-        Example
-        -------
+        Examples:
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_000000_00000000_1_1_0_00101_0_00010
-        ...           ).is_error()
-        True
+            Check if an example identifier represents an error
+
+            >>> #            V block  number   A E R send. R rec.
+            >>> Identifier(0b0_000000_00000000_1_1_0_00101_0_00010
+            ...           ).is_error()
+            True
 
         """
 
@@ -433,30 +448,30 @@ class Identifier:
     def set_acknowledgment(self, value: bool = True) -> Identifier:
         """Set the acknowledgment bit to the given value
 
-        Parameters
-        ----------
+        Args:
 
-        value:
-            A boolean that specifies if this identifier should represent an
-            acknowledgment or not
+            value:
+                A boolean that specifies if this identifier should represent an
+                acknowledgment or not
 
-        Examples
-        --------
+        Examples:
 
-                                      V  block   number A E R send. R rec.
-        >>> identifier = Identifier(0b0_000011_00001000_0_0_0_00111_0_00010)
-        >>> identifier.is_acknowledgment()
-        True
-        >>> identifier.set_acknowledgment(False).is_acknowledgment()
-        False
+            Set the acknowledgment bit and check the result
 
-        >>> identifier.set_acknowledgment(True).is_acknowledgment()
-        True
+            >>> #                 V block  number   A E R send. R rec.
+            >>> id = Identifier(0b0_000011_00001000_0_0_0_00111_0_00010)
+            >>> id.is_acknowledgment()
+            True
+            >>> id.set_acknowledgment(False).is_acknowledgment()
+            False
 
-        Returns
-        -------
+            >>> id.set_acknowledgment(True).is_acknowledgment()
+            True
 
-        The modified identifier object
+        Returns:
+
+            The modified identifier object
+
         """
 
         command = Command(self.command()).set_acknowledgment(value)
@@ -466,31 +481,26 @@ class Identifier:
     def set_error(self, error: bool = True) -> Identifier:
         """Set the error bit to the given value
 
-        Parameters
-        ----------
+        Args:
 
-        error:
-            A boolean that specifies if this identifier should indicate an
-            error or not
+            error:
+                A boolean that specifies if this identifier should indicate an
+                error or not
 
-        Examples
-        --------
+        Examples:
 
-                                      V  block   number A E R send. R rec.
-        >>> identifier = Identifier(0b0_000011_00001000_0_1_0_00111_0_00010)
-        >>> identifier.is_error()
-        True
+            Set the error bit and check the result
 
-        >>> identifier.set_error(False).is_error()
-        False
+            >>> #                 V block  number   A E R send. R rec.
+            >>> id = Identifier(0b0_000011_00001000_0_1_0_00111_0_00010)
+            >>> id.is_error()
+            True
 
-        >>> identifier.set_error().is_error()
-        True
+            >>> id.set_error(False).is_error()
+            False
 
-        Returns
-        -------
-
-        The modified identifier object
+            >>> id.set_error().is_error()
+            True
 
         """
 
@@ -501,17 +511,19 @@ class Identifier:
     def sender(self) -> int:
         """Get the sender of the message
 
-        Returns
-        -------
+        Returns:
 
-        A number that specifies the sender of the message
+            A number that specifies the sender of the message
 
-        Example
-        -------
+        Examples:
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_000000_00000000_0_0_0_00111_0_00010).sender()
-        7
+            Get the sender number of an example identifier
+
+            >>> #            V  block   number A E R send. R rec.
+            >>> Identifier(0b0_000000_00000000_0_0_0_00111_0_00010).sender()
+            7
+
+
         """
 
         return self.value >> 6 & 0x1F
@@ -519,18 +531,19 @@ class Identifier:
     def sender_name(self) -> str:
         """Get the name of the sender of a message
 
-        Returns
-        -------
+        Returns:
 
-        A text that describes the sender
+            A text that describes the sender
 
-        Example
-        -------
+        Examples:
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_000000_00000000_0_0_0_00101_0_00010
-        ...           ).sender_name()
-        'STH 5'
+            Get the sender name of an example identifier
+
+            >>> #            V block  number   A E R send. R rec.
+            >>> Identifier(0b0_000000_00000000_0_0_0_00101_0_00010
+            ...           ).sender_name()
+            'STH 5'
+
         """
 
         return repr(NodeId(self.sender()))
@@ -538,17 +551,18 @@ class Identifier:
     def receiver(self) -> int:
         """Get the receiver of the message
 
-        Returns
-        -------
+        Returns:
 
-        A number that specifies the receiver of the message
+            A number that specifies the receiver of the message
 
-        Example
-        -------
+        Examples:
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_000000_00000000_0_0_0_00111_0_00010).receiver()
-        2
+            Get the receiver number of an example identifier
+
+            >>> #            V  block number   A E R send. R rec.
+            >>> Identifier(0b0_000000_00000000_0_0_0_00111_0_00010).receiver()
+            2
+
         """
 
         return self.value & 0x1F
@@ -556,18 +570,19 @@ class Identifier:
     def receiver_name(self) -> str:
         """Get the name of the receiver of a message
 
-        Returns
-        -------
+        Returns:
 
-        A text that describes the receiver
+            A text that describes the receiver
 
-        Example
-        -------
+        Examples:
 
-                         V  block   number A E R send. R rec.
-        >>> Identifier(0b0_000000_00000000_0_0_0_00101_0_01110
-        ...           ).receiver_name()
-        'STH 14'
+            Get the receiver name of an example identifier
+
+            >>> #            V block  number   A E R send. R rec.
+            >>> Identifier(0b0_000000_00000000_0_0_0_00101_0_01110
+            ...           ).receiver_name()
+            'STH 14'
+
         """
 
         return repr(NodeId(self.receiver()))

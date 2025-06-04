@@ -14,21 +14,22 @@ from reportlab.platypus import Flowable
 
 
 class PDFImage(Flowable):
-    """Create a flowable object from a PDF"""
+    """Create a flowable object from a PDF
 
-    def __init__(self, filepath, width=200, height=200):
-        """Initialize the flowable
-
-        Parameters
-        ----------
+    Args:
 
         filepath:
             A path to the PDF object this object represents
+
         width:
             The width of the PDF object
+
         height:
             The height of the PDF object
-        """
+
+    """
+
+    def __init__(self, filepath, width=200, height=200):
 
         super().__init__()
 
@@ -44,18 +45,18 @@ class PDFImage(Flowable):
     def wrap(self, availWidth, availHeight):
         """Wrap the PDF object according to the given dimensions
 
-        Parameters
-        ----------
+        Args:
 
-        availWidth:
-            The width of the wrapped PDF object
-        availHeight:
-            The height of the wrapped PDF object
+            availWidth:
+                The width of the wrapped PDF object
 
-        Returns
-        -------
+            availHeight:
+                The height of the wrapped PDF object
 
-        The dimensions of the wrapped object
+        Returns:
+
+            The dimensions of the wrapped object
+
         """
         return self.width, self.height
 
@@ -64,17 +65,20 @@ class PDFImage(Flowable):
     def drawOn(self, canvas, x, y, _=0):
         """Draw the PDF object on the given canvas
 
-        Parameters
-        ----------
+        Args:
 
-        canvas:
-            The canvas where the flowable should be placed
-        x:
-            The x position of the PDF inside the canvas
-        y:
-            The y position of the PDF inside the canvas
-        _:
-            Ignored parameter that stores offset data for the alignment
+            canvas:
+                The canvas where the flowable should be placed
+
+            x:
+                The x position of the PDF inside the canvas
+
+            y:
+                The y position of the PDF inside the canvas
+
+            _:
+                Ignored parameter that stores offset data for the alignment
+
         """
 
         canvas.saveState()

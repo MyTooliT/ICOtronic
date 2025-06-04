@@ -6,23 +6,21 @@ def check_list(
 ) -> None:
     """Check if the given object is a list with the given length
 
-    Parameters
-    ----------
+    Args:
 
-    data:
-        The object that should be checked for list type
+        data:
+            The object that should be checked for list type
 
-    required_length:
-        The required minimum length of the object, if it is a list
+        required_length:
+            The required minimum length of the object, if it is a list
 
-    argument_name:
-        The variable name of the given object
+        argument_name:
+            The variable name of the given object
 
-    Raises
-    ------
+    Raises:
 
-    ValueError
-        if the given object is not a list or is too long
+        ValueError:
+            if the given object is not a list or is too long
 
     """
 

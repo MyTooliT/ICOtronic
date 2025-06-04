@@ -24,18 +24,9 @@ from icotronic.utility.data import convert_bytes_to_text
 
 
 class AsyncSensorNodeManager:
-    """Context manager for connection to sensor node"""
+    """Context manager for connection to sensor node
 
-    def __init__(
-        self,
-        stu,
-        identifier: int | str | EUI,
-        sensor_node_class: Type[SensorNode] = SensorNode,
-    ):
-        """Initialize the context manager with the given arguments
-
-        Parameters
-        ----------
+    Args:
 
         stu:
             The STU instance that created the context manager
@@ -46,7 +37,14 @@ class AsyncSensorNodeManager:
         sensor_node_class:
             The sensor node class returned by the context manager
 
-        """
+    """
+
+    def __init__(
+        self,
+        stu,
+        identifier: int | str | EUI,
+        sensor_node_class: Type[SensorNode] = SensorNode,
+    ):
 
         self.stu = stu
         self.identifier = identifier
@@ -144,17 +142,16 @@ class AsyncSensorNodeManager:
     ) -> None:
         """Disconnect the sensor node and clean up resources
 
-        Parameters
-        ----------
+        Args:
 
-        exception_type:
-            The type of the exception in case of an exception
+            exception_type:
+                The type of the exception in case of an exception
 
-        exception_value:
-            The value of the exception in case of an exception
+            exception_value:
+                The value of the exception in case of an exception
 
-        traceback:
-            The traceback in case of an exception
+            traceback:
+                The traceback in case of an exception
 
         """
 
@@ -167,13 +164,26 @@ class AsyncSensorNodeManager:
 class SensorNodeInfo(NamedTuple):
     """Used to store information about a (disconnected) STH"""
 
-    name: str  # The (Bluetooth advertisement) name of the STH
-    sensor_node_number: int  # The node number of the STH
-    mac_address: EUI  # The (Bluetooth) MAC address of the STH
-    rssi: int  # The RSSI of the STH
+    name: str
+    """The (Bluetooth advertisement) name of the STH"""
+
+    sensor_node_number: int
+    """The node number of the STH"""
+
+    mac_address: EUI
+    """The (Bluetooth) MAC address of the STH"""
+
+    rssi: int
+    """The RSSI of the STH"""
 
     def __repr__(self) -> str:
-        """Return the string representation of an STH"""
+        """Return the string representation of an STH
+
+        Returns:
+
+            A textual representation of the sensor node information
+
+        """
 
         attributes = ", ".join([
             f"Name: {self.name}",
@@ -185,16 +195,16 @@ class SensorNodeInfo(NamedTuple):
 
 
 class STU(Node):
-    """Communicate and control a connected STU"""
+    """Communicate and control a connected STU
 
-    def __init__(self, spu: SPU) -> None:
-        """Initialize the STU
+    Args:
 
         spu:
             The SPU object that created this STU instance
 
-        Examples
-        --------
+    Examples:
+
+        Import required library code
 
         >>> from asyncio import run
         >>> from icotronic.can.connection import Connection
@@ -206,25 +216,28 @@ class STU(Node):
         ...         pass # call some coroutines of `stu` object
         >>> run(create_stu())
 
-        """
+    """
+
+    def __init__(self, spu: SPU) -> None:
 
         super().__init__(spu, NodeEEPROM, NodeId("STU 1"))
 
     async def activate_bluetooth(self) -> None:
         """Activate Bluetooth on the STU
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Activate Bluetooth on the STU
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def activate():
-        ...     async with Connection() as stu:
-        ...         await stu.activate_bluetooth()
-        >>> run(activate())
+            Activate Bluetooth on the STU
+
+            >>> async def activate():
+            ...     async with Connection() as stu:
+            ...         await stu.activate_bluetooth()
+            >>> run(activate())
 
         """
 
@@ -238,18 +251,19 @@ class STU(Node):
     async def deactivate_bluetooth(self) -> None:
         """Deactivate Bluetooth on the STU
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Deactivate Bluetooth on STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def deactivate_bluetooth():
-        ...     async with Connection() as stu:
-        ...         await stu.deactivate_bluetooth()
-        >>> run(deactivate_bluetooth())
+            Deactivate Bluetooth on STU 1
+
+            >>> async def deactivate_bluetooth():
+            ...     async with Connection() as stu:
+            ...         await stu.deactivate_bluetooth()
+            >>> run(deactivate_bluetooth())
 
         """
 
@@ -263,32 +277,32 @@ class STU(Node):
     async def get_available_nodes(self) -> int:
         """Retrieve the number of available sensor nodes
 
-        Returns
-        -------
+        Returns:
 
-        The number of available sensor nodes
+            The number of available sensor nodes
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run, sleep
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Get the number of available Bluetooth nodes at STU 1
+            >>> from asyncio import run, sleep
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def get_number_bluetooth_nodes():
-        ...     async with Connection() as stu:
-        ...         await stu.activate_bluetooth()
-        ...
-        ...         # We assume at least one STH is available
-        ...         number_sths = 0
-        ...         while number_sths <= 0:
-        ...             number_sths = await stu.get_available_nodes()
-        ...             await sleep(0.1)
-        ...
-        ...         return number_sths
-        >>> run(get_number_bluetooth_nodes()) >= 0
-        1
+            Get the number of available Bluetooth nodes at STU 1
+
+            >>> async def get_number_bluetooth_nodes():
+            ...     async with Connection() as stu:
+            ...         await stu.activate_bluetooth()
+            ...
+            ...         # We assume at least one STH is available
+            ...         number_sths = 0
+            ...         while number_sths <= 0:
+            ...             number_sths = await stu.get_available_nodes()
+            ...             await sleep(0.1)
+            ...
+            ...         return number_sths
+            >>> run(get_number_bluetooth_nodes()) >= 0
+            1
 
         """
 
@@ -305,36 +319,35 @@ class STU(Node):
     async def get_name(self, sensor_node_number: int) -> str:
         """Retrieve the name of a sensor node
 
-        Parameters
-        ----------
+        Args:
 
-        sensor_node_number:
-            The number of the Bluetooth node (0 up to the number of
-            available nodes - 1)
+            sensor_node_number:
+                The number of the Bluetooth node (0 up to the number of
+                available nodes - 1)
 
-        Returns
-        -------
+        Returns:
 
-        The (Bluetooth broadcast) name of the node
+            The (Bluetooth broadcast) name of the node
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Get Bluetooth advertisement name of node “0” from STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def get_bluetooth_node_name():
-        ...     async with Connection() as stu:
-        ...         await stu.activate_bluetooth()
-        ...         # We assume that at least one STH is available
-        ...         return await stu.get_name(0)
-        >>> name = run(get_bluetooth_node_name())
-        >>> isinstance(name, str)
-        True
-        >>> 0 <= len(name) <= 8
-        True
+            Get Bluetooth advertisement name of node “0” from STU 1
+
+            >>> async def get_bluetooth_node_name():
+            ...     async with Connection() as stu:
+            ...         await stu.activate_bluetooth()
+            ...         # We assume that at least one STH is available
+            ...         return await stu.get_name(0)
+            >>> name = run(get_bluetooth_node_name())
+            >>> isinstance(name, str)
+            True
+            >>> 0 <= len(name) <= 8
+            True
 
         """
 
@@ -345,46 +358,45 @@ class STU(Node):
     async def connect_with_number(self, sensor_node_number: int = 0) -> bool:
         """Connect to a Bluetooth node using a node number
 
-        Parameters
-        ----------
+        Args:
 
-        sensor_node_number:
-            The number of the Bluetooth node (0 up to the number of
-            available nodes - 1)
+            sensor_node_number:
+                The number of the Bluetooth node (0 up to the number of
+                available nodes - 1)
 
-        Returns
-        -------
+        Returns:
 
-        True, if
+            - True, if
 
-          1. in search mode,
-          2. at least single node was found,
-          3. no legacy mode,
-          4. and scanning mode active
+              1. in search mode,
+              2. at least single node was found,
+              3. no legacy mode,
+              4. and scanning mode active
 
-        False, otherwise
+            - False, otherwise
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Connect to node “0”
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def connect_bluetooth_sensor_node_number():
-        ...     async with Connection() as stu:
-        ...         await stu.activate_bluetooth()
-        ...         # We assume that at least one STH is available
-        ...         connected = before = await stu.is_connected()
-        ...         while not connected:
-        ...             connected = await stu.connect_with_number(0)
-        ...         await stu.deactivate_bluetooth()
-        ...         after = await stu.is_connected()
-        ...         # Return astatus of Bluetooth node connect response
-        ...         return before, connected, after
-        >>> run(connect_bluetooth_sensor_node_number())
-        (False, True, False)
+            Connect to node “0”
+
+            >>> async def connect_bluetooth_sensor_node_number():
+            ...     async with Connection() as stu:
+            ...         await stu.activate_bluetooth()
+            ...         # We assume that at least one STH is available
+            ...         connected = before = await stu.is_connected()
+            ...         while not connected:
+            ...             connected = await stu.connect_with_number(0)
+            ...         await stu.deactivate_bluetooth()
+            ...         after = await stu.is_connected()
+            ...         # Return status of Bluetooth node connect response
+            ...         return before, connected, after
+            >>> run(connect_bluetooth_sensor_node_number())
+            (False, True, False)
 
         """
 
@@ -400,44 +412,46 @@ class STU(Node):
     async def connect_with_mac_address(self, mac_address: EUI) -> None:
         """Connect to a Bluetooth sensor node using its MAC address
 
-        Parameters
-        ----------
+        Args:
 
-        mac_address:
-            The MAC address of the sensor node
+            mac_address:
+                The MAC address of the sensor node
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run, sleep
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        >>> async def get_bluetooth_mac():
-        ...     async with Connection() as stu:
-        ...         await stu.activate_bluetooth()
-        ...         # Wait for Bluetooth activation to take place
-        ...         await sleep(2)
-        ...         return await stu.get_mac_address(0)
-        >>> mac_address = run(get_bluetooth_mac())
-        >>> mac_address != EUI(0)
-        True
+            >>> from asyncio import run, sleep
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def connect(mac_address):
-        ...     async with Connection() as stu:
-        ...         await stu.deactivate_bluetooth()
-        ...         # We assume that at least one STH is available
-        ...         connected = before = await stu.is_connected()
-        ...         await stu.activate_bluetooth()
-        ...         while not connected:
-        ...             await stu.connect_with_mac_address(mac_address)
-        ...             await sleep(0.1)
-        ...             connected = await stu.is_connected()
-        ...         await stu.deactivate_bluetooth()
-        ...         after = await stu.is_connected()
-        ...         # Return status of Bluetooth node connect response
-        ...         return before, connected, after
-        >>> run(connect(mac_address))
-        (False, True, False)
+            Connect to a sensor node via its MAC address
+
+            >>> async def get_bluetooth_mac():
+            ...     async with Connection() as stu:
+            ...         await stu.activate_bluetooth()
+            ...         # Wait for Bluetooth activation to take place
+            ...         await sleep(2)
+            ...         return await stu.get_mac_address(0)
+            >>> mac_address = run(get_bluetooth_mac())
+            >>> mac_address != EUI(0)
+            True
+
+            >>> async def connect(mac_address):
+            ...     async with Connection() as stu:
+            ...         await stu.deactivate_bluetooth()
+            ...         # We assume that at least one STH is available
+            ...         connected = before = await stu.is_connected()
+            ...         await stu.activate_bluetooth()
+            ...         while not connected:
+            ...             await stu.connect_with_mac_address(mac_address)
+            ...             await sleep(0.1)
+            ...             connected = await stu.is_connected()
+            ...         await stu.deactivate_bluetooth()
+            ...         after = await stu.is_connected()
+            ...         # Return status of Bluetooth node connect response
+            ...         return before, connected, after
+            >>> run(connect(mac_address))
+            (False, True, False)
 
         """
 
@@ -458,44 +472,43 @@ class STU(Node):
     async def is_connected(self) -> bool:
         """Check if the STU is connected to a Bluetooth node
 
-        Returns
-        -------
+        Returns:
 
         - True, if a Bluetooth node is connected to the node
         - False, otherwise
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run, sleep
-        >>> from icotronic.can.connection import Connection
+            >>> from asyncio import run, sleep
+            >>> from icotronic.can.connection import Connection
 
-        Check connection of node “0” to STU
+            Check connection of node “0” to STU
 
-        >>> async def check_bluetooth_connection():
-        ...     async with Connection() as stu:
-        ...         await stu.activate_bluetooth()
-        ...         await sleep(0.1)
-        ...         connected_start = await stu.is_connected()
-        ...
-        ...         # We assume that at least one STH is available
-        ...         await stu.connect_with_number(0)
-        ...         # Wait for node connection
-        ...         connected_between = False
-        ...         while not connected_between:
-        ...             connected_between = await stu.is_connected()
-        ...             await sleep(0.1)
-        ...             await stu.connect_with_number(0)
-        ...
-        ...         # Deactivate Bluetooth connection
-        ...         await stu.deactivate_bluetooth()
-        ...         # Wait until node is disconnected
-        ...         await sleep(0.1)
-        ...         connected_after = await stu.is_connected()
-        ...
-        ...         return connected_start, connected_between, connected_after
-        >>> run(check_bluetooth_connection())
-        (False, True, False)
+            >>> async def check_bluetooth_connection():
+            ...     async with Connection() as stu:
+            ...         await stu.activate_bluetooth()
+            ...         await sleep(0.1)
+            ...         connected_start = await stu.is_connected()
+            ...
+            ...         # We assume that at least one STH is available
+            ...         await stu.connect_with_number(0)
+            ...         # Wait for node connection
+            ...         connected_between = False
+            ...         while not connected_between:
+            ...             connected_between = await stu.is_connected()
+            ...             await sleep(0.1)
+            ...             await stu.connect_with_number(0)
+            ...
+            ...         # Deactivate Bluetooth connection
+            ...         await stu.deactivate_bluetooth()
+            ...         # Wait until node is disconnected
+            ...         await sleep(0.1)
+            ...         connected_after = await stu.is_connected()
+            ...
+            ...         return (connected_start, connected_between,
+            ...                 connected_after)
+            >>> run(check_bluetooth_connection())
+            (False, True, False)
 
         """
 
@@ -513,35 +526,34 @@ class STU(Node):
     async def get_rssi(self, sensor_node_number: int):
         """Retrieve the RSSI (Received Signal Strength Indication) of an STH
 
-        Parameters
-        ----------
+        Args:
 
-        sensor_node_number:
-            The number of the Bluetooth node (0 up to the number of
-            available nodes)
+            sensor_node_number:
+                The number of the Bluetooth node (0 up to the number of
+                available nodes)
 
-        Returns
-        -------
+        Returns:
 
-        The RSSI of the node
+            The RSSI of the node
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Retrieve the RSSI of a disconnected STH
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def get_bluetooth_rssi():
-        ...     async with Connection() as stu:
-        ...         await stu.activate_bluetooth()
-        ...         # We assume that at least one STH is available
-        ...         # Get the RSSI of node “0”
-        ...         return await stu.get_rssi(0)
-        >>> rssi = run(get_bluetooth_rssi())
-        >>> -80 < rssi < 0
-        True
+            Retrieve the RSSI of a disconnected STH
+
+            >>> async def get_bluetooth_rssi():
+            ...     async with Connection() as stu:
+            ...         await stu.activate_bluetooth()
+            ...         # We assume that at least one STH is available
+            ...         # Get the RSSI of node “0”
+            ...         return await stu.get_rssi(0)
+            >>> rssi = run(get_bluetooth_rssi())
+            >>> -80 < rssi < 0
+            True
 
         """
 
@@ -554,43 +566,42 @@ class STU(Node):
     ) -> EUI:
         """Retrieve the MAC address of the STU or a sensor node
 
-        Note
-        ----
+        Note:
 
-        Bluetooth needs to be activated before calling this coroutine,
-        otherwise an incorrect MAC address will be returned (for sensor nodes).
+            Bluetooth needs to be activated before calling this coroutine,
+            otherwise an incorrect MAC address will be returned (for sensor
+            nodes).
 
-        Parameters
-        ----------
+        Args:
 
-        sensor_node_number:
-            The node number of the Bluetooth node (0 up to the number of
-            available nodes - 1) or
-            `0x00` (`SENSOR_NODE_NUMBER_SELF_ADDRESSING`)
-            to retrieve the MAC address of the STU itself
+            sensor_node_number:
+                The node number of the Bluetooth node (0 up to the number of
+                available nodes - 1) or ``0x00``
+                (``SENSOR_NODE_NUMBER_SELF_ADDRESSING``) to retrieve the MAC
+                address of the STU itself
 
-        Returns
-        -------
+        Returns:
 
-        The MAC address of the specified sensor node
+            The MAC address of the specified sensor node
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Retrieve the MAC address of STH 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def get_bluetooth_mac():
-        ...     async with Connection() as stu:
-        ...         await stu.activate_bluetooth()
-        ...         return await stu.get_mac_address(0)
-        >>> mac_address = run(get_bluetooth_mac())
-        >>> isinstance(mac_address, EUI)
-        True
-        >>> mac_address != EUI(0)
-        True
+            Retrieve the MAC address of STH 1
+
+            >>> async def get_bluetooth_mac():
+            ...     async with Connection() as stu:
+            ...         await stu.activate_bluetooth()
+            ...         return await stu.get_mac_address(0)
+            >>> mac_address = run(get_bluetooth_mac())
+            >>> isinstance(mac_address, EUI)
+            True
+            >>> mac_address != EUI(0)
+            True
 
         """
 
@@ -599,54 +610,48 @@ class STU(Node):
     async def get_sensor_nodes(self) -> list[SensorNodeInfo]:
         """Retrieve a list of available sensor nodes
 
-        Returns
-        -------
+        Returns:
 
-        A list of available nodes including:
+            A list of available nodes including node number, name, MAC address
+            and RSSI for each node
 
-        - node number,
-        - name,
-        - MAC address and
-        - RSSI
+        Examples:
 
-        for each node
+            Import required library code
 
-        Examples
-        --------
+            >>> from asyncio import run, sleep
+            >>> from netaddr import EUI
+            >>> from icotronic.can.connection import Connection
 
-        >>> from asyncio import run, sleep
-        >>> from netaddr import EUI
-        >>> from icotronic.can.connection import Connection
+            Retrieve the list of Bluetooth nodes at STU 1
 
-        Retrieve the list of Bluetooth nodes at STU 1
+            >>> async def get_sensor_nodes():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         nodes = []
+            ...         while not nodes:
+            ...             nodes = await stu.get_sensor_nodes()
+            ...             await sleep(0.1)
+            ...
+            ...         return nodes
+            >>> nodes = run(get_sensor_nodes())
+            >>> len(nodes) >= 1
+            True
+            >>> node = nodes[0]
 
-        >>> async def get_sensor_nodes():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         nodes = []
-        ...         while not nodes:
-        ...             nodes = await stu.get_sensor_nodes()
-        ...             await sleep(0.1)
-        ...
-        ...         return nodes
-        >>> nodes = run(get_sensor_nodes())
-        >>> len(nodes) >= 1
-        True
-        >>> node = nodes[0]
+            >>> node.sensor_node_number
+            0
 
-        >>> node.sensor_node_number
-        0
+            >>> isinstance(node.name, str)
+            True
+            >>> 0 <= len(node.name) <= 8
+            True
 
-        >>> isinstance(node.name, str)
-        True
-        >>> 0 <= len(node.name) <= 8
-        True
+            >>> -80 < node.rssi < 0
+            True
 
-        >>> -80 < node.rssi < 0
-        True
-
-        >>> isinstance(node.mac_address, EUI)
-        True
+            >>> isinstance(node.mac_address, EUI)
+            True
 
         """
 
@@ -676,37 +681,41 @@ class STU(Node):
     ) -> AsyncSensorNodeManager:
         """Connect to a sensor node (e.g. SHA, SMH or STH)
 
-        Parameters
-        ----------
+        Args:
 
-        identifier:
-            The
+            identifier:
+                The
 
-            - MAC address (`EUI`),
-            - name (`str`), or
-            - node number (`int`)
+                - MAC address (`EUI`),
+                - name (`str`), or
+                - node number (`int`)
 
-            of the sensor node we want to connect to
+                of the sensor node we want to connect to
 
-        sensor_node_class:
-            Sensor node subclass that should be returned by context manager
+            sensor_node_class:
+                Sensor node subclass that should be returned by context manager
 
-        Example
-        -------
+        Returns:
+            A context manager that returns a sensor node object for the
+            connected node
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+        Examples:
 
-        Connect to the sensor node with node number `0`
+            Import required library code
 
-        >>> async def connect_sensor_node():
-        ...     async with Connection() as stu:
-        ...         async with stu.connect_sensor_node(0):
-        ...             connected = await stu.is_connected()
-        ...         after = await stu.is_connected()
-        ...         return (connected, after)
-        >>> run(connect_sensor_node())
-        (True, False)
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
+
+            Connect to the sensor node with node number ``0``
+
+            >>> async def connect_sensor_node():
+            ...     async with Connection() as stu:
+            ...         async with stu.connect_sensor_node(0):
+            ...             connected = await stu.is_connected()
+            ...         after = await stu.is_connected()
+            ...         return (connected, after)
+            >>> run(connect_sensor_node())
+            (True, False)
 
         """
 

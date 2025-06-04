@@ -21,21 +21,19 @@ from icotronic.utility.data import convert_bytes_to_text
 
 
 class SPU:
-    """Communicate with the ICOtronic system acting as SPU"""
+    """Communicate with the ICOtronic system acting as SPU
 
-    def __init__(self, bus: BusABC, notifier: Notifier) -> None:
-        """Create an SPU instance using the given arguments
-
-        Parameters
-        ----------
+    Args:
 
         bus:
             A CAN bus object used to communicate with the STU
 
         notifier:
-            A notifier class that listens to the communication of `bus`
+            A notifier class that listens to the communication of ``bus``
 
-        """
+    """
+
+    def __init__(self, bus: BusABC, notifier: Notifier) -> None:
 
         self.bus = bus
         self.notifier = notifier
@@ -53,40 +51,37 @@ class SPU:
     ) -> CANMessage:
         """Send a request message and wait for the response
 
-        Parameters
-        ----------
+        Args:
 
-        message:
-            The message containing the request
+            message:
+                The message containing the request
 
-        description:
-            A description of the request used in error messages
+            description:
+                A description of the request used in error messages
 
-        response_data:
-           Specifies the expected data in the acknowledgment message
+            response_data:
+               Specifies the expected data in the acknowledgment message
 
-        minimum_timeout:
-           Minimum time before attempting additional connection attempt
-           in seconds
+            minimum_timeout:
+               Minimum time before attempting additional connection attempt
+               in seconds
 
-        retries:
-           The number of times the message is sent again, if no response was
-           sent back in a certain amount of time
+            retries:
+               The number of times the message is sent again, if no response
+               was sent back in a certain amount of time
 
-        Returns
-        -------
+        Returns:
 
-        The response message for the given request
+            The response message for the given request
 
-        Raises
-        ------
+        Raises:
 
-        NoResponseError
-            If the receiver did not respond to the message after retries
-            amount of messages sent
+            NoResponseError
+                If the receiver did not respond to the message after retries
+                amount of messages sent
 
-        ErrorResponseError
-            If the receiver answered with an error message
+            ErrorResponseError
+                If the receiver answered with an error message
 
         """
 
@@ -145,31 +140,30 @@ class SPU:
     ) -> CANMessage:
         """Send a request for a certain Bluetooth command
 
-        Parameters
-        ----------
+        Args:
 
-        node:
-            The node on which the Bluetooth command should be executed
+            node:
+                The node on which the Bluetooth command should be executed
 
-        subcommand:
-            The number of the Bluetooth subcommand
+            subcommand:
+                The number of the Bluetooth subcommand
 
-        sensor_node_number:
-            The node number of the Bluetooth node
+            sensor_node_number:
+                The node number of the Bluetooth node
 
-        description:
-            A description of the request used in error messages
+            description:
+                A description of the request used in error messages
 
-        data:
-            An optional list of bytes that should be included in the request
+            data:
+                An optional list of bytes that should be included in the
+                request
 
-        response_data:
-            An optional list of expected data bytes in the response message
+            response_data:
+                An optional list of expected data bytes in the response message
 
-        Returns
-        -------
+        Returns:
 
-        The response message for the given request
+            The response message for the given request
 
         """
 
@@ -233,22 +227,20 @@ class SPU:
     ) -> CANMessage:
         """Send a request for product data
 
-        Parameters
-        ----------
+        Args:
 
-        node:
-            The node on which the block command should be executed
+            node:
+                The node on which the block command should be executed
 
-        block_command:
-            The name or number of the block command
+            block_command:
+                The name or number of the block command
 
-        description:
-            A description of the request used in error messages
+            description:
+                A description of the request used in error messages
 
-        Returns
-        -------
+        Returns:
 
-        The response message for the given request
+            The response message for the given request
 
         """
 
@@ -280,28 +272,26 @@ class SPU:
         nodes.
 
         1. For disconnected sensor nodes you will usually use the STU (e.g.
-           `STU 1`) and the node number at the STU (in the range `0` up to
+           ``STU 1``) and the node number at the STU (in the range ``0`` up to
            the number of nodes - 1) to retrieve the name.
 
         2. For connected nodes you will use the node name and the special
-           “self addressing” node number (`0xff`) to ask a node about its
+           “self addressing” node number (``0xff``) to ask a node about its
            own name. **Note**: A connected STH will return its own name,
            regardless of the value of the node number.
 
-        Parameters
-        ----------
+        Args:
 
-        node:
-            The node which has access to the Bluetooth node
+            node:
+                The node which has access to the Bluetooth node
 
-        sensor_node_number:
-            The number of the Bluetooth node (0 up to the number of
-            available nodes - 1; 0xff for self addressing).
+            sensor_node_number:
+                The number of the Bluetooth node (0 up to the number of
+                available nodes - 1; 0xff for self addressing).
 
-        Returns
-        -------
+        Returns:
 
-        The (Bluetooth broadcast) name of the node
+            The (Bluetooth broadcast) name of the node
 
         """
 
@@ -342,46 +332,45 @@ class SPU:
         nodes.
 
         1. For disconnected nodes (STHs) you will usually use the STU (e.g.
-           `STU 1`) and the node number at the STU (in the range `0` up to
+           ``STU 1``) and the node number at the STU (in the range ``0`` up to
            the number of nodes - 1) to retrieve the RSSI.
 
         2. For connected nodes you will use the node name and the special
-           “self addressing” node number (`0xff`) to ask a node about its
+           “self addressing” node number (``0xff``) to ask a node about its
            own RSSI.
 
-        Parameters
-        ----------
+        Args:
 
-        node:
-            The node which should retrieve the RSSI
+            node:
+                The node which should retrieve the RSSI
 
-        sensor_node_number:
-            The number of the Bluetooth node (0 up to the number of
-            available nodes - 1; 0xff for self addressing).
+            sensor_node_number:
+                The number of the Bluetooth node (0 up to the number of
+                available nodes - 1; 0xff for self addressing).
 
-        Returns
-        -------
+        Returns:
 
-        The RSSI of the node specified via node and node number
+            The RSSI of the node specified via node and node number
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run, sleep
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Retrieve the RSSI of a disconnected STH
+            >>> from asyncio import run, sleep
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def get_bluetooth_rssi():
-        ...     async with Connection() as stu:
-        ...         await stu.activate_bluetooth()
-        ...
-        ...         # We assume that at least one STH is available
-        ...         # Get the RSSI of node “0”
-        ...         return await stu.spu.get_rssi('STU 1', 0)
-        >>> rssi = run(get_bluetooth_rssi())
-        >>> -70 < rssi < 0
-        True
+            Retrieve the RSSI of a disconnected STH
+
+            >>> async def get_bluetooth_rssi():
+            ...     async with Connection() as stu:
+            ...         await stu.activate_bluetooth()
+            ...
+            ...         # We assume that at least one STH is available
+            ...         # Get the RSSI of node “0”
+            ...         return await stu.spu.get_rssi('STU 1', 0)
+            >>> rssi = run(get_bluetooth_rssi())
+            >>> -70 < rssi < 0
+            True
 
         """
 
@@ -411,28 +400,26 @@ class SPU:
         nodes.
 
         1. For disconnected nodes (STHs) you will usually use the STU (e.g.
-           `STU 1`) and the node number at the STU (in the range `0` up to
+           ``STU 1``) and the node number at the STU (in the range ``0`` up to
            the number of nodes - 1) to retrieve the MAC address.
 
         2. For connected nodes you will use the node name and the special
-           “self addressing” node number (`0xff`) to ask a node about its
+           “self addressing” node number (``0xff``) to ask a node about its
            own node number. **Note**: A connected STH will return its own
            MAC address, regardless of the value of the node number.
 
-        Parameters
-        ----------
+        Args:
 
-        node:
-            The node which should retrieve the MAC address
+            node:
+                The node which should retrieve the MAC address
 
-        sensor_node_number:
-            The number of the Bluetooth node (0 up to the number of
-            available nodes - 1; 0xff for self addressing).
+            sensor_node_number:
+                The number of the Bluetooth node (0 up to the number of
+                available nodes - 1; 0xff for self addressing).
 
-        Returns
-        -------
+        Returns:
 
-        The MAC address of the node specified via node and node number
+            The MAC address of the node specified via node and node number
 
         """
 

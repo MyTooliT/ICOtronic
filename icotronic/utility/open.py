@@ -20,17 +20,15 @@ class UnableToOpenError(Exception):
 def open_file_windows(filepath: Union[Path, str]) -> None:
     """Open the given file in the default application on Windows
 
-    Arguments
-    ---------
+    Args:
 
-    filepath:
-        Location of the file that should be opened
+        filepath:
+            Location of the file that should be opened
 
-    Raises
-    ------
+    Raises:
 
-    UnableToOpenError
-        if opening the file failed
+        UnableToOpenError:
+            if opening the file failed
 
     """
 
@@ -49,17 +47,15 @@ def open_file_windows(filepath: Union[Path, str]) -> None:
 def open_file_other(filepath: Union[Path, str]) -> None:
     """Open the given file in the default application on a non-Windows OS
 
-    Arguments
-    ---------
+    Args:
 
-    filepath:
-        Location of the file that should be opened
+        filepath:
+            Location of the file that should be opened
 
-    Raises
-    ------
+    Raises:
 
-    UnableToOpenError
-        if opening the file failed
+        UnableToOpenError:
+            if opening the file failed
 
     """
 
@@ -78,46 +74,46 @@ def open_file_other(filepath: Union[Path, str]) -> None:
 def open_file(filepath: Union[Path, str]) -> None:
     """Open the given file in the default application
 
-    Arguments
-    ---------
+    Args:
 
-    filepath:
-        Location of the file that should be opened
+        filepath:
+            Location of the file that should be opened
 
-    Raises
-    ------
+    Raises:
 
-    UnableToOpenError
-        if opening the file failed
+        UnableToOpenError:
+            if opening the file failed
 
-    Examples
-    --------
+    Examples:
 
-    Open (hopefully) non-existing file
+        Import required library code
 
-    >>> try:
-    ...     open_file("does-not-exist.txt")
-    ... except UnableToOpenError:
-    ...     print("UnableToOpenError")
-    UnableToOpenError
+        >>> from importlib.resources import as_file, files
+        >>> from platform import system
+        >>> from os import environ
 
-    Open existing file
+        Open non-existing file
 
-    >>> from importlib.resources import as_file, files
-    >>> from platform import system
-    >>> from os import environ
-    >>> def test():
-    ...     with as_file(
-    ...         files("icotronic.config").joinpath("config.yaml")
-    ...     ) as repo_config_file:
-    ...         open_file(repo_config_file)
+        >>> try:
+        ...     open_file("does-not-exist.txt")
+        ... except UnableToOpenError:
+        ...     print("UnableToOpenError")
+        UnableToOpenError
 
-    We only run the test in a graphical environments on Linux, since
-    otherwise `xdg-open` will block while opening a CLI util to open the
-    YAML config file.
+        Open existing file
 
-    >>> if system() != "Linux" or environ.get("DISPLAY"):
-    ...     test()
+        >>> def test():
+        ...     with as_file(
+        ...         files("icotronic.config").joinpath("config.yaml")
+        ...     ) as repo_config_file:
+        ...         open_file(repo_config_file)
+
+        We only run the test in a graphical environments on Linux, since
+        otherwise `xdg-open` will block while opening a CLI util to open the
+        YAML config file.
+
+        >>> if system() != "Linux" or environ.get("DISPLAY"):
+        ...     test()
 
     """
 

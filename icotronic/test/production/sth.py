@@ -148,11 +148,15 @@ class TestSTH(BaseTestCases.TestSensorNode):
     def test__firmware_flash_disconnected(self):
         """Upload bootloader and application into STH
 
-        Please note the additional underscore in the method name that makes
-        sure this test case is executed before all other test cases.
+        Note:
 
-        The text `disconnected` in the method name makes sure that the test
-        framework does not initialize a connection.
+            The additional underscore in the method name that makes sure this
+            test case is executed before all other test cases.
+
+        Note:
+
+            The text ``disconnected`` in the method name makes sure that the
+            test framework does not initialize a connection.
 
         """
 

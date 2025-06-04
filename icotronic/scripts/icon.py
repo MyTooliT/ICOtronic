@@ -37,23 +37,15 @@ from icotronic.measurement.sensor import SensorConfiguration
 async def get_acceleration_sensor_range_in_g(sth: STH) -> float:
     """Read sensor range of acceleration sensor
 
-    Precondition
-    ------------
+    Args:
 
-    The STH object given as parameter needs to be connected to a sensor
-    node before you call this coroutine
+        sth:
+            The STH object used to read the sensor range
 
-    Parameters
-    ----------
+    Returns:
 
-    sth:
-        The STH object used to read the sensor range
-
-    Returns
-    -------
-
-    The sensor range of the acceleration sensor, or the default range of 200
-    (± 100 g) sensor, if there was a problem reading the sensor range
+        The sensor range of the acceleration sensor, or the default range of
+        200 (± 100 g) sensor, if there was a problem reading the sensor range
 
     """
 
@@ -78,9 +70,7 @@ async def get_acceleration_sensor_range_in_g(sth: STH) -> float:
     return sensor_range
 
 
-def command_config(  # pylint: disable=unused-argument
-    arguments: Namespace,
-) -> None:
+def command_config() -> None:
     """Open configuration file"""
 
     ConfigurationUtility.open_user_config()
@@ -90,7 +80,14 @@ def command_config(  # pylint: disable=unused-argument
 
 
 async def command_dataloss(arguments: Namespace) -> None:
-    """Check data loss at different sample rates"""
+    """Check data loss at different sample rates
+
+    Args:
+
+        arguments:
+            The given command line arguments
+
+    """
 
     identifier = arguments.identifier
     logger = getLogger()
@@ -166,11 +163,10 @@ async def command_list(
 ) -> None:
     """Print a list of available sensor nodes
 
-    Parameters
-    ----------
+    Args:
 
-    arguments:
-        The given command line arguments
+        arguments:
+            The given command line arguments
 
     """
 
@@ -202,11 +198,10 @@ async def command_list(
 async def command_measure(arguments: Namespace) -> None:
     """Open measurement stream and store data
 
-    Parameters
-    ----------
+    Args:
 
-    arguments:
-        The given command line arguments
+        arguments:
+            The given command line arguments
 
     """
 
@@ -293,11 +288,10 @@ async def command_measure(arguments: Namespace) -> None:
 async def command_rename(arguments: Namespace) -> None:
     """Rename a sensor node
 
-    Parameters
-    ----------
+    Args:
 
-    arguments:
-        The given command line arguments
+        arguments:
+            The given command line arguments
 
     """
 
@@ -320,11 +314,10 @@ async def command_rename(arguments: Namespace) -> None:
 async def command_stu(arguments: Namespace) -> None:
     """Run specific commands regarding stationary transceiver unit
 
-    Parameters
-    ----------
+    Args:
 
-    arguments:
-        The given command line arguments
+        arguments:
+            The given command line arguments
 
     """
 
@@ -376,7 +369,7 @@ def main():
     logger.info("CLI Arguments: %s", arguments)
 
     if arguments.subcommand == "config":
-        command_config(arguments.subcommand)
+        command_config()
     else:
         command_to_coroutine = {
             "dataloss": command_dataloss,

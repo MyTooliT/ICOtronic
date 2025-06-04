@@ -26,47 +26,40 @@ from icotronic.utility.data import convert_bytes_to_text
 
 
 class Message:
-    """Wrapper class for CAN messages"""
+    """Wrapper class for CAN messages
 
-    def __init__(
-        self,
-        *message: Union[TPCANMsg, CANMessage],
-        identifier: Optional[Identifier] = None,
-        data: Optional[List[int]] = None,
-        **keyword_arguments: Union[Command, NodeId, None, str, int, bool],
-    ) -> None:
-        """Create a new message based on the given attributes
+    Usually you will either specify the (PCAN or python-can) message
+    directly, or provide identifier and data. If, you decide to specify
+    both the message and one of the keyword arguments, then the keyword
+    arguments will be used to overwrite specific parts of the message
+    argument.
 
-        Usually you will either specify the (PCAN or python-can) message
-        directly, or provide identifier and data. If, you decide to specify
-        both the message and one of the keyword arguments, then the keyword
-        arguments will be used to overwrite specific parts of the message
-        argument.
+    Additional keyword parameters will be used as arguments for the
+    identifier. This way you can specify all the arguments for a message
+    without creating the identifier class yourself. If you decide to
+    specify both an identifier and keyword arguments for the identifier,
+    then the keyword arguments will overwrite the specific parts of the
+    provided identifier.
 
-        Additional keyword parameters will be used as arguments for the
-        identifier. This way you can specify all the arguments for a message
-        without creating the identifier class yourself. If you decide to
-        specify both an identifier and keyword arguments for the identifier,
-        then the keyword arguments will overwrite the specific parts of the
-        provided identifier.
-
-        Parameters
-        ----------
+    Args:
 
         message:
+
             Either
-                 - A PCAN message structure as used by the PCAN Basic API
-                 - or a python-can message
+
+            - A PCAN message structure as used by the PCAN Basic API
+            - or a python-can message
 
         identifier:
+
             A 29 bit CAN identifier
 
         data:
+
             An iterable over 8 bit values that stores the payload of the
             message
 
-        Examples
-        --------
+    Examples:
 
         Create a message from a given PCAN message
 
@@ -102,7 +95,16 @@ class Message:
         >>> Identifier(message.id()).block_name()
         'Streaming'
 
-        """
+
+    """
+
+    def __init__(
+        self,
+        *message: Union[TPCANMsg, CANMessage],
+        identifier: Optional[Identifier] = None,
+        data: Optional[List[int]] = None,
+        **keyword_arguments: Union[Command, NodeId, None, str, int, bool],
+    ) -> None:
 
         if message:
             can_message = message[0]
@@ -144,20 +146,20 @@ class Message:
     def data(self) -> bytearray:
         """Retrieve the message data
 
-        Returns
-        -------
+        Returns:
 
-        A bytearray containing the data of the message
+            A bytearray containing the data of the message
 
-        Examples
-        --------
+        Examples:
 
-        >>> len(Message().data)
-        0
-        >>> len(Message(data=[5, 6, 7]).data)
-        3
-        >>> len(Message(data=[1, 2]).data)
-        2
+            Get data from various example messages
+
+            >>> len(Message().data)
+            0
+            >>> len(Message(data=[5, 6, 7]).data)
+            3
+            >>> len(Message(data=[1, 2]).data)
+            2
 
         """
 
@@ -167,31 +169,31 @@ class Message:
     def data(self, data: Union[List[int], bytearray]) -> None:
         """Set the message data to a new value
 
-        Parameters
-        ----------
+        Args:
 
-        data:
-            The data that should be stored in the message
+            data:
+                The data that should be stored in the message
 
-        Examples
-        --------
+        Examples:
 
-        >>> message = Message(data=[1])
-        >>> message.data[0] = 42
-        >>> message.data[0]
-        42
+            Set message data to various values
 
-        >>> message = Message(data = bytearray([0] * 8))
-        >>> message.data[1] = 1
-        >>> message.data[2] = 2
-        >>> message.data[7] = 7
+            >>> message = Message(data=[1])
+            >>> message.data[0] = 42
+            >>> message.data[0]
+            42
 
-        >>> message.data[1]
-        1
-        >>> message.data[3]
-        0
-        >>> message.data[7]
-        7
+            >>> message = Message(data = bytearray([0] * 8))
+            >>> message.data[1] = 1
+            >>> message.data[2] = 2
+            >>> message.data[7] = 7
+
+            >>> message.data[1]
+            1
+            >>> message.data[3]
+            0
+            >>> message.data[7]
+            7
 
         """
 
@@ -203,10 +205,9 @@ class Message:
     def _data_explanation_system(self) -> str:
         """Retrieve a textual representation of system messages
 
-        Returns
-        -------
+        Returns:
 
-        A textual description of the data contained in the message
+            A textual description of the data contained in the message
 
         """
 
@@ -262,8 +263,7 @@ class Message:
                     else "Request connection"
                 )
                 data_explanation = (
-                    f"{info} to node with node number"
-                    f" “{sensor_node_number}”"
+                    f"{info} to node with node number “{sensor_node_number}”"
                 )
             elif subcommand == 8:
                 data_explanation = f"{verb} Bluetooth connection status"
@@ -330,10 +330,9 @@ class Message:
     def _data_explanation_streaming(self) -> str:
         """Retrieve a textual representation of streaming messages
 
-        Returns
-        -------
+        Returns:
 
-        A textual description of the data contained in the message
+            A textual description of the data contained in the message
 
         """
 
@@ -378,6 +377,14 @@ class Message:
         return data_explanation
 
     def _data_explanation_configuration(self) -> str:
+        """Retrieve a textual representation of configuration messages
+
+        Returns:
+
+            A textual description of the data contained in the message
+
+        """
+
         identifier = self.identifier()
         data_explanation = ""
 
@@ -392,10 +399,9 @@ class Message:
     def _data_explanation_eeprom(self) -> str:
         """Retrieve a textual representation of EEPROM messages
 
-        Returns
-        -------
+        Returns:
 
-        A textual description of the data contained in the message
+            A textual description of the data contained in the message
 
         """
 
@@ -430,10 +436,9 @@ class Message:
     def _data_explanation(self) -> str:
         """Retrieve a textual representation of the message data
 
-        Returns
-        -------
+        Returns:
 
-        A textual description of the data contained in the message
+            A textual description of the data contained in the message
 
         """
 
@@ -459,56 +464,58 @@ class Message:
     def __repr__(self) -> str:
         """Get a textual representation of the current message
 
-        Returns
-        -------
+        Returns:
 
-        A text that shows the various attributes of the current message
+            A text that shows the various attributes of the current message
 
-        Examples
-        --------
+        Examples:
 
-        >>> pcan_message = TPCANMsg()
-        >>> pcan_message.ID = Identifier(block=0, block_command=1,
-        ...                             request=True, error=False,
-        ...                             sender=1, receiver=14).value
-        >>> pcan_message.DATA[0] = 0xfe
-        >>> pcan_message.DATA[1] = 0xfe
-        >>> pcan_message.LEN = 2
-        >>> Message(pcan_message) # doctest:+NORMALIZE_WHITESPACE
-        0b00000000000000110000001001110 2 0xfe 0xfe
-        # [STH 1 → STH 14, Block: System, Command: Reset, Request]
+            Retrieve the textual representation of various example messages
 
-        >>> from re import search
-        >>> representation = repr(
-        ...     Message(block='Streaming',
-        ...             block_command='Data',
-        ...             sender='SPU 1',
-        ...             receiver='STH 1',
-        ...             request=True))
-        >>> search('# (.*)', representation)[1]
-        '[SPU 1 → STH 1, Block: Streaming, Command: Data, Request]'
+            >>> pcan_message = TPCANMsg()
+            >>> pcan_message.ID = Identifier(block=0, block_command=1,
+            ...                             request=True, error=False,
+            ...                             sender=1, receiver=14).value
+            >>> pcan_message.DATA[0] = 0xfe
+            >>> pcan_message.DATA[1] = 0xfe
+            >>> pcan_message.LEN = 2
+            >>> Message(pcan_message) # doctest:+NORMALIZE_WHITESPACE
+            0b00000000000000110000001001110 2 0xfe 0xfe
+            # [STH 1 → STH 14, Block: System, Command: Reset, Request]
 
-        >>> representation = repr(
-        ...     Message(block='System',
-        ...             block_command='Bluetooth',
-        ...             sender='SPU 1',
-        ...             receiver='STU 1',
-        ...             request=True,
-        ...             data=[1] + [0]*7))
-        >>> search('# (.*)', representation)[1] # doctest:+NORMALIZE_WHITESPACE
-        '[SPU 1 → STU 1, Block: System, Command: Bluetooth, Request]
-         (Request Bluetooth activation)'
+            >>> from re import search
+            >>> representation = repr(
+            ...     Message(block='Streaming',
+            ...             block_command='Data',
+            ...             sender='SPU 1',
+            ...             receiver='STH 1',
+            ...             request=True))
+            >>> search('# (.*)', representation)[1]
+            '[SPU 1 → STH 1, Block: Streaming, Command: Data, Request]'
 
-        >>> representation = repr(
-        ...     Message(block='System',
-        ...             block_command='Get/Set State',
-        ...             sender='SPU 2',
-        ...             receiver='STU 1',
-        ...             request=True,
-        ...             data=[0b10_0_101]))
-        >>> search('# (.*)', representation)[1] # doctest:+NORMALIZE_WHITESPACE
-        '[SPU 2 → STU 1, Block: System, Command: Get/Set State, Request]
-         (Get State, Location: Application, State: Operating)'
+            >>> representation = repr(
+            ...     Message(block='System',
+            ...             block_command='Bluetooth',
+            ...             sender='SPU 1',
+            ...             receiver='STU 1',
+            ...             request=True,
+            ...             data=[1] + [0]*7))
+            >>> match = search('# (.*)', representation)[1]
+            >>> match # doctest:+NORMALIZE_WHITESPACE
+            '[SPU 1 → STU 1, Block: System, Command: Bluetooth, Request]
+             (Request Bluetooth activation)'
+
+            >>> representation = repr(
+            ...     Message(block='System',
+            ...             block_command='Get/Set State',
+            ...             sender='SPU 2',
+            ...             receiver='STU 1',
+            ...             request=True,
+            ...             data=[0b10_0_101]))
+            >>> match = search('# (.*)', representation)[1]
+            >>> match # doctest:+NORMALIZE_WHITESPACE
+            '[SPU 2 → STU 1, Block: System, Command: Get/Set State, Request]
+             (Get State, Location: Application, State: Operating)'
 
         """
 
@@ -543,27 +550,24 @@ class Message:
         of the acknowledgment message will be the same as in the original
         message.
 
-        Parameters
-        ----------
+        Args:
 
-        error:
-            Specifies if the acknowledgment message is an error acknowledgment
-            or not
+            error:
+                Specifies if the acknowledgment message is an error
+                acknowledgment or not
 
-        Returns
-        -------
+        Returns:
 
-        An acknowledgment message for the current message
+            An acknowledgment message for the current message
 
-        Example
-        -------
+        Examples:
 
-        >>> identifier = Identifier(block=0, block_command=1, sender=5,
-        ...                         receiver=10)
-        >>> message = Message(identifier=identifier, data=[0xaa])
-        >>> message.acknowledge() # doctest:+NORMALIZE_WHITESPACE
-        0b00000000000000100001010000101 1 0xaa
-        # [STH 10 → STH 5, Block: System, Command: Reset, Acknowledge]
+            >>> identifier = Identifier(block=0, block_command=1, sender=5,
+            ...                         receiver=10)
+            >>> message = Message(identifier=identifier, data=[0xaa])
+            >>> message.acknowledge() # doctest:+NORMALIZE_WHITESPACE
+            0b00000000000000100001010000101 1 0xaa
+            # [STH 10 → STH 5, Block: System, Command: Reset, Acknowledge]
 
         """
 
@@ -576,18 +580,17 @@ class Message:
     def id(self) -> int:
         """Retrieve the ID of the message
 
-        Returns
-        -------
+        Returns:
 
-        The 29 bit CAN identifier of the message
+            The 29 bit CAN identifier of the message
 
+        Examples:
 
-        Example
-        -------
+            Check the identifier of an example message
 
-        >>> Message(block='Configuration').id(
-        ...        ) == 0b0_1010_000000000000000000000000
-        True
+            >>> Message(block='Configuration').id(
+            ...        ) == 0b0_1010_000000000000000000000000
+            True
 
         """
 
@@ -596,17 +599,17 @@ class Message:
     def identifier(self) -> Identifier:
         """Retrieve an identifier object for the ID of the message
 
-        Returns
-        -------
+        Returns:
 
-        An identifier object representing the ID of the message
+            An identifier object representing the ID of the message
 
-        Example
-        -------
+        Examples:
 
-        >>> Message(block='System', block_command='Reset', request=True,
-        ...         sender='SPU 1', receiver='STH 2').identifier()
-        [SPU 1 → STH 2, Block: System, Command: Reset, Request]
+            Get the textual representation of an example message
+
+            >>> Message(block='System', block_command='Reset', request=True,
+            ...         sender='SPU 1', receiver='STH 2').identifier()
+            [SPU 1 → STH 2, Block: System, Command: Reset, Request]
 
         """
 
@@ -615,22 +618,22 @@ class Message:
     def to_python_can(self) -> CANMessage:
         """Retrieve a python-can message object for this message
 
-        Returns
-        -------
+        Returns:
 
-        A message object of the python-can API
+            A message object of the python-can API
 
-        Example
-        -------
+        Examples:
 
-        >>> message = Message(block='EEPROM', sender='SPU 1', data=[1,2,3])
-        >>> can_message = message.to_python_can()
-        >>> can_message # doctest:+NORMALIZE_WHITESPACE
-        can.Message(timestamp=0.0, arbitration_id=0xf4003c0,
-                    is_extended_id=True, dlc=3, data=[0x1, 0x2, 0x3])
+            Check the python-can message representation of an example message
 
-        >>> message.id() == can_message.arbitration_id
-        True
+            >>> message = Message(block='EEPROM', sender='SPU 1', data=[1,2,3])
+            >>> can_message = message.to_python_can()
+            >>> can_message # doctest:+NORMALIZE_WHITESPACE
+            can.Message(timestamp=0.0, arbitration_id=0xf4003c0,
+                        is_extended_id=True, dlc=3, data=[0x1, 0x2, 0x3])
+
+            >>> message.id() == can_message.arbitration_id
+            True
 
         """
 
@@ -639,18 +642,18 @@ class Message:
     def to_pcan(self) -> TPCANMsg:
         """Retrieve a PCAN message object for this message
 
-        Returns
-        -------
+        Returns:
 
-        A message object of the PCAN Basic API
+            A message object of the PCAN Basic API
 
-        Example
-        -------
+        Examples:
 
-        >>> message = Message(block='System', block_command='Bluetooth')
-        >>> pcan_message = message.to_pcan()
-        >>> message.id() == pcan_message.ID
-        True
+            Check the PCAN message representation of an example message
+
+            >>> message = Message(block='System', block_command='Bluetooth')
+            >>> pcan_message = message.to_pcan()
+            >>> message.id() == pcan_message.ID
+            True
 
         """
 
