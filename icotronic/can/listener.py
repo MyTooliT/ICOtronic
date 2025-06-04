@@ -1,7 +1,5 @@
 """Listeners used to react to different messages from the CAN bus"""
 
-# pylint: disable=too-many-lines, duplicate-code
-
 # -- Imports ------------------------------------------------------------------
 
 from __future__ import annotations
