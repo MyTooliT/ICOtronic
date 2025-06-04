@@ -22,24 +22,21 @@ from icotronic.config import settings
 
 
 class Connection:
-    """Basic class to initialize CAN communication"""
+    """Basic class to initialize CAN communication
 
-    def __init__(self) -> None:
-        """Initialize the CAN connection
+    To actually connect to the CAN bus you need to use the async context
+    manager, provided by this class. If you want to manage the connection
+    yourself, please just use ``__aenter__`` and ``__aexit__`` manually.
 
-        To actually connect to the CAN bus you need to use the async context
-        manager, provided by this class. If you want to manage the connection
-        yourself, please just use `__aenter__` and `__aexit__` manually.
-
-        Examples
-        --------
+    Examples:
 
         Create a new connection (without connecting to the CAN bus)
 
         >>> connection = Connection()
 
-        """
+    """
 
+    def __init__(self) -> None:
         self.configuration = (
             settings.can.linux
             if platform == "linux"
@@ -55,36 +52,34 @@ class Connection:
     async def __aenter__(self) -> STU:
         """Connect to the STU
 
-        Returns
-        -------
+        Returns:
 
-        An object that can be used to communicate with the STU
+            An object that can be used to communicate with the STU
 
-        Raises
-        ------
+        Raises:
 
-        CANInitError
-            if the CAN initialization fails
+            CANInitError: if the CAN initialization fails
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
+            Import required library code
 
-        Use a context manager to handle the cleanup process automatically
+            >>> from asyncio import run
 
-        >>> async def connect_can_context():
-        ...     async with Connection() as stu:
-        ...         pass
-        >>> run(connect_can_context())
+            Use a context manager to handle the cleanup process automatically
 
-        Create and shutdown the connection explicitly
+            >>> async def connect_can_context():
+            ...     async with Connection() as stu:
+            ...         pass
+            >>> run(connect_can_context())
 
-        >>> async def connect_can_manual():
-        ...     connection = Connection()
-        ...     connected = await connection.__aenter__()
-        ...     await connection.__aexit__(None, None, None)
-        >>> run(connect_can_manual())
+            Create and shutdown the connection explicitly
+
+            >>> async def connect_can_manual():
+            ...     connection = Connection()
+            ...     connected = await connection.__aenter__()
+            ...     await connection.__aexit__(None, None, None)
+            >>> run(connect_can_manual())
 
         """
 
@@ -124,17 +119,16 @@ class Connection:
     ) -> None:
         """Disconnect CAN connection and clean up resources
 
-        Parameters
-        ----------
+        Args:
 
-        exception_type:
-            The type of the exception in case of an exception
+            exception_type:
+                The type of the exception in case of an exception
 
-        exception_value:
-            The value of the exception in case of an exception
+            exception_value:
+                The value of the exception in case of an exception
 
-        traceback:
-            The traceback in case of an exception
+            traceback:
+                The traceback in case of an exception
 
         """
 

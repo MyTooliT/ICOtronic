@@ -17,6 +17,7 @@ class CalibrationMeasurementFormat:
     """This class stores message data for the calibration measurement command
 
     See also:
+
     https://mytoolit.github.io/Documentation/#command-calibration-measurement
 
     """
@@ -52,22 +53,21 @@ class CalibrationMeasurementFormat:
         - overwrite specific parts of the given message bytes or
         - create a calibration format without specifying the message bytes.
 
-        Parameters
-        ----------
+        Args:
 
-        data:
-            A list containing the (first four) bytes of the calibration
-            measurement format
+            data:
+                A list containing the (first four) bytes of the calibration
+                measurement format
 
-        set:
-            Specifies if we want to set or retrieve (get) calibration
-            measurement data. If you set this value to false (get), then
-            the value of `method` will be ignored
+            set:
+                Specifies if we want to set or retrieve (get) calibration
+                measurement data. If you set this value to false (get), then
+                the value of `method` will be ignored
 
-        element:
-            Specifies the element that should be measured
+            element:
+                Specifies the element that should be measured
 
-            Possible values:
+                Possible values:
 
                 - Data
                 - Temperature
@@ -77,15 +77,16 @@ class CalibrationMeasurementFormat:
                 - Internal
                 - OPV
 
-        method:
-            Specifies the calibration method (Activate, Deactivate or Measure)
+            method:
+                Specifies the calibration method (Activate, Deactivate or
+                Measure)
 
-        dimension:
-            Specifies the measurement dimension respectively the axis
-            (1, 2 or 3)
+            dimension:
+                Specifies the measurement dimension respectively the axis
+                (1, 2 or 3)
 
-        reference_voltage:
-            The reference voltage in Volt
+            reference_voltage:
+                The reference voltage in Volt
 
         """
 
@@ -133,23 +134,23 @@ class CalibrationMeasurementFormat:
         """
         Retrieve the textual representation of the calibration format
 
-        Returns
-        -------
+        Returns:
 
-        A string that describes the calibration measurement format
+            A string that describes the calibration measurement format
 
-        Examples
-        --------
+        Examples:
 
-        >>> CalibrationMeasurementFormat(set=False, element='Data')
-        Get, Data, Dimension: 1, Reference Voltage: 0.0 V
+            Get textual representation of calibration measurement formats
 
-        >>> CalibrationMeasurementFormat(set=True, method='Measure',
-        ...     element='Temperature', dimension=2, reference_voltage=3.3)
-        Set, Measure, Temperature, Dimension: 2, Reference Voltage: 3.3 V
+            >>> CalibrationMeasurementFormat(set=False, element='Data')
+            Get, Data, Dimension: 1, Reference Voltage: 0.0 V
 
-        >>> CalibrationMeasurementFormat([10, 20, 30, 40])
-        Get, Unknown Element, Dimension: 30, Reference Voltage: 2.0 V
+            >>> CalibrationMeasurementFormat(set=True, method='Measure',
+            ...     element='Temperature', dimension=2, reference_voltage=3.3)
+            Set, Measure, Temperature, Dimension: 2, Reference Voltage: 3.3 V
+
+            >>> CalibrationMeasurementFormat([10, 20, 30, 40])
+            Get, Unknown Element, Dimension: 30, Reference Voltage: 2.0 V
 
         """
 

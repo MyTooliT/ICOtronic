@@ -74,8 +74,7 @@ class Commander:
         without its path prefix, if you installed it somewhere in the
         locations specified below `COMMANDS` → `PATH` in the configuration.
 
-        Example
-        -------
+        Examples:
 
         >>> commander = Commander(
         ...     serial_number=settings.sth.programming_board.serial_number,
@@ -107,8 +106,7 @@ class Commander:
     ) -> str:
         """Run a Simplicity Commander command
 
-        Parameters
-        ----------
+        Args:
 
         command:
             The Simplicity Commander subcommand including all necessary
@@ -126,8 +124,7 @@ class Commander:
             An optional regular expression that has to match part of the
             standard output of the command
 
-        Raises
-        ------
+        Raises:
 
         CommanderException
 
@@ -136,8 +133,7 @@ class Commander:
             - if the standard output did not match the optional regular
               expression specified in `regex_output`
 
-        Returns
-        -------
+        Returns:
 
         The standard output of the command
 
@@ -213,8 +209,7 @@ class Commander:
     def enable_debug_mode(self) -> None:
         """Enable debug mode for external device
 
-        Example
-        -------
+        Examples:
 
         Enable debug mode of STH programming board
 
@@ -257,8 +252,7 @@ class Commander:
     def upload_flash(self, filepath: Union[str, Path]) -> None:
         """Upload code into the flash memory of the device
 
-        Parameters
-        ----------
+        Args:
 
         filepath:
             The filepath of the flash image
@@ -282,19 +276,16 @@ class Commander:
     def read_power_usage(self, milliseconds: float = 1000) -> float:
         """Read the power usage of the connected hardware
 
-        Parameters
-        ----------
+        Args:
 
         milliseconds:
             The amount of time the power usage should be measured for
 
-        Returns
-        -------
+        Returns:
 
         The measured power usage in milliwatts
 
-        Example
-        -------
+        Examples:
 
         Measure power usage of connected STH
 

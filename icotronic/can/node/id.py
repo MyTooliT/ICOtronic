@@ -14,22 +14,17 @@ from typing import Union
 
 
 class NodeId:
-    """This class represents a CAN node of the ICOtronic system"""
+    """This class represents a CAN node of the ICOtronic system
 
-    def __init__(self, node: Union[int, str, NodeId] = 0) -> None:
-        """Create a new node from the given argument
+    A node represents a communication participant, such as a specific STH
+    or a specific STU in the ICOtronic system.
 
-        A node represents a communication participant, such as a specific STH
-        or a specific STU in the ICOtronic system.
-
-        Parameters
-        ----------
+    Args:
 
         node:
             The number that identifies this node
 
-        Examples
-        --------
+    Examples:
 
         Create node with default value
 
@@ -47,7 +42,7 @@ class NodeId:
         >>> NodeId('SPU 1').value
         15
 
-        Check that we can not use incorrect numbers to initialize a node
+        Using incorrect numbers to initialize a node will fail
 
         >>> NodeId('STU 15')
         Traceback (most recent call last):
@@ -59,7 +54,9 @@ class NodeId:
         >>> NodeId(NodeId('STH 2'))
         STH 2
 
-        """
+    """
+
+    def __init__(self, node: Union[int, str, NodeId] = 0) -> None:
 
         if isinstance(node, str):
             # Check for broadcast pseudo nodes
@@ -103,28 +100,28 @@ class NodeId:
     def __repr__(self) -> str:
         """Return the string representation of the current node
 
-        Returns
-        -------
+        Returns:
 
-        A string that describes the node
+            A string that describes the node
 
-        Examples
-        --------
+        Examples:
 
-        >>> NodeId(0)
-        Broadcast With Acknowledgment
+            Get the string representation of some example node ids
 
-        >>> NodeId(31)
-        Broadcast Without Acknowledgment
+            >>> NodeId(0)
+            Broadcast With Acknowledgment
 
-        >>> NodeId(10)
-        STH 10
+            >>> NodeId(31)
+            Broadcast Without Acknowledgment
 
-        >>> NodeId(15)
-        SPU 1
+            >>> NodeId(10)
+            STH 10
 
-        >>> NodeId(18)
-        STU 2
+            >>> NodeId(15)
+            SPU 1
+
+            >>> NodeId(18)
+            STU 2
 
         """
 
@@ -144,22 +141,22 @@ class NodeId:
     def is_sth(self) -> bool:
         """Check if this node is an STH or not
 
-        Returns
-        -------
+        Returns:
 
-        `True` if this node is an STH or `False` otherwise
+            ``True`` if this node is an STH or ``False`` otherwise
 
-        Examples
-        --------
+        Examples:
 
-        >>> NodeId('STH 1').is_sth()
-        True
+            Check for some example node ids if they represent an STH or not
 
-        >>> NodeId('STU 12').is_sth()
-        False
+            >>> NodeId('STH 1').is_sth()
+            True
 
-        >>> NodeId('STH 12').is_sth()
-        True
+            >>> NodeId('STU 12').is_sth()
+            False
+
+            >>> NodeId('STH 12').is_sth()
+            True
 
         """
 
@@ -168,22 +165,22 @@ class NodeId:
     def is_stu(self) -> bool:
         """Check if this node is an STU or not
 
-        Returns
-        -------
+        Returns:
 
-        `True` if this node is an STU or `False` otherwise
+            ``True`` if this node is an STU or ``False`` otherwise
 
-        Examples
-        --------
+        Examples:
 
-        >>> NodeId('STH 7').is_stu()
-        False
+            Check for some example node ids if they represent an STU or not
 
-        >>> NodeId('STU 14').is_stu()
-        True
+            >>> NodeId('STH 7').is_stu()
+            False
 
-        >>> NodeId('SPU 1').is_stu()
-        False
+            >>> NodeId('STU 14').is_stu()
+            True
+
+            >>> NodeId('SPU 1').is_stu()
+            False
 
         """
 

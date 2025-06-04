@@ -19,8 +19,7 @@ class PDFImage(Flowable):
     def __init__(self, filepath, width=200, height=200):
         """Initialize the flowable
 
-        Parameters
-        ----------
+        Args:
 
         filepath:
             A path to the PDF object this object represents
@@ -44,16 +43,14 @@ class PDFImage(Flowable):
     def wrap(self, availWidth, availHeight):
         """Wrap the PDF object according to the given dimensions
 
-        Parameters
-        ----------
+        Args:
 
         availWidth:
             The width of the wrapped PDF object
         availHeight:
             The height of the wrapped PDF object
 
-        Returns
-        -------
+        Returns:
 
         The dimensions of the wrapped object
         """
@@ -64,8 +61,7 @@ class PDFImage(Flowable):
     def drawOn(self, canvas, x, y, _=0):
         """Draw the PDF object on the given canvas
 
-        Parameters
-        ----------
+        Args:
 
         canvas:
             The canvas where the flowable should be placed

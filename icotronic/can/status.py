@@ -43,8 +43,7 @@ class State:
     ) -> None:
         """Initialize the node status word using the given arguments
 
-        Parameters
-        -----------
+        Args:-
 
         value:
             The value of the state byte
@@ -58,8 +57,7 @@ class State:
         state:
             A string or number that specifies the network state
 
-        Examples
-        --------
+        Examples:
 
         >>> State(mode='Get', location='Bootloader', state='Operating')
         Get State, Location: Bootloader, State: Operating
@@ -124,22 +122,19 @@ class State:
     def __eq__(self, other: object) -> bool:
         """Compare this state to another object
 
-        Parameters
-        ----------
+        Args:
 
         other:
             The other object this state should be compared to
 
-        Returns
-        -------
+        Returns:
 
         - True, if the given object is a state and it has the same
           value as this state
 
         - False, otherwise
 
-        Examples
-        --------
+        Examples:
 
         >>> state1 = State(mode='Get',
         ...                location='Bootloader',
@@ -167,8 +162,7 @@ class State:
         If this method returns `False`, then the state should be retrieved
         (get) instead.
 
-        Examples
-        --------
+        Examples:
 
         >>> State(0b1_0000000).is_set()
         True
@@ -186,13 +180,11 @@ class State:
     def location_name(self) -> str:
         """Retrieve the name of the current (code) location
 
-        Returns
-        -------
+        Returns:
 
         The name of the node state represented by this state object
 
-        Examples
-        --------
+        Examples:
 
         >>> State(0b00_1010).location_name()
         'No Change'
@@ -211,13 +203,11 @@ class State:
     def state_name(self) -> str:
         """Retrieve the name of the network state
 
-        Returns
-        -------
+        Returns:
 
         The name of the network state represented by this state object
 
-        Examples
-        --------
+        Examples:
 
         >>> State(0b000).state_name()
         'Failure'
@@ -236,13 +226,11 @@ class State:
     def __repr__(self) -> str:
         """Retrieve the textual representation of the state
 
-        Returns
-        -------
+        Returns:
 
         A string that describes the attributes of the state
 
-        Examples
-        --------
+        Examples:
 
         >>> State(0b1_0_01_0_110)
         Set State, Location: Bootloader, State: Startup
@@ -271,8 +259,7 @@ class NodeStatus:
     def __init__(self, value: Union[List[int], int]) -> None:
         """Initialize the node status word using the given arguments
 
-        Parameters
-        ----------
+        Args:
 
         value:
             A 32 bit integer or list of bytes that specifies the value of the
@@ -287,13 +274,11 @@ class NodeStatus:
     def __repr__(self) -> str:
         """Retrieve the textual representation of the node status word
 
-        Returns
-        -------
+        Returns:
 
         A string that describes the attributes of the node status word
 
-        Examples
-        --------
+        Examples:
 
         >>> NodeStatus(0b1010)
         State: Operating, No Error
@@ -316,13 +301,11 @@ class NodeStatus:
     def error(self) -> bool:
         """Retrieve the status of the error bit
 
-        Returns
-        -------
+        Returns:
 
         True if the error bit was set or False otherwise
 
-        Examples
-        --------
+        Examples:
 
         >>> NodeStatus(0b0).error()
         False
@@ -337,13 +320,11 @@ class NodeStatus:
     def state_name(self) -> str:
         """Get the name of the state represented by the node status word
 
-        Returns
-        -------
+        Returns:
 
         A textual representation of the current node state
 
-        Examples
-        --------
+        Examples:
 
         >>> NodeStatus(0b1010).state_name()
         'Operating'
@@ -368,13 +349,11 @@ class NodeStatusSTU(NodeStatus):
     def __repr__(self) -> str:
         """Retrieve the textual representation of the node status word
 
-        Returns
-        -------
+        Returns:
 
         A string that describes the attributes of the node status word
 
-        Example
-        -------
+        Examples:
 
         >>> NodeStatusSTU(0b1101010) # doctest:+NORMALIZE_WHITESPACE
         State: Operating, No Error, Radio Port Disabled,
@@ -412,8 +391,7 @@ class ErrorStatus:
     def __init__(self, value: Union[List[int], int]) -> None:
         """Initialize the error status word using the given arguments
 
-        Parameters
-        ----------
+        Args:
 
         value:
             A 32 bit integer or list of bytes that specifies the value of the
@@ -428,13 +406,11 @@ class ErrorStatus:
     def transmission_error(self) -> bool:
         """Retrieve the status of the transmission error bit
 
-        Returns
-        -------
+        Returns:
 
         True if the error bit was set or False otherwise
 
-        Examples
-        --------
+        Examples:
 
         >>> ErrorStatus(0b0).transmission_error()
         False
@@ -456,13 +432,11 @@ class ErrorStatusSTH(ErrorStatus):
     def __repr__(self) -> str:
         """Retrieve the textual representation of the error status word
 
-        Returns
-        -------
+        Returns:
 
         A string that describes the attributes of the error status word
 
-        Examples
-        --------
+        Examples:
 
         >>> ErrorStatusSTH(0b0)
         No Error
@@ -491,13 +465,11 @@ class ErrorStatusSTH(ErrorStatus):
     def adc_overrun(self) -> bool:
         """Retrieve the status of the ADC overrun bit
 
-        Returns
-        -------
+        Returns:
 
         True if the ADC overrun error bit is set or False otherwise
 
-        Examples
-        --------
+        Examples:
 
         >>> ErrorStatusSTH(0b10).adc_overrun()
         True
@@ -519,13 +491,11 @@ class ErrorStatusSTU(ErrorStatus):
     def __repr__(self) -> str:
         """Retrieve the textual representation of the error status word
 
-        Returns
-        -------
+        Returns:
 
         A string that describes the attributes of the error status word
 
-        Examples
-        --------
+        Examples:
 
         >>> ErrorStatusSTU(0b0)
         No Error

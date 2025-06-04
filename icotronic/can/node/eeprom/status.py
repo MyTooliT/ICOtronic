@@ -10,19 +10,16 @@ from typing import Union
 
 
 class EEPROMStatus:
-    """This class represents an EEPROM status byte"""
+    """This class represents an EEPROM status byte
 
-    def __init__(self, status: Union[int, str, EEPROMStatus]) -> None:
-        """Create a new status byte from the given argument
-
-        Parameters
-        ----------
+    Args:
 
         status:
             The value of the status byte
 
-        Examples
-        --------
+    Examples:
+
+        Create some EEPROM status objects from scratch
 
         >>> EEPROMStatus(0xca)
         Locked (0xca)
@@ -42,12 +39,16 @@ class EEPROMStatus:
         >>> EEPROMStatus(EEPROMStatus('Locked'))
         Locked (0xca)
 
+        Initializing the EEPROM status with an incorrect value will fail
+
         >>> EEPROMStatus('Something')
         Traceback (most recent call last):
            ...
         ValueError: Unknown EEPROM status “Something”
 
-        """
+    """
+
+    def __init__(self, status: Union[int, str, EEPROMStatus]) -> None:
 
         if isinstance(status, str):
             if status == "Initialized":
@@ -73,22 +74,22 @@ class EEPROMStatus:
     def __repr__(self) -> str:
         """Return the string representation of the status byte
 
-        Returns
-        -------
+        Returns:
 
-        A string that describes the current value of the status byte
+            A string that describes the current value of the status byte
 
-        Examples
-        --------
+        Examples:
 
-        >>> EEPROMStatus(0xac)
-        Initialized (0xac)
+            Get the string representation of various status bytes
 
-        >>> EEPROMStatus(0x13)
-        Uninitialized (0x13)
+            >>> EEPROMStatus(0xac)
+            Initialized (0xac)
 
-        >>> EEPROMStatus(0xCA)
-        Locked (0xca)
+            >>> EEPROMStatus(0x13)
+            Uninitialized (0x13)
+
+            >>> EEPROMStatus(0xCA)
+            Locked (0xca)
 
         """
 
@@ -105,23 +106,23 @@ class EEPROMStatus:
     def is_locked(self) -> bool:
         """Check if the EEPROM is locked
 
-        Returns
-        -------
+        Returns:
 
-        `True` if the status byte represents a locked EEPROM or `False`
-        otherwise
+            ``True`` if the status byte represents a locked EEPROM or `False`
+            otherwise
 
-        Examples
-        --------
+        Examples:
 
-        >>> EEPROMStatus(0xca).is_locked()
-        True
+            Check the lock status of various EEPROM status bytes
 
-        >>> EEPROMStatus(0xac).is_locked()
-        False
+            >>> EEPROMStatus(0xca).is_locked()
+            True
 
-        >>> EEPROMStatus(0x2).is_locked()
-        False
+            >>> EEPROMStatus(0xac).is_locked()
+            False
+
+            >>> EEPROMStatus(0x2).is_locked()
+            False
 
         """
 
@@ -130,23 +131,23 @@ class EEPROMStatus:
     def is_initialized(self) -> bool:
         """Check if the EEPROM is initialized
 
-        Returns
-        -------
+        Returns:
 
-        `True` if the status byte represents an initialized EEPROM or `False`
-        otherwise
+        ``True`` if the status byte represents an initialized EEPROM or
+        ``False`` otherwise
 
-        Examples
-        --------
+        Examples:
 
-        >>> EEPROMStatus(0xca).is_initialized()
-        False
+            Check the initialization status of some EEPROM status bytes
 
-        >>> EEPROMStatus(0xac).is_initialized()
-        True
+            >>> EEPROMStatus(0xca).is_initialized()
+            False
 
-        >>> EEPROMStatus(0x2).is_initialized()
-        False
+            >>> EEPROMStatus(0xac).is_initialized()
+            True
+
+            >>> EEPROMStatus(0x2).is_initialized()
+            False
 
         """
 

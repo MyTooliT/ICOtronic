@@ -18,27 +18,27 @@ class SensorNodeEEPROM(NodeEEPROM):
     async def read_sleep_time_1(self) -> int:
         """Retrieve sleep time 1 from the EEPROM
 
-        Returns
-        -------
+        Returns:
 
-        The current value of sleep time 1 in milliseconds
+            The current value of sleep time 1 in milliseconds
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read sleep time 1 of the sensor node with node id 0
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_sleep_time_1():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             return await sensor_node.eeprom.read_sleep_time_1()
-        >>> sleep_time = run(read_sleep_time_1())
-        >>> isinstance(sleep_time, int)
-        True
+            Read sleep time 1 of the sensor node with node id 0
+
+            >>> async def read_sleep_time_1():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             return await sensor_node.eeprom.read_sleep_time_1()
+            >>> sleep_time = run(read_sleep_time_1())
+            >>> isinstance(sleep_time, int)
+            True
 
         """
 
@@ -47,29 +47,29 @@ class SensorNodeEEPROM(NodeEEPROM):
     async def write_sleep_time_1(self, milliseconds: int) -> None:
         """Write the value of sleep time 1 to the EEPROM
 
-        Parameters
-        ----------
+        Args:
 
-        milliseconds:
-            The value for sleep time 1 in milliseconds
+            milliseconds:
+                The value for sleep time 1 in milliseconds
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Write and read sleep time 1 of the sensor node with node id 0
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def write_read_sleep_time_1(milliseconds):
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             await sensor_node.eeprom.write_sleep_time_1(
-        ...                 milliseconds)
-        ...             return await sensor_node.eeprom.read_sleep_time_1()
-        >>> run(write_read_sleep_time_1(300_000))
-        300000
+            Write and read sleep time 1 of the sensor node with node id 0
+
+            >>> async def write_read_sleep_time_1(milliseconds):
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             await sensor_node.eeprom.write_sleep_time_1(
+            ...                 milliseconds)
+            ...             return await sensor_node.eeprom.read_sleep_time_1()
+            >>> run(write_read_sleep_time_1(300_000))
+            300000
 
         """
 
@@ -78,30 +78,30 @@ class SensorNodeEEPROM(NodeEEPROM):
     async def read_advertisement_time_1(self) -> float:
         """Retrieve advertisement time 1 from the EEPROM
 
-        Returns
-        -------
+        Returns:
 
-        The current value of advertisement time 1 in milliseconds
+            The current value of advertisement time 1 in milliseconds
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read advertisement time 1 of of the sensor node with node id 0
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_advertisement_time_1():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             return await (
-        ...                 sensor_node.eeprom.read_advertisement_time_1())
-        >>> advertisement_time = run(read_advertisement_time_1())
-        >>> isinstance(advertisement_time, float)
-        True
-        >>> advertisement_time > 0
-        True
+            Read advertisement time 1 of of the sensor node with node id 0
+
+            >>> async def read_advertisement_time_1():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             return await (
+            ...                 sensor_node.eeprom.read_advertisement_time_1())
+            >>> advertisement_time = run(read_advertisement_time_1())
+            >>> isinstance(advertisement_time, float)
+            True
+            >>> advertisement_time > 0
+            True
 
         """
 
@@ -113,30 +113,31 @@ class SensorNodeEEPROM(NodeEEPROM):
     async def write_advertisement_time_1(self, milliseconds: int):
         """Write the value of advertisement time 1 to the EEPROM
 
-        Parameters
-        ----------
+        Args:
 
-        milliseconds:
-            The value for advertisement time 1 in milliseconds
+            milliseconds:
+                The value for advertisement time 1 in milliseconds
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Write and read advertisement time 1 of sensor node with node id 0
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def write_read_advertisement_time_1(milliseconds):
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             await sensor_node.eeprom.write_advertisement_time_1(
-        ...                 milliseconds)
-        ...             return await (
-        ...                 sensor_node.eeprom.read_advertisement_time_1())
-        >>> run(write_read_advertisement_time_1(1250))
-        1250.0
+            Write and read advertisement time 1 of sensor node with node id 0
+
+            >>> async def write_read_advertisement_time_1(milliseconds):
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             await (
+            ...                 sensor_node.eeprom.write_advertisement_time_1(
+            ...                     milliseconds))
+            ...             return await (
+            ...                 sensor_node.eeprom.read_advertisement_time_1())
+            >>> run(write_read_advertisement_time_1(1250))
+            1250.0
 
         """
 
@@ -154,27 +155,27 @@ class SensorNodeEEPROM(NodeEEPROM):
     async def read_sleep_time_2(self) -> int:
         """Retrieve sleep time 2 from the EEPROM
 
-        Returns
-        -------
+        Returns:
 
-        The current value of sleep time 2 in milliseconds
+            The current value of sleep time 2 in milliseconds
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read sleep time 2 of sensor node with node id 0
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_sleep_time_2():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             return await sensor_node.eeprom.read_sleep_time_2()
-        >>> sleep_time = run(read_sleep_time_2())
-        >>> isinstance(sleep_time, int)
-        True
+            Read sleep time 2 of sensor node with node id 0
+
+            >>> async def read_sleep_time_2():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             return await sensor_node.eeprom.read_sleep_time_2()
+            >>> sleep_time = run(read_sleep_time_2())
+            >>> isinstance(sleep_time, int)
+            True
 
         """
 
@@ -183,29 +184,29 @@ class SensorNodeEEPROM(NodeEEPROM):
     async def write_sleep_time_2(self, milliseconds: int) -> None:
         """Write the value of sleep time 2 to the EEPROM
 
-        Parameters
-        ----------
+        Args:
 
-        milliseconds:
-            The value for sleep time 2 in milliseconds
+            milliseconds:
+                The value for sleep time 2 in milliseconds
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Write and read sleep time 2 of sensor node with node id 0
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def write_read_sleep_time_2(milliseconds):
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             await (sensor_node.eeprom.write_sleep_time_2(
-        ...                    milliseconds))
-        ...             return await sensor_node.eeprom.read_sleep_time_2()
-        >>> run(write_read_sleep_time_2(259_200_000))
-        259200000
+            Write and read sleep time 2 of sensor node with node id 0
+
+            >>> async def write_read_sleep_time_2(milliseconds):
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             await (sensor_node.eeprom.write_sleep_time_2(
+            ...                    milliseconds))
+            ...             return await sensor_node.eeprom.read_sleep_time_2()
+            >>> run(write_read_sleep_time_2(259_200_000))
+            259200000
 
         """
 
@@ -216,28 +217,28 @@ class SensorNodeEEPROM(NodeEEPROM):
     async def read_advertisement_time_2(self) -> float:
         """Retrieve advertisement time 2 from the EEPROM
 
-        Returns
-        -------
+        Returns:
 
-        The current value of advertisement time 2 in milliseconds
+            The current value of advertisement time 2 in milliseconds
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read advertisement time 2 of sensor node with node id 0
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_advertisement_time_2():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             return await (
-        ...                 sensor_node.eeprom.read_advertisement_time_2())
-        >>> advertisement_time = run(read_advertisement_time_2())
-        >>> isinstance(advertisement_time, float)
-        True
+            Read advertisement time 2 of sensor node with node id 0
+
+            >>> async def read_advertisement_time_2():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             return await (
+            ...                 sensor_node.eeprom.read_advertisement_time_2())
+            >>> advertisement_time = run(read_advertisement_time_2())
+            >>> isinstance(advertisement_time, float)
+            True
 
         """
 
@@ -250,30 +251,31 @@ class SensorNodeEEPROM(NodeEEPROM):
     async def write_advertisement_time_2(self, milliseconds: int):
         """Write the value of advertisement time 2 to the EEPROM
 
-        Parameters
-        ----------
+        Args:
 
-        milliseconds:
-            The value for advertisement time 2 in milliseconds
+            milliseconds:
+                The value for advertisement time 2 in milliseconds
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Write and read advertisement time 2 of sensor node with node id 0
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def write_read_advertisement_time_2(milliseconds):
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             await sensor_node.eeprom.write_advertisement_time_2(
-        ...                 milliseconds)
-        ...             return await (
-        ...                 sensor_node.eeprom.read_advertisement_time_2())
-        >>> run(write_read_advertisement_time_2(2500))
-        2500.0
+            Write and read advertisement time 2 of sensor node with node id 0
+
+            >>> async def write_read_advertisement_time_2(milliseconds):
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             await (
+            ...                 sensor_node.eeprom.write_advertisement_time_2(
+            ...                 milliseconds))
+            ...             return await (
+            ...                 sensor_node.eeprom.read_advertisement_time_2())
+            >>> run(write_read_advertisement_time_2(2500))
+            2500.0
 
         """
 

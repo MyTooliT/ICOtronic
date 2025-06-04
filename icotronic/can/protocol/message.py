@@ -50,8 +50,7 @@ class Message:
         then the keyword arguments will overwrite the specific parts of the
         provided identifier.
 
-        Parameters
-        ----------
+        Args:
 
         message:
             Either
@@ -65,8 +64,7 @@ class Message:
             An iterable over 8 bit values that stores the payload of the
             message
 
-        Examples
-        --------
+        Examples:
 
         Create a message from a given PCAN message
 
@@ -144,13 +142,11 @@ class Message:
     def data(self) -> bytearray:
         """Retrieve the message data
 
-        Returns
-        -------
+        Returns:
 
         A bytearray containing the data of the message
 
-        Examples
-        --------
+        Examples:
 
         >>> len(Message().data)
         0
@@ -167,14 +163,12 @@ class Message:
     def data(self, data: Union[List[int], bytearray]) -> None:
         """Set the message data to a new value
 
-        Parameters
-        ----------
+        Args:
 
         data:
             The data that should be stored in the message
 
-        Examples
-        --------
+        Examples:
 
         >>> message = Message(data=[1])
         >>> message.data[0] = 42
@@ -203,8 +197,7 @@ class Message:
     def _data_explanation_system(self) -> str:
         """Retrieve a textual representation of system messages
 
-        Returns
-        -------
+        Returns:
 
         A textual description of the data contained in the message
 
@@ -330,8 +323,7 @@ class Message:
     def _data_explanation_streaming(self) -> str:
         """Retrieve a textual representation of streaming messages
 
-        Returns
-        -------
+        Returns:
 
         A textual description of the data contained in the message
 
@@ -392,8 +384,7 @@ class Message:
     def _data_explanation_eeprom(self) -> str:
         """Retrieve a textual representation of EEPROM messages
 
-        Returns
-        -------
+        Returns:
 
         A textual description of the data contained in the message
 
@@ -430,8 +421,7 @@ class Message:
     def _data_explanation(self) -> str:
         """Retrieve a textual representation of the message data
 
-        Returns
-        -------
+        Returns:
 
         A textual description of the data contained in the message
 
@@ -459,13 +449,11 @@ class Message:
     def __repr__(self) -> str:
         """Get a textual representation of the current message
 
-        Returns
-        -------
+        Returns:
 
         A text that shows the various attributes of the current message
 
-        Examples
-        --------
+        Examples:
 
         >>> pcan_message = TPCANMsg()
         >>> pcan_message.ID = Identifier(block=0, block_command=1,
@@ -543,20 +531,17 @@ class Message:
         of the acknowledgment message will be the same as in the original
         message.
 
-        Parameters
-        ----------
+        Args:
 
         error:
             Specifies if the acknowledgment message is an error acknowledgment
             or not
 
-        Returns
-        -------
+        Returns:
 
         An acknowledgment message for the current message
 
-        Example
-        -------
+        Examples:
 
         >>> identifier = Identifier(block=0, block_command=1, sender=5,
         ...                         receiver=10)
@@ -576,14 +561,12 @@ class Message:
     def id(self) -> int:
         """Retrieve the ID of the message
 
-        Returns
-        -------
+        Returns:
 
         The 29 bit CAN identifier of the message
 
 
-        Example
-        -------
+        Examples:
 
         >>> Message(block='Configuration').id(
         ...        ) == 0b0_1010_000000000000000000000000
@@ -596,13 +579,11 @@ class Message:
     def identifier(self) -> Identifier:
         """Retrieve an identifier object for the ID of the message
 
-        Returns
-        -------
+        Returns:
 
         An identifier object representing the ID of the message
 
-        Example
-        -------
+        Examples:
 
         >>> Message(block='System', block_command='Reset', request=True,
         ...         sender='SPU 1', receiver='STH 2').identifier()
@@ -615,13 +596,11 @@ class Message:
     def to_python_can(self) -> CANMessage:
         """Retrieve a python-can message object for this message
 
-        Returns
-        -------
+        Returns:
 
         A message object of the python-can API
 
-        Example
-        -------
+        Examples:
 
         >>> message = Message(block='EEPROM', sender='SPU 1', data=[1,2,3])
         >>> can_message = message.to_python_can()
@@ -639,13 +618,11 @@ class Message:
     def to_pcan(self) -> TPCANMsg:
         """Retrieve a PCAN message object for this message
 
-        Returns
-        -------
+        Returns:
 
         A message object of the PCAN Basic API
 
-        Example
-        -------
+        Examples:
 
         >>> message = Message(block='System', block_command='Bluetooth')
         >>> pcan_message = message.to_pcan()

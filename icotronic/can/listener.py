@@ -20,17 +20,20 @@ from icotronic.utility.log import get_log_file_handler
 class Response(NamedTuple):
     """Used to store a response (message)"""
 
-    message: CANMessage  # The response message
-    is_error: bool  # States if the response was an error or a normal response
-    error_message: str  # Optional explanation for the error reason
+    message: CANMessage
+    """The response message"""
+
+    is_error: bool
+    """States if the response was an error or a normal response"""
+
+    error_message: str
+    """Optional explanation for the error reason"""
 
 
 class Logger(Listener):
     """Log ICOtronic CAN messages in a machine and human readable format"""
 
     def __init__(self):
-        """Initialize the logger"""
-
         self.logger = getLogger("icotronic.can")
         self.logger.propagate = False
         # We use `Logger` in the code below, since the `.logger` attribute
@@ -41,11 +44,10 @@ class Logger(Listener):
     def on_message_received(self, msg: CANMessage) -> None:
         """React to a received message on the bus
 
-        Parameters
-        ----------
+        Args:
 
-        msg:
-            The received CAN message the notifier should react to
+            msg:
+                The received CAN message the notifier should react to
 
         """
 
@@ -54,11 +56,10 @@ class Logger(Listener):
     def on_error(self, exc: Exception) -> None:
         """Handle any exception in the receive thread.
 
-        Parameters
-        ----------
+        Args:
 
-        exc:
-            The exception causing the thread to stop
+            exc:
+                The exception causing the thread to stop
 
         """
 
@@ -69,17 +70,9 @@ class Logger(Listener):
 
 
 class ResponseListener(Listener):
-    """A listener that reacts to messages containing a certain id"""
+    """A listener that reacts to messages containing a certain id
 
-    def __init__(
-        self,
-        message: Message,
-        expected_data: Union[bytearray, Sequence[Optional[int]], None],
-    ) -> None:
-        """Initialize the listener using the given identifier
-
-        Parameters
-        ----------
+    Args:
 
         message:
             The sent message this listener should react to
@@ -87,13 +80,19 @@ class ResponseListener(Listener):
         expected_data:
            This optional field specifies the expected acknowledgment data.
            You can either specify to:
-               - not check the message data (`None`),
-               - check the first bytes by providing a bytearray,
-               - check the first bytes by providing a heterogenous list
-                 of numbers (data byte will be checked for equality) and
-                 `None` (data byte will not be checked).
 
-        """
+           - not check the message data (``None``),
+           - check the first bytes by providing a bytearray,
+           - check the first bytes by providing a heterogenous list
+             of numbers (data byte will be checked for equality) and
+             ``None`` (data byte will not be checked).
+    """
+
+    def __init__(
+        self,
+        message: Message,
+        expected_data: Union[bytearray, Sequence[Optional[int]], None],
+    ) -> None:
 
         self.queue: Queue[Response] = Queue()
         identifier = message.identifier()
@@ -104,11 +103,10 @@ class ResponseListener(Listener):
     def on_message_received(self, msg: CANMessage) -> None:
         """React to a received msg on the bus
 
-        Parameters
-        ----------
+        Args:
 
-        msg:
-            The received CAN message the notifier should react to
+            msg:
+                The received CAN message the notifier should react to
 
         """
 
@@ -149,28 +147,25 @@ class ResponseListener(Listener):
     async def on_message(self) -> Optional[Response]:
         """Return answer messages for the specified message identifier
 
+        Returns:
 
-        Returns
-        -------
+            A response containing
 
-        A response containing
-
-        - the response message for the message with the identifier given at
-          object creation, and
-        - the error status of the response message
+            - the response message for the message with the identifier given at
+              object creation, and
+            - the error status of the response message
 
         """
 
         return await self.queue.get()
 
     def on_error(self, exc: Exception) -> None:
-        """Handle any exception in the receive thread.
+        """Handle any exception in the receive thread
 
-        Parameters
-        ----------
+        Args:
 
-        exc:
-            The exception causing the thread to stop
+            exc:
+                The exception causing the thread to stop
 
         """
 

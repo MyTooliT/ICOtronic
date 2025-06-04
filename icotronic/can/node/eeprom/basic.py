@@ -13,13 +13,9 @@ from icotronic.utility.data import convert_bytes_to_text
 
 
 class EEPROM:
-    """Read and write EEPROM data of ICOtronic nodes"""
+    """Read and write EEPROM data of ICOtronic nodes
 
-    def __init__(self, spu: SPU, node: NodeId) -> None:
-        """Create an EEPROM instance using the given arguments
-
-        Parameters
-        ----------
+    Args:
 
         spu:
             A SPU object used to communicate with the ICOtronic system
@@ -27,51 +23,49 @@ class EEPROM:
         node:
             The node identifier of the node that contains the EEPROM
 
-        """
+    """
+
+    def __init__(self, spu: SPU, node: NodeId) -> None:
 
         self.spu = spu
         self.id = node
 
-    # ===========
-    # = General =
-    # ===========
-
     async def read(self, address: int, offset: int, length: int) -> list[int]:
         """Read EEPROM data
 
-        Parameters
-        ----------
+        Args:
 
-        address:
-            The page number in the EEPROM
+            address:
+                The page number in the EEPROM
 
-        offset:
-            The offset to the base address in the specified page
+            offset:
+                The offset to the base address in the specified page
 
-        length:
-            This value specifies how many bytes you want to read
+            length:
+                This value specifies how many bytes you want to read
 
-        Returns
-        -------
+        Returns:
 
-        A list containing the EEPROM data at the specified location
+            A list containing the EEPROM data at the specified location
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read EEPROM data from STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_eeprom():
-        ...     async with Connection() as stu:
-        ...         return await stu.eeprom.read(address=0, offset=1, length=8)
-        >>> data = run(read_eeprom())
-        >>> len(data)
-        8
-        >>> all((0 <= byte <= 255 for byte in data))
-        True
+            Read EEPROM data from STU 1
+
+            >>> async def read_eeprom():
+            ...     async with Connection() as stu:
+            ...         return await stu.eeprom.read(
+            ...             address=0, offset=1, length=8)
+            >>> data = run(read_eeprom())
+            >>> len(data)
+            8
+            >>> all((0 <= byte <= 255 for byte in data))
+            True
 
         """
 
@@ -106,37 +100,37 @@ class EEPROM:
     async def read_float(self, address: int, offset: int) -> float:
         """Read EEPROM data in float format
 
-        Parameters
-        ----------
+        Args:
 
-        address:
-            The page number in the EEPROM
+            address:
+                The page number in the EEPROM
 
-        offset:
-            The offset to the base address in the specified page
+            offset:
+                The offset to the base address in the specified page
 
-        Returns
-        -------
+        Returns:
 
-        The float number at the specified location of the EEPROM
+            The float number at the specified location of the EEPROM
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.node.sth import STH
+            Import required library code
 
-        Read slope of acceleration for x-axis of STH 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
+            >>> from icotronic.can.node.sth import STH
 
-        >>> async def read_slope():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0, STH) as sth:
-        ...             return await sth.eeprom.read_float(address=8, offset=0)
-        >>> slope = run(read_slope())
-        >>> isinstance(slope, float)
-        True
+            Read slope of acceleration for x-axis of STH 1
+
+            >>> async def read_slope():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0, STH) as sth:
+            ...             return await sth.eeprom.read_float(
+            ...                 address=8, offset=0)
+            >>> slope = run(read_slope())
+            >>> isinstance(slope, float)
+            True
 
         """
 
@@ -152,42 +146,41 @@ class EEPROM:
     ) -> int:
         """Read an integer value from the EEPROM
 
-        Parameters
-        ----------
+        Args:
 
-        address:
-            The page number in the EEPROM
+            address:
+                The page number in the EEPROM
 
-        offset:
-            The offset to the base address in the specified page
+            offset:
+                The offset to the base address in the specified page
 
-        length:
-            This value specifies how long the number is in bytes
+            length:
+                This value specifies how long the number is in bytes
 
-        signed:
-            Specifies if `value` is a signed number (`True`) or an
-            unsigned number (`False`)
+            signed:
+                Specifies if `value` is a signed number (`True`) or an
+                unsigned number (`False`)
 
-        Returns
-        -------
+        Returns:
 
-        The number at the specified location of the EEPROM
+            The number at the specified location of the EEPROM
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read the operating time (in seconds) of STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_operating_time():
-        ...     async with Connection() as stu:
-        ...         return await stu.eeprom.read_int(address=5, offset=8,
-        ...                                          length=4)
-        >>> operating_time = run(read_operating_time())
-        >>> operating_time >= 0
-        True
+            Read the operating time (in seconds) of STU 1
+
+            >>> async def read_operating_time():
+            ...     async with Connection() as stu:
+            ...         return await stu.eeprom.read_int(address=5, offset=8,
+            ...                                          length=4)
+            >>> operating_time = run(read_operating_time())
+            >>> operating_time >= 0
+            True
 
         """
 
@@ -203,40 +196,39 @@ class EEPROM:
         Please note, that this function will only return the characters up
         to the first null byte.
 
-        Parameters
-        ----------
+        Args:
 
-        address:
-            The page number in the EEPROM
+            address:
+                The page number in the EEPROM
 
-        offset:
-            The offset to the base address in the specified page
+            offset:
+                The offset to the base address in the specified page
 
-        length:
-            This value specifies how many characters you want to read
+            length:
+                This value specifies how many characters you want to read
 
-        Returns
-        -------
+        Returns:
 
-        A string that contains the text at the specified location
+            A string that contains the text at the specified location
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read name of STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_name_eeprom():
-        ...     async with Connection() as stu:
-        ...         return await stu.eeprom.read_text(address=0, offset=1,
-        ...                                           length=8)
-        >>> name = run(read_name_eeprom())
-        >>> 0 <= len(name) <= 8
-        True
-        >>> isinstance(name, str)
-        True
+            Read name of STU 1
+
+            >>> async def read_name_eeprom():
+            ...     async with Connection() as stu:
+            ...         return await stu.eeprom.read_text(address=0, offset=1,
+            ...                                           length=8)
+            >>> name = run(read_name_eeprom())
+            >>> 0 <= len(name) <= 8
+            True
+            >>> isinstance(name, str)
+            True
 
         """
 
@@ -252,42 +244,43 @@ class EEPROM:
     ) -> None:
         """Write EEPROM data at the specified address
 
-        Parameters
-        ----------
+        Args:
 
-        address:
-            The page number in the EEPROM
+            address:
+                The page number in the EEPROM
 
-        offset:
-            The offset to the base address in the specified page
+            offset:
+                The offset to the base address in the specified page
 
-        data:
-            A list of byte value that should be stored at the specified EEPROM
-            location
+            data:
+                A list of byte value that should be stored at the specified
+                EEPROM location
 
-        length:
-            This optional parameter specifies how many of the bytes in `data`
-            should be stored in the EEPROM. If you specify a length that is
-            greater, than the size of the data list, then the remainder of
-            the EEPROM data will be filled with null bytes.
+            length:
+                This optional parameter specifies how many of the bytes in
+                ``data`` should be stored in the EEPROM. If you specify a
+                length that is greater, than the size of the data list, then
+                the remainder of the EEPROM data will be filled with null
+                bytes.
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Write data to and read (same) data from EEPROM of STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def write_and_read_eeprom(data):
-        ...     async with Connection() as stu:
-        ...         await stu.eeprom.write(address=10, offset=3, data=data)
-        ...         return await stu.eeprom.read(address=10, offset=3,
-        ...                                      length=len(data))
-        >>> data = [1, 3, 3, 7]
-        >>> read_data = run(write_and_read_eeprom(data))
-        >>> data == read_data
-        True
+            Write data to and read (same) data from EEPROM of STU 1
+
+            >>> async def write_and_read_eeprom(data):
+            ...     async with Connection() as stu:
+            ...         await stu.eeprom.write(address=10, offset=3, data=data)
+            ...         return await stu.eeprom.read(address=10, offset=3,
+            ...                                      length=len(data))
+            >>> data = [1, 3, 3, 7]
+            >>> read_data = run(write_and_read_eeprom(data))
+            >>> data == read_data
+            True
 
         """
 
@@ -334,35 +327,36 @@ class EEPROM:
     ) -> None:
         """Write a float value at the specified EEPROM address
 
-        Parameters
-        ----------
+        Args:
 
-        address:
-            The page number in the EEPROM
+            address:
+                The page number in the EEPROM
 
-        offset:
-            The offset to the base address in the specified page
+            offset:
+                The offset to the base address in the specified page
 
-        value:
-            The float value that should be stored at the specified location
+            value:
+                The float value that should be stored at the specified location
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Write float value to and read (same) float value from EEPROM of STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def write_and_read_float(value):
-        ...     async with Connection() as stu:
-        ...         await stu.eeprom.write_float(address=10, offset=0,
-        ...                                      value=value)
-        ...         return await stu.eeprom.read_float(address=10, offset=0)
-        >>> value = 42.5
-        >>> read_value = run(write_and_read_float(value))
-        >>> value == read_value
-        True
+            Write float value to and read (same) value from EEPROM of STU 1
+
+            >>> async def write_and_read_float(value):
+            ...     async with Connection() as stu:
+            ...         await stu.eeprom.write_float(address=10, offset=0,
+            ...                                      value=value)
+            ...         return await stu.eeprom.read_float(
+            ...             address=10, offset=0)
+            >>> value = 42.5
+            >>> read_value = run(write_and_read_float(value))
+            >>> value == read_value
+            True
 
         """
 
@@ -381,43 +375,43 @@ class EEPROM:
     ) -> None:
         """Write an integer number at the specified EEPROM address
 
-        Parameters
-        ----------
+        Args:
 
-        address:
-            The page number in the EEPROM
+            address:
+                The page number in the EEPROM
 
-        offset:
-            The offset to the base address in the specified page
+            offset:
+                The offset to the base address in the specified page
 
-        value:
-            The number that should be stored at the specified location
+            value:
+                The number that should be stored at the specified location
 
-        length:
-            This value specifies how long the number is in bytes
+            length:
+                This value specifies how long the number is in bytes
 
-        signed:
-            Specifies if `value` is a signed number (`True`) or an
-            unsigned number (`False`)
+            signed:
+                Specifies if `value` is a signed number (`True`) or an
+                unsigned number (`False`)
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Write int value to and read (same) int value from EEPROM of STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def write_and_read_int(value):
-        ...     async with Connection() as stu:
-        ...         await stu.eeprom.write_int(address=10, offset=0,
-        ...             value=value, length=8, signed=True)
-        ...         return await stu.eeprom.read_int(address=10, offset=0,
-        ...                 length=8, signed=True)
-        >>> value = -1337
-        >>> read_value = run(write_and_read_int(value))
-        >>> value == read_value
-        True
+            Write int value to and read (same) int value from EEPROM of STU 1
+
+            >>> async def write_and_read_int(value):
+            ...     async with Connection() as stu:
+            ...         await stu.eeprom.write_int(address=10, offset=0,
+            ...             value=value, length=8, signed=True)
+            ...         return await stu.eeprom.read_int(address=10, offset=0,
+            ...                 length=8, signed=True)
+            >>> value = -1337
+            >>> read_value = run(write_and_read_int(value))
+            >>> value == read_value
+            True
 
         """
 
@@ -435,40 +429,44 @@ class EEPROM:
     ) -> None:
         """Write a string at the specified EEPROM address
 
-        Parameters
-        ----------
+        Args:
 
-        address:
-            The page number in the EEPROM
+            address:
+                The page number in the EEPROM
 
-        offset:
-            The offset to the base address in the specified page
+            offset:
+                The offset to the base address in the specified page
 
-        text:
-            An ASCII string that should be written to the specified location
+            text:
+                An ASCII string that should be written to the specified
+                location
 
-        length:
-            This optional parameter specifies how many of the character in
-            `text` should be stored in the EEPROM. If you specify a length
-            that is greater than the size of the data list, then the
-            remainder of the EEPROM data will be filled with null bytes.
+            length:
+                This optional parameter specifies how many of the character in
+                ``text`` should be stored in the EEPROM. If you specify a
+                length that is greater than the size of the data list, then
+                the remainder of the EEPROM data will be filled with null
+                bytes.
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Write text to and read (same) text from EEPROM of STU 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def write_and_read_text(text):
-        ...     async with Connection() as stu:
-        ...         await stu.eeprom.write_text(address=10, offset=11,
-        ...                                     text=text, length=len(text))
-        ...         return await stu.eeprom.read_text(address=10, offset=11,
-        ...                                           length=len(text))
-        >>> run(write_and_read_text("something"))
-        'something'
+            Write text to and read (same) text from EEPROM of STU 1
+
+            >>> async def write_and_read_text(text):
+            ...     async with Connection() as stu:
+            ...         await stu.eeprom.write_text(address=10,
+            ...                                     offset=11,
+            ...                                     text=text,
+            ...                                     length=len(text))
+            ...         return await stu.eeprom.read_text(
+            ...             address=10, offset=11, length=len(text))
+            >>> run(write_and_read_text("something"))
+            'something'
 
         """
 

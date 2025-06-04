@@ -18,8 +18,7 @@ class SensorConfiguration(Mapping):
     def __init__(self, first: int = 0, second: int = 0, third: int = 0):
         """Initialize the sensor configuration using the given arguments
 
-        Parameters
-        ----------
+        Args:
 
         first:
             The sensor number for the first measurement channel
@@ -31,8 +30,7 @@ class SensorConfiguration(Mapping):
             The sensor number for the third measurement channel
 
 
-        Examples
-        --------
+        Examples:
 
         >>> SensorConfiguration(first=0, second=1, third=2)
         M1: None, M2: S1, M3: S2
@@ -64,24 +62,20 @@ class SensorConfiguration(Mapping):
     def __getitem__(self, item: str) -> int:
         """Return values of the mapping provided by this class
 
-        Note
-        ----
+        Note:
 
         This method allow access to the object via the splat operators (*, **)
 
-        Parameters
-        ----------
+        Args:
 
         item:
             The attribute for which we want to retrieve the value
 
-        Returns
-        -------
+        Returns:
 
         The value of the attribute
 
-        Examples
-        --------
+        Examples:
 
         >>> dict(**SensorConfiguration()) # doctest:+NORMALIZE_WHITESPACE
         {'first': 0,
@@ -101,13 +95,11 @@ class SensorConfiguration(Mapping):
     def __iter__(self) -> Iterator:
         """Return an iterator over the mapping provided by this class
 
-        Note
-        ----
+        Note:
 
         This method allow access to the object via the splat operators (*, **)
 
-        Returns
-        -------
+        Returns:
 
         The names of the “important” properties of the sensor configuration:
 
@@ -115,8 +107,7 @@ class SensorConfiguration(Mapping):
         - second
         - third
 
-        Examples
-        --------
+        Examples:
 
         >>> for attribute in SensorConfiguration():
         ...     print(attribute)
@@ -131,13 +122,11 @@ class SensorConfiguration(Mapping):
     def __len__(self) -> int:
         """Return the length of the mapping provided by this class
 
-        Note
-        ----
+        Note:
 
         This method allow access to the object via the splat operators (*, **)
 
-        Returns
-        -------
+        Returns:
 
         The amount of the “important” properties of the sensor configuration:
 
@@ -145,8 +134,7 @@ class SensorConfiguration(Mapping):
         - second
         - third
 
-        Examples
-        --------
+        Examples:
 
         >>> len(SensorConfiguration())
         3
@@ -161,13 +149,11 @@ class SensorConfiguration(Mapping):
     def __str__(self) -> str:
         """The string representation of the sensor configuration
 
-        Returns
-        -------
+        Returns:
 
         A textual representation of the sensor configuration
 
-        Examples
-        --------
+        Examples:
 
         >>> str(SensorConfiguration(first=1, second=3, third=2))
         'M1: S1, M2: S3, M3: S2'
@@ -189,13 +175,11 @@ class SensorConfiguration(Mapping):
     def __repr__(self) -> str:
         """The textual representation of the sensor configuration
 
-        Returns
-        -------
+        Returns:
 
         A textual representation of the sensor configuration
 
-        Examples
-        --------
+        Examples:
 
         >>> repr(SensorConfiguration(first=1, second=3, third=2))
         'M1: S1, M2: S3, M3: S2'
@@ -214,14 +198,12 @@ class SensorConfiguration(Mapping):
     def first(self) -> int:
         """Get the sensor for the first channel
 
-        Returns
-        -------
+        Returns:
 
         The sensor number of the first channel
 
 
-        Examples
-        --------
+        Examples:
 
         >>> SensorConfiguration(first=1, second=3, third=2).first
         1
@@ -236,14 +218,12 @@ class SensorConfiguration(Mapping):
     def second(self) -> int:
         """Get the sensor for the second channel
 
-        Returns
-        -------
+        Returns:
 
         The sensor number of the second channel
 
 
-        Examples
-        --------
+        Examples:
 
         >>> SensorConfiguration(first=1, second=3, third=2).second
         3
@@ -258,14 +238,12 @@ class SensorConfiguration(Mapping):
     def third(self) -> int:
         """Get the sensor for the third channel
 
-        Returns
-        -------
+        Returns:
 
         The sensor number of the third channel
 
 
-        Examples
-        --------
+        Examples:
 
         >>> SensorConfiguration(first=1, second=3, third=2).third
         2
@@ -281,8 +259,7 @@ class SensorConfiguration(Mapping):
     ) -> None:
         """Disable certain (measurement) channels
 
-        Parameters
-        ----------
+        Args:
 
         first:
             Specifies if the first measurement channel should be disabled or
@@ -308,15 +285,13 @@ class SensorConfiguration(Mapping):
     def requires_channel_configuration_support(self) -> bool:
         """Check if the sensor configuration requires channel config support
 
-        Returns
-        -------
+        Returns:
 
         - True, if the configuration requires hardware that has support for
           changing the channel configuration
         - False, otherwise
 
-        Examples
-        --------
+        Examples:
 
         >>> SensorConfiguration(first=1, second=3, third=2
         ...     ).requires_channel_configuration_support()
@@ -348,13 +323,11 @@ class SensorConfiguration(Mapping):
 
         In an empty sensor configuration all of the channels are disabled.
 
-        Returns
-        -------
+        Returns:
 
         True, if all channels are disabled, False otherwise
 
-        Examples
-        --------
+        Examples:
 
         >>> SensorConfiguration(first=3).empty()
         False
@@ -370,14 +343,12 @@ class SensorConfiguration(Mapping):
     def check(self):
         """Check that at least one measurement channel is enabled
 
-        Raises
-        ------
+        Raises:
 
         ValueError
             if none of the measurement channels is enabled
 
-        Examples
-        --------
+        Examples:
 
         >>> SensorConfiguration(second=1).check()
         >>> SensorConfiguration().check()
@@ -395,8 +366,7 @@ class SensorConfiguration(Mapping):
     def streaming_configuration(self) -> StreamingConfiguration:
         """Get a streaming configuration that represents this config
 
-        Returns
-        -------
+        Returns:
 
         A stream configuration where
 
@@ -405,8 +375,7 @@ class SensorConfiguration(Mapping):
         - every channel that is disables in the sensor configuration is
           disabled.
 
-        Examples
-        --------
+        Examples:
 
         >>> SensorConfiguration(second=1).streaming_configuration()
         Channel 1 disabled, Channel 2 enabled, Channel 3 disabled
@@ -439,13 +408,11 @@ class Sensor(NamedTuple):
     def __repr__(self) -> str:
         """Return a string representation of the sensor
 
-        Returns
-        -------
+        Returns:
 
         A string that describes the sensor
 
-        Examples
-        --------
+        Examples:
 
         >>> Sensor(SensorType.BROKEN, mean=123)
         Broken Sensor (Mean: 123)
@@ -464,8 +431,7 @@ class Sensor(NamedTuple):
     def works(self) -> bool:
         """Check if the sensor is working or not
 
-        Returns
-        -------
+        Returns:
 
         True if the sensor works, false otherwise
 
@@ -480,19 +446,16 @@ class Sensor(NamedTuple):
 def guess_sensor(values: Iterable[int]) -> Sensor:
     """Guess the sensor type from raw 16 bit ADC values
 
-    Parameters
-    ----------
+    Args:
 
     values:
         Multiple raw 16 bit ADC measurement values
 
-    Returns
-    -------
+    Returns:
 
     An object representing the guessed sensor type
 
-    Examples
-    --------
+    Examples:
 
     >>> guess_sensor([38024, 38000, 37950])
     Piezo Sensor

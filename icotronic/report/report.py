@@ -81,8 +81,7 @@ class Report:
     def __init__(self, node="Node"):
         """Initialize the report
 
-        Parameters
-        ----------
+        Args:
 
         node:
             A text that specifies the node (e.g. STH) for which a report
@@ -114,8 +113,7 @@ class Report:
     def __add_header(self, text):
         """Add a header at the current position in the document
 
-        Parameters
-        ----------
+        Args:
 
         text:
             The text of the heading
@@ -127,8 +125,7 @@ class Report:
     def __add_table(self, data, column_widths=None):
         """Add a table at the current position in the document
 
-        Parameters
-        ----------
+        Args:
 
         data:
             The data that should be stored in the table
@@ -145,8 +142,7 @@ class Report:
     def add_attribute(self, name, value, node_attribute=True):
         """Add information about an attribute to the report
 
-        Parameters
-        ----------
+        Args:
 
         name:
             The name of the attribute
@@ -167,8 +163,7 @@ class Report:
     def add_test_result(self, description, result):
         """Add information about a single test result to the report
 
-        Parameters
-        ----------
+        Args:
 
         description:
             A textual description of the test
@@ -202,8 +197,7 @@ class Report:
     ) -> None:
         """Add a checkbox list to the report
 
-        Parameters
-        ----------
+        Args:
 
         title:
             The title that should be printed before the checkbox list

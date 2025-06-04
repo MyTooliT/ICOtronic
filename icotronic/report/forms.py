@@ -45,8 +45,7 @@ class Signature:
     def to_flowable(self) -> Drawing:
         """Convert the signature list into a Flowable
 
-        Returns
-        -------
+        Returns:
 
         A Flowable representing this signature
 
@@ -70,8 +69,7 @@ class CheckBoxList:
     def __init__(self, title: str = "Checks", text_fields: int = 0) -> None:
         """Create a new checkbox list with the given title
 
-        Parameters
-        ----------
+        Args:
 
         title:
             A title that describes the purpose of the checklist
@@ -92,8 +90,7 @@ class CheckBoxList:
     ) -> None:
         """Add a checkbox item to the checkbox list
 
-        Parameters
-        ----------
+        Args:
 
         text:
             The text that should be added after the checkbox item
@@ -110,8 +107,7 @@ class CheckBoxList:
     def to_flowable(self) -> KeepTogether:
         """Convert the checkbox list into a Flowable
 
-        Returns
-        -------
+        Returns:
 
         A Flowable representing this checkbox list
 
@@ -138,14 +134,12 @@ class CheckBox(Flowable):
     def __init__(self, tooltip: Optional[str] = None) -> None:
         """Initialize the checkbox using the given arguments
 
-        Parameters
-        ----------
+        Args:
 
         tooltip:
             The text displayed in the tooltip of the checkbox
 
-        Examples
-        --------
+        Examples:
 
         >>> CheckBox(tooltip="The tooltip of the box")
         ☑️ Tooltip: The tooltip of the box
@@ -165,8 +159,7 @@ class CheckBox(Flowable):
     def __repr__(self) -> str:
         """The string representation of the checkbox
 
-        Returns
-        -------
+        Returns:
 
         A string containing information about the checkbox
 
@@ -199,14 +192,12 @@ class TextField(Flowable):
     def __init__(self, tooltip: Optional[str] = None) -> None:
         """Initialize the text box using the given arguments
 
-        Parameters
-        ----------
+        Args:
 
         tooltip:
             The text displayed in the tooltip of the text
 
-        Example
-        -------
+        Examples:
 
         >>> TextField(tooltip="The tooltip of the text field")
         📝 Tooltip: The tooltip of the text field
@@ -225,8 +216,7 @@ class TextField(Flowable):
     def __repr__(self) -> str:
         """The string representation of the checkbox
 
-        Returns
-        -------
+        Returns:
 
         A string containing information about the checkbox
 

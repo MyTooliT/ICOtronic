@@ -33,8 +33,7 @@ class ExtendedTestResult(TextTestResult):
         def set_error(self, message):
             """Set the status of the test to error
 
-            Parameters
-            ----------
+            Args:
 
             message:
                 Specifies the error message
@@ -46,8 +45,7 @@ class ExtendedTestResult(TextTestResult):
         def set_failure(self, message):
             """Set the status of the test to failure
 
-            Parameters
-            ----------
+            Args:
 
             message:
                 Specifies the failure message
@@ -65,8 +63,7 @@ class ExtendedTestResult(TextTestResult):
         def error(self):
             """Check if there was an error
 
-            Returns
-            -------
+            Returns:
 
             True if there was an error, False otherwise
             """
@@ -76,8 +73,7 @@ class ExtendedTestResult(TextTestResult):
         def failure(self):
             """Check if there test failed
 
-            Returns
-            -------
+            Returns:
 
             True if the test failed, False otherwise
             """
@@ -94,8 +90,7 @@ class ExtendedTestResult(TextTestResult):
     def addFailure(self, test, err):
         """Add information about the latest failure
 
-        Parameters
-        ----------
+        Args:
 
         test:
             The test case that produced the failure
@@ -122,8 +117,7 @@ class ExtendedTestResult(TextTestResult):
         This should usually not happen unless there are problems with the
         connection or the syntax of the current code base.
 
-        Parameters
-        ----------
+        Args:
 
         test:
             The test case that produced the error
@@ -140,8 +134,7 @@ class ExtendedTestResult(TextTestResult):
     def addSuccess(self, test):
         """Add information about latest successful test
 
-        Parameters
-        ----------
+        Args:
 
         test:
             The successful test

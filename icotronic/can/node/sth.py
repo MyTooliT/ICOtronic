@@ -16,15 +16,16 @@ from icotronic.measurement.constants import ADC_MAX_VALUE
 
 
 class STH(SensorNode):
-    """Communicate and control a connected SHA or STH"""
+    """Communicate and control a connected SHA or STH
 
-    def __init__(self, spu: SPU) -> None:
-        """Initialize the node
+    Args:
 
         spu:
             The SPU object used to communicate with the node
 
-        """
+    """
+
+    def __init__(self, spu: SPU) -> None:
 
         super().__init__(spu, STHEEPROM)
 
@@ -37,16 +38,15 @@ class STH(SensorNode):
     ) -> None:
         """Activate/Deactivate the accelerometer self test
 
-        Parameters
-        ----------
+        Args:
 
-        activate:
-            Either `True` to activate the self test or `False` to
-            deactivate the self test
+            activate:
+                Either ``True`` to activate the self test or ``False`` to
+                deactivate the self test
 
-        dimension:
-            The dimension (x=1, y=2, z=3) for which the self test should be
-            activated/deactivated.
+            dimension:
+                The dimension (x=1, y=2, z=3) for which the self test should be
+                activated/deactivated.
 
         """
 
@@ -86,28 +86,29 @@ class STH(SensorNode):
     ) -> None:
         """Activate self test of STH accelerometer
 
-        Parameters
-        ----------
+        Args:
 
-        dimension:
-            The dimension (`x`, `y` or `z`) for which the self test should
-            be activated.
+            dimension:
+                The dimension (``x``, ``y`` or ``z``) for which the self test
+                should be activated.
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Activate and deactivate acceleration self-test
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def test_self_test():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0, STH) as sth:
-        ...             await sth.activate_acceleration_self_test()
-        ...             await sth.deactivate_acceleration_self_test()
-        >>> run(test_self_test())
+            Activate and deactivate acceleration self-test
+
+            >>> async def test_self_test():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is
+            ...         # available
+            ...         async with stu.connect_sensor_node(0, STH) as sth:
+            ...             await sth.activate_acceleration_self_test()
+            ...             await sth.deactivate_acceleration_self_test()
+            >>> run(test_self_test())
 
         """
 
@@ -118,12 +119,11 @@ class STH(SensorNode):
     ) -> None:
         """Deactivate self test of STH accelerometer
 
-        Parameters
-        ----------
+        Args:
 
-        dimension:
-            The dimension (`x`, `y` or `z`) for which the self test should
-            be deactivated.
+            dimension:
+                The dimension (``x``, ``y`` or ``z``) for which the self test
+                should be deactivated.
 
         """
 
@@ -134,42 +134,41 @@ class STH(SensorNode):
     ) -> float:
         """Retrieve the current acceleration voltage in Volt
 
-        Parameters
-        ----------
+        Args:
 
-        dimension:
-            The dimension (x=1, y=2, z=3) for which the acceleration voltage
-            should be measured
+            dimension:
+                The dimension (x=1, y=2, z=3) for which the acceleration
+                voltage should be measured
 
-        reference_voltage:
-            The reference voltage for the ADC in Volt
+            reference_voltage:
+                The reference voltage for the ADC in Volt
 
-        Returns
-        -------
+        Returns:
 
-        The voltage of the acceleration sensor in Volt
+            The voltage of the acceleration sensor in Volt
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read the acceleration voltage of STH 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_acceleration_voltage():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0, STH) as sth:
-        ...             before = await sth.get_acceleration_voltage()
-        ...             await sth.activate_acceleration_self_test()
-        ...             between = await sth.get_acceleration_voltage()
-        ...             await sth.deactivate_acceleration_self_test()
-        ...             after = await sth.get_acceleration_voltage()
-        ...         return (before, between, after)
-        >>> before, between, after = run(read_acceleration_voltage())
-        >>> before < between and after < between
-        True
+            Read the acceleration voltage of STH 1
+
+            >>> async def read_acceleration_voltage():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0, STH) as sth:
+            ...             before = await sth.get_acceleration_voltage()
+            ...             await sth.activate_acceleration_self_test()
+            ...             between = await sth.get_acceleration_voltage()
+            ...             await sth.deactivate_acceleration_self_test()
+            ...             after = await sth.get_acceleration_voltage()
+            ...         return (before, between, after)
+            >>> before, between, after = run(read_acceleration_voltage())
+            >>> before < between and after < between
+            True
 
         """
 
@@ -212,30 +211,30 @@ class STH(SensorNode):
         For this to work correctly the EEPROM value of the x-axis acceleration
         offset in the EEPROM has to be set.
 
-        Returns
-        -------
+        Returns:
 
-        Range of current acceleration sensor in multiples of earth’s
-        gravitation
+            Range of current acceleration sensor in multiples of earth’s
+            gravitation
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.node.sth import STH
+            Import required library code
 
-        Write and read the acceleration offset of STH 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
+            >>> from icotronic.can.node.sth import STH
 
-        >>> async def read_sensor_range():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0, STH) as sth:
-        ...             return (await
-        ...                     sth.get_acceleration_sensor_range_in_g())
-        >>> sensor_range = run(read_sensor_range())
-        >>> 0 < sensor_range <= 200
-        True
+            Write and read the acceleration offset of STH 1
+
+            >>> async def read_sensor_range():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0, STH) as sth:
+            ...             return (await
+            ...                     sth.get_acceleration_sensor_range_in_g())
+            >>> sensor_range = run(read_sensor_range())
+            >>> 0 < sensor_range <= 200
+            True
 
         """
 
@@ -249,34 +248,36 @@ class STH(SensorNode):
     ) -> Callable[[int], float]:
         """Retrieve function to convert raw sensor data into g
 
-        Returns
-        -------
+        Returns:
 
-        A function that converts 16 bit raw values from the STH into
-        multiples of earth’s gravitation (g)
+            A function that converts 16 bit raw values from the STH into
+            multiples of earth’s gravitation (g)
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
-        >>> from icotronic.can.node.sth import STH
+            Import required library code
 
-        >>> async def read_sensor_values():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0, STH) as sth:
-        ...             convert_to_g = (
-        ...                 await sth.get_acceleration_conversion_function())
-        ...             data = await sth.get_streaming_data_single()
-        ...             before = list(data.values)
-        ...             data.apply(convert_to_g)
-        ...             return before, data.values
-        >>> before, after = run(read_sensor_values())
-        >>> all([0 <= value <= 2**16 for value in before])
-        True
-        >>> all([-100 <= value <= 100 for value in after])
-        True
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
+            >>> from icotronic.can.node.sth import STH
+
+            Convert a raw ADC value into multiples of g
+
+            >>> async def read_sensor_values():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0, STH) as sth:
+            ...             convert_to_g = (await
+            ...                 sth.get_acceleration_conversion_function())
+            ...             data = await sth.get_streaming_data_single()
+            ...             before = list(data.values)
+            ...             data.apply(convert_to_g)
+            ...             return before, data.values
+            >>> before, after = run(read_sensor_values())
+            >>> all([0 <= value <= 2**16 for value in before])
+            True
+            >>> all([-100 <= value <= 100 for value in after])
+            True
 
         """
 

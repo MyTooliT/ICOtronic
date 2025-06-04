@@ -43,14 +43,12 @@ async def get_acceleration_sensor_range_in_g(sth: STH) -> float:
     The STH object given as parameter needs to be connected to a sensor
     node before you call this coroutine
 
-    Parameters
-    ----------
+    Args:
 
     sth:
         The STH object used to read the sensor range
 
-    Returns
-    -------
+    Returns:
 
     The sensor range of the acceleration sensor, or the default range of 200
     (± 100 g) sensor, if there was a problem reading the sensor range
@@ -166,8 +164,7 @@ async def command_list(
 ) -> None:
     """Print a list of available sensor nodes
 
-    Parameters
-    ----------
+    Args:
 
     arguments:
         The given command line arguments
@@ -202,8 +199,7 @@ async def command_list(
 async def command_measure(arguments: Namespace) -> None:
     """Open measurement stream and store data
 
-    Parameters
-    ----------
+    Args:
 
     arguments:
         The given command line arguments
@@ -293,8 +289,7 @@ async def command_measure(arguments: Namespace) -> None:
 async def command_rename(arguments: Namespace) -> None:
     """Rename a sensor node
 
-    Parameters
-    ----------
+    Args:
 
     arguments:
         The given command line arguments
@@ -320,8 +315,7 @@ async def command_rename(arguments: Namespace) -> None:
 async def command_stu(arguments: Namespace) -> None:
     """Run specific commands regarding stationary transceiver unit
 
-    Parameters
-    ----------
+    Args:
 
     arguments:
         The given command line arguments

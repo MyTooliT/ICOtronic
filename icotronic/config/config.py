@@ -42,8 +42,7 @@ class ConfigurationUtility:
     def open_config_file(filepath: Path):
         """Open configuration file
 
-        Parameters
-        ----------
+        Args:
 
         filepath:
             Path to configuration file
@@ -100,8 +99,7 @@ class Settings(Dynaconf):
     ) -> None:
         """Initialize the settings using the given arguments
 
-        Parameters
-        ----------
+        Args:
 
         default_settings_filepath:
             Filepath to default settings file
@@ -376,8 +374,7 @@ class Settings(Dynaconf):
     def acceleration_sensor(self):
         """Get the settings for the current acceleration sensor
 
-        Returns
-        -------
+        Returns:
 
         A configuration object for the currently selected accelerometer sensor
         """
@@ -388,8 +385,7 @@ class Settings(Dynaconf):
     def sth_name(self) -> str:
         """Return the current name of the STH as string
 
-        Returns
-        -------
+        Returns:
 
         The name of the STH
 
@@ -400,8 +396,7 @@ class Settings(Dynaconf):
     def output_directory(self) -> Path:
         """Get the HDF output directory
 
-        Returns
-        -------
+        Returns:
 
         The HDF output directory as path object
 
@@ -417,8 +412,7 @@ class Settings(Dynaconf):
         timestamp to make sure that there are no conflicts with old output
         files.
 
-        Returns
-        -------
+        Returns:
 
         The path to the current HDF file
 

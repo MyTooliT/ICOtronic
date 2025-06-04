@@ -13,15 +13,13 @@ from icotronic.config import ConfigurationUtility
 def get_log_file_handler(filename: str) -> FileHandler:
     """Get file log handler that stores data in users log directory
 
-    Parameters
-    ----------
+    Args:
 
     filename:
         The filename of the log file that should be stored in the user’s log
         directory
 
-    Example
-    -------
+    Examples:
 
     Initialize test data
 

@@ -51,8 +51,7 @@ class StreamingConfiguration:
     ) -> None:
         """Initialize the streaming configuration with the given values
 
-        Parameters
-        ----------
+        Args:
 
         first:
             Specifies if the first channel is enabled or not
@@ -63,14 +62,12 @@ class StreamingConfiguration:
         third:
             Specifies if the third channel is enabled or not
 
-        Raises
-        ------
+        Raises:
 
         ValueError
             if none of the channels is active
 
-        Examples
-        --------
+        Examples:
 
         >>> config = StreamingConfiguration()
         >>> config = StreamingConfiguration(
@@ -101,8 +98,7 @@ class StreamingConfiguration:
     def __repr__(self) -> str:
         """Return the string representation of the streaming configuration
 
-        Examples
-        --------
+        Examples:
 
         >>> StreamingConfiguration()
         Channel 1 enabled, Channel 2 disabled, Channel 3 disabled
@@ -127,13 +123,11 @@ class StreamingConfiguration:
     def enabled_channels(self) -> int:
         """Get the number of activated channels
 
-        Returns
-        -------
+        Returns:
 
         The number of enabled channels
 
-        Examples
-        --------
+        Examples:
 
         >>> StreamingConfiguration(first=True).enabled_channels()
         1
@@ -163,14 +157,12 @@ class StreamingConfiguration:
         For more information, please take a look
         [here](https://mytoolit.github.io/Documentation/#command-data)
 
-        Returns
-        -------
+        Returns:
 
         The length of the streaming data resulting from this channel
         configuration
 
-        Examples
-        --------
+        Examples:
 
         >>> StreamingConfiguration().data_length()
         3
@@ -194,13 +186,11 @@ class StreamingConfiguration:
     def axes(self) -> List[str]:
         """Get the activated axes returned by this streaming configuration
 
-        Returns
-        -------
+        Returns:
 
         A list containing all activated axes in alphabetical order
 
-        Examples
-        --------
+        Examples:
 
         >>> StreamingConfiguration(
         ...     first=False, second=True, third=True).axes()
@@ -225,13 +215,11 @@ class StreamingConfiguration:
     def first(self) -> bool:
         """Check the activation state of the first channel
 
-        Returns
-        -------
+        Returns:
 
         `True`, if the first channel is enabled or `False` otherwise
 
-        Examples
-        --------
+        Examples:
 
         >>> StreamingConfiguration(first=True, second=False, third=False).first
         True
@@ -246,13 +234,11 @@ class StreamingConfiguration:
     def second(self) -> bool:
         """Check the activation state of the second channel
 
-        Returns
-        -------
+        Returns:
 
         `True`, if the second channel is enabled or `False` otherwise
 
-        Examples
-        --------
+        Examples:
 
         >>> StreamingConfiguration(
         ...     first=True, second=False, third=False).second
@@ -269,13 +255,11 @@ class StreamingConfiguration:
     def third(self) -> bool:
         """Check the activation state of the third channel
 
-        Returns
-        -------
+        Returns:
 
         `True`, if the third channel is enabled or `False` otherwise
 
-        Examples
-        --------
+        Examples:
 
         >>> StreamingConfiguration(
         ...     first=True, second=False, third=False).third
@@ -298,8 +282,7 @@ class MessageStats:
     def __init__(self, retrieved: int = 0, lost: int = 0):
         """Initialize message statistics with the given arguments
 
-        Parameters
-        ----------
+        Args:
 
         retrieved:
             The number of successfully retrieved messages
@@ -312,14 +295,12 @@ class MessageStats:
     def dataloss(self) -> float:
         """Get the amount of data loss
 
-        Returns
-        -------
+        Returns:
 
         The overall amount of data loss as number between 0 (no data loss) and
         1 (all data lost).
 
-        Examples
-        --------
+        Examples:
 
         >>> MessageStats().dataloss()
         0
@@ -336,8 +317,7 @@ class MessageStats:
     def reset(self) -> None:
         """Reset the amount of retrieved and lost messages to 0
 
-        Examples
-        --------
+        Examples:
 
         >>> stats = MessageStats(10, 90)
         >>> stats.dataloss()
@@ -366,8 +346,7 @@ class AsyncStreamBuffer(Listener):
     ) -> None:
         """Initialize object using the given arguments
 
-        Parameters
-        ----------
+        Args:
 
         configuration:
             A streaming configuration that specifies which of the three
@@ -405,8 +384,7 @@ class AsyncStreamBuffer(Listener):
     def __aiter__(self) -> AsyncIterator[Tuple[StreamingData, int]]:
         """Retrieve iterator for collected data
 
-        Returns
-        -------
+        Returns:
 
         An iterator over the received streaming data including the number of
         lost messages
@@ -418,8 +396,7 @@ class AsyncStreamBuffer(Listener):
     async def __anext__(self) -> Tuple[StreamingData, int]:
         """Retrieve next stream data object in collected data
 
-        Returns
-        -------
+        Returns:
 
         A tuple containing:
 
@@ -445,8 +422,7 @@ class AsyncStreamBuffer(Listener):
     def on_message_received(self, msg: Message) -> None:
         """Handle received messages
 
-        Parameters
-        ----------
+        Args:
 
         msg:
             The received CAN message
@@ -491,8 +467,7 @@ class AsyncStreamBuffer(Listener):
     def on_error(self, exc: Exception) -> None:
         """This method is called to handle any exception in the receive thread.
 
-        Parameters
-        ----------
+        Args:
 
         exc:
             The exception causing the thread to stop
@@ -519,8 +494,7 @@ class AsyncStreamBuffer(Listener):
     def dataloss(self) -> float:
         """Calculate the overall amount of data loss
 
-        Returns
-        -------
+        Returns:
 
         The overall amount of data loss as number between 0 (no data loss) and
         1 (all data lost).
@@ -653,13 +627,11 @@ class StreamingFormat:
     def __repr__(self) -> str:
         """Retrieve the textual representation of the streaming format
 
-        Returns
-        -------
+        Returns:
 
         A string that describes the streaming format
 
-        Examples
-        --------
+        Examples:
 
         >>> StreamingFormat(width=3,
         ...                 channels=StreamingConfiguration(first=True),
@@ -714,13 +686,11 @@ class StreamingFormat:
     def data_sets(self) -> int:
         """Get the number of data sets of the streaming format
 
-        Returns
-        -------
+        Returns:
 
         The number of data sets
 
-        Examples
-        --------
+        Examples:
 
         >>> StreamingFormat(
         ...     width=3,
@@ -745,13 +715,11 @@ class StreamingFormat:
     def data_bytes(self) -> int:
         """Get the number of data bytes used for a single value
 
-        Returns
-        -------
+        Returns:
 
         The number of data bytes that represent a single streaming value
 
-        Examples
-        --------
+        Examples:
 
         >>> StreamingFormat(width=3,
         ...                 channels=StreamingConfiguration(first=True),
@@ -810,8 +778,7 @@ class StreamingData:
     ) -> None:
         """Initialize the streaming data with the given arguments
 
-        Parameters
-        ----------
+        Args:
 
         counter:
             The message counter value
@@ -822,8 +789,7 @@ class StreamingData:
         values:
             The streaming values
 
-        Examples
-        --------
+        Examples:
 
         Create new streaming data
 
@@ -860,8 +826,7 @@ class StreamingData:
     ) -> StreamingData:
         """Apply a certain function to the streaming data
 
-        Note
-        ----
+        Note:
 
         This function changes the stored values in the streaming data and (as
         convenience feature) also returns the modified streaming data itself.
@@ -869,19 +834,16 @@ class StreamingData:
         in a function call, i.e. you can use something like
         ``function(stream_data.apply())``.
 
-        Parameters
-        ----------
+        Args:
 
         function:
             The function that should be applied to the streaming data
 
-        Returns
-        -------
+        Returns:
 
         The modified streaming data
 
-        Examples
-        --------
+        Examples:
 
         >>> data = StreamingData(values=[1, 2, 3], counter=21, timestamp=1)
         >>> data.apply(lambda value: value + 10)
@@ -900,8 +862,7 @@ class StreamingData:
     def __repr__(self):
         """Get the string representation of the stream data
 
-        Examples
-        --------
+        Examples:
 
         >>> StreamingData(values=[1, 2, 3], counter=21, timestamp=1)
         [1, 2, 3]@1 #21

@@ -192,8 +192,7 @@ class BaseTestCases:
         def __output_data(cls, attributes, node_data=True):
             """Output data to standard output and PDF report
 
-            Parameters
-            ----------
+            Args:
 
             attributes:
                 An iterable that stores simple name space objects created via
@@ -241,8 +240,7 @@ class BaseTestCases:
         ) -> None:
             """Add a test attribute
 
-            Parameters
-            ----------
+            Args:
 
             name:
                 The description (name) of the attribute
@@ -348,8 +346,7 @@ class BaseTestCases:
         ):
             """Upload bootloader and application into node
 
-            Parameters
-            ----------
+            Args:
 
             flash_location:
                 The location of the flash image
@@ -377,8 +374,7 @@ class BaseTestCases:
         async def _test_eeprom_product_data(self, config: DynaBox) -> None:
             """Test if reading and writing the product data EEPROM page works
 
-            Parameters
-            ----------
+            Args:
 
             config
                 A configuration object that stores the various product data
@@ -503,8 +499,7 @@ class BaseTestCases:
             EEPROM, reads them and then checks if the written and read values
             are equal.
 
-            Parameters
-            ----------
+            Args:
 
             production_date:
                 The production date of the node
@@ -680,8 +675,7 @@ class BaseTestCases:
         async def _connect_node(self, name: str) -> None:
             """Create a connection to the node with the specified name
 
-            Parameters
-            ----------
+            Args:
 
             name:
                 The (Bluetooth advertisement) name of the sensor node
@@ -708,14 +702,12 @@ class BaseTestCases:
         async def _test_name(self, name: str) -> str:
             """Check if writing and reading the name of a sensor node works
 
-            Parameters
-            ----------
+            Args:
 
             name:
                 The text that should be used as name for the sensor node
 
-            Returns
-            -------
+            Returns:
 
             Read back name
 

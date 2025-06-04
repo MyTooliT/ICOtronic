@@ -34,16 +34,14 @@ def create_acceleration_description(
 ) -> MetaIsDescription:
     """Create a new `IsDescription` class to store acceleration data
 
-    Parameters
-    ----------
+    Args:
 
     attributes:
         A dictionary containing additional columns to store specific
         acceleration data. The key specifies the name of the attribute, while
         the value specifies the type.
 
-    Examples
-    --------
+    Examples:
 
     >>> description_x_acceleration = create_acceleration_description(
     ...     dict(x=Float32Col()))
@@ -90,8 +88,7 @@ class Storage:
     ) -> None:
         """Initialize the storage object using the given arguments
 
-        Parameters
-        ----------
+        Args:
 
         filepath:
             The filepath of the HDF5 file in which this object should store
@@ -102,8 +99,7 @@ class Storage:
             axes data should be taken from an existing valid file at
             `filepath`.
 
-        Example
-        -------
+        Examples:
 
         Create new file
 
@@ -150,8 +146,7 @@ class Storage:
     ) -> None:
         """Clean up the resources used by the storage class
 
-        Parameters
-        ----------
+        Args:
 
         exception_type:
             The type of the exception in case of an exception
@@ -200,8 +195,7 @@ class StorageData:
     ) -> None:
         """Create new storage data object using the given file handle
 
-        Parameters
-        ----------
+        Args:
 
         file_handle:
             The HDF file that should store the data
@@ -211,8 +205,7 @@ class StorageData:
             axes data should be taken from an existing valid file at
             `filepath`.
 
-        Examples
-        --------
+        Examples:
 
         Create new data
 
@@ -280,14 +273,12 @@ class StorageData:
     ) -> None:
         """Add streaming data to the storage object
 
-        Parameters
-        ----------
+        Args:
 
         streaming_data:
             The streaming data that should be added to the storage
 
-        Examples
-        --------
+        Examples:
 
         >>> from icotronic.can.streaming import StreamingConfigBits
 
@@ -354,8 +345,7 @@ class StorageData:
     def store_acceleration_meta(self, name: str, value: str) -> None:
         """Add acceleration metadata
 
-        Parameters
-        ----------
+        Args:
 
         name:
             The name of the meta attribute
@@ -363,8 +353,7 @@ class StorageData:
         value:
             The value of the meta attribute
 
-        Example
-        -------
+        Examples:
 
         >>> filepath = Path("test.hdf5")
         >>> with Storage(filepath,
@@ -385,14 +374,12 @@ class StorageData:
         (e.g. a sensor with a range of 200 g measures from - 100 g up to
         + 100 g).
 
-        Parameters
-        ----------
+        Args:
 
         sensor_range_in_g:
             The measurement range of the sensor in multiples of g
 
-        Examples
-        --------
+        Examples:
 
         >>> filepath = Path("test.hdf5")
         >>> with Storage(filepath,
@@ -413,14 +400,12 @@ class StorageData:
     def write_sample_rate(self, adc_configuration: ADCConfiguration) -> None:
         """Store the sample rate of the ADC
 
-        Parameters
-        ----------
+        Args:
 
         adc_configuration:
             The current ADC configuration of the sensor node
 
-        Examples
-        --------
+        Examples:
 
         >>> filepath = Path("test.hdf5")
         >>> adc_configuration = ADCConfiguration(
@@ -452,13 +437,11 @@ class StorageData:
     def dataloss_stats(self) -> tuple[int, int]:
         """Determine number of lost and received messages
 
-        Returns
-        -------
+        Returns:
 
         Tuple containing the number of received and the number of lost messages
 
-        Examples
-        --------
+        Examples:
 
         >>> def calculate_dataloss_stats():
         ...     filepath = Path("test.hdf5")
@@ -516,13 +499,11 @@ class StorageData:
     def dataloss(self) -> float:
         """Determine (minimum) data loss
 
-        Returns
-        -------
+        Returns:
 
         Amount of lost messages divided by all messages (lost and retrieved)
 
-        Examples
-        --------
+        Examples:
 
         >>> from math import isclose
         >>> def calculate_dataloss():
@@ -557,13 +538,11 @@ class StorageData:
     def sampling_frequency(self) -> float:
         """Calculate sampling frequency of measurement data
 
-        Returns
-        -------
+        Returns:
 
         Sampling frequency (of a single data channel) in Hz
 
-        Examples
-        --------
+        Examples:
 
         >>> from math import isclose
         >>> def calculate_sampling_frequency():

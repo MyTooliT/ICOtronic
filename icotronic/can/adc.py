@@ -18,7 +18,42 @@ from icotronic.utility.types import check_list
 
 
 class ADCConfiguration(Mapping):
-    """Support for reading and writing the ADC configuration"""
+    """Support for reading and writing analog digital converter configuration
+
+    Args:
+        *data:
+            A list containing the (first five) bytes of the ADC
+            configuration
+
+        set:
+            Specifies if we want to set or retrieve (get) the ADC
+            configuration
+
+        prescaler:
+            The ADC prescaler value (1 – 127)
+
+        acquisition_time:
+            The acquisition time in number of cycles
+            (1, 2, 3, 4, 8, 16, 32, … , 256)
+
+        oversampling_rate:
+            The ADC oversampling rate (1, 2, 4, 8, … , 4096)
+
+        reference_voltage:
+            The ADC reference voltage in Volt
+            (1.25, 1.65, 1.8, 2.1, 2.2, 2.5, 2.7, 3.3, 5, 6.6)
+
+    Examples:
+
+        Create simple ADC configuration from scratch
+
+        >>> ADCConfiguration(prescaler=2,
+        ...     acquisition_time=4,
+        ...     oversampling_rate=64) # doctest:+NORMALIZE_WHITESPACE
+        Get, Prescaler: 2, Acquisition Time: 4, Oversampling Rate: 64,
+        Reference Voltage: 3.3 V
+
+    """
 
     REFERENCE_VOLTAGES = [1.25, 1.65, 1.8, 2.1, 2.2, 2.5, 2.7, 3.3, 5, 6.6]
 
@@ -35,45 +70,6 @@ class ADCConfiguration(Mapping):
         oversampling_rate: Optional[int] = None,
         reference_voltage: Optional[float] = None,
     ):
-        """Initialize the ADC configuration using the given arguments
-
-        Positional Parameters
-        ---------------------
-
-        data:
-            A list containing the (first five) bytes of the ADC configuration
-
-        Keyword Parameters
-        ------------------
-
-        set:
-            Specifies if we want to set or retrieve (get) the ADC configuration
-
-        prescaler:
-            The ADC prescaler value (1 – 127)
-
-        acquisition_time:
-            The acquisition time in number of cycles
-            (1, 2, 3, 4, 8, 16, 32, … , 256)
-
-        oversampling_rate:
-            The ADC oversampling rate (1, 2, 4, 8, … , 4096)
-
-        reference_voltage:
-            The ADC reference voltage in Volt
-            (1.25, 1.65, 1.8, 2.1, 2.2, 2.5, 2.7, 3.3, 5, 6.6)
-
-        Examples
-        --------
-
-        >>> ADCConfiguration(prescaler=2,
-        ...     acquisition_time=4,
-        ...     oversampling_rate=64) # doctest:+NORMALIZE_WHITESPACE
-        Get, Prescaler: 2, Acquisition Time: 4, Oversampling Rate: 64,
-        Reference Voltage: 3.3 V
-
-        """
-
         if data:
             data_bytes = list(data[0])
             check_list(data_bytes, 5)
@@ -139,37 +135,35 @@ class ADCConfiguration(Mapping):
     def __getitem__(self, item: str) -> float:
         """Return values of the mapping provided by this class
 
-        Note
-        ----
+        Note:
+            This method allow access to the object via the splat operators
+            (*, **)
 
-        This method allow access to the object via the splat operators (*, **)
+        Args:
 
-        Parameters
-        ----------
+            item:
+                The attribute for which we want to retrieve the value
 
-        item:
-            The attribute for which we want to retrieve the value
+        Returns:
 
-        Returns
-        -------
+            The value of the attribute
 
-        The value of the attribute
+        Examples:
 
-        Examples
-        --------
+            Convert ADC configurations into dictionary
 
-        >>> dict(**ADCConfiguration()) # doctest:+NORMALIZE_WHITESPACE
-        {'reference_voltage': 3.3,
-         'prescaler': 8,
-         'acquisition_time': 1,
-         'oversampling_rate': 1}
+            >>> dict(**ADCConfiguration()) # doctest:+NORMALIZE_WHITESPACE
+            {'reference_voltage': 3.3,
+             'prescaler': 8,
+             'acquisition_time': 1,
+             'oversampling_rate': 1}
 
-        >>> dict(**ADCConfiguration(oversampling_rate=64)
-        ...     ) # doctest:+NORMALIZE_WHITESPACE
-        {'reference_voltage': 3.3,
-         'prescaler': 8,
-         'acquisition_time': 1,
-         'oversampling_rate': 64}
+            >>> dict(**ADCConfiguration(oversampling_rate=64)
+            ...     ) # doctest:+NORMALIZE_WHITESPACE
+            {'reference_voltage': 3.3,
+             'prescaler': 8,
+             'acquisition_time': 1,
+             'oversampling_rate': 64}
 
         """
 
@@ -178,30 +172,30 @@ class ADCConfiguration(Mapping):
     def __iter__(self) -> Iterator:
         """Return an iterator over the mapping provided by this class
 
-        Note
-        ----
+        Note:
 
-        This method allow access to the object via the splat operators (*, **)
+            This method allow access to the object via the splat operators
+            (*, **)
 
-        Returns
-        -------
+        Returns:
 
-        The names of the “important” properties of the ADC configuration:
+            The names of the “important” properties of the ADC configuration:
 
-        - reference voltage
-        - prescaler
-        - acquisition time
-        - oversampling rate
+            - reference voltage
+            - prescaler
+            - acquisition time
+            - oversampling rate
 
-        Examples
-        --------
+        Examples:
 
-        >>> for attribute in ADCConfiguration():
-        ...     print(attribute)
-        reference_voltage
-        prescaler
-        acquisition_time
-        oversampling_rate
+            Print ADC attribute keys
+
+            >>> for attribute in ADCConfiguration():
+            ...     print(attribute)
+            reference_voltage
+            prescaler
+            acquisition_time
+            oversampling_rate
 
         """
 
@@ -210,29 +204,29 @@ class ADCConfiguration(Mapping):
     def __len__(self) -> int:
         """Return the length of the mapping provided by this class
 
-        Note
-        ----
+        Note:
 
-        This method allow access to the object via the splat operators (*, **)
+            This method allow access to the object via the splat operators
+            (*, **)
 
-        Returns
-        -------
+        Returns:
 
-        The amount of the “important” properties of the ADC configuration:
+            The amount of the “important” properties of the ADC configuration:
 
-        - reference voltage
-        - prescaler
-        - acquisition time
-        - oversampling rate
+            - reference voltage
+            - prescaler
+            - acquisition time
+            - oversampling rate
 
-        Examples
-        --------
+        Examples:
 
-        >>> len(ADCConfiguration())
-        4
+            Get the (constant) length of the ADC configuration
 
-        >>> len(ADCConfiguration(reference_voltage=3.3))
-        4
+            >>> len(ADCConfiguration())
+            4
+
+            >>> len(ADCConfiguration(reference_voltage=3.3))
+            4
 
         """
 
@@ -241,31 +235,32 @@ class ADCConfiguration(Mapping):
     def __repr__(self) -> str:
         """Retrieve the textual representation of the ADC configuration
 
-        Returns
-        -------
+        Returns:
 
-        A string that describes the ADC configuration
+            A string that describes the ADC configuration
 
-        Examples
-        --------
+        Examples:
 
-        >>> ADCConfiguration(prescaler=1, reference_voltage=3.3
-        ... ) # doctest:+NORMALIZE_WHITESPACE
-        Get, Prescaler: 1, Acquisition Time: 1, Oversampling Rate: 1,
-        Reference Voltage: 3.3 V
+            Retrieve the string representation of ADC configurations
 
-        >>> ADCConfiguration(
-        ...     set=True,
-        ...     prescaler=64,
-        ...     acquisition_time=128,
-        ...     oversampling_rate=1024,
-        ...     reference_voltage=1.8) # doctest:+NORMALIZE_WHITESPACE
-        Set, Prescaler: 64, Acquisition Time: 128, Oversampling Rate: 1024,
-        Reference Voltage: 1.8 V
+            >>> ADCConfiguration(prescaler=1, reference_voltage=3.3
+            ... ) # doctest:+NORMALIZE_WHITESPACE
+            Get, Prescaler: 1, Acquisition Time: 1, Oversampling Rate: 1,
+            Reference Voltage: 3.3 V
 
-        >>> ADCConfiguration([0, 2, 4, 6, 25]) # doctest:+NORMALIZE_WHITESPACE
-        Get, Prescaler: 2, Acquisition Time: 8, Oversampling Rate: 64,
-        Reference Voltage: 1.25 V
+            >>> ADCConfiguration(
+            ...     set=True,
+            ...     prescaler=64,
+            ...     acquisition_time=128,
+            ...     oversampling_rate=1024,
+            ...     reference_voltage=1.8) # doctest:+NORMALIZE_WHITESPACE
+            Set, Prescaler: 64, Acquisition Time: 128, Oversampling Rate: 1024,
+            Reference Voltage: 1.8 V
+
+            >>> ADCConfiguration(
+            ...     [0, 2, 4, 6, 25]) # doctest:+NORMALIZE_WHITESPACE
+            Get, Prescaler: 2, Acquisition Time: 8, Oversampling Rate: 64,
+            Reference Voltage: 1.25 V
 
         """
 
@@ -285,35 +280,38 @@ class ADCConfiguration(Mapping):
     def reference_voltage(self) -> float:
         """Get the reference voltage
 
-        Returns
-        -------
+        Returns:
 
-        The reference voltage in Volt
+            The reference voltage in Volt
 
-        Examples
-        --------
+        Examples:
 
-        >>> config = ADCConfiguration(reference_voltage=3.3)
-        >>> config.reference_voltage
-        3.3
-        >>> config.reference_voltage = 6.6
-        >>> config.reference_voltage
-        6.6
+            Set and get different reference voltage values
 
-        >>> config = ADCConfiguration(reference_voltage=6.6)
-        >>> config.reference_voltage
-        6.6
-        >>> config.reference_voltage = 1.8
-        >>> config.reference_voltage
-        1.8
+            >>> config = ADCConfiguration(reference_voltage=3.3)
+            >>> config.reference_voltage
+            3.3
+            >>> config.reference_voltage = 6.6
+            >>> config.reference_voltage
+            6.6
 
-        >>> config = ADCConfiguration(reference_voltage=1.8)
-        >>> config.reference_voltage
-        1.8
-        >>> config.reference_voltage = 0 # doctest:+ELLIPSIS
-        Traceback (most recent call last):
-           ...
-        ValueError: Reference voltage of “0” V out of range, please use ...
+            >>> config = ADCConfiguration(reference_voltage=6.6)
+            >>> config.reference_voltage
+            6.6
+            >>> config.reference_voltage = 1.8
+            >>> config.reference_voltage
+            1.8
+
+            >>> config = ADCConfiguration(reference_voltage=1.8)
+            >>> config.reference_voltage
+            1.8
+
+            Trying to set a unsupported reference voltage will fail
+
+            >>> config.reference_voltage = 0 # doctest:+ELLIPSIS
+            Traceback (most recent call last):
+               ...
+            ValueError: Reference voltage of “0” V out of range, please use ...
 
         """
 
@@ -323,11 +321,10 @@ class ADCConfiguration(Mapping):
     def reference_voltage(self, reference_voltage: float) -> None:
         """Change the reference voltage
 
-        Parameters
-        ----------
+        Args:
 
-        reference_voltage:
-            The new value for the reference voltage in V
+            reference_voltage:
+                The new value for the reference voltage in V
 
         """
 
@@ -345,26 +342,30 @@ class ADCConfiguration(Mapping):
     def prescaler(self) -> int:
         """Get the prescaler value
 
-        Returns
-        -------
+        Returns:
 
-        The prescaler value
+            The prescaler value
 
-        Examples
-        --------
+        Examples:
 
-        >>> config = ADCConfiguration(prescaler=127)
-        >>> config.prescaler
-        127
+            Get initialised prescaler
 
-        >>> config.prescaler = 20
-        >>> config.prescaler
-        20
+            >>> config = ADCConfiguration(prescaler=127)
+            >>> config.prescaler
+            127
 
-        >>> config.prescaler = 128 # doctest:+ELLIPSIS
-        Traceback (most recent call last):
-           ...
-        ValueError: Prescaler value of “128” out of range, please use ...
+            Get prescaler set via property
+
+            >>> config.prescaler = 20
+            >>> config.prescaler
+            20
+
+            Trying to set an unsupported prescaler will fail
+
+            >>> config.prescaler = 128 # doctest:+ELLIPSIS
+            Traceback (most recent call last):
+               ...
+            ValueError: Prescaler value of “128” out of range, please use ...
 
         """
 
@@ -374,11 +375,10 @@ class ADCConfiguration(Mapping):
     def prescaler(self, prescaler: int) -> None:
         """Change the prescaler value
 
-        Parameters
-        ----------
+        Args:
 
-        prescaler:
-            The new value for the prescaler
+            prescaler:
+                The new value for the prescaler
 
         """
 
@@ -393,26 +393,30 @@ class ADCConfiguration(Mapping):
     def acquisition_time(self) -> int:
         """Get the acquisition time
 
-        Returns
-        -------
+        Returns:
 
-        The acquisition time
+            The acquisition time
 
-        Examples
-        --------
+        Examples:
 
-        >>> config = ADCConfiguration(acquisition_time=2)
-        >>> config.acquisition_time
-        2
+            Get initialised acquisition time
 
-        >>> config.acquisition_time = 128
-        >>> config.acquisition_time
-        128
+            >>> config = ADCConfiguration(acquisition_time=2)
+            >>> config.acquisition_time
+            2
 
-        >>> config.acquisition_time = 5 # doctest:+ELLIPSIS
-        Traceback (most recent call last):
-           ...
-        ValueError: Acquisition time of “5” out of range, please use ...
+            Get acquisition time set via property
+
+            >>> config.acquisition_time = 128
+            >>> config.acquisition_time
+            128
+
+            Trying to set an unsupported acquisition time will fail
+
+            >>> config.acquisition_time = 5 # doctest:+ELLIPSIS
+            Traceback (most recent call last):
+               ...
+            ValueError: Acquisition time of “5” out of range, please use ...
 
         """
 
@@ -428,11 +432,10 @@ class ADCConfiguration(Mapping):
     def acquisition_time(self, acquisition_time: int) -> None:
         """Change the acquisition time value
 
-        Parameters
-        ----------
+        Args:
 
-        acquisition_time:
-            The new value for the acquisition time
+            acquisition_time:
+                The new value for the acquisition time
 
         """
 
@@ -458,26 +461,30 @@ class ADCConfiguration(Mapping):
     def oversampling_rate(self) -> int:
         """Get the oversampling rate
 
-        Returns
-        -------
+        Returns:
 
-        The oversampling rate
+            The oversampling rate
 
-        Examples
-        --------
+        Examples:
 
-        >>> config = ADCConfiguration(oversampling_rate=128)
-        >>> config.oversampling_rate
-        128
+            Get initialised oversampling rate
 
-        >>> config.oversampling_rate = 512
-        >>> config.oversampling_rate
-        512
+            >>> config = ADCConfiguration(oversampling_rate=128)
+            >>> config.oversampling_rate
+            128
 
-        >>> config.oversampling_rate = 3 # doctest:+ELLIPSIS
-        Traceback (most recent call last):
-           ...
-        ValueError: Oversampling rate of “3” out of range, please use ...
+            Get oversampling rate set via property
+
+            >>> config.oversampling_rate = 512
+            >>> config.oversampling_rate
+            512
+
+            Trying to set an unsupported oversampling rate will fail
+
+            >>> config.oversampling_rate = 3 # doctest:+ELLIPSIS
+            Traceback (most recent call last):
+               ...
+            ValueError: Oversampling rate of “3” out of range, please use ...
 
         """
 
@@ -489,11 +496,10 @@ class ADCConfiguration(Mapping):
     def oversampling_rate(self, oversampling_rate: int) -> None:
         """Change the oversampling rate
 
-        Parameters
-        ----------
+        Args:
 
-        oversampling_rate:
-            The new value for the oversampling rate
+            oversampling_rate:
+                The new value for the oversampling rate
 
         """
 
@@ -510,27 +516,27 @@ class ADCConfiguration(Mapping):
     def sample_rate(self) -> float:
         """Calculate the sampling rate for the current ADC configuration
 
-        Returns
-        -------
+        Returns:
 
-        The calculated sample rate
+            The calculated sample rate
 
-        Examples
-        --------
+        Examples:
 
-        >>> round(ADCConfiguration(prescaler=2, acquisition_time=8,
-        ...                  oversampling_rate=64).sample_rate())
-        9524
+            Get sampling rates based on ADC attribute values
 
-        >>> round(ADCConfiguration(prescaler=8, acquisition_time=8,
-        ...                        oversampling_rate=64).sample_rate())
-        3175
+            >>> round(ADCConfiguration(prescaler=2, acquisition_time=8,
+            ...                        oversampling_rate=64).sample_rate())
+            9524
 
-        >>> round(ADCConfiguration(reference_voltage=5.0,
-        ...                        prescaler=16,
-        ...                        acquisition_time=8,
-        ...                        oversampling_rate=128).sample_rate())
-        840
+            >>> round(ADCConfiguration(prescaler=8, acquisition_time=8,
+            ...                        oversampling_rate=64).sample_rate())
+            3175
+
+            >>> round(ADCConfiguration(reference_voltage=5.0,
+            ...                        prescaler=16,
+            ...                        acquisition_time=8,
+            ...                        oversampling_rate=128).sample_rate())
+            840
 
         """
 

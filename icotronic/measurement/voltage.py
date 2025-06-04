@@ -12,8 +12,7 @@ def convert_raw_to_supply_voltage(
 ) -> float:
     """Convert a raw 2 byte supply voltage value to a voltage value
 
-    Parameters
-    ----------
+    Args:
 
     voltage_raw:
         A 2 byte supply voltage value (returned by the `Streaming` command)
@@ -21,12 +20,11 @@ def convert_raw_to_supply_voltage(
     reference_voltage:
         The ADC reference voltage
 
-    Returns
-    -------
+    Returns:
 
     The supply voltage in volts
 
-    Example:
+    Examples:
 
     >>> voltage = convert_raw_to_supply_voltage(11000)
     >>> 3.15 < voltage < 3.16

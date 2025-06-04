@@ -26,8 +26,7 @@ def open_file_windows(filepath: Union[Path, str]) -> None:
     filepath:
         Location of the file that should be opened
 
-    Raises
-    ------
+    Raises:
 
     UnableToOpenError
         if opening the file failed
@@ -55,8 +54,7 @@ def open_file_other(filepath: Union[Path, str]) -> None:
     filepath:
         Location of the file that should be opened
 
-    Raises
-    ------
+    Raises:
 
     UnableToOpenError
         if opening the file failed
@@ -84,14 +82,12 @@ def open_file(filepath: Union[Path, str]) -> None:
     filepath:
         Location of the file that should be opened
 
-    Raises
-    ------
+    Raises:
 
     UnableToOpenError
         if opening the file failed
 
-    Examples
-    --------
+    Examples:
 
     Open (hopefully) non-existing file
 

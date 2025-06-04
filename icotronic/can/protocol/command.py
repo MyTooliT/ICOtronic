@@ -62,8 +62,7 @@ class Command:
         error:
             A boolean value that defines if there was an error or not
 
-        Examples
-        --------
+        Examples:
 
         >>> Command(block=0, block_command=0).value
         0
@@ -160,13 +159,11 @@ class Command:
     def __repr__(self) -> str:
         """Get a textual representation of the command
 
-        Returns
-        -------
+        Returns:
 
         A string that describes the various attributes of the command
 
-        Examples
-        --------
+        Examples:
 
                       block   command A E
         >>> Command(0b001000_00000100_0_0)
@@ -194,13 +191,11 @@ class Command:
     def block(self) -> int:
         """Get the block
 
-        Returns
-        -------
+        Returns:
 
         The block number of the command
 
-        Example
-        -------
+        Examples:
 
                       block   command A E
         >>> Command(0b000011_00000000_0_0).block()
@@ -213,13 +208,11 @@ class Command:
     def block_name(self) -> str:
         """Get a short description of the block
 
-        Returns
-        -------
+        Returns:
 
         A short textual representation of the block number
 
-        Examples
-        --------
+        Examples:
                       block   command A E
         >>> Command(0b101000_00000010_0_0).block_name()
         'Configuration'
@@ -242,13 +235,11 @@ class Command:
     def block_command(self) -> int:
         """Get the block command number
 
-        Returns
-        -------
+        Returns:
 
         The block command number of the command
 
-        Example
-        -------
+        Examples:
 
                       block   command A E
         >>> Command(0b001000_00000100_0_0).block_command()
@@ -261,13 +252,11 @@ class Command:
     def block_command_name(self) -> str:
         """Get the name of the block command
 
-        Returns
-        -------
+        Returns:
 
         A short textual representation of the block command
 
-        Examples
-        --------
+        Examples:
 
                       block   command A E
         >>> Command(0b101000_00000000_0_0).block_command_name()
@@ -287,13 +276,11 @@ class Command:
     def is_acknowledgment(self) -> bool:
         """Checks if this command represents an acknowledgment
 
-        Returns
-        -------
+        Returns:
 
         True if the command is for an acknowledgement, or false otherwise
 
-        Examples
-        --------
+        Examples:
 
                       block   command A E
         >>> Command(0b101000_00000000_0_0).is_acknowledgment()
@@ -309,13 +296,11 @@ class Command:
     def is_error(self) -> bool:
         """Checks if the command represents an error
 
-        Returns
-        -------
+        Returns:
 
         True if the command represents an error, or false otherwise
 
-        Examples
-        --------
+        Examples:
                       block   command A E
         >>> Command(0b101011_00000001_1_0).is_error()
         False
@@ -338,8 +323,7 @@ class Command:
             A boolean that specifies if the command represents an
             acknowledgment or not
 
-        Examples
-        --------
+        Examples:
 
         >>> Command().set_acknowledgment().is_acknowledgment()
         True
@@ -350,8 +334,7 @@ class Command:
         >>> Command().set_acknowledgment(False).is_acknowledgment()
         False
 
-        Returns
-        -------
+        Returns:
 
         The modified command object
 
@@ -371,14 +354,12 @@ class Command:
     def set_error(self, error: bool = True) -> Command:
         """Set the error bit to the given value
 
-        Parameters
-        ----------
+        Args:
 
         error:
             A boolean that specifies if the command represents an error or not
 
-        Examples
-        --------
+        Examples:
 
         >>> Command().set_error().is_error()
         True
@@ -389,8 +370,7 @@ class Command:
         >>> Command().set_error(False).is_error()
         False
 
-        Returns
-        -------
+        Returns:
 
         The modified command object
 

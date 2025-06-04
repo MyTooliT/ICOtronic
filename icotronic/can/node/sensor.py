@@ -43,18 +43,9 @@ from icotronic.measurement.voltage import convert_raw_to_supply_voltage
 
 
 class DataStreamContextManager:
-    """Open and close a data stream from a sensor node"""
+    """Open and close a data stream from a sensor node
 
-    def __init__(
-        self,
-        sensor_node: SensorNode,
-        channels: StreamingConfiguration,
-        timeout: float,
-    ) -> None:
-        """Create a new stream context manager for the given sensor node
-
-        Parameters
-        ----------
+    Args:
 
         sensor_node:
             The sensor node for which this context manager handles
@@ -68,7 +59,14 @@ class DataStreamContextManager:
             The amount of seconds between two consecutive messages, before
             a TimeoutError will be raised
 
-        """
+    """
+
+    def __init__(
+        self,
+        sensor_node: SensorNode,
+        channels: StreamingConfiguration,
+        timeout: float,
+    ) -> None:
 
         self.node = sensor_node
         self.channels = channels
@@ -80,10 +78,9 @@ class DataStreamContextManager:
     async def __aenter__(self) -> AsyncStreamBuffer:
         """Open the stream of measurement data
 
-        Returns
-        -------
+        Returns:
 
-        The stream buffer for the measurement stream
+            The stream buffer for the measurement stream
 
         """
 
@@ -110,17 +107,16 @@ class DataStreamContextManager:
     ) -> None:
         """Clean up the resources used by the stream
 
-        Parameters
-        ----------
+        Args:
 
-        exception_type:
-            The type of the exception in case of an exception
+            exception_type:
+                The type of the exception in case of an exception
 
-        exception_value:
-            The value of the exception in case of an exception
+            exception_value:
+                The value of the exception in case of an exception
 
-        traceback:
-            The traceback in case of an exception
+            traceback:
+                The traceback in case of an exception
 
         """
 
@@ -153,15 +149,17 @@ class Times(NamedTuple):
     """Advertisement time and time until deeper sleep mode"""
 
     advertisement: float
+    """Advertisement time"""
+
     sleep: int
+    """Time until deeper sleep mode"""
 
     def __repr__(self) -> str:
         """Return a string representation of the object
 
-        Returns
-        -------
+        Returns:
 
-        A string that contains the advertisement time and sleep time values
+            A string that contains the advertisement time and sleep time values
 
         """
 
@@ -172,12 +170,9 @@ class Times(NamedTuple):
 
 
 class SensorNode(Node):
-    """Communicate and control a connected sensor node (SHA, STH, SMH)"""
+    """Communicate and control a connected sensor node (SHA, STH, SMH)
 
-    def __init__(
-        self, spu: SPU, eeprom: type[SensorNodeEEPROM] = SensorNodeEEPROM
-    ) -> None:
-        """Initialize the sensor node
+    Args:
 
         spu:
             The SPU object used to connect to this sensor node
@@ -185,7 +180,11 @@ class SensorNode(Node):
         eeprom:
             The EEPROM class of the node
 
-        """
+    """
+
+    def __init__(
+        self, spu: SPU, eeprom: type[SensorNodeEEPROM] = SensorNodeEEPROM
+    ) -> None:
 
         super().__init__(spu, eeprom, NodeId("STH 1"))
 
@@ -200,29 +199,29 @@ class SensorNode(Node):
     async def get_name(self) -> str:
         """Retrieve the name of the sensor node
 
-        Returns
-        -------
+        Returns:
 
-        The (Bluetooth broadcast) name of the node
+            The (Bluetooth broadcast) name of the node
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Get Bluetooth advertisement name of node “0”
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def get_sensor_node_name():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             return await sensor_node.get_name()
-        >>> name = run(get_sensor_node_name())
-        >>> isinstance(name, str)
-        True
-        >>> 0 <= len(name) <= 8
-        True
+            Get Bluetooth advertisement name of node “0”
+
+            >>> async def get_sensor_node_name():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             return await sensor_node.get_name()
+            >>> name = run(get_sensor_node_name())
+            >>> isinstance(name, str)
+            True
+            >>> 0 <= len(name) <= 8
+            True
 
         """
 
@@ -233,39 +232,39 @@ class SensorNode(Node):
     async def set_name(self, name: str) -> None:
         """Set the name of a sensor node
 
-        Parameters
-        ----------
+        Args:
 
-        name:
-            The new name for the node
+            name:
+                The new name for the node
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Change the name of a sensor node
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def test_naming(name):
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         # and that this node currently does not have the name
-        ...         # specified in the variable `name`.
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             before = await sensor_node.get_name()
-        ...             await sensor_node.set_name(name)
-        ...             updated = await sensor_node.get_name()
-        ...             await sensor_node.set_name(before)
-        ...             after = await sensor_node.get_name()
-        ...             return before, updated, after
-        >>> before, updated, after = run(test_naming("Hello"))
-        >>> before != "Hello"
-        True
-        >>> updated
-        'Hello'
-        >>> before == after
-        True
+            Change the name of a sensor node
+
+            >>> async def test_naming(name):
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         # and that this node currently does not have the name
+            ...         # specified in the variable `name`.
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             before = await sensor_node.get_name()
+            ...             await sensor_node.set_name(name)
+            ...             updated = await sensor_node.get_name()
+            ...             await sensor_node.set_name(before)
+            ...             after = await sensor_node.get_name()
+            ...             return before, updated, after
+            >>> before, updated, after = run(test_naming("Hello"))
+            >>> before != "Hello"
+            True
+            >>> updated
+            'Hello'
+            >>> before == after
+            True
 
         """
 
@@ -308,32 +307,32 @@ class SensorNode(Node):
 
         - https://mytoolit.github.io/Documentation/#sleep-advertisement-times
 
-        Returns
-        -------
+        Returns:
 
-        A tuple containing the advertisement time in the reduced energy mode
-        in milliseconds and the time until the node will switch from the
-        disconnected state to the low energy mode (mode 1) – if there is no
-        activity – in milliseconds
+            A tuple containing the advertisement time in the reduced energy
+            mode in milliseconds and the time until the node will switch from
+            the disconnected state to the low energy mode (mode 1) – if there
+            is no activity – in milliseconds
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Retrieve the reduced energy time values of a sensor node
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_energy_mode_reduced():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             return await sensor_node.get_energy_mode_reduced()
-        >>> times = run(read_energy_mode_reduced())
-        >>> round(times.advertisement)
-        1250
-        >>> times.sleep
-        300000
+            Retrieve the reduced energy time values of a sensor node
+
+            >>> async def read_energy_mode_reduced():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             return await sensor_node.get_energy_mode_reduced()
+            >>> times = run(read_energy_mode_reduced())
+            >>> round(times.advertisement)
+            1250
+            >>> times.sleep
+            300000
 
         """
 
@@ -361,44 +360,45 @@ class SensorNode(Node):
 
         - https://mytoolit.github.io/Documentation/#sleep-advertisement-times
 
-        Parameters
-        ----------
+        Args:
 
-        times:
-            The values for the advertisement time in the reduced energy mode
-            in milliseconds and the time until the node will go into the low
-            energy mode (mode 1) from the disconnected state – if there is no
-            activity – in milliseconds.
+            times:
+                The values for the advertisement time in the reduced energy
+                mode in milliseconds and the time until the node will go into
+                the low energy mode (mode 1) from the disconnected state – if
+                there is no activity – in milliseconds.
 
-            If you do not specify these values then the default values from
-            the configuration will be used
+                If you do not specify these values then the default values
+                from the configuration will be used
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        Read and write the reduced energy time values of a sensor node
+            Read and write the reduced energy time values of a sensor node
 
-        >>> async def read_write_energy_mode_reduced(sleep, advertisement):
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             await sensor_node.set_energy_mode_reduced(
-        ...                 Times(sleep=sleep, advertisement=advertisement))
-        ...             times = await sensor_node.get_energy_mode_reduced()
-        ...
-        ...             # Overwrite changed values with default config values
-        ...             await sensor_node.set_energy_mode_reduced()
-        ...
-        ...             return times
-        >>> times = run(read_write_energy_mode_reduced(200_000, 2000))
-        >>> times.sleep
-        200000
-        >>> round(times.advertisement)
-        2000
+            >>> async def read_write_energy_mode_reduced(sleep, advertisement):
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             await sensor_node.set_energy_mode_reduced(
+            ...                 Times(sleep=sleep,
+            ...                       advertisement=advertisement))
+            ...             times = await sensor_node.get_energy_mode_reduced()
+            ...
+            ...             # Overwrite changed values with default config
+            ...             # values
+            ...             await sensor_node.set_energy_mode_reduced()
+            ...
+            ...             return times
+            >>> times = run(read_write_energy_mode_reduced(200_000, 2000))
+            >>> times.sleep
+            200000
+            >>> round(times.advertisement)
+            2000
 
         """
 
@@ -435,32 +435,32 @@ class SensorNode(Node):
 
         - https://mytoolit.github.io/Documentation/#sleep-advertisement-times
 
-        Returns
-        -------
+        Returns:
 
-        A tuple containing the advertisement time in the lowest energy mode in
-        milliseconds and the time until the node will switch from the
-        reduced energy mode (mode 1) to the lowest energy mode (mode 2) – if
-        there is no activity – in milliseconds
+            A tuple containing the advertisement time in the lowest energy
+            mode in milliseconds and the time until the node will switch from
+            the reduced energy mode (mode 1) to the lowest energy mode (mode
+            2) – if there is no activity – in milliseconds
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Retrieve the reduced energy time values of a sensor node
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_energy_mode_lowest():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             return await sensor_node.get_energy_mode_lowest()
-        >>> times = run(read_energy_mode_lowest())
-        >>> round(times.advertisement)
-        2500
-        >>> times.sleep
-        259200000
+            Retrieve the reduced energy time values of a sensor node
+
+            >>> async def read_energy_mode_lowest():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             return await sensor_node.get_energy_mode_lowest()
+            >>> times = run(read_energy_mode_lowest())
+            >>> round(times.advertisement)
+            2500
+            >>> times.sleep
+            259200000
 
         """
 
@@ -486,43 +486,45 @@ class SensorNode(Node):
 
         - https://mytoolit.github.io/Documentation/#sleep-advertisement-times
 
-        Parameters
-        ----------
+        Args:
 
-        times:
-            The values for the advertisement time in the reduced energy mode
-            in milliseconds and the time until the node will go into the
-            lowest energy mode (mode 2) from the reduced energy mode (mode 1)
-            – if there is no activity – in milliseconds.
+            times:
+                The values for the advertisement time in the reduced energy
+                mode in milliseconds and the time until the node will go into
+                the lowest energy mode (mode 2) from the reduced energy mode
+                (mode 1) – if there is no activity – in milliseconds.
 
-            If you do not specify these values then the default values from
-            the configuration will be used
+                If you do not specify these values then the default values
+                from the configuration will be used
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read and write the reduced energy time values of a sensor node
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_write_energy_mode_lowest(sleep, advertisement):
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             await sensor_node.set_energy_mode_lowest(
-        ...                 Times(sleep=sleep, advertisement=advertisement))
-        ...             times = await sensor_node.get_energy_mode_lowest()
-        ...
-        ...             # Overwrite changed values with default config values
-        ...             await sensor_node.set_energy_mode_lowest()
-        ...
-        ...             return times
-        >>> times = run(read_write_energy_mode_lowest(200_000, 2000))
-        >>> times.sleep
-        200000
-        >>> round(times.advertisement)
-        2000
+            Read and write the reduced energy time values of a sensor node
+
+            >>> async def read_write_energy_mode_lowest(sleep, advertisement):
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             await sensor_node.set_energy_mode_lowest(
+            ...                 Times(sleep=sleep,
+            ...                       advertisement=advertisement))
+            ...             times = await sensor_node.get_energy_mode_lowest()
+            ...
+            ...             # Overwrite changed values with default config
+            ...             # values
+            ...             await sensor_node.set_energy_mode_lowest()
+            ...
+            ...             return times
+            >>> times = run(read_write_energy_mode_lowest(200_000, 2000))
+            >>> times.sleep
+            200000
+            >>> round(times.advertisement)
+            2000
 
         """
 
@@ -555,29 +557,29 @@ class SensorNode(Node):
     async def get_mac_address(self) -> EUI:
         """Retrieve the MAC address of the sensor node
 
-        Returns
-        -------
+        Returns:
 
-        The MAC address of the specified sensor node
+            The MAC address of the specified sensor node
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Retrieve the MAC address of STH 1
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def get_bluetooth_mac():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             return await sensor_node.get_mac_address()
-        >>> mac_address = run(get_bluetooth_mac())
-        >>> isinstance(mac_address, EUI)
-        True
-        >>> mac_address != EUI(0)
-        True
+            Retrieve the MAC address of STH 1
+
+            >>> async def get_bluetooth_mac():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             return await sensor_node.get_mac_address()
+            >>> mac_address = run(get_bluetooth_mac())
+            >>> isinstance(mac_address, EUI)
+            True
+            >>> mac_address != EUI(0)
+            True
 
         """
 
@@ -599,36 +601,34 @@ class SensorNode(Node):
     ) -> StreamingData:
         """Read a single set of raw ADC values from the sensor node
 
-        Parameters
-        ----------
+        Args:
 
-        channels:
-            Specifies which of the three measurement channels should be
-            enabled or disabled
+            channels:
+                Specifies which of the three measurement channels should be
+                enabled or disabled
 
-        Returns
-        -------
+        Returns:
 
-        The latest three ADC values measured by the sensor node
+            The latest three ADC values measured by the sensor node
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        Read a single value from all three measurement channels
+            Read a single value from all three measurement channels
 
-        >>> async def read_sensor_values():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             return await sensor_node.get_streaming_data_single()
-        >>> data = run(read_sensor_values())
-        >>> len(data.values)
-        3
-        >>> all([0 <= value <= 0xffff for value in data.values])
-        True
+            >>> async def read_sensor_values():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             return (await
+            ...                 sensor_node.get_streaming_data_single())
+            >>> data = run(read_sensor_values())
+            >>> len(data.values)
+            3
+            >>> all([0 <= value <= 0xffff for value in data.values])
+            True
 
         """
 
@@ -674,12 +674,11 @@ class SensorNode(Node):
     ) -> None:
         """Start streaming data
 
-        Parameters
-        ----------
+        Args:
 
-        channels:
-            Specifies which of the three measurement channels should be
-            enabled or disabled
+            channels:
+                Specifies which of the three measurement channels should be
+                enabled or disabled
 
         The CAN identifier that this coroutine returns can be used
         to filter CAN messages that contain the expected streaming data
@@ -727,16 +726,15 @@ class SensorNode(Node):
     ) -> None:
         """Stop streaming data
 
-        Parameters
-        ----------
+        Args:
 
-        retries:
-            The number of times the message is sent again, if no response was
-            sent back in a certain amount of time
+            retries:
+                The number of times the message is sent again, if no response
+                was sent back in a certain amount of time
 
-        ignore_errors:
-            Specifies, if this coroutine should ignore, if there were any
-            problems while stopping the stream.
+            ignore_errors:
+                Specifies, if this coroutine should ignore, if there were any
+                problems while stopping the stream.
 
         """
 
@@ -770,52 +768,51 @@ class SensorNode(Node):
     ) -> DataStreamContextManager:
         """Open measurement data stream
 
-        Parameters
-        ----------
+        Args:
 
-        channels:
-            Specifies which measurement channels should be enabled
+            channels:
+                Specifies which measurement channels should be enabled
 
-        timeout:
-            The amount of seconds between two consecutive messages, before
-            a TimeoutError will be raised
+            timeout:
+                The amount of seconds between two consecutive messages, before
+                a TimeoutError will be raised
 
-        Returns
-        -------
+        Returns:
 
-        A context manager object for managing stream data
+            A context manager object for managing stream data
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read data of first and third channel
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_streaming_data():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             channels = StreamingConfiguration(first=True,
-        ...                                               third=True)
-        ...             async with sensor_node.open_data_stream(
-        ...               channels) as stream:
-        ...                 first = []
-        ...                 third = []
-        ...                 messages = 0
-        ...                 async for data, _ in stream:
-        ...                     first.append(data.values[0])
-        ...                     third.append(data.values[1])
-        ...                     messages += 1
-        ...                     if messages >= 3:
-        ...                         break
-        ...                 return first, third
-        >>> first, third = run(read_streaming_data())
-        >>> len(first)
-        3
-        >>> len(third)
-        3
+            Read data of first and third channel
+
+            >>> async def read_streaming_data():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             channels = StreamingConfiguration(first=True,
+            ...                                               third=True)
+            ...             async with sensor_node.open_data_stream(
+            ...               channels) as stream:
+            ...                 first = []
+            ...                 third = []
+            ...                 messages = 0
+            ...                 async for data, _ in stream:
+            ...                     first.append(data.values[0])
+            ...                     third.append(data.values[1])
+            ...                     messages += 1
+            ...                     if messages >= 3:
+            ...                         break
+            ...                 return first, third
+            >>> first, third = run(read_streaming_data())
+            >>> len(first)
+            3
+            >>> len(third)
+            3
 
         """
 
@@ -828,27 +825,27 @@ class SensorNode(Node):
     async def get_supply_voltage(self) -> float:
         """Read the current supply voltage
 
-        Returns
-        -------
+        Returns:
 
-        The supply voltage of the sensor node
+            The supply voltage of the sensor node
 
-        Example
-        -------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read the supply voltage of the sensor node with node number 0
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def get_supply_voltage():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             return await sensor_node.get_supply_voltage()
-        >>> supply_voltage = run(get_supply_voltage())
-        >>> 3 <= supply_voltage <= 4.2
-        True
+            Read the supply voltage of the sensor node with node number 0
+
+            >>> async def get_supply_voltage():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             return await sensor_node.get_supply_voltage()
+            >>> supply_voltage = run(get_supply_voltage())
+            >>> 3 <= supply_voltage <= 4.2
+            True
 
         """
 
@@ -890,27 +887,27 @@ class SensorNode(Node):
     async def get_adc_configuration(self) -> ADCConfiguration:
         """Read the current ADC configuration
 
-        Returns
-        -------
+        Returns:
 
-        The ADC configuration of the sensor node
+            The ADC configuration of the sensor node
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read ADC sensor config of sensor node with node id 0
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_adc_config():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             return await sensor_node.get_adc_configuration()
-        >>> run(read_adc_config()) # doctest:+NORMALIZE_WHITESPACE
-        Get, Prescaler: 2, Acquisition Time: 8, Oversampling Rate: 64,
-        Reference Voltage: 3.3 V
+            Read ADC sensor config of sensor node with node id 0
+
+            >>> async def read_adc_config():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             return await sensor_node.get_adc_configuration()
+            >>> run(read_adc_config()) # doctest:+NORMALIZE_WHITESPACE
+            Get, Prescaler: 2, Acquisition Time: 8, Oversampling Rate: 64,
+            Reference Voltage: 3.3 V
 
         """
 
@@ -940,60 +937,61 @@ class SensorNode(Node):
     ) -> None:
         """Change the ADC configuration of a connected sensor node
 
-        Parameters
-        ----------
+        Args:
 
-        reference_voltage:
-            The ADC reference voltage in Volt
-            (1.25, 1.65, 1.8, 2.1, 2.2, 2.5, 2.7, 3.3, 5, 6.6)
+            reference_voltage:
+                The ADC reference voltage in Volt
+                (1.25, 1.65, 1.8, 2.1, 2.2, 2.5, 2.7, 3.3, 5, 6.6)
 
-        prescaler:
-            The ADC prescaler value (1 – 127)
+            prescaler:
+                The ADC prescaler value (1 – 127)
 
-        acquisition_time:
-            The ADC acquisition time in number of cycles
-            (1, 2, 3, 4, 8, 16, 32, … , 256)
+            acquisition_time:
+                The ADC acquisition time in number of cycles
+                (1, 2, 3, 4, 8, 16, 32, … , 256)
 
-        oversampling_rate:
-            The ADC oversampling rate (1, 2, 4, 8, … , 4096)
+            oversampling_rate:
+                The ADC oversampling rate (1, 2, 4, 8, … , 4096)
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Read and write ADC sensor config
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def write_read_adc_config():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             await sensor_node.set_adc_configuration(
-        ...                 3.3, 8, 8, 64)
-        ...             modified_config1 = (await
-        ...                 sensor_node.get_adc_configuration())
-        ...
-        ...             adc_config = ADCConfiguration(reference_voltage=5.0,
-        ...                                           prescaler=16,
-        ...                                           acquisition_time=8,
-        ...                                           oversampling_rate=128)
-        ...             await sensor_node.set_adc_configuration(
-        ...                 **adc_config)
-        ...             modified_config2 = (await
-        ...                 sensor_node.get_adc_configuration())
-        ...
-        ...             # Write back default config values
-        ...             await sensor_node.set_adc_configuration(
-        ...                 3.3, 2, 8, 64)
-        ...             return modified_config1, modified_config2
-        >>> config1, config2 = run(write_read_adc_config())
-        >>> config1 # doctest:+NORMALIZE_WHITESPACE
-        Get, Prescaler: 8, Acquisition Time: 8, Oversampling Rate: 64,
-        Reference Voltage: 3.3 V
-        >>> config2 # doctest:+NORMALIZE_WHITESPACE
-        Get, Prescaler: 16, Acquisition Time: 8, Oversampling Rate: 128,
-        Reference Voltage: 5.0 V
+            Read and write ADC sensor config
+
+            >>> async def write_read_adc_config():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             await sensor_node.set_adc_configuration(
+            ...                 3.3, 8, 8, 64)
+            ...             modified_config1 = (await
+            ...                 sensor_node.get_adc_configuration())
+            ...
+            ...             adc_config = ADCConfiguration(
+            ...                 reference_voltage=5.0,
+            ...                 prescaler=16,
+            ...                 acquisition_time=8,
+            ...                 oversampling_rate=128)
+            ...             await sensor_node.set_adc_configuration(
+            ...                 **adc_config)
+            ...             modified_config2 = (await
+            ...                 sensor_node.get_adc_configuration())
+            ...
+            ...             # Write back default config values
+            ...             await sensor_node.set_adc_configuration(
+            ...                 3.3, 2, 8, 64)
+            ...             return modified_config1, modified_config2
+            >>> config1, config2 = run(write_read_adc_config())
+            >>> config1 # doctest:+NORMALIZE_WHITESPACE
+            Get, Prescaler: 8, Acquisition Time: 8, Oversampling Rate: 64,
+            Reference Voltage: 3.3 V
+            >>> config2 # doctest:+NORMALIZE_WHITESPACE
+            Get, Prescaler: 16, Acquisition Time: 8, Oversampling Rate: 128,
+            Reference Voltage: 5.0 V
 
         """
 
@@ -1026,36 +1024,35 @@ class SensorNode(Node):
     async def get_sensor_configuration(self) -> SensorConfiguration:
         """Read the current sensor configuration
 
-        Raises
-        ------
+        Raises:
 
-        UnsupportedFeatureException
-            in case the sensor node replies with an error message
+            UnsupportedFeatureException
+                in case the sensor node replies with an error message
 
-        Returns
-        -------
+        Returns:
 
-        The sensor number for the different axes
+            The sensor number for the different axes
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Reading sensor config from node without sensor config support fails
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def read_sensor_config():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             return await sensor_node.get_sensor_configuration()
-        >>> config = run(
-        ...     read_sensor_config()) #doctest: +IGNORE_EXCEPTION_DETAIL
-        Traceback (most recent call last):
-           ...
-        UnsupportedFeatureException: Reading sensor configuration is not
-        supported
+            Reading sensor config from node without sensor config support fails
+
+            >>> async def read_sensor_config():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             return await sensor_node.get_sensor_configuration()
+            >>> config = run(
+            ...     read_sensor_config()) #doctest: +IGNORE_EXCEPTION_DETAIL
+            Traceback (most recent call last):
+               ...
+            UnsupportedFeatureException: Reading sensor configuration is not
+            supported
 
         """
 
@@ -1092,32 +1089,33 @@ class SensorNode(Node):
         If you use the sensor number `0` for one of the different measurement
         channels, then the sensor (number) for that channel will stay the same.
 
-        Parameters
-        ----------
+        Args:
 
-        sensors:
-            The sensor numbers of the different measurement channels
+            sensors:
+                The sensor numbers of the different measurement channels
 
-        Examples
-        --------
+        Examples:
 
-        >>> from asyncio import run
-        >>> from icotronic.can.connection import Connection
+            Import required library code
 
-        Setting sensor config from node without sensor config support fails
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
 
-        >>> async def set_sensor_config():
-        ...     async with Connection() as stu:
-        ...         # We assume that at least one sensor node is available
-        ...         async with stu.connect_sensor_node(0) as sensor_node:
-        ...             await sensor_node.set_sensor_configuration(
-        ...                 SensorConfiguration(first=0, second=0, third=0))
-        >>> config = run(
-        ...     set_sensor_config()) #doctest: +IGNORE_EXCEPTION_DETAIL
-        Traceback (most recent call last):
-           ...
-        UnsupportedFeatureException: Writing sensor configuration is not
-        supported
+            Setting sensor config from node without sensor config support fails
+
+            >>> async def set_sensor_config():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             await sensor_node.set_sensor_configuration(
+            ...                 SensorConfiguration(
+            ...                     first=0, second=0, third=0))
+            >>> config = run(
+            ...     set_sensor_config()) #doctest: +IGNORE_EXCEPTION_DETAIL
+            Traceback (most recent call last):
+               ...
+            UnsupportedFeatureException: Writing sensor configuration is not
+            supported
 
         """
 

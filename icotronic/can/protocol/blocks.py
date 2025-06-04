@@ -18,22 +18,22 @@ class UnknownBlockError(Exception):
 
 
 class CANIdPart:
-    """Stores data for a part of the CAN identifier"""
+    """Stores data for a part of the CAN identifier
 
-    def __init__(self, number: int, name: str, description: str) -> None:
-        """Create a new CAN identifier part
-
-        Parameters
-        ----------
+    Args:
 
         number:
             The value of the CAN identifier part
+
         name:
             The name of the CAN identifier part
+
         description:
             A short description of the CAN identifier part
 
-        """
+    """
+
+    def __init__(self, number: int, name: str, description: str) -> None:
 
         self.number = number
         self.name = name
@@ -42,18 +42,19 @@ class CANIdPart:
     def __repr__(self) -> str:
         """Get the string representation of the CAN identifier part
 
-        Examples
-        --------
+        Examples:
 
-        >>> CANIdPart(0x01, "Reset", "System Command Reset")
-        Reset (0x01): System Command Reset
-        >>> CANIdPart(0x80, "Energy", "Statistical Data Command Energy")
-        Energy (0x80): Statistical Data Command Energy
+            Get the textual representation of example CAN identifier info
 
-        Returns
-        -------
+            >>> CANIdPart(0x01, "Reset", "System Command Reset")
+            Reset (0x01): System Command Reset
 
-        A string representing the CAN identifier part
+            >>> CANIdPart(0x80, "Energy", "Statistical Data Command Energy")
+            Energy (0x80): Statistical Data Command Energy
+
+        Returns:
+
+            A string representing the CAN identifier part
 
         """
 
@@ -61,7 +62,23 @@ class CANIdPart:
 
 
 class Block(CANIdPart):
-    """Store information about a block including its block commands"""
+    """Store information about a block including its block commands
+
+    Args:
+
+        number:
+            The value of the CAN identifier part
+
+        name:
+            The name of the CAN identifier part
+
+        description:
+            A short description of the CAN identifier part
+
+        block_commands:
+            The list of block commands contained in this block
+
+    """
 
     def __init__(
         self,
@@ -70,21 +87,6 @@ class Block(CANIdPart):
         description: str,
         block_commands: list[CANIdPart],
     ) -> None:
-        """Create a new block
-
-        Parameters
-        ----------
-
-        number:
-            The value of the CAN identifier part
-        name:
-            The name of the CAN identifier part
-        description:
-            A short description of the CAN identifier part
-        block_commands:
-            The list of block commands contained in this block
-
-        """
 
         super().__init__(number, name, description)
         self.block_commands: dict[int | str, CANIdPart] = {}
@@ -95,43 +97,44 @@ class Block(CANIdPart):
     def __getitem__(self, block_command: int | str) -> CANIdPart:
         """Get the block command with the specified number or name
 
-        Parameters
-        ----------
+        Args:
 
-        block_command:
-            The name or number of the block command
+            block_command:
+                The name or number of the block command
 
-        Returns
-        -------
+        Returns:
 
-        The requested block command
+            The requested block command
 
-        Raises
-        ------
+        Raises:
 
-        UnknownBlockCommandError
-            if the command block is not part of the block
+            UnknownBlockCommandError
+                if the command block is not part of the block
 
-        Examples
-        --------
+        Examples:
 
-        >>> block = Block(
-        ...     0x00,
-        ...     "System",
-        ...     "Command Block System",
-        ...     [
-        ...         CANIdPart(0x00, "Verboten", "System Command Verboten"),
-        ...         CANIdPart(0x01, "Reset", "System Command Reset"),
-        ...     ],
-        ... )
-        >>> block[0]
-        Verboten (0x00): System Command Verboten
-        >>> block[0] == block["Verboten"]
-        True
-        >>> block[-1] # doctest: +IGNORE_EXCEPTION_DETAIL
-        Traceback (most recent call last):
-            ...
-        UnknownBlockCommandError: Unknown block command: “-1”
+            Get block command by number
+
+            >>> block = Block(
+            ...     0x00,
+            ...     "System",
+            ...     "Command Block System",
+            ...     [
+            ...         CANIdPart(0x00, "Verboten", "System Command Verboten"),
+            ...         CANIdPart(0x01, "Reset", "System Command Reset"),
+            ...     ],
+            ... )
+            >>> block[0]
+            Verboten (0x00): System Command Verboten
+            >>> block[0] == block["Verboten"]
+            True
+
+            Accessing a non existent block command should fail
+
+            >>> block[-1] # doctest: +IGNORE_EXCEPTION_DETAIL
+            Traceback (most recent call last):
+                ...
+            UnknownBlockCommandError: Unknown block command: “-1”
 
         """
 
@@ -144,18 +147,16 @@ class Block(CANIdPart):
 
 
 class Blocks:
-    """Store information about available blocks"""
+    """Store information about available blocks
 
-    def __init__(self, block_info: list[Block]):
-        """Create block information using the given arguments
-
-        Parameters
-        ----------
+    Args:
 
         block_info:
             A list containing each block
 
-        """
+    """
+
+    def __init__(self, block_info: list[Block]):
 
         self.blocks: dict[int | str, Block] = {}
         for block in block_info:
@@ -165,43 +166,47 @@ class Blocks:
     def __getitem__(self, block: int | str) -> Block:
         """Get the block with the specified number or name
 
-        Parameters
-        ----------
+        Args:
 
-        block:
-            The name or number of the block
+            block:
+                The name or number of the block
 
-        Returns
-        -------
+        Returns:
 
-        The requested block
+            The requested block
 
-        Raises
-        ------
+        Raises:
 
-        UnknownBlockCommandError
-            if the command block is not part of the block
+            UnknownBlockCommandError:
+                if the command block is not part of the block
 
-        Examples
-        --------
+        Examples:
 
-        >>> blocks = Blocks([
-        ...     Block(
-        ...         0x00,
-        ...         "System",
-        ...         "Command Block System",
-        ...         [
-        ...             CANIdPart(0x00, "Verboten", "System Command Verboten"),
-        ...             CANIdPart(0x01, "Reset", "System Command Reset"),
-        ...
-        ...         ],
-        ... )])
-        >>> blocks["System"]
-        System (0x00): Command Block System
-        >>> blocks["Does Not Exist"] # doctest: +IGNORE_EXCEPTION_DETAIL
-        Traceback (most recent call last):
-            ...
-        UnknownBlockError: Unknown block: “Does Not Exist”
+            Create a Blocks object
+
+            >>> blocks = Blocks([
+            ...     Block(
+            ...         0x00,
+            ...         "System",
+            ...         "Command Block System",
+            ...         [
+            ...             CANIdPart(0x00, "Verboten",
+            ...                       "System Command Verboten"),
+            ...             CANIdPart(0x01, "Reset", "System Command Reset"),
+            ...         ],
+            ... )])
+
+            Retrieve an existing block
+
+            >>> blocks["System"]
+            System (0x00): Command Block System
+
+            Retrieving an non-existing block will fail
+
+            >>> blocks["Does Not Exist"] # doctest: +IGNORE_EXCEPTION_DETAIL
+            Traceback (most recent call last):
+                ...
+            UnknownBlockError: Unknown block: “Does Not Exist”
 
         """
 
@@ -213,28 +218,30 @@ class Blocks:
     def __repr__(self) -> str:
         """Get the string representation of the blocks
 
-        Returns
-        -------
+        Returns:
 
-        The string representation of the stored blocks
+            The string representation of the stored blocks
 
-        Examples
-        --------
+        Examples:
 
-        >>> Blocks([
-        ...     Block(
-        ...         0x3F,
-        ...         "Test",
-        ...         "Command Block Test",
-        ...         [
-        ...             CANIdPart(0x01, "Signal", "Test Command Signal"),
-        ...             CANIdPart(0x69, "Pfeifferl", "Test Command Pfeifferl"),
-        ...         ]
-        ...     ),
-        ...     Block(0x3E, "Product Data", "Command Block Product Data", [])
-        ... ]) # doctest: +NORMALIZE_WHITESPACE
-        [Test (0x3F): Command Block Test,
-         Product Data (0x3E): Command Block Product Data]
+            Get the textual representation of a Blocks object
+
+            >>> Blocks([
+            ...     Block(
+            ...         0x3F,
+            ...         "Test",
+            ...         "Command Block Test",
+            ...         [
+            ...             CANIdPart(0x01, "Signal", "Test Command Signal"),
+            ...             CANIdPart(0x69, "Pfeifferl",
+            ...                       "Test Command Pfeifferl"),
+            ...         ]
+            ...     ),
+            ...     Block(0x3E, "Product Data",
+            ...           "Command Block Product Data", [])
+            ... ]) # doctest: +NORMALIZE_WHITESPACE
+            [Test (0x3F): Command Block Test,
+             Product Data (0x3E): Command Block Product Data]
 
         """
 
@@ -459,6 +466,10 @@ blocks = Blocks([
         ],
     ),
 ])
+"""MyTooliT Protocol command blocks
+
+See also: https://mytoolit.github.io/Documentation/#blocks
+"""
 
 # -- Main ---------------------------------------------------------------------
 

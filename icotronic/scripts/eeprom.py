@@ -15,8 +15,7 @@ from icotronic.cmdline.parse import byte_value, mac_address
 def parse_arguments():
     """Parse the arguments of the EEPROM checker command line tool
 
-    Returns
-    -------
+    Returns:
 
     A simple object storing the MAC address (attribute `mac`) of an STH and an
     byte value that should be stored into the cells of the EEPROM (attribute
@@ -50,8 +49,7 @@ class EEPROMCheck:
     def __init__(self, sensor_node, value):
         """Initialize the EEPROM check with the given arguments
 
-        Parameters
-        ----------
+        Args:
 
         sensor_node:
             The sensor node where the EEPROM check should take place
