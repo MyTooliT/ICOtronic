@@ -22,6 +22,7 @@ release = __version__
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
+    "sphinx_autodoc_typehints",
     "sphinx.ext.doctest",
     "sphinx_toggleprompt",
 ]
