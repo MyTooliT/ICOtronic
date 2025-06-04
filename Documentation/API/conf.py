@@ -32,6 +32,10 @@ doctest_test_doctest_blocks = ""
 
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
+# -- Autodoc Configuration ----------------------------------------------------
+
+autoclass_content = "both"
+
 # -- Options for HTML output --------------------------------------------------
 
 html_theme_path = maisie_sphinx_theme.html_theme_path()
