@@ -47,6 +47,7 @@ requires-python = ">=3.10"
 [project.optional-dependencies]
 dev = [
     "coverage>=7.8.2",
+    "pydoclint[flake8]>=0.6.6",
     "Flake8-pyproject>=1.2.3",
     "mypy",
     "pylint>=3.3.1",
