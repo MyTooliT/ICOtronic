@@ -289,7 +289,9 @@ blocks = Blocks([
         "Command Block Statistical Data",
         [
             CANIdPart(
-                0x00, "PocPof", "Statistical Data Command PowerOn/Off Counter"
+                0x00,
+                "PowOnOff",
+                "Statistical Data Command PowerOn/Off Counter",
             ),
             CANIdPart(
                 0x01,
@@ -297,10 +299,10 @@ blocks = Blocks([
                 "Statistical Data Command Operating Time",
             ),
             CANIdPart(
-                0x02, "Uvc", "Statistical Data Command Undervoltage Counter"
+                0x02, "UVC", "Statistical Data Command Under-Voltage Counter"
             ),
             CANIdPart(
-                0x03, "Wdog", "Statistical Data Command Watchdog Counter"
+                0x03, "WDog", "Statistical Data Command Watchdog Counter"
             ),
             CANIdPart(
                 0x04,
@@ -357,7 +359,7 @@ blocks = Blocks([
                 "Configuration Command Calibration Measurement",
             ),
             CANIdPart(0x80, "Alarm", "Configuration Command Alarm"),
-            CANIdPart(0xC0, "Hmi", "Configuration Command HMI"),
+            CANIdPart(0xC0, "HMI", "Configuration Command HMI"),
         ],
     ),
     Block(
