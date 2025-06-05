@@ -10,7 +10,6 @@ from __future__ import annotations
 
 from typing import List, Optional, Union
 
-from can.interfaces.pcan.basic import PCAN_MESSAGE_EXTENDED, TPCANMsg
 from can import Message as CANMessage
 from netaddr import EUI
 
@@ -45,10 +44,7 @@ class Message:
 
         message:
 
-            Either
-
-            - A PCAN message structure as used by the PCAN Basic API
-            - or a python-can message
+            A python-can message
 
         identifier:
 
@@ -60,10 +56,6 @@ class Message:
             message
 
     Examples:
-
-        Create a message from a given PCAN message
-
-        >>> message = Message(TPCANMsg())
 
         Create a message from a python-can message
 
@@ -100,7 +92,7 @@ class Message:
 
     def __init__(
         self,
-        *message: Union[TPCANMsg, CANMessage],
+        *message: CANMessage,
         identifier: Optional[Identifier] = None,
         data: Optional[List[int]] = None,
         **keyword_arguments: Union[Command, NodeId, None, str, int, bool],
@@ -108,16 +100,7 @@ class Message:
 
         if message:
             can_message = message[0]
-            if isinstance(can_message, TPCANMsg):
-                self.message = CANMessage(
-                    is_extended_id=True,
-                    arbitration_id=can_message.ID,
-                    data=[
-                        can_message.DATA[byte]
-                        for byte in range(can_message.LEN)
-                    ],
-                )
-            elif isinstance(can_message, CANMessage):
+            if isinstance(can_message, CANMessage):
                 self.message = can_message
             else:
                 raise ValueError(
@@ -472,14 +455,11 @@ class Message:
 
             Retrieve the textual representation of various example messages
 
-            >>> pcan_message = TPCANMsg()
-            >>> pcan_message.ID = Identifier(block=0, block_command=1,
-            ...                             request=True, error=False,
-            ...                             sender=1, receiver=14).value
-            >>> pcan_message.DATA[0] = 0xfe
-            >>> pcan_message.DATA[1] = 0xfe
-            >>> pcan_message.LEN = 2
-            >>> Message(pcan_message) # doctest:+NORMALIZE_WHITESPACE
+            >>> identifier = Identifier(block=0, block_command=1,
+            ...                         request=True, error=False,
+            ...                         sender=1, receiver=14)
+            >>> message = Message(identifier=identifier, data=[0xfe, 0xfe])
+            >>> message # doctest:+NORMALIZE_WHITESPACE
             0b00000000000000110000001001110 2 0xfe 0xfe
             # [STH 1 → STH 14, Block: System, Command: Reset, Request]
 
@@ -638,33 +618,6 @@ class Message:
         """
 
         return self.message
-
-    def to_pcan(self) -> TPCANMsg:
-        """Retrieve a PCAN message object for this message
-
-        Returns:
-
-            A message object of the PCAN Basic API
-
-        Examples:
-
-            Check the PCAN message representation of an example message
-
-            >>> message = Message(block='System', block_command='Bluetooth')
-            >>> pcan_message = message.to_pcan()
-            >>> message.id() == pcan_message.ID
-            True
-
-        """
-
-        message = TPCANMsg()
-        message.ID = self.message.arbitration_id
-        for byte, value in enumerate(self.message.data):
-            message.DATA[byte] = value
-        message.LEN = len(self.data)
-        message.MSGTYPE = PCAN_MESSAGE_EXTENDED
-
-        return message
 
 
 # -- Main ---------------------------------------------------------------------
