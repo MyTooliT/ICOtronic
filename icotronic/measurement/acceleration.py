@@ -11,7 +11,7 @@ from icotronic.measurement.constants import ADC_MAX_VALUE
 # -- Functions ----------------------------------------------------------------
 
 
-def convert_raw_to_g(acceleration_raw: int, max_value: float) -> float:
+def convert_raw_to_g(acceleration_raw: float, max_value: float) -> float:
     """Convert an acceleration value sent by the STH into a factor
 
     The factor measures the amount of the gravitational force

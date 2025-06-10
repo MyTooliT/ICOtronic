@@ -24,6 +24,7 @@ async def store_streaming_data(identifier: EUI | str | int) -> None:
             Identifier of STH node
 
     """
+
     async with Connection() as stu:
         async with stu.connect_sensor_node(identifier, STH) as sth:
 

@@ -246,7 +246,7 @@ class STH(SensorNode):
 
     async def get_acceleration_conversion_function(
         self,
-    ) -> Callable[[int], float]:
+    ) -> Callable[[float], float]:
         """Retrieve function to convert raw sensor data into g
 
         Returns:
