@@ -499,7 +499,7 @@ class AsyncStreamBuffer(Listener):
         """Reset the message statistics
 
         This method resets the amount of lost an retrieved messages used in
-        the calculation of the method `dataloss`. Using this method can be
+        the calculation of the method ``dataloss``. Using this method can be
         useful, if you want to calculate the amount of data loss since a
         specific starting point.
 
