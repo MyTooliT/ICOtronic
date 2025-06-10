@@ -7,7 +7,6 @@ from __future__ import annotations
 from asyncio import Queue, wait_for
 from collections.abc import AsyncIterator, Callable, Sequence
 from ctypes import c_uint8, LittleEndianStructure
-from typing import Tuple
 
 from can import Listener, Message
 
@@ -391,14 +390,14 @@ class AsyncStreamBuffer(Listener):
             receiver="SPU 1",
             request=False,
         )
-        self.queue: Queue[Tuple[StreamingData, int]] = Queue()
+        self.queue: Queue[tuple[StreamingData, int]] = Queue()
         self.timeout = timeout
         self.configuration = configuration
         self.last_counter = -1
         self.max_buffer_size = max_buffer_size
         self.stats = MessageStats()
 
-    def __aiter__(self) -> AsyncIterator[Tuple[StreamingData, int]]:
+    def __aiter__(self) -> AsyncIterator[tuple[StreamingData, int]]:
         """Retrieve iterator for collected data
 
         Returns:
@@ -410,7 +409,7 @@ class AsyncStreamBuffer(Listener):
 
         return self
 
-    async def __anext__(self) -> Tuple[StreamingData, int]:
+    async def __anext__(self) -> tuple[StreamingData, int]:
         """Retrieve next stream data object in collected data
 
         Returns:
@@ -567,7 +566,7 @@ class StreamingFormat:
         width: int | None = 2,
         channels: StreamingConfiguration | None = None,
         sets: int | None = None,
-        value_explanations: Tuple[str, str, str] = (
+        value_explanations: tuple[str, str, str] = (
             "Value 1",
             "Value 2",
             "Value 3",
