@@ -10,8 +10,6 @@ https://mytoolit.github.io/Documentation/#command
 
 from __future__ import annotations
 
-from typing import Optional
-
 from icotronic.can.protocol.blocks import (
     blocks,
     UnknownBlockError,
@@ -91,8 +89,8 @@ class Command:
         *command: int,
         block: None | str | int = None,
         block_command: None | str | int = None,
-        request: Optional[bool] = None,
-        error: Optional[bool] = None,
+        request: bool | None = None,
+        error: bool | None = None,
     ) -> None:
 
         def set_part(start, width, number):

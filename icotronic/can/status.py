@@ -2,7 +2,7 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from typing import List, Optional
+from typing import List
 
 from bidict import bidict
 
@@ -61,7 +61,7 @@ class State:
     def __init__(
         self,
         *value: int,
-        mode: Optional[str] = None,
+        mode: str | None = None,
         location: None | int | str = None,
         state: None | int | str = None,
     ) -> None:

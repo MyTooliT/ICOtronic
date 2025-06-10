@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from asyncio import Queue, wait_for
 from ctypes import c_uint8, LittleEndianStructure
-from typing import AsyncIterator, Callable, List, Optional, Sequence, Tuple
+from typing import AsyncIterator, Callable, List, Sequence, Tuple
 
 from can import Listener, Message
 
@@ -562,10 +562,10 @@ class StreamingFormat:
     def __init__(
         self,
         *value,
-        streaming: Optional[bool] = None,
-        width: Optional[int] = 2,
-        channels: Optional[StreamingConfiguration] = None,
-        sets: Optional[int] = None,
+        streaming: bool | None = None,
+        width: int | None = 2,
+        channels: StreamingConfiguration | None = None,
+        sets: int | None = None,
         value_explanations: Tuple[str, str, str] = (
             "Value 1",
             "Value 2",

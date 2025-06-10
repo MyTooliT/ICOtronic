@@ -10,7 +10,7 @@ for more information
 
 from collections.abc import Iterator, Mapping
 from math import log2
-from typing import List, Optional
+from typing import List
 
 from icotronic.utility.types import check_list
 
@@ -63,12 +63,12 @@ class ADCConfiguration(Mapping):
         self,
         *data: bytearray | List[int],
         # pylint: disable=redefined-builtin
-        set: Optional[bool] = None,
+        set: bool | None = None,
         # pylint: enable=redefined-builtin
-        prescaler: Optional[int] = None,
-        acquisition_time: Optional[int] = None,
-        oversampling_rate: Optional[int] = None,
-        reference_voltage: Optional[float] = None,
+        prescaler: int | None = None,
+        acquisition_time: int | None = None,
+        oversampling_rate: int | None = None,
+        reference_voltage: float | None = None,
     ):
         if data:
             data_bytes = list(data[0])

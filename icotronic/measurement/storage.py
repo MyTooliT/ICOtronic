@@ -7,7 +7,7 @@ from __future__ import annotations
 from datetime import datetime
 from pathlib import Path
 from types import TracebackType
-from typing import Dict, Optional, Type
+from typing import Dict, Type
 
 from tables import (
     File,
@@ -123,7 +123,7 @@ class Storage:
     def __init__(
         self,
         filepath: Path | str,
-        channels: Optional[StreamingConfiguration] = None,
+        channels: StreamingConfiguration | None = None,
     ) -> None:
 
         self.filepath = Path(filepath).expanduser().resolve()
@@ -134,7 +134,7 @@ class Storage:
                 "is not None"
             )
 
-        self.hdf: Optional[File] = None
+        self.hdf: File | None = None
         self.channels = channels
 
     def __enter__(self) -> StorageData:
@@ -144,9 +144,9 @@ class Storage:
 
     def __exit__(
         self,
-        exception_type: Optional[Type[BaseException]],
-        exception_value: Optional[BaseException],
-        traceback: Optional[TracebackType],
+        exception_type: Type[BaseException] | None,
+        exception_value: BaseException | None,
+        traceback: TracebackType | None,
     ) -> None:
         """Clean up the resources used by the storage class
 
@@ -225,11 +225,11 @@ class StorageData:
     def __init__(
         self,
         file_handle: File,
-        channels: Optional[StreamingConfiguration] = None,
+        channels: StreamingConfiguration | None = None,
     ) -> None:
 
         self.hdf = file_handle
-        self.start_time: Optional[float] = None
+        self.start_time: float | None = None
 
         name = "acceleration"
         if channels:

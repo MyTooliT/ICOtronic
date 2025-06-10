@@ -13,7 +13,7 @@ from platform import system
 from re import compile as re_compile
 from subprocess import CalledProcessError, run
 from sys import byteorder
-from typing import List, Optional
+from typing import List
 
 from icotronic.config import settings
 
@@ -105,8 +105,8 @@ class Commander:
         self,
         command: List[str],
         description: str,
-        possible_error_reasons: Optional[List[str]] = None,
-        regex_output: Optional[str] = None,
+        possible_error_reasons: List[str] | None = None,
+        regex_output: str | None = None,
     ) -> str:
         """Run a Simplicity Commander command
 

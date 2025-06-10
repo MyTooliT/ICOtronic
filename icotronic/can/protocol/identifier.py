@@ -9,7 +9,6 @@ for more information
 
 from __future__ import annotations
 
-from typing import Optional
 
 from icotronic.can.protocol.command import Command
 from icotronic.can.node.id import NodeId
@@ -119,8 +118,8 @@ class Identifier:
         command: Command | None | int = None,
         block: None | str | int = None,
         block_command: None | str | int = None,
-        error: Optional[bool] = None,
-        request: Optional[bool] = None,
+        error: bool | None = None,
+        request: bool | None = None,
         sender: NodeId | None | str | int = None,
         receiver: NodeId | None | str | int = None,
     ) -> None:

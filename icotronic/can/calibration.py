@@ -2,7 +2,7 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from typing import List, Optional
+from typing import List
 
 from bidict import bidict
 
@@ -79,12 +79,12 @@ class CalibrationMeasurementFormat:
         self,
         *data: bytearray | List[int],
         # pylint: disable=redefined-builtin
-        set: Optional[bool] = None,
+        set: bool | None = None,
         # pylint: enable=redefined-builtin
-        element: Optional[str] = None,
-        method: Optional[str] = None,
-        dimension: Optional[int] = None,
-        reference_voltage: Optional[float] = None,
+        element: str | None = None,
+        method: str | None = None,
+        dimension: int | None = None,
+        reference_voltage: float | None = None,
     ) -> None:
 
         cls = type(self)

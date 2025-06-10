@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import List, Tuple, Optional
+from typing import List, Tuple
 
 from reportlab.graphics.shapes import Drawing, Line, String
 from reportlab.lib.colors import white
@@ -82,9 +82,7 @@ class CheckBoxList:
         self.styles = get_style_sheet()
         self.text_fields = text_fields
 
-    def add_checkbox_item(
-        self, text: str, tooltip: Optional[str] = None
-    ) -> None:
+    def add_checkbox_item(self, text: str, tooltip: str | None = None) -> None:
         """Add a checkbox item to the checkbox list
 
         Args:
@@ -145,7 +143,7 @@ class CheckBox(Flowable):
 
     """
 
-    def __init__(self, tooltip: Optional[str] = None) -> None:
+    def __init__(self, tooltip: str | None = None) -> None:
 
         super().__init__()
 
@@ -201,7 +199,7 @@ class TextField(Flowable):
 
     """
 
-    def __init__(self, tooltip: Optional[str] = None) -> None:
+    def __init__(self, tooltip: str | None = None) -> None:
 
         super().__init__()
 

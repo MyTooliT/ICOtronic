@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from asyncio import Queue
 from logging import getLogger
-from typing import NamedTuple, Optional, Sequence
+from typing import NamedTuple, Sequence
 
 from can import Listener, Message as CANMessage
 
@@ -91,7 +91,7 @@ class ResponseListener(Listener):
     def __init__(
         self,
         message: Message,
-        expected_data: bytearray | Sequence[Optional[int]] | None,
+        expected_data: bytearray | Sequence[int | None] | None,
     ) -> None:
 
         self.queue: Queue[Response] = Queue()
@@ -144,7 +144,7 @@ class ResponseListener(Listener):
                 )
             )
 
-    async def on_message(self) -> Optional[Response]:
+    async def on_message(self) -> Response | None:
         """Return answer messages for the specified message identifier
 
         Returns:
