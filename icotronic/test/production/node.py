@@ -13,7 +13,7 @@ from asyncio import get_running_loop, sleep
 from datetime import date, datetime
 from pathlib import Path
 from types import SimpleNamespace
-from typing import List, Union
+from typing import List
 from unittest import IsolatedAsyncioTestCase
 
 from dynaconf.utils.boxing import DynaBox
@@ -348,7 +348,7 @@ class BaseTestCases:
 
         def _test_firmware_flash(
             self,
-            flash_location: Union[str, Path],
+            flash_location: str | Path,
             programmmer_serial_number: int,
             chip: str,
         ):

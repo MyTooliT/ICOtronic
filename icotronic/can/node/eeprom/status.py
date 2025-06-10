@@ -4,8 +4,6 @@
 
 from __future__ import annotations
 
-from typing import Union
-
 # -- Class --------------------------------------------------------------------
 
 
@@ -48,7 +46,7 @@ class EEPROMStatus:
 
     """
 
-    def __init__(self, status: Union[int, str, EEPROMStatus]) -> None:
+    def __init__(self, status: int | str | EEPROMStatus) -> None:
 
         if isinstance(status, str):
             if status == "Initialized":

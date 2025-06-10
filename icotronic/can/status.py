@@ -2,7 +2,7 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from bidict import bidict
 
@@ -62,8 +62,8 @@ class State:
         self,
         *value: int,
         mode: Optional[str] = None,
-        location: Union[None, int, str] = None,
-        state: Union[None, int, str] = None,
+        location: None | int | str = None,
+        state: None | int | str = None,
     ) -> None:
 
         def set_part(start, width, number):
@@ -274,7 +274,7 @@ class NodeStatus:
 
     """
 
-    def __init__(self, value: Union[List[int], int]) -> None:
+    def __init__(self, value: List[int] | int) -> None:
 
         # Currently only the first byte (of the little endian version) of
         # status word 0 contains (non-reserved) data
@@ -412,7 +412,7 @@ class ErrorStatus:
 
     """
 
-    def __init__(self, value: Union[List[int], int]) -> None:
+    def __init__(self, value: List[int] | int) -> None:
 
         # Currently only the first byte (of the little endian version) of
         # status word contains (non-reserved) data

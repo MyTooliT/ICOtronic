@@ -9,7 +9,7 @@ for more information
 
 from __future__ import annotations
 
-from typing import Optional, Union
+from typing import Optional
 
 from icotronic.can.protocol.command import Command
 from icotronic.can.node.id import NodeId
@@ -116,13 +116,13 @@ class Identifier:
     def __init__(  # pylint: disable=too-many-arguments
         self,
         *identifier: int,
-        command: Union[Command, None, int] = None,
-        block: Union[None, str, int] = None,
-        block_command: Union[None, str, int] = None,
+        command: Command | None | int = None,
+        block: None | str | int = None,
+        block_command: None | str | int = None,
         error: Optional[bool] = None,
         request: Optional[bool] = None,
-        sender: Union[NodeId, None, str, int] = None,
-        receiver: Union[NodeId, None, str, int] = None,
+        sender: NodeId | None | str | int = None,
+        receiver: NodeId | None | str | int = None,
     ) -> None:
 
         def set_part(start, width, number):

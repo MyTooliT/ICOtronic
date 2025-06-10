@@ -2,7 +2,7 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from bidict import bidict
 
@@ -77,7 +77,7 @@ class CalibrationMeasurementFormat:
 
     def __init__(  # pylint: disable=too-many-arguments
         self,
-        *data: Union[bytearray, List[int]],
+        *data: bytearray | List[int],
         # pylint: disable=redefined-builtin
         set: Optional[bool] = None,
         # pylint: enable=redefined-builtin

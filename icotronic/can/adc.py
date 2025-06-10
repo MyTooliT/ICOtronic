@@ -10,7 +10,7 @@ for more information
 
 from collections.abc import Iterator, Mapping
 from math import log2
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from icotronic.utility.types import check_list
 
@@ -61,7 +61,7 @@ class ADCConfiguration(Mapping):
 
     def __init__(  # pylint: disable=too-many-arguments
         self,
-        *data: Union[bytearray, List[int]],
+        *data: bytearray | List[int],
         # pylint: disable=redefined-builtin
         set: Optional[bool] = None,
         # pylint: enable=redefined-builtin

@@ -5,7 +5,6 @@
 from pathlib import Path
 from platform import system
 from subprocess import CalledProcessError, run
-from typing import Union
 
 # -- Classes ------------------------------------------------------------------
 
@@ -17,7 +16,7 @@ class UnableToOpenError(Exception):
 # -- Functions ----------------------------------------------------------------
 
 
-def open_file_windows(filepath: Union[Path, str]) -> None:
+def open_file_windows(filepath: Path | str) -> None:
     """Open the given file in the default application on Windows
 
     Args:
@@ -44,7 +43,7 @@ def open_file_windows(filepath: Union[Path, str]) -> None:
         raise UnableToOpenError(f"File “{filepath}” does not exist") from error
 
 
-def open_file_other(filepath: Union[Path, str]) -> None:
+def open_file_other(filepath: Path | str) -> None:
     """Open the given file in the default application on a non-Windows OS
 
     Args:
@@ -71,7 +70,7 @@ def open_file_other(filepath: Union[Path, str]) -> None:
         ) from error
 
 
-def open_file(filepath: Union[Path, str]) -> None:
+def open_file(filepath: Path | str) -> None:
     """Open the given file in the default application
 
     Args:

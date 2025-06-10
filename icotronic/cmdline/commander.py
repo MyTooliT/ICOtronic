@@ -13,7 +13,7 @@ from platform import system
 from re import compile as re_compile
 from subprocess import CalledProcessError, run
 from sys import byteorder
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from icotronic.config import settings
 
@@ -256,7 +256,7 @@ class Commander:
             regex_output="Chip successfully unlocked",
         )
 
-    def upload_flash(self, filepath: Union[str, Path]) -> None:
+    def upload_flash(self, filepath: str | Path) -> None:
         """Upload code into the flash memory of the device
 
         Args:

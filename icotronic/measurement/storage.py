@@ -7,7 +7,7 @@ from __future__ import annotations
 from datetime import datetime
 from pathlib import Path
 from types import TracebackType
-from typing import Dict, Optional, Type, Union
+from typing import Dict, Optional, Type
 
 from tables import (
     File,
@@ -122,7 +122,7 @@ class Storage:
 
     def __init__(
         self,
-        filepath: Union[Path, str],
+        filepath: Path | str,
         channels: Optional[StreamingConfiguration] = None,
     ) -> None:
 

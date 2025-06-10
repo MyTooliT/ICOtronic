@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from asyncio import Queue
 from logging import getLogger
-from typing import NamedTuple, Optional, Sequence, Union
+from typing import NamedTuple, Optional, Sequence
 
 from can import Listener, Message as CANMessage
 
@@ -91,7 +91,7 @@ class ResponseListener(Listener):
     def __init__(
         self,
         message: Message,
-        expected_data: Union[bytearray, Sequence[Optional[int]], None],
+        expected_data: bytearray | Sequence[Optional[int]] | None,
     ) -> None:
 
         self.queue: Queue[Response] = Queue()

@@ -10,7 +10,7 @@ https://mytoolit.github.io/Documentation/#command
 
 from __future__ import annotations
 
-from typing import Optional, Union
+from typing import Optional
 
 from icotronic.can.protocol.blocks import (
     blocks,
@@ -89,8 +89,8 @@ class Command:
     def __init__(
         self,
         *command: int,
-        block: Union[None, str, int] = None,
-        block_command: Union[None, str, int] = None,
+        block: None | str | int = None,
+        block_command: None | str | int = None,
         request: Optional[bool] = None,
         error: Optional[bool] = None,
     ) -> None:

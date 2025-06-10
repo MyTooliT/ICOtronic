@@ -8,7 +8,6 @@ See: https://mytoolit.github.io/Documentation/#mytoolit-communication-protocol
 from __future__ import annotations
 
 from re import fullmatch
-from typing import Union
 
 # -- Classes ------------------------------------------------------------------
 
@@ -56,7 +55,7 @@ class NodeId:
 
     """
 
-    def __init__(self, node: Union[int, str, NodeId] = 0) -> None:
+    def __init__(self, node: int | str | NodeId = 0) -> None:
 
         if isinstance(node, str):
             # Check for broadcast pseudo nodes
