@@ -9,7 +9,7 @@ from __future__ import annotations
 from asyncio import CancelledError
 from logging import getLogger
 from types import TracebackType
-from typing import NamedTuple, Type
+from typing import NamedTuple
 
 from netaddr import EUI
 
@@ -101,7 +101,7 @@ class DataStreamContextManager:
 
     async def __aexit__(
         self,
-        exception_type: Type[BaseException] | None,
+        exception_type: type[BaseException] | None,
         exception_value: BaseException | None,
         traceback: TracebackType | None,
     ) -> None:

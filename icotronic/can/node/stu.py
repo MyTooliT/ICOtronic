@@ -7,7 +7,7 @@ from __future__ import annotations
 from asyncio import sleep
 from time import time
 from types import TracebackType
-from typing import NamedTuple, Type
+from typing import NamedTuple
 
 from netaddr import EUI
 
@@ -43,7 +43,7 @@ class AsyncSensorNodeManager:
         self,
         stu,
         identifier: int | str | EUI,
-        sensor_node_class: Type[SensorNode] = SensorNode,
+        sensor_node_class: type[SensorNode] = SensorNode,
     ):
 
         self.stu = stu
@@ -136,7 +136,7 @@ class AsyncSensorNodeManager:
 
     async def __aexit__(
         self,
-        exception_type: Type[BaseException] | None,
+        exception_type: type[BaseException] | None,
         exception_value: BaseException | None,
         traceback: TracebackType | None,
     ) -> None:
@@ -677,7 +677,7 @@ class STU(Node):
     def connect_sensor_node(
         self,
         identifier: int | str | EUI,
-        sensor_node_class: Type[SensorNode] = SensorNode,
+        sensor_node_class: type[SensorNode] = SensorNode,
     ) -> AsyncSensorNodeManager:
         """Connect to a sensor node (e.g. SHA, SMH or STH)
 

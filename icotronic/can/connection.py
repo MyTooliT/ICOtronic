@@ -7,7 +7,6 @@ from __future__ import annotations
 from asyncio import get_running_loop, to_thread
 from sys import platform
 from types import TracebackType
-from typing import Type
 
 from can import Bus, BusABC, Notifier
 from can.interfaces.pcan.pcan import PcanError
@@ -113,7 +112,7 @@ class Connection:
 
     async def __aexit__(
         self,
-        exception_type: Type[BaseException] | None,
+        exception_type: type[BaseException] | None,
         exception_value: BaseException | None,
         traceback: TracebackType | None,
     ) -> None:

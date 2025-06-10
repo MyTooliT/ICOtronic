@@ -7,7 +7,6 @@ from __future__ import annotations
 from datetime import datetime
 from pathlib import Path
 from types import TracebackType
-from typing import Type
 
 from tables import (
     File,
@@ -144,7 +143,7 @@ class Storage:
 
     def __exit__(
         self,
-        exception_type: Type[BaseException] | None,
+        exception_type: type[BaseException] | None,
         exception_value: BaseException | None,
         traceback: TracebackType | None,
     ) -> None:
