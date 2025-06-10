@@ -8,7 +8,6 @@ For more information, please take a look here:
 
 from __future__ import annotations
 
-from typing import List
 
 from can import Message as CANMessage
 from netaddr import EUI
@@ -94,7 +93,7 @@ class Message:
         self,
         *message: CANMessage,
         identifier: Identifier | None = None,
-        data: List[int] | None = None,
+        data: list[int] | None = None,
         **keyword_arguments: Command | NodeId | None | str | int | bool,
     ) -> None:
 
@@ -149,7 +148,7 @@ class Message:
         return self.message.data
 
     @data.setter
-    def data(self, data: List[int] | bytearray) -> None:
+    def data(self, data: list[int] | bytearray) -> None:
         """Set the message data to a new value
 
         Args:

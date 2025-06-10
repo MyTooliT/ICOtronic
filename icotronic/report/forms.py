@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import List, Tuple
+from typing import Tuple
 
 from reportlab.graphics.shapes import Drawing, Line, String
 from reportlab.lib.colors import white
@@ -78,7 +78,7 @@ class CheckBoxList:
     def __init__(self, title: str = "Checks", text_fields: int = 0) -> None:
 
         self.title = title
-        self.checks: List[Tuple[CheckBox, str]] = []
+        self.checks: list[Tuple[CheckBox, str]] = []
         self.styles = get_style_sheet()
         self.text_fields = text_fields
 

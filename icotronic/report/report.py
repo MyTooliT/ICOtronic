@@ -7,7 +7,6 @@ We use these reports as one of the outputs of our hardware tests
 
 from functools import partial
 from importlib.resources import as_file, files
-from typing import List
 
 from reportlab.lib.units import cm
 from reportlab.platypus import (
@@ -97,7 +96,7 @@ class Report:
 
     """
 
-    story: List[Flowable]  # Improve happiness of PyCharm type checker
+    story: list[Flowable]  # Improve happiness of PyCharm type checker
 
     def __init__(self, node="Node"):
 
@@ -205,7 +204,7 @@ class Report:
         self.tests.append(paragraph_result)
 
     def add_checkbox_list(
-        self, title: str, boxes: List[str], text_fields: int = 0
+        self, title: str, boxes: list[str], text_fields: int = 0
     ) -> None:
         """Add a checkbox list to the report
 

@@ -2,8 +2,6 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from typing import List
-
 from bidict import bidict
 
 from icotronic.utility.types import check_list
@@ -77,7 +75,7 @@ class CalibrationMeasurementFormat:
 
     def __init__(  # pylint: disable=too-many-arguments
         self,
-        *data: bytearray | List[int],
+        *data: bytearray | list[int],
         # pylint: disable=redefined-builtin
         set: bool | None = None,
         # pylint: enable=redefined-builtin

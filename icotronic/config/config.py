@@ -13,7 +13,6 @@ from os import makedirs
 from pathlib import Path
 from platform import system
 from sys import exit as sys_exit, stderr
-from typing import List
 
 from dynaconf import Dynaconf, ValidationError, Validator
 from dynaconf.vendor.ruamel.yaml.parser import ParserError
@@ -111,7 +110,7 @@ class Settings(Dynaconf):
         self,
         default_settings_filepath,
         *arguments,
-        settings_files: List[str] | None = None,
+        settings_files: list[str] | None = None,
         **keyword_arguments,
     ) -> None:
 

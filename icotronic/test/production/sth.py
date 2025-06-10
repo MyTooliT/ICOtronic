@@ -8,7 +8,6 @@ PCB while an STH also includes the tool holder that contains the SHA.
 
 from itertools import chain, repeat
 from time import time
-from typing import List
 from unittest import main as unittest_main, skipIf
 
 from semantic_version import Version
@@ -284,7 +283,7 @@ class TestSTH(BaseTestCases.TestSensorNode):
     async def test_acceleration_self_test(self):
         """Execute self test of accelerometer"""
 
-        async def read_voltages(dimension, reference_voltage) -> List[int]:
+        async def read_voltages(dimension, reference_voltage) -> list[int]:
             """Read acceleration voltages in millivolts"""
 
             before = await self.node.get_acceleration_voltage(

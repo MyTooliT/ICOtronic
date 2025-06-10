@@ -13,7 +13,6 @@ from asyncio import get_running_loop, sleep
 from datetime import date, datetime
 from pathlib import Path
 from types import SimpleNamespace
-from typing import List
 from unittest import IsolatedAsyncioTestCase
 
 from dynaconf.utils.boxing import DynaBox
@@ -81,7 +80,7 @@ class BaseTestCases:
         under_voltage_counter: int
         watchdog_reset_counter: int
 
-        possible_attributes: List[SimpleNamespace] = []
+        possible_attributes: list[SimpleNamespace] = []
 
         @classmethod
         def setUpClass(cls):

@@ -14,7 +14,6 @@ from logging import basicConfig, getLogger
 from pathlib import Path
 from sys import stderr
 from time import perf_counter_ns, process_time_ns, time
-from typing import List
 
 from can.interfaces.pcan import PcanError
 from tqdm import tqdm
@@ -172,8 +171,8 @@ async def command_list(
 
     async with Connection() as stu:
         timeout = time() + 5
-        sensor_nodes: List[SensorNodeInfo] = []
-        sensor_nodes_before: List[SensorNodeInfo] = []
+        sensor_nodes: list[SensorNodeInfo] = []
+        sensor_nodes_before: list[SensorNodeInfo] = []
 
         # - First request for sensor nodes will produce empty list
         # - Subsequent retries should provide all available sensor nodes

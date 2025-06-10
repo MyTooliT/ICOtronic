@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from asyncio import Queue, wait_for
 from ctypes import c_uint8, LittleEndianStructure
-from typing import AsyncIterator, Callable, List, Sequence, Tuple
+from typing import AsyncIterator, Callable, Sequence, Tuple
 
 from can import Listener, Message
 
@@ -191,7 +191,7 @@ class StreamingConfiguration:
 
         return 2 if self.enabled_channels() == 2 else 3
 
-    def axes(self) -> List[str]:
+    def axes(self) -> list[str]:
         """Get the activated axes returned by this streaming configuration
 
         Returns:

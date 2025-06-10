@@ -2,8 +2,6 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from typing import List
-
 from bidict import bidict
 
 # -- Classes ------------------------------------------------------------------
@@ -274,7 +272,7 @@ class NodeStatus:
 
     """
 
-    def __init__(self, value: List[int] | int) -> None:
+    def __init__(self, value: list[int] | int) -> None:
 
         # Currently only the first byte (of the little endian version) of
         # status word 0 contains (non-reserved) data
@@ -412,7 +410,7 @@ class ErrorStatus:
 
     """
 
-    def __init__(self, value: List[int] | int) -> None:
+    def __init__(self, value: list[int] | int) -> None:
 
         # Currently only the first byte (of the little endian version) of
         # status word contains (non-reserved) data
