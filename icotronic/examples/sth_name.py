@@ -4,13 +4,24 @@
 
 from asyncio import run
 
+from netaddr import EUI
+
 from icotronic.can import Connection
 
 # -- Functions ----------------------------------------------------------------
 
 
-async def read_name(identifier):
-    """Read sensor node name"""
+async def read_name(identifier: EUI | str | int) -> None:
+    """Read sensor node name
+
+    Args:
+
+        identifier:
+
+            Identifier of STH node
+
+    """
+
     async with Connection() as stu:
         async with stu.connect_sensor_node(identifier) as sensor_node:
             name = await sensor_node.get_name()

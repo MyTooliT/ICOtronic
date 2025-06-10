@@ -6,16 +6,28 @@ from asyncio import run
 from pathlib import Path
 from time import monotonic
 
+from netaddr import EUI
+
 from icotronic.can import Connection, StreamingConfiguration, STH
 from icotronic.measurement import Storage
 
 # -- Functions ----------------------------------------------------------------
 
 
-async def store_streaming_data(identifier):
-    """Store streaming data in HDF5 file"""
+async def store_streaming_data(identifier: EUI | str | int) -> None:
+    """Store streaming data in HDF5 file
+
+    Args:
+
+        identifier:
+
+            Identifier of STH node
+
+    """
     async with Connection() as stu:
         async with stu.connect_sensor_node(identifier, STH) as sth:
+
+            assert isinstance(sth, STH)  # Make type checker happy
 
             conversion_to_g = await sth.get_acceleration_conversion_function()
 
