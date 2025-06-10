@@ -5,8 +5,9 @@
 from __future__ import annotations
 
 from asyncio import Queue
+from collections.abc import Sequence
 from logging import getLogger
-from typing import NamedTuple, Sequence
+from typing import NamedTuple
 
 from can import Listener, Message as CANMessage
 

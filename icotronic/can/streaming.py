@@ -5,8 +5,9 @@
 from __future__ import annotations
 
 from asyncio import Queue, wait_for
+from collections.abc import Sequence
 from ctypes import c_uint8, LittleEndianStructure
-from typing import AsyncIterator, Callable, Sequence, Tuple
+from typing import AsyncIterator, Callable, Tuple
 
 from can import Listener, Message
 
