@@ -35,6 +35,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # -- Autodoc Configuration ----------------------------------------------------
 
 autoclass_content = "both"
+autodoc_inherit_docstrings = False
 
 # -- Options for HTML output --------------------------------------------------
 
