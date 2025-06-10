@@ -2,10 +2,10 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from collections.abc import Iterator, Mapping
+from collections.abc import Iterable, Iterator, Mapping
 from enum import auto, Enum
 from statistics import mean
-from typing import Iterable, NamedTuple
+from typing import NamedTuple
 
 from icotronic.can.streaming import StreamingConfiguration
 
