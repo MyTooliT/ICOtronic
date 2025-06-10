@@ -7,7 +7,7 @@ from __future__ import annotations
 from datetime import datetime
 from pathlib import Path
 from types import TracebackType
-from typing import Dict, Type
+from typing import Type
 
 from tables import (
     File,
@@ -30,7 +30,7 @@ from icotronic.can.streaming import StreamingConfiguration, StreamingData
 
 
 def create_acceleration_description(
-    attributes: Dict[str, MetaAtom],
+    attributes: dict[str, MetaAtom],
 ) -> MetaIsDescription:
     """Create a new ``IsDescription`` class to store acceleration data
 
