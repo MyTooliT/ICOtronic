@@ -3,7 +3,8 @@
 # -- Imports ------------------------------------------------------------------
 
 from functools import partial
-from typing import Callable
+from collections.abc import Callable
+
 from icotronic.can.calibration import CalibrationMeasurementFormat
 from icotronic.can.node.eeprom.sth import STHEEPROM
 from icotronic.can.protocol.message import Message
