@@ -10,7 +10,7 @@ from icotronic.config import settings
 from icotronic.measurement.sensor import guess_sensor, SensorConfiguration
 from icotronic.report.report import Report
 from icotronic.test.unit import ExtendedTestRunner
-from icotronic.test.production.node import BaseTestCases
+from icotronic.test.production.node import BaseTestCases, TestAttribute
 
 # -- Classes ------------------------------------------------------------------
 
@@ -25,11 +25,8 @@ class TestSMH(BaseTestCases.TestSensorNode):
         super().setUpClass()
         cls.report = Report(node="SMH")
         # Guessed sensor types
-        cls.sensors = []
-        for sensor in range(settings.smh.channels):
-            cls.add_attribute(
-                f"Sensor {sensor + 1}", f"{{cls.sensors[{sensor}]}}", pdf=True
-            )
+        for sensor in range(1, settings.smh.channels + 1):
+            cls.attributes[f"Sensor {sensor}"] = TestAttribute(str, pdf=True)
 
     async def _connect(self):
         """Create a connection to the SMH"""
@@ -73,7 +70,7 @@ class TestSMH(BaseTestCases.TestSensorNode):
         # = Name =
         # ========
 
-        cls.name = await self._test_name(settings.smh.name)
+        cls.attributes["Name"].value = await self._test_name(settings.smh.name)
 
         # =========================
         # = Sleep & Advertisement =
@@ -117,6 +114,7 @@ class TestSMH(BaseTestCases.TestSensorNode):
             return stream_data[:-additional_values]
 
         cls = type(self)
+        sensors = []
 
         for test_channel in range(1, settings.smh.channels + 1):
             await self.node.set_sensor_configuration(
@@ -131,11 +129,12 @@ class TestSMH(BaseTestCases.TestSensorNode):
             )
             stream_data = await read_streaming_data_amount(1000)
             sensor = guess_sensor(stream_data)
-            cls.sensors.append(sensor)
+            sensors.append(sensor)
+            cls.attributes[f"Sensor {test_channel}"].value = str(sensor)
 
         non_working_sensors = [
             str(sensor_number)
-            for sensor_number, sensor in enumerate(cls.sensors, start=1)
+            for sensor_number, sensor in enumerate(sensors, start=1)
             if not sensor.works()
         ]
 

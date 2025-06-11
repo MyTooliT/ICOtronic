@@ -28,7 +28,6 @@ class TestSTU(BaseTestCases.TestNode):
         """Set up data for whole test"""
 
         super().setUpClass()
-        cls.add_attribute("Serial Number", "{cls.serial_number}", pdf=False)
         cls.report = Report(node="STU")
 
     async def test__firmware_flash_disconnected(self):

@@ -22,7 +22,7 @@ from icotronic.measurement.constants import ADC_MAX_VALUE
 from icotronic.report.report import Report
 from icotronic.utility.naming import convert_mac_base64
 from icotronic.test.unit import ExtendedTestRunner
-from icotronic.test.production.node import BaseTestCases
+from icotronic.test.production.node import BaseTestCases, TestAttribute
 
 # -- Classes ------------------------------------------------------------------
 
@@ -36,36 +36,33 @@ class TestSTH(BaseTestCases.TestSensorNode):
 
         super().setUpClass()
 
-        cls.add_attribute("Holder Type", "{cls.holder_type}", pdf=True)
-        cls.add_attribute(
-            "Acceleration Sensor", "{cls.acceleration_sensor}", pdf=True
+        cls.attributes["Status"] = TestAttribute(str, settings.sth.status)
+        cls.attributes["Ratio Noise Maximum"] = TestAttribute(
+            float,
+            unit="dB",
+            pdf=True,
         )
-
-        for axis in "xyz":
-            cls.add_attribute(
-                f"Acceleration Slope {axis.upper()}",
-                "{cls.acceleration_slope_" + axis + ":.5f}",
-                pdf=False,
-            )
-            cls.add_attribute(
-                f"Acceleration Offset {axis.upper()}",
-                "{cls.acceleration_offset_" + axis + ":.3f}",
-                pdf=False,
-            )
-
-        cls.report = Report(node="STH")
-
-        # Add data that only applies to the STH
-        cls.holder_type = settings.sth.holder_type
-        cls.status = settings.sth.status
+        cls.attributes["Holder Type"] = TestAttribute(
+            str, settings.sth.holder_type
+        )
 
         sensor_name = settings.sth.acceleration_sensor.sensor
         maximum_acceleration = (
             settings.acceleration_sensor().acceleration.maximum
         )
-        cls.acceleration_sensor = (
-            f"±{maximum_acceleration // 2} g Sensor ({sensor_name})"
+        cls.attributes["Acceleration Sensor"] = TestAttribute(
+            str, f"±{maximum_acceleration // 2} g Sensor ({sensor_name})"
         )
+
+        for axis in "xyz":
+            cls.attributes[f"Acceleration Slope {axis.upper()}"] = (
+                TestAttribute(float, pdf=False)
+            )
+            cls.attributes[f"Acceleration Offset {axis.upper()}"] = (
+                TestAttribute(float, pdf=False)
+            )
+
+        cls.report = Report(node="STH")
 
         # Manual checks
         cls.report.add_checkbox_list(
@@ -264,20 +261,23 @@ class TestSTH(BaseTestCases.TestSensorNode):
 
         acceleration = await read_streaming_data()
 
-        cls = type(self)
-        cls.ratio_noise_max = ratio_noise_max(acceleration)
-
+        ratio_noise_maximum = ratio_noise_max(acceleration)
         sensor = settings.acceleration_sensor()
         maximum_ratio_allowed = sensor.acceleration.ratio_noise_to_max_value
+
         self.assertLessEqual(
-            cls.ratio_noise_max,  # pylint: disable=no-member
+            ratio_noise_maximum,
             maximum_ratio_allowed,
             (
                 "The ratio noise to possible maximum measured value of "
-                f"{cls.ratio_noise_max} dB "  # pylint: disable=no-member
+                f"{ratio_noise_maximum} dB "  # pylint: disable=no-member
                 "is higher than the maximum allowed level of "
                 f" {maximum_ratio_allowed} dB"
             ),
+        )
+        cls = type(self)
+        cls.attributes["Ratio Noise Maximum"].value = round(
+            ratio_noise_maximum, 2
         )
 
     async def test_acceleration_self_test(self):
@@ -369,11 +369,9 @@ class TestSTH(BaseTestCases.TestSensorNode):
         name = (
             settings.sth.serial_number
             if settings.sth.status == "Epoxied"
-            else convert_mac_base64(
-                cls.bluetooth_mac  # pylint: disable=no-member
-            )
+            else convert_mac_base64(cls.attributes["Bluetooth Address"].value)
         )
-        cls.name = await self._test_name(name)
+        cls.attributes["Name"].value = await self._test_name(name)
 
         # =========================
         # = Sleep & Advertisement =
@@ -409,11 +407,10 @@ class TestSTH(BaseTestCases.TestSensorNode):
         # pylint: disable=too-many-arguments, too-many-positional-arguments
 
         async def write_read_check(
-            class_variable, write_routine, value, read_routine, axis, name
+            attribute, write_routine, value, read_routine, axis, name
         ):
             await write_routine(value)
-            setattr(cls, class_variable, await read_routine())
-            read_value = getattr(cls, class_variable)
+            read_value = await read_routine()
             self.assertAlmostEqual(
                 value,
                 read_value,
@@ -424,16 +421,18 @@ class TestSTH(BaseTestCases.TestSensorNode):
                     f"“{read_value:.5f}”"
                 ),
             )
+            # Round value for nicer output formatting
+            cls.attributes[attribute].value = round(read_value, 5)
 
         # pylint: enable=too-many-arguments, too-many-positional-arguments
 
         class_variables = (
-            "acceleration_slope_x",
-            "acceleration_slope_y",
-            "acceleration_slope_z",
-            "acceleration_offset_x",
-            "acceleration_offset_y",
-            "acceleration_offset_z",
+            "Acceleration Slope X",
+            "Acceleration Slope Y",
+            "Acceleration Slope Z",
+            "Acceleration Offset X",
+            "Acceleration Offset Y",
+            "Acceleration Offset Z",
         )
         write_routines = (
             self.node.eeprom.write_x_axis_acceleration_slope,
@@ -502,13 +501,13 @@ class TestSTH(BaseTestCases.TestSensorNode):
 
         try:
             async with self.stu.connect_sensor_node(
-                cls.name  # pylint: disable=no-member
+                cls.attributes["Name"].value
             ):
                 pass  # Reconnected to STH
         except TimeoutError:
             self.fail(
                 "Unable to reconnect to STH using updated name "
-                f"“{cls.name}”"  # pylint: disable=no-member
+                f"“{cls.attributes['Name'].value}”"
             )
 
     # pylint: enable=too-many-locals

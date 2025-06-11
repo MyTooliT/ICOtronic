@@ -12,10 +12,12 @@ The code below contains shared code for:
 from asyncio import get_running_loop, sleep
 from datetime import date, datetime
 from pathlib import Path
+from typing import Any
 from types import SimpleNamespace
 from unittest import IsolatedAsyncioTestCase
 
 from dynaconf.utils.boxing import DynaBox
+from netaddr import EUI
 from semantic_version import Version
 
 from icotronic.can.connection import Connection
@@ -27,7 +29,119 @@ from icotronic.can.node.eeprom.status import EEPROMStatus
 from icotronic.report.report import Report
 from icotronic import __version__
 
-# -- Class --------------------------------------------------------------------
+# -- Classes ------------------------------------------------------------------
+
+
+class TestAttribute:
+    """Test attribute that should be set to a value that is not ``None`` once
+
+    Args:
+
+        value:
+            The value of the test attribute
+
+        required_type:
+            Stores type information about value
+
+        unit:
+            Optional unit for test attribute value
+
+        pdf:
+            Stores if the test attribute should be added to the test report or
+            not
+
+    Examples:
+
+        Create an “empty” test attribute with type int
+
+        >>> attribute = TestAttribute(int)
+        >>> print(attribute.value)
+        None
+
+        Set a test attribute value later using the correct type
+
+        >>> attribute.value = 1
+        >>> attribute.value = 2
+
+        Using an incorrect type will fail
+
+        >>> attribute.value = "Something" # doctest:+ELLIPSIS
+        Traceback (most recent call last):
+           ...
+        ValueError: The value “Something” is not ... type “<class 'int'>”
+        >>> attribute.value
+        2
+
+        Initialize a test attribute with a certain value
+
+        >>> TestAttribute(int, 5)
+        5
+
+    """
+
+    def __init__(
+        self,
+        required_type: Any,
+        value: Any = None,
+        unit: str = "",
+        pdf: bool = True,
+    ) -> None:
+
+        self.required_type = required_type
+        self.value = value
+        self.unit = unit
+        self.pdf = pdf
+
+    def __repr__(self) -> str:
+        """Get a textual representation of the test attribute
+
+        Returns:
+
+            The textual representation of the test attribute
+
+        Examples:
+
+            Get string representation of an attribute with unit
+
+            >>> TestAttribute(float, 11.0, "%")
+            11.0 %
+
+        """
+
+        return f"{self.value}" + (f" {self.unit}" if self.unit else "")
+
+    @property
+    def value(self) -> Any:
+        """Return the current value of the test attribute"""
+
+        return self._value
+
+    @value.setter
+    def value(self, value: Any) -> None:
+        """Set the value of the test attribute
+
+        Args:
+
+            value:
+                The new value of the test attribute
+
+        Raises:
+
+            ValueError:
+                If the value is not ``None`` or does not have the required type
+
+        """
+        if value is None:
+            self._value = None
+            return
+
+        if not isinstance(value, self.required_type):
+            raise ValueError(
+                f"The value “{value}” is not an instance of the required type "
+                f"“{self.required_type}”"
+            )
+
+        self._value = value
 
 
 # Use inner test class so we do not execute test methods of base class in
@@ -46,17 +160,14 @@ class BaseTestCases:
         class for your test class.
 
         Every subclass of this class must set the attribute ``node`` to an
-        object of the correct class of (``can.node``).
+        object of the correct class (of ``can.node``).
 
         Please note, that this class only connects to the STU. If you also want
         to connect to a sensor node, please overwrite the method ``_connect``.
 
         To add additional test attributes shown in the standard output and
-        optionally the PDF, add them as **class** variables to the subclass.
-        Then use the **class** method ``add_attribute`` in the method
-        ``setUpClass`` and use a format string where you reference the class
-        variable as value argument. Please do not forget to call ``setUpClass``
-        of the superclass before you do that.
+        optionally the PDF, add them to the **class** variable ``attributes``
+        of this class or a subclass.
 
         The various ``_test`` methods in this class can be used to run certain
         tests for a node as part of a test method (i.e. a method that starts
@@ -64,65 +175,31 @@ class BaseTestCases:
 
         """
 
-        batch_number: int
-        eeprom_status: EEPROMStatus
-        firmware_version: Version
-        gtin: int
-        hardware_version: Version
-        oem_data: str
-        operating_time: int
-        power_off_cycles: int
-        power_on_cycles: int
-        production_date: date
-        product_name: str
-        release_name: str
-        serial_number: str
-        under_voltage_counter: int
-        watchdog_reset_counter: int
-
-        possible_attributes: list[SimpleNamespace] = []
+        attributes = {
+            "Status": TestAttribute(str),
+            "Name": TestAttribute(str),
+            "Serial Number": TestAttribute(str, pdf=False),
+            "GTIN": TestAttribute(int, pdf=False),
+            "Bluetooth Address": TestAttribute(EUI),
+            "RSSI": TestAttribute(str, unit="dBm"),
+            "Production Date": TestAttribute(date, pdf=False),
+            "Hardware Version": TestAttribute(Version),
+            "Batch Number": TestAttribute(int, pdf=False),
+            "Firmware Version": TestAttribute(Version),
+            "Release Name": TestAttribute(str, pdf=False),
+            "EEPROM Status": TestAttribute(EEPROMStatus, pdf=False),
+            "OEM Data": TestAttribute(str, pdf=False),
+            "Operating Time": TestAttribute(int, pdf=False, unit="s"),
+            "Power Off Cycles": TestAttribute(int, pdf=False),
+            "Power On Cycles": TestAttribute(int, pdf=False),
+            "Product Name": TestAttribute(str, pdf=False),
+            "Under Voltage Counter": TestAttribute(int, pdf=False),
+            "Watchdog Reset Counter": TestAttribute(int, pdf=False),
+        }
 
         @classmethod
         def setUpClass(cls):
             """Set up data for whole test"""
-
-            # Add basic test attributes that all nodes share
-            cls.add_attribute(
-                "EEPROM Status", "{cls.eeprom_status}", pdf=False
-            )
-            cls.add_attribute("Name", "{cls.name}")
-            cls.add_attribute("Status", "{cls.status}")
-            cls.add_attribute(
-                "Production Date", "{cls.production_date}", pdf=False
-            )
-            cls.add_attribute("GTIN", "{cls.gtin}", pdf=False)
-            cls.add_attribute("Product Name", "{cls.product_name}", pdf=False)
-            cls.add_attribute("Batch Number", "{cls.batch_number}", pdf=False)
-            cls.add_attribute("Bluetooth Address", "{cls.bluetooth_mac}")
-            cls.add_attribute("RSSI", "{cls.bluetooth_rssi} dBm")
-            cls.add_attribute("Hardware Version", "{cls.hardware_version}")
-            cls.add_attribute("Firmware Version", "{cls.firmware_version}")
-            cls.add_attribute("Release Name", "{cls.release_name}", pdf=False)
-            cls.add_attribute("OEM Data", "{cls.oem_data}", pdf=False)
-            cls.add_attribute(
-                "Power On Cycles", "{cls.power_on_cycles}", pdf=False
-            )
-            cls.add_attribute(
-                "Power Off Cycles", "{cls.power_off_cycles}", pdf=False
-            )
-            cls.add_attribute(
-                "Under Voltage Counter",
-                "{cls.under_voltage_counter}",
-                pdf=False,
-            )
-            cls.add_attribute(
-                "Watchdog Reset Counter",
-                "{cls.watchdog_reset_counter}",
-                pdf=False,
-            )
-            cls.add_attribute(
-                "Operating Time", "{cls.operating_time} s", pdf=False
-            )
 
             # Add a basic PDF report
             # Subclasses should overwrite this attribute, if you want to change
@@ -178,12 +255,15 @@ class BaseTestCases:
             """Print node information and add it to PDF report"""
 
             attributes = []
-            for attribute in cls.possible_attributes:
-                try:
-                    attribute.value = str(attribute.value).format(cls=cls)
-                    attributes.append(attribute)
-                except (AttributeError, IndexError):
-                    pass
+            for name, attribute in cls.attributes.items():
+                if attribute.value is not None:
+                    attributes.append(
+                        SimpleNamespace(
+                            description=name,
+                            value=str(attribute.value),
+                            pdf=attribute.pdf,
+                        )
+                    )
 
             cls.__output_data(attributes)
 
@@ -235,29 +315,6 @@ class BaseTestCases:
                     attribute.description, attribute.value, node_data
                 )
 
-        @classmethod
-        def add_attribute(
-            cls, name: str, value: object, pdf: bool = True
-        ) -> None:
-            """Add a test attribute
-
-            Args:
-
-                name:
-                    The description (name) of the attribute
-
-                value:
-                    The value of the attribute
-
-                pdf:
-                    True if the attribute should be added to the PDF report
-
-            """
-
-            cls.possible_attributes.append(
-                SimpleNamespace(description=name, value=str(value), pdf=pdf)
-            )
-
         async def asyncSetUp(self):
             """Set up hardware before a single test case"""
 
@@ -275,9 +332,15 @@ class BaseTestCases:
             cls = type(self)
             # Only read node specific data once, even if we run multiple tests
             if not cls.read_attributes:
-                cls.bluetooth_mac = await self.node.get_mac_address()
-                cls.firmware_version = await self.node.get_firmware_version()
-                cls.release_name = await self.node.get_firmware_release_name()
+                cls.attributes["Bluetooth Address"].value = (
+                    await self.node.get_mac_address()
+                )
+                cls.attributes["Firmware Version"].value = (
+                    await self.node.get_firmware_version()
+                )
+                cls.attributes["Release Name"].value = (
+                    await self.node.get_firmware_release_name()
+                )
                 cls.read_attributes = True
 
         async def asyncTearDown(self):
@@ -399,11 +462,12 @@ class BaseTestCases:
 
             gtin = config.gtin
             await node.eeprom.write_gtin(gtin)
-            cls.gtin = await node.eeprom.read_gtin()
+            cls.attributes["GTIN"].value = await node.eeprom.read_gtin()
             self.assertEqual(
                 gtin,
-                cls.gtin,
-                f"Written GTIN “{gtin}” does not match read GTIN “{cls.gtin}”",
+                cls.attributes["GTIN"].value,
+                f"Written GTIN “{gtin}” does not match read GTIN"
+                f" “{cls.attributes['GTIN'].value}”",
             )
 
             # ====================
@@ -412,24 +476,30 @@ class BaseTestCases:
 
             hardware_version = config.hardware_version
             await node.eeprom.write_hardware_version(hardware_version)
-            cls.hardware_version = await node.eeprom.read_hardware_version()
+            cls.attributes["Hardware Version"].value = (
+                await node.eeprom.read_hardware_version()
+            )
             self.assertEqual(
                 hardware_version,
-                f"{cls.hardware_version}",
+                f"{cls.attributes['Hardware Version'].value}",
                 f"Written hardware version “{hardware_version}” does not "
-                + f"match read hardware version “{cls.hardware_version}”",
+                + "match read hardware version"
+                f" “{cls.attributes['Hardware Version'].value}”",
             )
 
             # ====================
             # = Firmware Version =
             # ====================
 
-            await node.eeprom.write_firmware_version(cls.firmware_version)
+            await node.eeprom.write_firmware_version(
+                cls.attributes["Firmware Version"].value
+            )
             firmware_version = await node.eeprom.read_firmware_version()
             self.assertEqual(
-                f"{cls.firmware_version}",
+                f"{cls.attributes['Firmware Version'].value}",
                 f"{firmware_version}",
-                f"Written firmware version “{cls.firmware_version}” does not "
+                "Written firmware version"
+                f" “{cls.attributes['Firmware Version'].value}” does not "
                 + f"match read firmware version “{firmware_version}”",
             )
 
@@ -442,12 +512,15 @@ class BaseTestCases:
             # this is not the case.
             release_name = config.firmware.release_name
             await node.eeprom.write_release_name(release_name)
-            cls.release_name = await node.eeprom.read_release_name()
+            cls.attributes["Release Name"].value = (
+                await node.eeprom.read_release_name()
+            )
             self.assertEqual(
                 release_name,
-                cls.release_name,
+                cls.attributes["Release Name"].value,
                 f"Written firmware release name “{release_name}” does not "
-                + f"match read firmware release name “{cls.release_name}”",
+                + "match read firmware release name"
+                f" “{cls.attributes['Release Name'].value}”",
             )
 
             # =================
@@ -456,12 +529,15 @@ class BaseTestCases:
 
             serial_number = config.serial_number
             await node.eeprom.write_serial_number(serial_number)
-            cls.serial_number = await node.eeprom.read_serial_number()
+            cls.attributes["Serial Number"].value = (
+                await node.eeprom.read_serial_number()
+            )
             self.assertEqual(
                 serial_number,
-                cls.serial_number,
+                cls.attributes["Serial Number"].value,
                 f"Written serial number “{serial_number}” does not "
-                + f"match read serial number “{cls.serial_number}”",
+                + "match read serial number"
+                f" “{cls.attributes['Serial Number'].value}”",
             )
 
             # ================
@@ -470,12 +546,15 @@ class BaseTestCases:
 
             product_name = config.product_name
             await node.eeprom.write_product_name(product_name)
-            cls.product_name = await node.eeprom.read_product_name()
+            cls.attributes["Product Name"].value = (
+                await node.eeprom.read_product_name()
+            )
             self.assertEqual(
                 product_name,
-                cls.product_name,
+                cls.attributes["Product Name"].value,
                 f"Written product name “{product_name}” does not "
-                + f"match read product name “{cls.product_name}”",
+                + "match read product name"
+                f" “{cls.attributes['Product Name'].value}”",
             )
 
             # ============
@@ -495,7 +574,9 @@ class BaseTestCases:
             # readability of null bytes in the shell. Please notice, that this
             # will not always work (depending on the binary data stored in
             # EEPROM region).
-            cls.oem_data = "".join(map(chr, oem_data_list)).replace("\x00", "")
+            cls.attributes["OEM Data"].value = "".join(
+                map(chr, oem_data_list)
+            ).replace("\x00", "")
 
         async def _test_eeprom_statistics(
             self, production_date: date, batch_number: int
@@ -525,24 +606,28 @@ class BaseTestCases:
 
             power_on_cycles = 0
             await node.eeprom.write_power_on_cycles(power_on_cycles)
-            cls.power_on_cycles = await node.eeprom.read_power_on_cycles()
+            cls.attributes["Power On Cycles"].value = (
+                await node.eeprom.read_power_on_cycles()
+            )
             self.assertEqual(
                 power_on_cycles,
-                cls.power_on_cycles,
+                cls.attributes["Power On Cycles"].value,
                 f"Written power on cycle value “{power_on_cycles}” "
                 + "does not match read power on cycle value "
-                + f"“{cls.power_on_cycles}”",
+                + f"“{cls.attributes['Power On Cycles'].value}”",
             )
 
             power_off_cycles = 0
             await node.eeprom.write_power_off_cycles(power_off_cycles)
-            cls.power_off_cycles = await node.eeprom.read_power_off_cycles()
+            cls.attributes["Power Off Cycles"].value = (
+                await node.eeprom.read_power_off_cycles()
+            )
             self.assertEqual(
                 power_off_cycles,
-                cls.power_off_cycles,
+                cls.attributes["Power Off Cycles"].value,
                 f"Written power off cycle value “{power_off_cycles}” "
                 + "does not match read power off cycle value "
-                + f"“{cls.power_off_cycles}”",
+                + f"“{cls.attributes['Power Off Cycles'].value}”",
             )
 
             # ==================
@@ -551,12 +636,15 @@ class BaseTestCases:
 
             operating_time = 0
             await node.eeprom.write_operating_time(operating_time)
-            cls.operating_time = await node.eeprom.read_operating_time()
+            cls.attributes["Operating Time"].value = (
+                await node.eeprom.read_operating_time()
+            )
             self.assertEqual(
                 operating_time,
-                cls.operating_time,
+                cls.attributes["Operating Time"].value,
                 f"Written operating time “{operating_time}” "
-                + "does not match read operating time “{cls.operating_time}”",
+                + "does not match read operating time"
+                " “{cls.attributes['Operating Time'].value}”",
             )
 
             # =========================
@@ -567,16 +655,16 @@ class BaseTestCases:
             await node.eeprom.write_under_voltage_counter(
                 under_voltage_counter
             )
-            cls.under_voltage_counter = (
+            cls.attributes["Under Voltage Counter"].value = (
                 await node.eeprom.read_under_voltage_counter()
             )
             self.assertEqual(
                 under_voltage_counter,
-                cls.under_voltage_counter,
+                cls.attributes["Under Voltage Counter"].value,
                 "Written under voltage counter value"
                 f" “{under_voltage_counter}” "
                 + "does not match read under voltage counter value "
-                + f"“{cls.under_voltage_counter}”",
+                + f"“{cls.attributes['Under Voltage Counter'].value}”",
             )
 
             # ==========================
@@ -587,15 +675,16 @@ class BaseTestCases:
             await node.eeprom.write_watchdog_reset_counter(
                 watchdog_reset_counter
             )
-            cls.watchdog_reset_counter = (
+            cls.attributes["Watchdog Reset Counter"].value = (
                 await node.eeprom.read_watchdog_reset_counter()
             )
             self.assertEqual(
                 watchdog_reset_counter,
-                cls.watchdog_reset_counter,
+                cls.attributes["Watchdog Reset Counter"].value,
                 "Written watchdog reset counter value"
                 f" “{watchdog_reset_counter} does not match read watchdog"
-                f" reset counter value “{cls.watchdog_reset_counter}”",
+                " reset counter value"
+                f" “{cls.attributes['Watchdog Reset Counter'].value}”",
             )
 
             # ===================
@@ -603,12 +692,15 @@ class BaseTestCases:
             # ===================
 
             await node.eeprom.write_production_date(production_date)
-            cls.production_date = await node.eeprom.read_production_date()
+            cls.attributes["Production Date"].value = (
+                await node.eeprom.read_production_date()
+            )
             self.assertEqual(
                 production_date,
-                cls.production_date,
+                cls.attributes["Production Date"].value,
                 f"Written production date “{production_date}” does not match "
-                + f"read production date “{cls.production_date}”",
+                + "read production date"
+                f" “{cls.attributes['Production Date'].value}”",
             )
 
             # ================
@@ -616,12 +708,15 @@ class BaseTestCases:
             # ================
 
             await node.eeprom.write_batch_number(batch_number)
-            cls.batch_number = await node.eeprom.read_batch_number()
+            cls.attributes["Batch Number"].value = (
+                await node.eeprom.read_batch_number()
+            )
             self.assertEqual(
                 batch_number,
-                cls.batch_number,
+                cls.attributes["Batch Number"].value,
                 f"Written batch “{batch_number}” does not match "
-                + f"read batch number “{cls.batch_number}”",
+                + "read batch number"
+                f" “{cls.attributes['Batch Number'].value}”",
             )
 
         async def _test_eeprom_status(self) -> None:
@@ -635,12 +730,14 @@ class BaseTestCases:
             # =================
 
             await node.eeprom.write_status("Initialized")
-            cls.eeprom_status = await node.eeprom.read_status()
+            cls.attributes["EEPROM Status"].value = (
+                await node.eeprom.read_status()
+            )
             self.assertTrue(
-                cls.eeprom_status.is_initialized(),
+                cls.attributes["EEPROM Status"].value.is_initialized(),
                 "Setting EEPROM status to “Initialized” failed. "
                 "EEPROM status byte currently stores the value "
-                f"“{cls.eeprom_status}”",
+                f"“{cls.attributes['EEPROM Status'].value}”",
             )
 
     class TestSensorNode(TestNode):
@@ -658,25 +755,22 @@ class BaseTestCases:
 
             super().setUpClass()
 
-            cls.add_attribute("Serial Number", "{cls.serial_number}", pdf=True)
-            cls.add_attribute(
-                "Ratio Noise Maximum", "{cls.ratio_noise_max:.3f} dB"
+            cls.attributes["Serial Number"] = TestAttribute(str)
+
+            cls.attributes["Ratio Noise Maximum"] = TestAttribute(
+                float, unit="dB"
             )
-            cls.add_attribute(
-                "Sleep Time 1", "{cls.sleep_time_1} ms", pdf=False
+            cls.attributes["Sleep Time 1"] = TestAttribute(
+                int, unit="ms", pdf=False
             )
-            cls.add_attribute(
-                "Advertisement Time 1",
-                "{cls.advertisement_time_1} ms",
-                pdf=False,
+            cls.attributes["Advertisement Time 1"] = TestAttribute(
+                int, unit="ms", pdf=False
             )
-            cls.add_attribute(
-                "Sleep Time 2", "{cls.sleep_time_2} ms", pdf=False
+            cls.attributes["Sleep Time 2"] = TestAttribute(
+                int, unit="ms", pdf=False
             )
-            cls.add_attribute(
-                "Advertisement Time 2",
-                "{cls.advertisement_time_2} ms",
-                pdf=False,
+            cls.attributes["Advertisement Time 2"] = TestAttribute(
+                int, unit="ms", pdf=False
             )
 
         async def _connect_node(self, name: str) -> None:
@@ -739,33 +833,30 @@ class BaseTestCases:
             async def read_write_time(
                 read_function,
                 write_function,
-                variable,
-                description,
+                attribute,
                 milliseconds,
             ):
                 await write_function(milliseconds)
                 milliseconds_read = round(await read_function())
-                setattr(type(self), variable, milliseconds_read)
+                type(self).attributes[attribute].value = milliseconds_read
                 self.assertEqual(
                     milliseconds_read,
                     milliseconds,
-                    f"{description} {milliseconds_read} ms does not match "
-                    f" written value of {milliseconds} ms",
+                    f"Value {milliseconds_read} ms of “{attribute}” does not "
+                    f"match written value of {milliseconds} ms",
                 )
 
             await read_write_time(
                 read_function=self.node.eeprom.read_sleep_time_1,
                 write_function=self.node.eeprom.write_sleep_time_1,
-                variable="sleep_time_1",
-                description="Sleep Time 1",
+                attribute="Sleep Time 1",
                 milliseconds=settings.sensor_node.bluetooth.sleep_time_1,
             )
 
             await read_write_time(
                 read_function=self.node.eeprom.read_advertisement_time_1,
                 write_function=self.node.eeprom.write_advertisement_time_1,
-                variable="advertisement_time_1",
-                description="Advertisement Time 1",
+                attribute="Advertisement Time 1",
                 milliseconds=(
                     settings.sensor_node.bluetooth.advertisement_time_1
                 ),
@@ -774,16 +865,14 @@ class BaseTestCases:
             await read_write_time(
                 read_function=self.node.eeprom.read_sleep_time_2,
                 write_function=self.node.eeprom.write_sleep_time_2,
-                variable="sleep_time_2",
-                description="Sleep Time 2",
+                attribute="Sleep Time 2",
                 milliseconds=settings.sensor_node.bluetooth.sleep_time_2,
             )
 
             await read_write_time(
                 read_function=self.node.eeprom.read_advertisement_time_2,
                 write_function=self.node.eeprom.write_advertisement_time_2,
-                variable="advertisement_time_2",
-                description="Advertisement Time 2",
+                attribute="Advertisement Time 2",
                 milliseconds=(
                     settings.sensor_node.bluetooth.advertisement_time_2
                 ),
@@ -791,3 +880,8 @@ class BaseTestCases:
 
 
 # pylint: enable=too-few-public-methods
+
+if __name__ == "__main__":
+    from doctest import testmod
+
+    testmod()
