@@ -161,7 +161,7 @@ class Report:
             value:
                 The value of the attribute
 
-            sth_attribute:
+            node_attribute:
 
                 Specifies if the specified name and value stores node specific
                 data or general data
