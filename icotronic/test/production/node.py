@@ -266,7 +266,7 @@ class BaseTestCases:
             get_running_loop().set_debug(False)
 
             # All tests methods that contain the text `disconnected` do not
-            # initialize a Bluetooth connection
+            # initialize a connection
             if self._testMethodName.find("disconnected") >= 0:
                 return
 
