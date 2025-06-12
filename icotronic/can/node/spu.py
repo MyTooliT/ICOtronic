@@ -321,7 +321,7 @@ class SPU:
         self,
         node: str | NodeId = "STH 1",
         sensor_node_number: int = SENSOR_NODE_NUMBER_SELF_ADDRESSING,
-    ):
+    ) -> int:
         """Retrieve the RSSI (Received Signal Strength Indication) of a node
 
         You can use this method to retrieve the RSSI of both

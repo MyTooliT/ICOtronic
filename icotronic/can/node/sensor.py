@@ -300,6 +300,37 @@ class SensorNode(Node):
             description=f"set second part of {description}",
         )
 
+    async def get_rssi(self):
+        """Retrieve the RSSI (Received Signal Strength Indication) of the node
+
+        Returns:
+
+            The RSSI of the node
+
+        Examples:
+
+            Import required library code
+
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
+
+            Get RSSI of node “0”
+
+            >>> async def get_sensor_node_rssi():
+            ...     async with Connection() as stu:
+            ...         # We assume that at least one sensor node is available
+            ...         async with stu.connect_sensor_node(0) as sensor_node:
+            ...             return await sensor_node.get_rssi()
+            >>> rssi = run(get_sensor_node_rssi())
+            >>> -70 < rssi < 0
+            True
+
+        """
+
+        return await self.spu.get_rssi(
+            self.id, SENSOR_NODE_NUMBER_SELF_ADDRESSING
+        )
+
     async def get_energy_mode_reduced(self) -> Times:
         """Read the reduced energy mode (mode 1) sensor node time values
 

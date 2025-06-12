@@ -181,7 +181,6 @@ class BaseTestCases:
             "Serial Number": TestAttribute(str, pdf=False),
             "GTIN": TestAttribute(int, pdf=False),
             "Bluetooth Address": TestAttribute(EUI),
-            "RSSI": TestAttribute(str, unit="dBm"),
             "Production Date": TestAttribute(date, pdf=False),
             "Hardware Version": TestAttribute(Version),
             "Batch Number": TestAttribute(int, pdf=False),
@@ -755,6 +754,8 @@ class BaseTestCases:
 
             super().setUpClass()
 
+            cls.attributes["RSSI"] = TestAttribute(int, unit="dBm")
+
             cls.attributes["Serial Number"] = TestAttribute(str)
 
             cls.attributes["Ratio Noise Maximum"] = TestAttribute(
@@ -793,6 +794,9 @@ class BaseTestCases:
             self.node = await self.sensor_node_connection.__aenter__()
             # pylint: enable=unnecessary-dunder-call
             self.stu = stu
+
+            cls = type(self)
+            cls.attributes["RSSI"].value = await self.node.get_rssi()
 
         async def _disconnect_node(self) -> None:
             """Disconnect from sensor node and STU"""
