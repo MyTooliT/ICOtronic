@@ -13,7 +13,6 @@ from asyncio import get_running_loop, sleep
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
-from types import SimpleNamespace
 from unittest import IsolatedAsyncioTestCase
 
 from dynaconf.utils.boxing import DynaBox
@@ -224,28 +223,16 @@ class BaseTestCases:
 
             now = datetime.now()
 
-            attributes = [
-                SimpleNamespace(
-                    description="ICOtronic Version",
-                    value=__version__,
-                    pdf=True,
+            attributes = {
+                "ICOtronic Version": TestAttribute(
+                    str, str(__version__), pdf=True
                 ),
-                SimpleNamespace(
-                    description="Date",
-                    value=now.strftime("%Y-%m-%d"),
-                    pdf=True,
+                "Date": TestAttribute(str, now.strftime("%Y-%m-%d"), pdf=True),
+                "Time": TestAttribute(str, now.strftime("%H:%M:%S"), pdf=True),
+                "Operator": TestAttribute(
+                    str, settings.operator.name, pdf=True
                 ),
-                SimpleNamespace(
-                    description="Time",
-                    value=now.strftime("%H:%M:%S"),
-                    pdf=True,
-                ),
-                SimpleNamespace(
-                    description="Operator",
-                    value=settings.operator.name,
-                    pdf=True,
-                ),
-            ]
+            }
 
             cls.__output_data(attributes, node_data=False)
 
@@ -253,28 +240,35 @@ class BaseTestCases:
         def __output_node_data(cls):
             """Print node information and add it to PDF report"""
 
-            attributes = []
-            for name, attribute in cls.attributes.items():
-                if attribute.value is not None:
-                    attributes.append(
-                        SimpleNamespace(
-                            description=name,
-                            value=str(attribute.value),
-                            pdf=attribute.pdf,
-                        )
+            attributes = {
+                description: (
+                    TestAttribute(
+                        str,
+                        str(attribute.value),
+                        unit=attribute.unit,
+                        pdf=attribute.pdf,
                     )
+                    if isinstance(
+                        attribute.value, (date, EEPROMStatus, EUI, Version)
+                    )
+                    else attribute
+                )
+                for description, attribute in cls.attributes.items()
+                if attribute.value is not None
+            }
 
             cls.__output_data(attributes)
 
         @classmethod
-        def __output_data(cls, attributes, node_data=True):
+        def __output_data(
+            cls, attributes: dict[str, TestAttribute], node_data=True
+        ) -> None:
             """Output data to standard output and PDF report
 
             Args:
 
                 attributes:
-                    An iterable that stores simple name space objects created
-                    via ``create_attribute``
+                    The test attributes that should be printed
 
                 node_data:
                     Specifies if this method outputs node specific or general
@@ -287,11 +281,11 @@ class BaseTestCases:
                 return
 
             max_length_description = max(
-                (len(attribute.description) for attribute in attributes)
+                (len(description) for description in attributes)
             )
-            max_length_value = max(
-                (len(attribute.value) for attribute in attributes)
-            )
+            max_length_value = max((
+                len(str(attribute.value)) for attribute in attributes.values()
+            ))
 
             # Print attributes to standard output
             print("\n")
@@ -299,19 +293,23 @@ class BaseTestCases:
             print(header)
             print("—" * len(header))
 
-            for attribute in attributes:
+            for description, attribute in attributes.items():
                 print(
-                    f"{attribute.description:{max_length_description}} "
+                    f"{description:{max_length_description}} "
                     + f"{attribute.value:>{max_length_value}}"
                 )
 
             # Add attributes to PDF
-            attributes_pdf = [
-                attribute for attribute in attributes if attribute.pdf
-            ]
-            for attribute in attributes_pdf:
+            attributes_pdf = {
+                description: attribute
+                for description, attribute in attributes.items()
+                if attribute.pdf
+            }
+
+            assert hasattr(cls, "report")
+            for description, attribute in attributes_pdf.items():
                 cls.report.add_attribute(
-                    attribute.description, attribute.value, node_data
+                    description, attribute.value, node_data
                 )
 
         async def asyncSetUp(self):
