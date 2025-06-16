@@ -26,6 +26,7 @@ from icotronic.cmdline.commander import Commander
 from icotronic.config import settings
 from icotronic.can.node.eeprom.status import EEPROMStatus
 from icotronic.report.report import Report
+from icotronic.test.unit.extended_test_result import ExtendedTestResult
 from icotronic import __version__
 
 # -- Classes ------------------------------------------------------------------
@@ -363,7 +364,13 @@ class BaseTestCases:
             """
 
             super().run(result)
-            type(self).report.add_test_result(self.shortDescription(), result)
+            if (
+                not result.last_test.status
+                == ExtendedTestResult.TestInformation.Status.SKIPPED
+            ):
+                type(self).report.add_test_result(
+                    self.shortDescription(), result
+                )
 
         async def _connect(self):
             """Create a connection to the STU"""

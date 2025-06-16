@@ -2,7 +2,7 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from enum import Enum
+from enum import auto, Enum
 from unittest import TextTestResult
 
 # -- Class --------------------------------------------------------------------
@@ -21,9 +21,10 @@ class ExtendedTestResult(TextTestResult):
         class Status(Enum):
             """Store the status of a test"""
 
-            SUCCESS = 0
-            FAILURE = 1
-            ERROR = 2
+            SUCCESS = auto()
+            FAILURE = auto()
+            ERROR = auto()
+            SKIPPED = auto()
 
         def __init__(self):
 
@@ -61,6 +62,11 @@ class ExtendedTestResult(TextTestResult):
 
             self.status = type(self).Status.SUCCESS
             self.message = ""
+
+        def set_skipped(self):
+            """Set the status of the test to skipped"""
+
+            self.status = type(self).Status.SKIPPED
 
         def error(self):
             """Check if there was an error
@@ -149,3 +155,20 @@ class ExtendedTestResult(TextTestResult):
         super().addSuccess(test)
 
         self.last_test.set_success()
+
+    def addSkip(self, test, reason):
+        """Add information about latest skipped test
+
+        Args:
+
+            test:
+                The skipped test
+
+            reason:
+                The reason why the test was skipped
+
+        """
+
+        super().addSkip(test, reason)
+
+        self.last_test.set_skipped()
