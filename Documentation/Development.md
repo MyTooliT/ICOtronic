@@ -249,7 +249,12 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 
     **Note:** GitHub CI will publish a package based on this commit and upload it to [PyPi](https://pypi.org/project/icotronic/)
 
-9.  Push the latest updates
+9.  Push the latest updates including the new tag:
+
+    ```sh
+    git push && git push --tags
+    ```
+
 10. Insert the version number (e.g. `1.0.5`) into the tag field
 11. For the release title use “Version VERSION”, where `VERSION` specifies the version number (e.g. “Version 1.0.5”)
 12. Click on “Publish Release”
