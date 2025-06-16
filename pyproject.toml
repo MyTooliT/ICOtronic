@@ -53,7 +53,7 @@ dev = [
     "pylint>=3.3.1",
     "sphinx",
     "sphinx_toggleprompt>=0.6.0",
-    "sphinx-autodoc-typehints",
+    "sphinx-autodoc-typehints>=3",
     "toml",
 ]
 test = [
