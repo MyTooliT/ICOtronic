@@ -233,7 +233,7 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
     3. Commit your changes
     4. Copy the release notes
     5. Paste them into the main text of the release web page
-    6. Decrease the header level of each section by two
+    6. Decrease the header level of each section by one
     7. Remove the very first header
     8. Check that all links work correctly
 
