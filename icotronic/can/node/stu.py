@@ -193,6 +193,100 @@ class SensorNodeInfo(NamedTuple):
         ])
         return f"🤖 {attributes}"
 
+    def __hash__(self):
+        """Calculate hash value
+
+        Note:
+
+            This function is required in addition to ``__eq__`` to be
+            able to put sensor node information into a set.
+
+        Returns:
+
+            The hash value of the sensor device information
+
+        Examples:
+
+            Update old information about sensor devices with new information
+
+            >>> sensor_node_1 = SensorNodeInfo(
+            ...                     name="Test-STH",
+            ...                     sensor_node_number=1,
+            ...                     mac_address=EUI("08-6B-D7-01-DE-81"),
+            ...                     rssi=-58 )
+            >>> sensor_node_2 = SensorNodeInfo(
+            ...                     name="Test-STH",
+            ...                     sensor_node_number=2,
+            ...                     mac_address=EUI("08-6B-D7-01-DE-81"),
+            ...                     rssi=-80)
+            >>> sensor_node_3 = SensorNodeInfo(
+            ...                     name="Something",
+            ...                     sensor_node_number=3,
+            ...                     mac_address=EUI("12-34-56-78-9A-BC"),
+            ...                     rssi=-80)
+
+            >>> old = {sensor_node_1, sensor_node_3}
+            >>> new = {sensor_node_2, sensor_node_3}
+            >>> new | old == {sensor_node_2, sensor_node_3}
+            True
+
+        """
+
+        # Source for using tuple for hash value:
+        # - https://stackoverflow.com/questions/29435556
+        return hash((self.mac_address, self.name))
+
+    def __eq__(self, other: object) -> bool:
+        """Compare two sensor nodes for equality
+
+        Args:
+
+            other:
+                The object this sensor node (information) should be compared
+                to
+
+        Returns:
+
+            - ``True`` if the sensor nodes share the same name and MAC address,
+              or
+            - ``False`` otherwise
+
+        Examples:
+
+            Compare two sensor nodes, which are considered equal
+
+            >>> sensor_node_1 = SensorNodeInfo(
+            ...                     name="Test-STH",
+            ...                     sensor_node_number=1,
+            ...                     mac_address=EUI("08-6B-D7-01-DE-81"),
+            ...                     rssi=-58 )
+            >>> sensor_node_2 = SensorNodeInfo(
+            ...                     name="Test-STH",
+            ...                     sensor_node_number=2,
+            ...                     mac_address=EUI("08-6B-D7-01-DE-81"),
+            ...                     rssi=-80)
+            >>> sensor_node_1 == sensor_node_2
+            True
+
+            Compare two sensor nodes, which are not considered equal
+
+            >>> sensor_node_3 = SensorNodeInfo(
+            ...                     name="Something",
+            ...                     sensor_node_number=3,
+            ...                     mac_address=EUI("12-34-56-78-9A-BC"),
+            ...                     rssi=-80)
+            >>> sensor_node_2 == sensor_node_3
+            False
+
+        """
+
+        if not isinstance(other, type(self)):
+            return NotImplemented
+
+        return (
+            self.name == other.name and self.mac_address == other.mac_address
+        )
+
 
 class STU(Node):
     """Communicate and control a connected STU

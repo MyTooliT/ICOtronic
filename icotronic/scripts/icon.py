@@ -171,20 +171,21 @@ async def command_list(
 
     async with Connection() as stu:
         timeout = time() + 5
-        sensor_nodes: list[SensorNodeInfo] = []
-        sensor_nodes_before: list[SensorNodeInfo] = []
+        sensor_nodes: set[SensorNodeInfo] = set()
+        sensor_nodes_before: set[SensorNodeInfo] = set()
 
-        # - First request for sensor nodes will produce empty list
-        # - Subsequent retries should provide all available sensor nodes
-        # - We wait until the number of sensor nodes is larger than 1 and
-        #   has not changed between one iteration or the timeout is reached
+        # Wait
+        # - until timeout, if there are no devices available or
+        # - until no new devices have been found in an iteration of the loop
         while (
             len(sensor_nodes) <= 0
             and time() < timeout
-            or len(sensor_nodes) != len(sensor_nodes_before)
+            or sensor_nodes != sensor_nodes_before
         ):
-            sensor_nodes_before = list(sensor_nodes)
-            sensor_nodes = await stu.get_sensor_nodes()
+            sensor_nodes_before = set(sensor_nodes)
+            sensor_nodes = (
+                set(await stu.get_sensor_nodes()) | sensor_nodes_before
+            )
             await sleep(0.5)
 
         for node in sensor_nodes:
