@@ -91,7 +91,6 @@ which will open the the user configuration in your default text editor. You can 
    ```
 
 8. Change the state value to
-
    - `Bare PCB`, if the **sensor node test** (SMH/STH test) should flash **the sensor node** or to
    - `Epoxied` if the test should not flash the sensor node.
 
@@ -374,7 +373,6 @@ The text below gives you a more detailed step-by-step guide on how to run the te
    As alternative to the steps above you can also change the variable `sth` → `firmware` → `location` → `flash` in the [configuration](#changing-configuration-values) to point to the firmware that should be used for the flash test.
 
 2. Make sure that [the configuration values](#changing-configuration-values) are set correctly. You probably need to change at least the following variables:
-
    - **Name**: Please change the Bluetooth advertisement name (`sth` → `name` ) to the name of the STH you want to test.
 
    - **Serial Number of Programming Board**: Please make sure, that the variable `sth` → `programming board` → `serial number` contains the serial number of the programming board connected to the STH. This serial number should be displayed on the bottom right of the LCD on the programming board.
@@ -382,7 +380,6 @@ The text below gives you a more detailed step-by-step guide on how to run the te
 3. Please open your favorite Terminal application and execute the STH test using the command `test-sth`. For more information about this command, please take a look at the section [“General”](#tutorials:section:general) above.
 
    Please note, that the test will rename the tested STH
-
    - to a [**Base64 encoded version of the Bluetooth MAC address**](#mac-address-conversion), if `sth` → `status` is set to `Bare PCB`, or
 
    - to the **serial number** (`sth` → `programming board` → `serial number`), if you set the status to `Epoxied`.

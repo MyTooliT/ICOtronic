@@ -30,11 +30,9 @@ Using ICOtronic in the WSL 2 currently [requires using a custom Linux kernel](ht
    ```
 
 2. Install Ubuntu 22.04 VM (Windows Shell):
-
    1. Install [Ubuntu 22.04 from the Microsoft Store](https://apps.microsoft.com/store/detail/ubuntu-2204-lts/9PN20MSR04DW)
 
    2. Open the Ubuntu 22.04 application
-
       1. Choose a user name
       2. Choose a password
 
@@ -79,7 +77,6 @@ Using ICOtronic in the WSL 2 currently [requires using a custom Linux kernel](ht
    ```
 
    Make sure the following features are enabled:
-
    - `Device Drivers` → `USB Support`
    - `Device Drivers` → `USB Support` → `USB announce new devices`
    - `Device Drivers` → `USB Support` → `USB Modem (CDC ACM) support`
@@ -89,7 +86,6 @@ Using ICOtronic in the WSL 2 currently [requires using a custom Linux kernel](ht
    - `Device Drivers` → `USB Support` → `USB Serial Converter Support` → `USB FTDI Single port Serial Driver`
 
    Enable the following features:
-
    - `Networking support` → `CAN bus subsystem support`
    - `Networking support` → `CAN bus subsystem support` → `Raw CAN Protocol`
    - `Networking support` → `CAN bus subsystem support` → `CAN device drivers` → `Virtual Local CAN Interface`
@@ -165,7 +161,6 @@ Using ICOtronic in the WSL 2 currently [requires using a custom Linux kernel](ht
    > **Note:** Please replace `<user>` with your (Windows) username (e.g. `rene`)
 
    Save the file and exit `nano`:
-
    1. <kbd>Ctrl</kbd> + <kbd>O</kbd>
    2. <kbd>⏎</kbd>
    3. <kbd>Ctrl</kbd> + <kbd>X</kbd>)
@@ -281,7 +276,6 @@ Using ICOtronic in the WSL 2 currently [requires using a custom Linux kernel](ht
    ```
 
 2. Add `commander` binary to path (Linux Shell)
-
    1. Open `~/.profile` in `nano`:
 
       ```sh
@@ -318,7 +312,6 @@ Using ICOtronic in the WSL 2 currently [requires using a custom Linux kernel](ht
    ```
 
    Notes:
-
    - Please replace `<serialnumber>` with the serial number of your programming board (e.g. `440069950`):
 
      ```sh

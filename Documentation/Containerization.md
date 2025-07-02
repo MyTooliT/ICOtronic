@@ -19,7 +19,6 @@ docker build -t mytoolit/icotronic -f Docker/Dockerfile .
 ### Using ICOtronic in the Docker Container
 
 1. Run the container **(Terminal 1)**
-
    1. Open a new terminal window
 
    2. Open a shell in the Docker container

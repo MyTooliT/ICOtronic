@@ -37,7 +37,6 @@ In order to use the ICOtronic system you need at least:
   ![PCAN Adapter](Documentation/Pictures/PCAN.jpg)
 
   including:
-
   - power injector, and
   - power supply unit (for the power injector):
 

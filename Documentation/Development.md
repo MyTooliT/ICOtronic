@@ -13,7 +13,6 @@ You can use the instructions below, if you want to work on the code of the ICOtr
    or one of the many available [graphical user interfaces for Git](https://git-scm.com/downloads/guis) to do that.
 
 2. Install ICOtronic in “developer mode”
-
    1. Change your working directory to the (root) directory of the cloned repository
    2. Install ICOtronic:
 
@@ -29,7 +28,6 @@ You can use the instructions below, if you want to work on the code of the ICOtr
       >   - test (`test`) dependencies
 
 3. Install other required tools (for tests)
-
    - `hdf5`: For the command line tool `h5dump` (Linux/macOS). You can install hdf5 via [Homebrew](https://brew.sh):
 
      ```sh
@@ -195,7 +193,6 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 1.  Check that the [**CI jobs** for the `main` branch finished successfully](https://github.com/MyTooliT/ICOtronic/actions)
 2.  Check that the most recent [“Read the Docs” build of the documentation ran successfully](https://app.readthedocs.org/projects/icotronic/)
 3.  Check that the **checks and tests** run without any problems on **Linux**, **macOS** and **Windows**
-
     1. Set the value of `sth` → `status` in the [configuration](#changing-configuration-values) to `Epoxied`
     2. Execute the command:
 
@@ -206,9 +203,7 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
        in the root of the repository
 
 4.  Check that the **firmware flash** works in Windows
-
     - Execute `test-sth`
-
       1. once with `sth` → `status` set to `Epoxied`, and
       2. once set to `Bare PCB`
 
@@ -219,12 +214,10 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 5.  Execute the **[extended manual tests](#development:section:extended-tests)** in Windows and check that everything works as expected
 
 6.  Create a new release [here](https://github.com/MyTooliT/ICOtronic/releases/new)
-
     1. Open the [release notes](Releases) for the latest version
     2. Replace links with a permanent version:
 
        For example instead of
-
        - `../../something.txt` use
        - `https://github.com/MyTooliT/ICOtronic/blob/REVISION/something.txt`,
 
