@@ -331,8 +331,11 @@ async def command_stu(arguments: Namespace) -> None:
             #   leaves the `async with` block seems to not turn off the
             #   advertisement for the STU.
             # - Even a **hard STU reset does not turn off the advertisement**.
-            # - One way to turn off the advertisement seems to be to initiate a
-            #   connection with a sensor node.
+            # - Flashing the STU firmware does also not turn off the OTA mode.
+            # - One way to turn off the advertisement temporary seems to be to
+            #   initiate a connection with a sensor node. Even in this case
+            #   the advertisement will still be be turned on again after
+            #   turning the STU off and on.
             await stu.activate_bluetooth()
             stu_name = await stu.get_name()
             print(
