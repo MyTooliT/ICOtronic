@@ -300,7 +300,7 @@ class SensorNode(Node):
             description=f"set second part of {description}",
         )
 
-    async def get_rssi(self):
+    async def get_rssi(self) -> int:
         """Retrieve the RSSI (Received Signal Strength Indication) of the node
 
         Returns:
