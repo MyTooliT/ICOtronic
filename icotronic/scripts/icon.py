@@ -334,6 +334,24 @@ async def command_stu(arguments: Namespace) -> None:
             # - One way to turn off the advertisement seems to be to initiate a
             #   connection with a sensor node.
             await stu.activate_bluetooth()
+            stu_name = await stu.get_name()
+            print(
+                "\nPlease disconnect the STU from the power source and\n"
+                "reconnect it after all LEDs stopped blinking.\n"
+                "\n"
+                "After these steps the STU should be discoverable under the\n"
+                f"Bluetooth advertisement name “{stu_name}” and you can\n"
+                "update the firmware with “Simplicity Connect”:\n"
+                "\n"
+                "\thttps://www.silabs.com/developer-tools/"
+                "simplicity-connect-mobile-app\n"
+                "\n"
+                "For more information about the OTA update process, please\n"
+                "take a look here:\n"
+                "\n"
+                "\thttps://github.com/MyTooliT/OTA-Update\n"
+            )
+
         elif subcommand == "mac":
             print(await stu.get_mac_address())
         elif subcommand == "reset":
