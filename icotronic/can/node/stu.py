@@ -316,14 +316,25 @@ class STU(Node):
 
         return available_nodes
 
-    async def get_name(self, sensor_node_number: int) -> str:
+    async def get_name(
+        self, sensor_node_number: int = SENSOR_NODE_NUMBER_SELF_ADDRESSING
+    ) -> str:
         """Retrieve the name of a sensor node
 
         Args:
 
             sensor_node_number:
                 The number of the Bluetooth node (0 up to the number of
-                available nodes - 1)
+                available nodes - 1); Use the special node number
+                ``SENSOR_NODE_NUMBER_SELF_ADDRESSING`` to retrieve the
+                name of the STU itself.
+
+        Note:
+
+            You are probably only interested in the name of the STU itself
+            (``SENSOR_NODE_NUMBER_SELF_ADDRESSING``), if you want to know the
+            advertisement name of the STU in OTA (Over The Air) update mode
+            for flashing a new firmware onto the STU.
 
         Returns:
 
