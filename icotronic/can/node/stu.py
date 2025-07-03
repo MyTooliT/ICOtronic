@@ -232,9 +232,7 @@ class SensorNodeInfo(NamedTuple):
 
         """
 
-        # Source for using tuple for hash value:
-        # - https://stackoverflow.com/questions/29435556
-        return hash((self.mac_address, self.name))
+        return hash(self.mac_address)
 
     def __eq__(self, other: object) -> bool:
         """Compare two sensor nodes for equality
@@ -283,9 +281,7 @@ class SensorNodeInfo(NamedTuple):
         if not isinstance(other, type(self)):
             return NotImplemented
 
-        return (
-            self.name == other.name and self.mac_address == other.mac_address
-        )
+        return self.mac_address == other.mac_address
 
 
 class STU(Node):
