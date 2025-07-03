@@ -103,9 +103,8 @@ async def command_dataloss(arguments: Namespace) -> None:
 
             sensor_config = SensorConfiguration(first=1)
 
-            for oversampling_rate in (
-                2**exponent for exponent in range(6, 10)
-            ):
+            oversampling_rates = [2**exponent for exponent in range(6, 10)]
+            for oversampling_rate in oversampling_rates:
                 logger.info("Oversampling rate: %s", oversampling_rate)
                 adc_config = ADCConfiguration(
                     prescaler=2,
@@ -131,11 +130,11 @@ async def command_dataloss(arguments: Namespace) -> None:
                         disable=None,
                     )
 
-                    start_time = monotonic()
                     try:
                         async with sth.open_data_stream(
                             sensor_config.streaming_configuration()
                         ) as stream:
+                            start_time = monotonic()
                             async for data, _ in stream:
                                 storage.add_streaming_data(
                                     data.apply(conversion_to_g)
@@ -153,7 +152,41 @@ async def command_dataloss(arguments: Namespace) -> None:
                         )
 
                     progress.close()
-                print(f"Stored measurement data in “{filepath}”")
+
+                    data_time_us = float(storage.measurement_time())
+                    data_time_s = data_time_us / 10**6
+                    dataloss = storage.dataloss()
+                    data_loss_status = (
+                        "🟢"
+                        if dataloss < 0.01
+                        else (
+                            "🟡"
+                            if dataloss < 0.05
+                            else ("🟠" if dataloss < 0.1 else "🔴")
+                        )
+                    )
+
+                    dataloss_percent = storage.dataloss() * 100
+                    sample_rate_data = storage.sampling_frequency()
+                    print(
+                        "ADC:\n"
+                        f"  Sample Rate:      {sample_rate:.2f} Hz\n"
+                        "Measurement:\n"
+                        f"  Sample Rate:      {sample_rate_data:.2f} Hz\n"
+                        f"  Data Loss:        {dataloss_percent:.2f} % "
+                        f"{data_loss_status}\n"
+                        f"  Measurement Time: {data_time_s:.2f} s"
+                    )
+                    print(
+                        (
+                            ""
+                            if oversampling_rate == oversampling_rates[-1]
+                            else "\n"
+                        ),
+                        end="",
+                    )
+
+                filepath.unlink()
 
 
 # pylint: enable=too-many-locals
