@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from asyncio import sleep
-from time import time
+from time import monotonic
 from types import TracebackType
 from typing import NamedTuple
 
@@ -75,12 +75,12 @@ class AsyncSensorNodeManager:
         # We wait for a certain amount of time for the connection to the
         # node to take place
         timeout_in_s = 20
-        end_time = time() + timeout_in_s
+        end_time = monotonic() + timeout_in_s
 
         sensor_node = None
         sensor_nodes: list[SensorNodeInfo] = []
         while sensor_node is None:
-            if time() > end_time:
+            if monotonic() > end_time:
                 sensor_nodes_representation = "\n".join(
                     [repr(node) for node in sensor_nodes]
                 )
@@ -111,15 +111,15 @@ class AsyncSensorNodeManager:
             if sensor_node is None:
                 await sleep(0.1)
 
-        connection_attempt_time = time()
+        connection_attempt_time = monotonic()
         disconnected = True
         while disconnected:
             await self.stu.connect_with_number(sensor_node.sensor_node_number)
             retry_time_s = 3
-            end_time_retry = time() + retry_time_s
-            while time() < end_time_retry:
-                if time() > end_time:
-                    connection_time = time() - connection_attempt_time
+            end_time_retry = monotonic() + retry_time_s
+            while monotonic() < end_time_retry:
+                if monotonic() > end_time:
+                    connection_time = monotonic() - connection_attempt_time
                     raise TimeoutError(
                         "Unable to connect to sensor node"
                         f" “{sensor_node}” in"
