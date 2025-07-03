@@ -13,7 +13,7 @@ from functools import partial
 from logging import basicConfig, getLogger
 from pathlib import Path
 from sys import stderr
-from time import perf_counter_ns, process_time_ns, time
+from time import monotonic, perf_counter_ns, process_time_ns
 
 from can.interfaces.pcan import PcanError
 from tqdm import tqdm
@@ -131,7 +131,7 @@ async def command_dataloss(arguments: Namespace) -> None:
                         disable=None,
                     )
 
-                    start_time = time()
+                    start_time = monotonic()
                     try:
                         async with sth.open_data_stream(
                             sensor_config.streaming_configuration()
@@ -141,7 +141,10 @@ async def command_dataloss(arguments: Namespace) -> None:
                                     data.apply(conversion_to_g)
                                 )
                                 progress.update(3)
-                                if time() - start_time >= measurement_time_s:
+                                if (
+                                    monotonic() - start_time
+                                    >= measurement_time_s
+                                ):
                                     break
                     except PcanError as error:
                         print(
@@ -249,13 +252,13 @@ async def command_measure(arguments: Namespace) -> None:
                     async with sth.open_data_stream(
                         streaming_config
                     ) as stream:
-                        start_time = time()
+                        start_time = monotonic()
                         async for data, _ in stream:
                             storage.add_streaming_data(
                                 data.apply(conversion_to_g)
                             )
                             progress.update(values_per_message)
-                            if time() - start_time >= measurement_time_s:
+                            if monotonic() - start_time >= measurement_time_s:
                                 break
                 except KeyboardInterrupt:
                     pass
