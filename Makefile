@@ -40,6 +40,7 @@ run: check test
 # = Tests =
 # =========
 
+.PHONY: check
 check:
 	flake8
 	mypy $(MODULE)
