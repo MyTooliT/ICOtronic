@@ -7,7 +7,7 @@ PCB while an STH also includes the tool holder that contains the SHA.
 # -- Imports ------------------------------------------------------------------
 
 from itertools import chain, repeat
-from time import time
+from time import monotonic
 from unittest import main as unittest_main, skipIf
 
 from semantic_version import Version
@@ -251,10 +251,10 @@ class TestSTH(BaseTestCases.TestSensorNode):
             async with self.node.open_data_stream(
                 StreamingConfiguration(first=True)
             ) as stream:
-                end_time = time() + seconds
+                end_time = monotonic() + seconds
                 async for data, _ in stream:
                     stream_data.extend(data.values)
-                    if time() > end_time:
+                    if monotonic() > end_time:
                         break
 
             return stream_data
