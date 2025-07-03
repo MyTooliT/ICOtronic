@@ -779,6 +779,65 @@ class STU(Node):
 
         return nodes
 
+    async def collect_sensor_nodes(self, timeout=5) -> list[SensorNodeInfo]:
+        """Collect available sensor nodes
+
+        This coroutine collects sensor nodes until either
+
+        - no new sensor node was found or
+        - until the given timeout, if no sensor node was found.
+
+        Args:
+
+            timeout:
+
+                The timeout in seconds until this coroutine returns, if no
+                sensor node was found at all
+
+        Returns:
+
+            A list of found sensor nodes
+
+        Examples:
+
+            Import required library code
+
+            >>> from asyncio import run
+            >>> from icotronic.can.connection import Connection
+
+            Collect available sensor nodes
+
+            >>> async def collect_sensor_nodes():
+            ...     async with Connection() as stu:
+            ...         return await stu.collect_sensor_nodes()
+
+            >>> # We assume that at least one sensor node is available
+            >>> nodes = run(collect_sensor_nodes())
+            >>> len(nodes) >= 1
+            True
+
+        """
+
+        timeout = monotonic() + timeout
+        sensor_nodes: set[SensorNodeInfo] = set()
+        sensor_nodes_before: set[SensorNodeInfo] = set()
+
+        # Wait
+        # - until timeout, if there are no devices available or
+        # - until no new devices have been found in an iteration of the loop
+        while (
+            len(sensor_nodes) <= 0
+            and monotonic() < timeout
+            or sensor_nodes != sensor_nodes_before
+        ):
+            sensor_nodes_before = set(sensor_nodes)
+            sensor_nodes = (
+                set(await self.get_sensor_nodes()) | sensor_nodes_before
+            )
+            await sleep(0.5)
+
+        return list(sensor_nodes)
+
     def connect_sensor_node(
         self,
         identifier: int | str | EUI,

@@ -8,7 +8,7 @@ for more information
 # -- Imports ------------------------------------------------------------------
 
 from argparse import Namespace
-from asyncio import run, sleep
+from asyncio import run
 from functools import partial
 from logging import basicConfig, getLogger
 from pathlib import Path
@@ -21,7 +21,6 @@ from tqdm import tqdm
 from icotronic.can import Connection
 from icotronic.can.adc import ADCConfiguration
 from icotronic.can.error import CANConnectionError, UnsupportedFeatureException
-from icotronic.can.node.stu import SensorNodeInfo
 from icotronic.can.node.sth import STH
 from icotronic.can.streaming import StreamingTimeoutError
 from icotronic.cmdline.parse import create_icon_parser
@@ -170,23 +169,7 @@ async def command_list(
     """
 
     async with Connection() as stu:
-        timeout = time() + 5
-        sensor_nodes: set[SensorNodeInfo] = set()
-        sensor_nodes_before: set[SensorNodeInfo] = set()
-
-        # Wait
-        # - until timeout, if there are no devices available or
-        # - until no new devices have been found in an iteration of the loop
-        while (
-            len(sensor_nodes) <= 0
-            and time() < timeout
-            or sensor_nodes != sensor_nodes_before
-        ):
-            sensor_nodes_before = set(sensor_nodes)
-            sensor_nodes = (
-                set(await stu.get_sensor_nodes()) | sensor_nodes_before
-            )
-            await sleep(0.5)
+        sensor_nodes = await stu.collect_sensor_nodes()
 
         for node in sensor_nodes:
             print(node)
