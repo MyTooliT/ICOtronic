@@ -606,6 +606,30 @@ class StorageData:
 
         return 0
 
+    def measurement_time(self) -> int:
+        """Get the measurement time
+
+        Note:
+
+            This method returns the value of the last timestamp. If there was
+            dataloss at the end of the measurement, then the real measurement
+            time might have been longer.
+
+        Returns:
+
+            The measurement time in microseconds
+
+        """
+
+        # Write back acceleration data so we can read last timestamp
+        self.acceleration.flush()
+
+        return (
+            int(self.acceleration[-1]["timestamp"])
+            if len(self.acceleration) > 1
+            else 0
+        )
+
 
 # -- Main ---------------------------------------------------------------------
 
