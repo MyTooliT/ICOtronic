@@ -334,8 +334,8 @@ def sensor_node_number(value: str) -> int:
         ) from error
 
 
-def sth_name(name: str) -> str:
-    """Check if the given text is a valid STH name
+def node_name(name: str) -> str:
+    """Check if the given text is a valid node name
 
     Returns:
 
@@ -344,7 +344,7 @@ def sth_name(name: str) -> str:
     Raises:
 
         An argument type error in case the given text does not store a valid
-        STH name. This is the case, if the name
+        node name. This is the case, if the name
 
         - is longer than 8 characters or
         - contains non-ASCII data.
@@ -353,33 +353,33 @@ def sth_name(name: str) -> str:
 
         Parse a correct node name
 
-        >>> sth_name("Blubb")
+        >>> node_name("Blubb")
         'Blubb'
 
         A node name is not allowed to contain non-ASCII data
 
-        >>> sth_name("Blübb")
+        >>> node_name("Blübb")
         Traceback (most recent call last):
            ...
-        argparse.ArgumentTypeError: “Blübb” is not a valid STH name
+        argparse.ArgumentTypeError: “Blübb” is not a valid name
 
         A node name can not be longer than 8 characters
 
-        >>> sth_name("123456789") # doctest:+NORMALIZE_WHITESPACE
+        >>> node_name("123456789") # doctest:+NORMALIZE_WHITESPACE
         Traceback (most recent call last):
            ...
         argparse.ArgumentTypeError: “123456789” is too long to be a valid
-                                    STH name
+                                    name
 
     """
 
     try:
         name.encode("ascii")
     except UnicodeEncodeError as error:
-        raise ArgumentTypeError(f"“{name}” is not a valid STH name") from error
+        raise ArgumentTypeError(f"“{name}” is not a valid name") from error
 
     if len(name) > 8:
-        raise ArgumentTypeError(f"“{name}” is too long to be a valid STH name")
+        raise ArgumentTypeError(f"“{name}” is too long to be a valid name")
 
     return name
 
@@ -409,7 +409,7 @@ def add_identifier_arguments(parser: ArgumentParser) -> None:
         metavar="NAME",
         help="Name of sensor node",
         default="Test-STH",
-        type=sth_name,
+        type=node_name,
     )
     identifier_group.add_argument(
         "-m",
@@ -614,7 +614,11 @@ def create_icon_parser() -> ArgumentParser:
     )
     add_identifier_arguments(rename_parser)
     rename_parser.add_argument(
-        "name", type=str, help="New name of STH", nargs="?", default="Test-STH"
+        "name",
+        type=str,
+        help="New name of sensor node",
+        nargs="?",
+        default="Test-STH",
     )
 
     # =======
