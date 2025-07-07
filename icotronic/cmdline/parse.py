@@ -244,6 +244,46 @@ def measurement_time(value: str) -> float:
         ) from error
 
 
+def non_infinite_measurement_time(value: str) -> float:
+    """Check if the given number is valid (non-infinite) measurement time
+
+    0 will be interpreted as infinite measurement runtime
+
+    Returns:
+
+        A float value representing the measurement time on success
+
+    Raises:
+
+        ArgumentTypeError:
+             If the given text is not a valid measurement time value
+
+    Examples:
+
+        Parse correct measurement time
+
+        >>> non_infinite_measurement_time("0.1")
+        0.1
+
+        Parsing an “infinite” measurement time fails
+
+        >>> non_infinite_measurement_time("0") # doctest:+NORMALIZE_WHITESPACE
+        Traceback (most recent call last):
+           ...
+        argparse.ArgumentTypeError: “0” is not a valid positive measurement
+                                    time
+
+    """
+
+    runtime = measurement_time(value)
+    if runtime == inf:
+        raise ArgumentTypeError(
+            f"“{value}” is not a valid positive measurement time"
+        )
+
+    return runtime
+
+
 def sensor_node_number(value: str) -> int:
     """Check if the given number is valid Bluetooth node number
 
@@ -525,6 +565,14 @@ def create_icon_parser() -> ArgumentParser:
     dataloss_parser = subparsers.add_parser(
         "dataloss", help="Check data loss at different sample rates"
     )
+    measurement_group = dataloss_parser.add_argument_group(title="Measurement")
+    measurement_group.add_argument(
+        "-t",
+        "--time",
+        type=non_infinite_measurement_time,
+        help="Measurement time in seconds",
+        default=10,
+    )
     add_identifier_arguments(dataloss_parser)
 
     # ========
@@ -549,7 +597,7 @@ def create_icon_parser() -> ArgumentParser:
         "-t",
         "--time",
         type=measurement_time,
-        help="measurement time in seconds (0 for infinite runtime)",
+        help="Measurement time in seconds (0 for infinite runtime)",
         default=10,
     )
 

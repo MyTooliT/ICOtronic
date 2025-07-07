@@ -16,7 +16,7 @@ Check that incorrect names are handled correctly
   $ output="$(icon measure -n 'TooooLong' 2>&1)"
   [2]
   $ printf '%s\n' "$output" | tail -n1
-  icon measure: error: argument -n/--name: “TooooLong” is too long to be a valid STH name
+  icon measure: error: argument -n/--name: “TooooLong” is too long to be a valid name
 
 Check handling of incorrect prescaler value
 

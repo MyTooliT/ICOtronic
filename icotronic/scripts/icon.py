@@ -186,6 +186,8 @@ async def command_dataloss(arguments: Namespace) -> None:
     """
 
     identifier = arguments.identifier
+    measurement_time_s = arguments.time
+
     logger = getLogger()
 
     async with Connection() as stu:
@@ -217,7 +219,7 @@ async def command_dataloss(arguments: Namespace) -> None:
                     storage.write_sample_rate(adc_config)
 
                     performance = await read_data(
-                        sth, sensor_config, storage, measurement_time_s=10
+                        sth, sensor_config, storage, measurement_time_s
                     )
                     print_dataloss_data(storage)
                     print("Performance:")

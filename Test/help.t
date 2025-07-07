@@ -51,7 +51,7 @@ Check help output of measure command:
     -h, --help            show this help message and exit
   
   Measurement:
-    -t* measurement time in seconds (0 for infinite runtime) (glob)
+    -t* Measurement time in seconds (0 for infinite runtime) (glob)
     -1* [FIRST_CHANNEL] (glob)
                           sensor channel number for first measurement channel (1
                           - 255; 0 to disable)
@@ -84,7 +84,7 @@ Check help output of rename command:
   usage: icon rename [-h] (-n NAME | -m MAC_ADRESS | -d NUMBER) [name]
   
   positional arguments:
-    name                  New name of STH
+    name                  New name of sensor node
   
   option.* (re)
     -h, --help            show this help message and exit
