@@ -9,7 +9,6 @@ for more information
 
 from argparse import Namespace
 from asyncio import run
-from functools import partial
 from logging import basicConfig, getLogger
 from pathlib import Path
 from sys import stderr
@@ -25,7 +24,7 @@ from icotronic.can.node.sth import STH
 from icotronic.can.streaming import StreamingTimeoutError
 from icotronic.cmdline.parse import create_icon_parser
 from icotronic.config import ConfigurationUtility, settings
-from icotronic.measurement import convert_raw_to_g, Storage, StorageData
+from icotronic.measurement import Storage, StorageData
 from icotronic.measurement.sensor import SensorConfiguration
 
 # -- Functions ----------------------------------------------------------------
@@ -98,6 +97,10 @@ async def read_data(
 
     """
 
+    streaming_config = sensor_config.streaming_configuration()
+    logger = getLogger()
+    logger.info("Streaming Configuration: %s", streaming_config)
+
     sample_rate = (await sth.get_adc_configuration()).sample_rate()
     progress = tqdm(
         total=int(sample_rate * measurement_time_s),
@@ -108,15 +111,14 @@ async def read_data(
     )
 
     conversion_to_g = await sth.get_acceleration_conversion_function()
+    values_per_message = streaming_config.data_length()
 
     try:
-        async with sth.open_data_stream(
-            sensor_config.streaming_configuration()
-        ) as stream:
+        async with sth.open_data_stream(streaming_config) as stream:
             start_time = monotonic()
             async for data, _ in stream:
                 storage.add_streaming_data(data.apply(conversion_to_g))
-                progress.update(3)
+                progress.update(values_per_message)
                 if monotonic() - start_time >= measurement_time_s:
                     break
     except PcanError as error:
@@ -124,8 +126,10 @@ async def read_data(
             f"Unable to collect streaming data: {error}",
             file=stderr,
         )
-
-    progress.close()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        progress.close()
 
 
 def print_dataloss_data(storage: StorageData) -> None:
@@ -238,9 +242,6 @@ async def command_list(
             print(node)
 
 
-# pylint: disable=too-many-locals
-
-
 async def command_measure(arguments: Namespace) -> None:
     """Open measurement stream and store data
 
@@ -250,8 +251,6 @@ async def command_measure(arguments: Namespace) -> None:
             The given command line arguments
 
     """
-
-    logger = getLogger()
 
     identifier = arguments.identifier
     measurement_time_s = arguments.time
@@ -285,7 +284,6 @@ async def command_measure(arguments: Namespace) -> None:
                     ) from exception
 
             sensor_range = await get_acceleration_sensor_range_in_g(sth)
-            conversion_to_g = partial(convert_raw_to_g, max_value=sensor_range)
             filepath = settings.get_output_filepath()
 
             with Storage(
@@ -294,41 +292,15 @@ async def command_measure(arguments: Namespace) -> None:
                 storage.write_sensor_range(sensor_range)
                 storage.write_sample_rate(adc_config)
 
-                streaming_config = user_sensor_config.streaming_configuration()
-                logger.info("Streaming Configuration: %s", streaming_config)
-                values_per_message = streaming_config.data_length()
-
-                progress = tqdm(
-                    total=round(
-                        adc_config.sample_rate() * measurement_time_s, 0
-                    ),
-                    desc="Read sensor data",
-                    unit=" values",
-                    leave=False,
-                    disable=None,
-                )
-
                 try:
-                    async with sth.open_data_stream(
-                        streaming_config
-                    ) as stream:
-                        start_time = monotonic()
-                        async for data, _ in stream:
-                            storage.add_streaming_data(
-                                data.apply(conversion_to_g)
-                            )
-                            progress.update(values_per_message)
-                            if monotonic() - start_time >= measurement_time_s:
-                                break
+                    await read_data(
+                        sth, user_sensor_config, storage, measurement_time_s
+                    )
                 except KeyboardInterrupt:
                     pass
                 finally:
-                    progress.close()
                     print(f"Data Loss: {storage.dataloss() * 100} %")
                     print(f"Filepath: {filepath}")
-
-
-# pylint: enable=too-many-locals
 
 
 async def command_rename(arguments: Namespace) -> None:
