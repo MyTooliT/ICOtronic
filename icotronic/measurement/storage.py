@@ -269,6 +269,38 @@ class StorageData:
                     f"incorrect format: {error}"
                 ) from error
 
+    def __getitem__(self, name: str) -> str:
+        """Return acceleration metadata with the specified name
+
+        Args:
+
+            name:
+                The name of the metadata this method should return
+
+        Returns:
+
+            The metadata with the specified name
+
+        Examples:
+
+            Import required library code
+
+            >>> from pathlib import Path
+
+            Write and read some metadata
+
+            >>> filepath = Path("test.hdf5")
+            >>> config = StreamingConfiguration(first=True)
+            >>> with Storage(filepath, config) as storage:
+            ...     storage.write_sensor_range(200)
+            ...     print(storage["Sensor_Range"])
+            ± 100 g₀
+            >>> filepath.unlink()
+
+        """
+
+        return self.acceleration.attrs.__getitem__(name)
+
     def add_streaming_data(
         self,
         streaming_data: StreamingData,
