@@ -311,6 +311,23 @@ To reset the STU please use the following command:
 icon stu reset
 ```
 
+#### Determining Data Loss
+
+Depending on
+
+- the hardware of the computer and
+- the used sampling frequency
+
+the ICOtronic library might not be able to keep up with the rate of measurement data that is collected by the STU and stored in the buffer of the CAN adapter. The result in this case will be a certain rate of data loss, since the CAN adapter will get rid of old data if it is not collected fast enough.
+
+To minimize the chance of this kind of data loss you can use the command
+
+```sh
+icon dataloss
+```
+
+to determine the CPU usage and data loss for the current computer at certain sample rates.
+
 ## Production Tests {#tutorials:section:production-tests}
 
 This tutorial lists the usual steps to test a sensory holder assembly or a sensory tool holder.
