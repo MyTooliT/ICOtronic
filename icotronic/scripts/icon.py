@@ -218,12 +218,16 @@ async def command_dataloss(arguments: Namespace) -> None:
                     storage.write_sensor_range(sensor_range)
                     storage.write_sample_rate(adc_config)
 
-                    performance = await read_data(
-                        sth, sensor_config, storage, measurement_time_s
-                    )
-                    print_dataloss_data(storage)
-                    print("Performance:")
-                    print(f"  {performance}")
+                    try:
+                        performance = await read_data(
+                            sth, sensor_config, storage, measurement_time_s
+                        )
+                    except StreamingBufferError as error:
+                        print(f"⚠️ {error}", file=stderr)
+                    finally:
+                        print_dataloss_data(storage)
+                        print("Performance:")
+                        print(f"  {performance}")
 
                     print(
                         (
