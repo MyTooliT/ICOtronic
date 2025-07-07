@@ -21,7 +21,7 @@ from icotronic.can import Connection
 from icotronic.can.adc import ADCConfiguration
 from icotronic.can.error import CANConnectionError, UnsupportedFeatureException
 from icotronic.can.node.sth import STH
-from icotronic.can.streaming import StreamingTimeoutError
+from icotronic.can.streaming import StreamingBufferError, StreamingTimeoutError
 from icotronic.cmdline.parse import create_icon_parser
 from icotronic.config import ConfigurationUtility, settings
 from icotronic.measurement import Storage, StorageData
@@ -453,6 +453,7 @@ def main():
             )
         except (
             CANConnectionError,
+            StreamingBufferError,
             TimeoutError,
             UnsupportedFeatureException,
             ValueError,
