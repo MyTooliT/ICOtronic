@@ -25,8 +25,7 @@ from icotronic.can.node.sth import STH
 from icotronic.can.streaming import StreamingTimeoutError
 from icotronic.cmdline.parse import create_icon_parser
 from icotronic.config import ConfigurationUtility, settings
-from icotronic.measurement import convert_raw_to_g
-from icotronic.measurement import Storage
+from icotronic.measurement import convert_raw_to_g, Storage, StorageData
 from icotronic.measurement.sensor import SensorConfiguration
 
 # -- Functions ----------------------------------------------------------------
@@ -74,7 +73,92 @@ def command_config() -> None:
     ConfigurationUtility.open_user_config()
 
 
-# pylint: disable=too-many-locals
+async def read_data(
+    sth: STH,
+    sensor_config: SensorConfiguration,
+    storage: StorageData,
+    measurement_time_s: float,
+) -> None:
+    """Read some acceleration data from the given STH
+
+    Args:
+
+        sth:
+            The STH from which data should be read
+
+        sensor_config:
+            The sensor configuration that should be used for reading data
+
+        storage:
+            The storage object that should be used to store the acceleration
+            data
+
+        measurement_time_s
+            The amount of time that should be used for reading data
+
+    """
+
+    sample_rate = (await sth.get_adc_configuration()).sample_rate()
+    progress = tqdm(
+        total=int(sample_rate * measurement_time_s),
+        desc="Read sensor data",
+        unit=" values",
+        leave=False,
+        disable=None,
+    )
+
+    conversion_to_g = await sth.get_acceleration_conversion_function()
+
+    try:
+        async with sth.open_data_stream(
+            sensor_config.streaming_configuration()
+        ) as stream:
+            start_time = monotonic()
+            async for data, _ in stream:
+                storage.add_streaming_data(data.apply(conversion_to_g))
+                progress.update(3)
+                if monotonic() - start_time >= measurement_time_s:
+                    break
+    except PcanError as error:
+        print(
+            f"Unable to collect streaming data: {error}",
+            file=stderr,
+        )
+
+    progress.close()
+
+
+def print_dataloss_data(storage: StorageData) -> None:
+    """Print information about data loss
+
+    Args:
+
+        storage:
+            The data that should be analyzed for data loss
+
+    """
+
+    data_time_us = float(storage.measurement_time())
+    data_time_s = data_time_us / 10**6
+    dataloss = storage.dataloss()
+    data_loss_status = (
+        "🟢"
+        if dataloss < 0.01
+        else ("🟡" if dataloss < 0.05 else ("🟠" if dataloss < 0.1 else "🔴"))
+    )
+
+    dataloss_percent = storage.dataloss() * 100
+    sample_rate_data = storage.sampling_frequency()
+    sample_rate = storage["Sample_Rate"]
+    print(
+        "ADC:\n"
+        f"  Sample Rate:      {sample_rate}\n"
+        "Measurement:\n"
+        f"  Sample Rate:      {sample_rate_data:.2f} Hz\n"
+        f"  Data Loss:        {dataloss_percent:.2f} % "
+        f"{data_loss_status}\n"
+        f"  Measurement Time: {data_time_s:.2f} s"
+    )
 
 
 async def command_dataloss(arguments: Namespace) -> None:
@@ -97,10 +181,6 @@ async def command_dataloss(arguments: Namespace) -> None:
             logger.info("Connected to “%s”", identifier)
 
             sensor_range = await get_acceleration_sensor_range_in_g(sth)
-            conversion_to_g = partial(convert_raw_to_g, max_value=sensor_range)
-
-            measurement_time_s = 10
-
             sensor_config = SensorConfiguration(first=1)
 
             oversampling_rates = [2**exponent for exponent in range(6, 10)]
@@ -122,61 +202,11 @@ async def command_dataloss(arguments: Namespace) -> None:
                     storage.write_sensor_range(sensor_range)
                     storage.write_sample_rate(adc_config)
 
-                    progress = tqdm(
-                        total=int(sample_rate * measurement_time_s),
-                        desc="Read sensor data",
-                        unit=" values",
-                        leave=False,
-                        disable=None,
+                    await read_data(
+                        sth, sensor_config, storage, measurement_time_s=10
                     )
+                    print_dataloss_data(storage)
 
-                    try:
-                        async with sth.open_data_stream(
-                            sensor_config.streaming_configuration()
-                        ) as stream:
-                            start_time = monotonic()
-                            async for data, _ in stream:
-                                storage.add_streaming_data(
-                                    data.apply(conversion_to_g)
-                                )
-                                progress.update(3)
-                                if (
-                                    monotonic() - start_time
-                                    >= measurement_time_s
-                                ):
-                                    break
-                    except PcanError as error:
-                        print(
-                            f"Unable to collect streaming data: {error}",
-                            file=stderr,
-                        )
-
-                    progress.close()
-
-                    data_time_us = float(storage.measurement_time())
-                    data_time_s = data_time_us / 10**6
-                    dataloss = storage.dataloss()
-                    data_loss_status = (
-                        "🟢"
-                        if dataloss < 0.01
-                        else (
-                            "🟡"
-                            if dataloss < 0.05
-                            else ("🟠" if dataloss < 0.1 else "🔴")
-                        )
-                    )
-
-                    dataloss_percent = storage.dataloss() * 100
-                    sample_rate_data = storage.sampling_frequency()
-                    print(
-                        "ADC:\n"
-                        f"  Sample Rate:      {sample_rate:.2f} Hz\n"
-                        "Measurement:\n"
-                        f"  Sample Rate:      {sample_rate_data:.2f} Hz\n"
-                        f"  Data Loss:        {dataloss_percent:.2f} % "
-                        f"{data_loss_status}\n"
-                        f"  Measurement Time: {data_time_s:.2f} s"
-                    )
                     print(
                         (
                             ""
@@ -187,9 +217,6 @@ async def command_dataloss(arguments: Namespace) -> None:
                     )
 
                 filepath.unlink()
-
-
-# pylint: enable=too-many-locals
 
 
 async def command_list(
