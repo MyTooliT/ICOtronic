@@ -16,26 +16,29 @@ from icotronic.can.adc import ADCConfiguration
 def base64_mac_address(name):
     """Check if the given text represents a Base64 encoded MAC address
 
-    Throws
-    ------
-
-    An argument type error in case the given value does not represent a MAC
-    address
-
-
     Returns:
 
-    The given text on success
+        The given text on success
+
+    Raises:
+
+        An argument type error in case the given value does not represent a MAC
+        address
 
     Examples:
 
-    >>> base64_mac_address("CGvXAd6B")
-    'CGvXAd6B'
+        Parse valid Base64 encoded MAC address
 
-    >>> base64_mac_address("CGvXAd")
-    Traceback (most recent call last):
-       ...
-    argparse.ArgumentTypeError: “CGvXAd” is not a Base64 encoded MAC address
+        >>> base64_mac_address("CGvXAd6B")
+        'CGvXAd6B'
+
+        Parse invalid Base64 encoded MAC address
+
+        >>> base64_mac_address("CGvXAd") # doctest:+NORMALIZE_WHITESPACE
+        Traceback (most recent call last):
+           ...
+        argparse.ArgumentTypeError: “CGvXAd” is not a Base64 encoded MAC
+                                    address
 
     """
 
@@ -48,28 +51,30 @@ def base64_mac_address(name):
 def byte_value(value):
     """Check if the given string represents a byte value
 
-    Throws
-    ------
-
-    An argument type error in case the given value does not represent a
-    (positive) byte value
-
     Returns:
 
-    An integer representing the given value on success
+        An integer representing the given value on success
+
+    Raises:
+
+        An argument type error in case the given value does not represent a
+        (positive) byte value
 
     Examples:
 
-    >>> byte_value("0xa")
-    10
+        Parse valid byte values
 
-    >>> byte_value("137")
-    137
+        >>> byte_value("0xa")
+        10
+        >>> byte_value("137")
+        137
 
-    >>> byte_value("256")
-    Traceback (most recent call last):
-       ...
-    argparse.ArgumentTypeError: “256” is not a valid byte value
+        Parse incorrect byte value
+
+        >>> byte_value("256")
+        Traceback (most recent call last):
+           ...
+        argparse.ArgumentTypeError: “256” is not a valid byte value
 
     """
 
@@ -87,39 +92,41 @@ def byte_value(value):
 def channel_number(value: str):
     """Check if the given string represents a valid channel number (0 – 255)
 
-    Throws
-    ------
+    Raises:
 
-    An argument type error in case the given value does not represent a
-    channel number
+        An argument type error in case the given value does not represent a
+        channel number
 
     Returns:
 
-    An integer representing the given channel number on success
+        An integer representing the given channel number on success
 
     Examples:
 
-    >>> channel_number("1")
-    1
+        Parse correct channel numbers
 
-    >>> channel_number("123")
-    123
+        >>> channel_number("1")
+        1
+        >>> channel_number("123")
+        123
+        >>> channel_number("0")
+        0
+        >>> channel_number("255")
+        255
 
-    >>> channel_number("0")
-    0
+        Parsing an incorrect negative channel number will fail
 
-    >>> channel_number("255")
-    255
+        >>> channel_number("-1")
+        Traceback (most recent call last):
+           ...
+        argparse.ArgumentTypeError: “-1” is not a valid channel number
 
-    >>> channel_number("-1")
-    Traceback (most recent call last):
-       ...
-    argparse.ArgumentTypeError: “-1” is not a valid channel number
+        Parse an incorrectly large channel number will fail
 
-    >>> channel_number("256")
-    Traceback (most recent call last):
-       ...
-    argparse.ArgumentTypeError: “256” is not a valid channel number
+        >>> channel_number("256")
+        Traceback (most recent call last):
+           ...
+        argparse.ArgumentTypeError: “256” is not a valid channel number
 
     """
 
@@ -139,26 +146,34 @@ def channel_number(value: str):
 def mac_address(address: str) -> EUI:
     """Check if the given text represents a MAC address
 
-    Throws
-    ------
-
-    An argument type error in case the given text does not store a MAC
-    address of the form `xx:xx:xx:xx:xx:xx`, where `x` represents a
-    hexadecimal number.
-
     Returns:
 
-    The given text on success
+        The parsed MAC address
+
+    Raises:
+
+        An argument type error in case the given text does not store a MAC
+        address of the form
+
+        - ``xx:xx:xx:xx:xx:xx`` or
+        - ``xx-xx-xx-xx-xx-xx``
+
+        where `x` represents a hexadecimal number.
 
     Examples:
 
-    >>> mac_address("08:6b:d7:01:de:81")
-    EUI('08-6B-D7-01-DE-81')
+        Parse a correct MAC address
 
-    >>> mac_address("08:6b:d7:01:de:666")
-    Traceback (most recent call last):
-       ...
-    argparse.ArgumentTypeError: “08:6b:d7:01:de:666” is not a valid MAC address
+        >>> mac_address("08:6b:d7:01:de:81")
+        EUI('08-6B-D7-01-DE-81')
+
+        Parsing an incorrect MAC address will fails
+
+        >>> mac_address("08:6b:d7:01:de:666") # doctest:+NORMALIZE_WHITESPACE
+        Traceback (most recent call last):
+           ...
+        argparse.ArgumentTypeError: “08:6b:d7:01:de:666” is not a valid MAC
+                                    address
 
     """
 
@@ -177,35 +192,42 @@ def measurement_time(value: str) -> float:
 
     0 will be interpreted as infinite measurement runtime
 
-    Raises:
-
-    ArgumentTypeError
-         if the given text is not a valid measurement time value
-
     Returns:
 
-    A float value representing the measurement time on success
+        A float value representing the measurement time on success
+
+    Raises:
+
+        ArgumentTypeError:
+             If the given text is not a valid measurement time value
+
 
     Examples:
 
-    >>> measurement_time("0")
-    inf
+        Parse correct measurement times
 
-    >>> measurement_time("0.1")
-    0.1
+        >>> measurement_time("0")
+        inf
 
-    >>> measurement_time("12.34")
-    12.34
+        >>> measurement_time("0.1")
+        0.1
 
-    >>> measurement_time("-1")
-    Traceback (most recent call last):
-       ...
-    argparse.ArgumentTypeError: “-1” is not a valid measurement time
+        >>> measurement_time("12.34")
+        12.34
 
-    >>> measurement_time("something")
-    Traceback (most recent call last):
-       ...
-    argparse.ArgumentTypeError: “something” is not a valid measurement time
+        Parsing a negative measurement time fails
+
+        >>> measurement_time("-1")
+        Traceback (most recent call last):
+           ...
+        argparse.ArgumentTypeError: “-1” is not a valid measurement time
+
+        Parsing an incorrect measurement time fails
+
+        >>> measurement_time("something")
+        Traceback (most recent call last):
+           ...
+        argparse.ArgumentTypeError: “something” is not a valid measurement time
 
     """
 
@@ -227,25 +249,37 @@ def sensor_node_number(value: str) -> int:
 
     Returns:
 
-    An integer representing the given channel number on success
+        An integer representing the given channel number on success
+
+    Raises:
+
+        ArgumentTypeError:
+             If the given text is not a valid sensor node number
 
     Examples:
 
-    >>> sensor_node_number("0")
-    0
+        Parse correct sensor node numbers
 
-    >>> sensor_node_number("123")
-    123
+        >>> sensor_node_number("0")
+        0
 
-    >>> sensor_node_number("-1")
-    Traceback (most recent call last):
-       ...
-    argparse.ArgumentTypeError: “-1” is not a valid Bluetooth node number
+        >>> sensor_node_number("123")
+        123
 
-    >>> sensor_node_number("hello")
-    Traceback (most recent call last):
-       ...
-    argparse.ArgumentTypeError: “hello” is not a valid Bluetooth node number
+        Parsing an incorrect negative sensor node number fails
+
+        >>> sensor_node_number("-1")
+        Traceback (most recent call last):
+           ...
+        argparse.ArgumentTypeError: “-1” is not a valid Bluetooth node number
+
+        Parsing an incorrect sensor node number fails
+
+        >>> sensor_node_number("hello") # doctest:+NORMALIZE_WHITESPACE
+        Traceback (most recent call last):
+           ...
+        argparse.ArgumentTypeError: “hello” is not a valid Bluetooth node
+                                    number
 
     """
 
@@ -263,33 +297,39 @@ def sensor_node_number(value: str) -> int:
 def sth_name(name: str) -> str:
     """Check if the given text is a valid STH name
 
-    Throws
-    ------
-
-    An argument type error in case the given text does not store a valid STH
-    name. This is the case, if the name
-
-    - is longer than 8 characters or
-    - contains non-ASCII data.
-
     Returns:
 
-    The given name on success
+        The given name on success
+
+    Raises:
+
+        An argument type error in case the given text does not store a valid
+        STH name. This is the case, if the name
+
+        - is longer than 8 characters or
+        - contains non-ASCII data.
 
     Examples:
 
-    >>> sth_name("Blubb")
-    'Blubb'
+        Parse a correct node name
 
-    >>> sth_name("Blübb")
-    Traceback (most recent call last):
-       ...
-    argparse.ArgumentTypeError: “Blübb” is not a valid STH name
+        >>> sth_name("Blubb")
+        'Blubb'
 
-    >>> sth_name("123456789")
-    Traceback (most recent call last):
-       ...
-    argparse.ArgumentTypeError: “123456789” is too long to be a valid STH name
+        A node name is not allowed to contain non-ASCII data
+
+        >>> sth_name("Blübb")
+        Traceback (most recent call last):
+           ...
+        argparse.ArgumentTypeError: “Blübb” is not a valid STH name
+
+        A node name can not be longer than 8 characters
+
+        >>> sth_name("123456789") # doctest:+NORMALIZE_WHITESPACE
+        Traceback (most recent call last):
+           ...
+        argparse.ArgumentTypeError: “123456789” is too long to be a valid
+                                    STH name
 
     """
 
@@ -307,8 +347,10 @@ def sth_name(name: str) -> str:
 def add_identifier_arguments(parser: ArgumentParser) -> None:
     """Add node identifier arguments to given argument parser
 
-    parser:
-        The parser which should include the node identifier arguments
+    Args:
+
+        parser:
+            The parser which should include the node identifier arguments
 
     """
 
@@ -350,8 +392,10 @@ def add_identifier_arguments(parser: ArgumentParser) -> None:
 def add_adc_arguments(parser: ArgumentParser) -> None:
     """Add ADC arguments to given argument parser
 
-    parser:
-        The parser which should include the ADC arguments
+    Args:
+
+        parser:
+            The parser which should include the ADC arguments
 
     """
 
@@ -400,8 +444,8 @@ def add_channel_arguments(group) -> None:
 
     Args:
 
-    group:
-        The parser group to which the channel arguments should be added to
+        group:
+            The parser group to which the channel arguments should be added to
 
     """
 
@@ -448,7 +492,7 @@ def create_icon_parser() -> ArgumentParser:
 
     Returns:
 
-    A parser for the CLI arguments of icon
+        A parser for the CLI arguments of icon
 
     """
 
