@@ -208,10 +208,9 @@ async def command_dataloss(arguments: Namespace) -> None:
                     oversampling_rate=oversampling_rate,
                 )
                 await sth.set_adc_configuration(**adc_config)
-                sample_rate = adc_config.sample_rate()
-                logger.info("Sample rate: %s Hz", sample_rate)
+                logger.info("Sample rate: %s Hz", adc_config.sample_rate())
 
-                filepath = Path(f"Measurement {sample_rate} Hz.hdf5")
+                filepath = Path("Measurement.hdf5")
                 with Storage(
                     filepath.resolve(), sensor_config.streaming_configuration()
                 ) as storage:
@@ -226,8 +225,9 @@ async def command_dataloss(arguments: Namespace) -> None:
                         print(f"⚠️ {error}", file=stderr)
                     finally:
                         print_dataloss_data(storage)
-                        print("Performance:")
-                        print(f"  {performance}")
+
+                    print("Performance:")
+                    print(f"  {performance}")
 
                     print(
                         (
