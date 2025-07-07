@@ -106,7 +106,7 @@ class Storage:
         ... ) as storage:
         ...     pass
 
-        Opening an existing file but still providing channel info should fail
+        Opening an non empty file but still providing channel info should fail
 
         >>> with Storage(filepath,
         ...             channels=StreamingConfiguration(first=True)
@@ -127,7 +127,11 @@ class Storage:
 
         self.filepath = Path(filepath).expanduser().resolve()
 
-        if channels and self.filepath.exists():
+        if (
+            channels
+            and self.filepath.exists()
+            and self.filepath.stat().st_size != 0
+        ):
             raise ValueError(
                 f"File “{self.filepath}” exist but channels parameter "
                 "is not None"

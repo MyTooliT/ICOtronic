@@ -10,8 +10,8 @@ for more information
 from argparse import Namespace
 from asyncio import run
 from logging import basicConfig, getLogger
-from pathlib import Path
 from sys import stderr
+from tempfile import NamedTemporaryFile
 from time import monotonic, perf_counter_ns, process_time_ns
 
 from can.interfaces.pcan import PcanError
@@ -210,35 +210,33 @@ async def command_dataloss(arguments: Namespace) -> None:
                 await sth.set_adc_configuration(**adc_config)
                 logger.info("Sample rate: %s Hz", adc_config.sample_rate())
 
-                filepath = Path("Measurement.hdf5")
-                with Storage(
-                    filepath.resolve(), sensor_config.streaming_configuration()
-                ) as storage:
-                    storage.write_sensor_range(sensor_range)
-                    storage.write_sample_rate(adc_config)
+                with NamedTemporaryFile(suffix=".hdf5") as temp:
+                    with Storage(
+                        temp.name, sensor_config.streaming_configuration()
+                    ) as storage:
+                        storage.write_sensor_range(sensor_range)
+                        storage.write_sample_rate(adc_config)
 
-                    try:
-                        performance = await read_data(
-                            sth, sensor_config, storage, measurement_time_s
+                        try:
+                            performance = await read_data(
+                                sth, sensor_config, storage, measurement_time_s
+                            )
+                        except StreamingBufferError as error:
+                            print(f"⚠️ {error}", file=stderr)
+                        finally:
+                            print_dataloss_data(storage)
+
+                        print("Performance:")
+                        print(f"  {performance}")
+
+                        print(
+                            (
+                                ""
+                                if oversampling_rate == oversampling_rates[-1]
+                                else "\n"
+                            ),
+                            end="",
                         )
-                    except StreamingBufferError as error:
-                        print(f"⚠️ {error}", file=stderr)
-                    finally:
-                        print_dataloss_data(storage)
-
-                    print("Performance:")
-                    print(f"  {performance}")
-
-                    print(
-                        (
-                            ""
-                            if oversampling_rate == oversampling_rates[-1]
-                            else "\n"
-                        ),
-                        end="",
-                    )
-
-                filepath.unlink()
 
 
 async def command_list(
