@@ -26,6 +26,7 @@ from icotronic.cmdline.parse import create_icon_parser
 from icotronic.config import ConfigurationUtility, settings
 from icotronic.measurement import Storage, StorageData
 from icotronic.measurement.sensor import SensorConfiguration
+from icotronic.utility.performance import PerformanceMeasurement
 
 # -- Functions ----------------------------------------------------------------
 
@@ -77,7 +78,7 @@ async def read_data(
     sensor_config: SensorConfiguration,
     storage: StorageData,
     measurement_time_s: float,
-) -> None:
+) -> PerformanceMeasurement:
     """Read some acceleration data from the given STH
 
     Args:
@@ -92,8 +93,12 @@ async def read_data(
             The storage object that should be used to store the acceleration
             data
 
-        measurement_time_s
+        measurement_time_s:
             The amount of time that should be used for reading data
+
+    Returns:
+
+        Information about the performance of the streaming code
 
     """
 
@@ -113,14 +118,17 @@ async def read_data(
     conversion_to_g = await sth.get_acceleration_conversion_function()
     values_per_message = streaming_config.data_length()
 
+    performance_measurement = PerformanceMeasurement()
     try:
         async with sth.open_data_stream(streaming_config) as stream:
+            performance_measurement.start()
             start_time = monotonic()
             async for data, _ in stream:
                 storage.add_streaming_data(data.apply(conversion_to_g))
                 progress.update(values_per_message)
                 if monotonic() - start_time >= measurement_time_s:
                     break
+            performance_measurement.stop()
     except PcanError as error:
         print(
             f"Unable to collect streaming data: {error}",
@@ -130,6 +138,8 @@ async def read_data(
         pass
     finally:
         progress.close()
+
+    return performance_measurement
 
 
 def print_dataloss_data(storage: StorageData) -> None:
@@ -206,10 +216,12 @@ async def command_dataloss(arguments: Namespace) -> None:
                     storage.write_sensor_range(sensor_range)
                     storage.write_sample_rate(adc_config)
 
-                    await read_data(
+                    performance = await read_data(
                         sth, sensor_config, storage, measurement_time_s=10
                     )
                     print_dataloss_data(storage)
+                    print("Performance:")
+                    print(f"  {performance}")
 
                     print(
                         (
