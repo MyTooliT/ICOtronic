@@ -305,6 +305,33 @@ class StorageData:
 
         return self.acceleration.attrs.__getitem__(name)
 
+    def __setitem__(self, name: str, value: str) -> None:
+        """Set acceleration metadata to a specific value
+
+        Args:
+
+            name:
+                The name of the meta attribute
+
+            value:
+                The value of the meta attribute
+
+        Examples:
+
+            Store some example acceleration data
+
+            >>> filepath = Path("test.hdf5")
+            >>> with Storage(filepath,
+            ...              StreamingConfiguration(third=True)) as storage:
+            ...     storage["something"] =  "some value"
+            ...     print(storage["something"])
+            some value
+            >>> filepath.unlink()
+
+        """
+
+        self.acceleration.attrs.__setitem__(name, value)
+
     def add_streaming_data(
         self,
         streaming_data: StreamingData,
@@ -389,6 +416,11 @@ class StorageData:
 
     def store_acceleration_meta(self, name: str, value: str) -> None:
         """Add acceleration metadata
+
+        Note:
+
+            This function is deprecated, please use ``__setitem__`` (``[]``)
+            instead.
 
         Args:
 
