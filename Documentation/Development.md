@@ -226,9 +226,7 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
     3. Commit your changes
     4. Copy the release notes
     5. Paste them into the main text of the release web page
-    6. Decrease the header level of each section by one
-    7. Remove the very first header
-    8. Check that all links work correctly
+    6. Check that all links work correctly
 
 7.  Change the [`__version__`](../icotronic/__init__.py) number inside the [`icotronic`](../icotronic) package and commit your update
 8.  Add a tag with the version number to the latest commit
@@ -252,9 +250,5 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 11. For the release title use “Version VERSION”, where `VERSION` specifies the version number (e.g. “Version 1.0.5”)
 12. Click on “Publish Release”
 13. Close the [milestone][] for the latest release number
-14. Create a new [milestone][] for the next release
-15. Go to [Read The Docs](https://readthedocs.org/projects/icotronic/) and enable the documentation for the latest release
-    1. Click on “Versions”
-    2. Click on the button “Activate” next to the version number of the latest release
 
 [milestone]: https://github.com/MyTooliT/ICOtronic/milestones
