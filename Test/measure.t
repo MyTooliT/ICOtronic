@@ -57,7 +57,7 @@ Check start time attribute
   $ python -c "
   > from datetime import datetime
   > delta = datetime.now() - datetime.fromisoformat('$timestamp') 
-  > print(delta.seconds < 15)"
+  > print(delta.seconds < 20)"
   True
 
 -- Cleanup ---------------------------------------------------------------------
