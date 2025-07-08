@@ -23,7 +23,7 @@ class PerformanceMeasurement:
         >>> sleep(0.5)
         >>> perf_measurement.stop()
 
-        >>> 0.4 <= perf_measurement.run_time() < 0.7 * 10**9
+        >>> 0.5 <= perf_measurement.run_time() < 0.7 * 10**9
         True
         >>> 0 <= perf_measurement.cpu_time() < 0.7 * 10**9
         True
