@@ -264,9 +264,40 @@ class ADCConfiguration(Mapping):
         """
 
         set_values = bool(self.data[0] >> 7)
+        return ", ".join(["Set" if set_values else "Get", str(self)])
+
+    def __str__(self) -> str:
+        """Retrieve the informal representation of the ADC configuration
+
+        Returns:
+            A textual representation of the configuration
+
+        Examples:
+
+            Retrieve the textual representation of ADC configurations
+
+            >>> print(ADCConfiguration(prescaler=1, reference_voltage=3.3
+            ... )) # doctest:+NORMALIZE_WHITESPACE
+            Prescaler: 1, Acquisition Time: 1, Oversampling Rate: 1,
+            Reference Voltage: 3.3 V
+
+            >>> print(ADCConfiguration(
+            ...     set=True,
+            ...     prescaler=64,
+            ...     acquisition_time=128,
+            ...     oversampling_rate=1024,
+            ...     reference_voltage=1.8)) # doctest:+NORMALIZE_WHITESPACE
+            Prescaler: 64, Acquisition Time: 128, Oversampling Rate: 1024,
+            Reference Voltage: 1.8 V
+
+            >>> print(ADCConfiguration(
+            ...     [0, 2, 4, 6, 25])) # doctest:+NORMALIZE_WHITESPACE
+            Prescaler: 2, Acquisition Time: 8, Oversampling Rate: 64,
+            Reference Voltage: 1.25 V
+
+        """
 
         parts = [
-            "Set" if set_values else "Get",
             f"Prescaler: {self.prescaler}",
             f"Acquisition Time: {self.acquisition_time}",
             f"Oversampling Rate: {self.oversampling_rate}",
