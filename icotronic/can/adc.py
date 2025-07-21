@@ -29,14 +29,14 @@ class ADCConfiguration(Mapping):
             configuration
 
         prescaler:
-            The ADC prescaler value (1 – 127)
+            The ADC prescaler value (1 – 127); default: 2
 
         acquisition_time:
             The acquisition time in number of cycles
-            (1, 2, 3, 4, 8, 16, 32, … , 256)
+            (1, 2, 3, 4, 8, 16, 32, … , 256); default: 8
 
         oversampling_rate:
-            The ADC oversampling rate (1, 2, 4, 8, … , 4096)
+            The ADC oversampling rate (1, 2, 4, 8, … , 4096); default: 64
 
         reference_voltage:
             The ADC reference voltage in Volt
@@ -96,7 +96,7 @@ class ADCConfiguration(Mapping):
             self.prescaler = prescaler
         elif self.data[1] == 0:
             # Make sure default prescaler value makes sense
-            self.prescaler = 8
+            self.prescaler = 2
 
         # ====================
         # = Acquisition Time =
@@ -104,6 +104,8 @@ class ADCConfiguration(Mapping):
 
         if acquisition_time is not None:
             self.acquisition_time = acquisition_time
+        elif self.data[2] == 0:
+            self.acquisition_time = 8
 
         # =====================
         # = Oversampling Rate =
@@ -111,6 +113,8 @@ class ADCConfiguration(Mapping):
 
         if oversampling_rate is not None:
             self.oversampling_rate = oversampling_rate
+        elif self.data[3] == 0:
+            self.oversampling_rate = 64
 
         # =====================
         # = Reference Voltage =
@@ -153,15 +157,15 @@ class ADCConfiguration(Mapping):
 
             >>> dict(**ADCConfiguration()) # doctest:+NORMALIZE_WHITESPACE
             {'reference_voltage': 3.3,
-             'prescaler': 8,
-             'acquisition_time': 1,
-             'oversampling_rate': 1}
+             'prescaler': 2,
+             'acquisition_time': 8,
+             'oversampling_rate': 64}
 
             >>> dict(**ADCConfiguration(oversampling_rate=64)
             ...     ) # doctest:+NORMALIZE_WHITESPACE
             {'reference_voltage': 3.3,
-             'prescaler': 8,
-             'acquisition_time': 1,
+             'prescaler': 2,
+             'acquisition_time': 8,
              'oversampling_rate': 64}
 
         """
@@ -244,7 +248,7 @@ class ADCConfiguration(Mapping):
 
             >>> ADCConfiguration(prescaler=1, reference_voltage=3.3
             ... ) # doctest:+NORMALIZE_WHITESPACE
-            Get, Prescaler: 1, Acquisition Time: 1, Oversampling Rate: 1,
+            Get, Prescaler: 1, Acquisition Time: 8, Oversampling Rate: 64,
             Reference Voltage: 3.3 V
 
             >>> ADCConfiguration(
@@ -278,7 +282,7 @@ class ADCConfiguration(Mapping):
 
             >>> print(ADCConfiguration(prescaler=1, reference_voltage=3.3
             ... )) # doctest:+NORMALIZE_WHITESPACE
-            Prescaler: 1, Acquisition Time: 1, Oversampling Rate: 1,
+            Prescaler: 1, Acquisition Time: 8, Oversampling Rate: 64,
             Reference Voltage: 3.3 V
 
             >>> print(ADCConfiguration(
