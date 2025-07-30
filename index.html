@@ -1436,8 +1436,8 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <p><strong>Notes:</strong></p>
 <ul>
 <li>The command above will install the package in a virtual environment.</li>
-<li>You need to prefix commands, such as <code>icon</code> with the command <code>poetry run</code> (e.g. <code>poetry run icon</code>) to execute them in this virtual environment.</li>
-<li>Using <code>poetry run</code> will only work in the root folder of the repository (the one that contains <code>pyproject.toml</code>).</li>
+<li>You need to prefix commands, such as <code>icon</code> with the command <code>poetry run</code> (e.g. <code>poetry run icon</code>) to execute it in this virtual environment.</li>
+<li>Using <code>poetry run</code> will only work in the root folder of the repository (that contains <code>pyproject.toml</code>).</li>
 </ul>
 </blockquote></li>
 </ol></li>
@@ -1468,7 +1468,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <h3><span class="header-section-number">8.3.1</span> Code Checks<a href="#code-checks" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="flake8" class="section level4 hasAnchor" number="8.3.1.1">
 <h4><span class="header-section-number">8.3.1.1</span> Flake8<a href="#flake8" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>We check the code with <a href="https://flake8.pycqa.org">flake8</a>. Please use the following command in the root of the repository to make sure you did not add any code that introduces warnings:</p>
+<p>We check the code with <a href="https://flake8.pycqa.org">Flake8</a>. Please use the following command in the root of the repository to make sure you did not add any code that introduces warnings:</p>
 <div class="sourceCode" id="cb107"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb107-1"><a href="#cb107-1" tabindex="-1"></a><span class="ex">poetry</span> run flake8</span></code></pre></div>
 </div>
 <div id="mypy" class="section level4 hasAnchor" number="8.3.1.2">
@@ -1573,7 +1573,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <p>in the <a href="#changing-configuration-values">configuration</a>. To make sure, that the STU flash test also works, please use both STU test commands described in the section <a href="#development:section:stu-test">“STU Test”</a>.</p>
 <p>If you follow the steps above you make sure that the <strong>flash tests work</strong> for both STU and STH, and there are <strong>no unintentional consequences of (not) flashing the chip</strong> before you run the other parts of the test suite.</p></li>
 </ul></li>
-<li><p>Execute the <strong><a href="#development:section:extended-tests">extended manual tests</a></strong> in Windows and check that everything works as expected</p></li>
+<li><p>Execute the <strong><a href="#development:section:extended-tests">extended manual tests</a></strong> in Windows and check that everything works as expected.</p></li>
 <li><p>Update the release notes:</p>
 <ol style="list-style-type: decimal">
 <li><p>Open the <a href="Releases">release notes</a> for the latest version</p></li>
@@ -1586,21 +1586,24 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <p>where <code>REVISION</code> is the latest version of the main branch (e.g. <code>8568893f</code> for version <code>1.0.5</code>)</p></li>
 <li><p>Commit your changes</p></li>
 </ol></li>
-<li><p>Change the version number and commit your changes</p>
+<li><p>Change the version number and commit your changes (please replace <code>&lt;VERSION&gt;</code> with the version number e.g. <code>1.0.5</code>):</p>
 <div class="sourceCode" id="cb117"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb117-1"><a href="#cb117-1" tabindex="-1"></a><span class="ex">poetry</span> version <span class="op">&lt;</span>VERSION<span class="op">&gt;</span></span>
 <span id="cb117-2"><a href="#cb117-2" tabindex="-1"></a><span class="bu">export</span> <span class="va">icotronic_version</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">poetry</span> version <span class="at">-s</span><span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb117-3"><a href="#cb117-3" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-a</span> <span class="at">-m</span> <span class="st">&quot;Release: Release version </span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
 <span id="cb117-4"><a href="#cb117-4" tabindex="-1"></a><span class="fu">git</span> tag <span class="st">&quot;</span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
 <span id="cb117-5"><a href="#cb117-5" tabindex="-1"></a><span class="fu">git</span> push <span class="kw">&amp;&amp;</span> <span class="fu">git</span> push <span class="at">--tags</span></span></code></pre></div>
-<p><strong>Note:</strong> GitHub CI will publish a package based on this commit and upload it to <a href="https://pypi.org/project/icotronic/">PyPi</a></p></li>
+<p><strong>Note:</strong> <a href="https://github.com/MyTooliT/ICOtronic/actions">GitHub Actions</a> will publish a package based on the tagged commit and upload it to <a href="https://pypi.org/project/icotronic/">PyPi</a>.</p></li>
 <li><p>Create a new release <a href="https://github.com/MyTooliT/ICOtronic/releases/new">here</a></p>
 <ol style="list-style-type: decimal">
 <li>Insert the version number (e.g. <code>1.0.5</code>) into the tag field</li>
 <li>For the release title use “Version <VERSION>”, where <code>&lt;VERSION&gt;</code> specifies the version number (e.g. “Version 1.0.5”)</li>
 <li>Paste the release notes for the lastest release into the main text field</li>
 <li>Click on “Publish Release”</li>
-<li>Close the <a href="https://github.com/MyTooliT/ICOtronic/milestones">milestone</a> for the latest release number</li>
-</ol></li>
+</ol>
+<p><strong>Note:</strong> Alternatively you can also use the <a href="https://cli.github.com"><code>gh</code></a> command:</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb118-1"><a href="#cb118-1" tabindex="-1"></a><span class="ex">gh</span> release create</span></code></pre></div>
+<p>to create the release notes.</p></li>
+<li><p>Close the <a href="https://github.com/MyTooliT/ICOtronic/milestones">milestone</a> for the latest release number</p></li>
 </ol>
 
 </div>
