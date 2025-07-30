@@ -36,3 +36,6 @@ __pycache__/
 # Spyder project settings
 .spyderproject
 .spyproject
+
+# Ignore Poetry lock file
+/poetry.lock

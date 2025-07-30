@@ -42,9 +42,9 @@ run: check test
 
 .PHONY: check
 check:
-	flake8
-	mypy $(MODULE)
-	pylint .
+	poetry run flake8
+	poetry run mypy $(MODULE)
+	poetry run pylint .
 
 .PHONY: test
 test: pytest-test hardware-test coverage
@@ -55,26 +55,26 @@ test-no-hardware: pytest-test-no-hardware
 # ----------
 
 pytest-test:
-	coverage run -m pytest $(TEST_LOCATIONS)
+	poetry run coverage run -m pytest $(TEST_LOCATIONS)
 
 pytest-test-no-hardware:
-	pytest --ignore-glob='*cmdline/commander.py' \
-	       --ignore-glob='*can/connection.py' \
-	       --ignore-glob='*can/node/eeprom/basic.py' \
-	       --ignore-glob='*can/node/eeprom/node.py' \
-	       --ignore-glob='*can/node/eeprom/sensor.py' \
-	       --ignore-glob='*can/node/eeprom/sth.py' \
-	       --ignore-glob='*can/node/basic.py' \
-	       --ignore-glob='*can/node/sensor.py' \
-	       --ignore-glob='*can/node/spu.py' \
-	       --ignore-glob='*can/node/sth.py' \
-	       --ignore-glob='*can/node/stu.py' \
-	       --ignore-glob='*can/network.py' \
-	       --ignore-glob='*read_data.t' \
-	       --ignore-glob='*sth_name.t' \
-	       --ignore-glob='*store_data.t' \
-	       --ignore-glob='*measure.t' \
-	       --ignore='Documentation'
+	poetry run pytest --ignore-glob='*cmdline/commander.py' \
+	                  --ignore-glob='*can/connection.py' \
+	                  --ignore-glob='*can/node/eeprom/basic.py' \
+	                  --ignore-glob='*can/node/eeprom/node.py' \
+	                  --ignore-glob='*can/node/eeprom/sensor.py' \
+	                  --ignore-glob='*can/node/eeprom/sth.py' \
+	                  --ignore-glob='*can/node/basic.py' \
+	                  --ignore-glob='*can/node/sensor.py' \
+	                  --ignore-glob='*can/node/spu.py' \
+	                  --ignore-glob='*can/node/sth.py' \
+	                  --ignore-glob='*can/node/stu.py' \
+	                  --ignore-glob='*can/network.py' \
+	                  --ignore-glob='*read_data.t' \
+	                  --ignore-glob='*sth_name.t' \
+	                  --ignore-glob='*store_data.t' \
+	                  --ignore-glob='*measure.t' \
+	                  --ignore='Documentation'
 
 # ------------------
 # - Hardware Tests -
@@ -83,8 +83,8 @@ pytest-test-no-hardware:
 hardware-test: run-hardware-test open-test-report-$(OPERATING_SYSTEM)
 
 run-hardware-test:
-	coverage run -a $(STH_TEST) -v
-	coverage run -a $(STU_TEST) -v -k eeprom -k connection
+	poetry run coverage run -a $(STH_TEST) -v
+	poetry run coverage run -a $(STU_TEST) -v -k eeprom -k connection
 
 open-test-report-windows:
 	@powershell -c "Invoke-Item (Join-Path $$PWD 'STH Test.pdf')"
@@ -108,7 +108,7 @@ open-test-report-linux:
 
 .PHONY: coverage
 coverage:
-	coverage report
+	poetry run coverage report
 
 # =================
 # = Documentation =
@@ -156,5 +156,6 @@ clean: cleanup
 
 .PHONY: doc-api
 doc-api:
-	sphinx-apidoc -f -o $(SPHINX_DIRECTORY) $(SPHINX_INPUT_DIRECTORY)
-	sphinx-build -M html $(SPHINX_INPUT_DIRECTORY) $(SPHINX_DIRECTORY)
+	poetry run sphinx-apidoc -f -o $(SPHINX_DIRECTORY) $(SPHINX_INPUT_DIRECTORY)
+	poetry run sphinx-build -M html $(SPHINX_INPUT_DIRECTORY) \
+	  $(SPHINX_DIRECTORY)

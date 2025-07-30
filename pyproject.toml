@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools>=65"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [project]
 authors = [
@@ -42,7 +42,8 @@ keywords = [
 ]
 name = "icotronic"
 readme = "ReadMe.md"
-requires-python = ">=3.10"
+requires-python = ">=3.10,<4"
+version = "3.2.0"
 
 [project.optional-dependencies]
 dev = [
@@ -113,9 +114,3 @@ ignore_missing_imports = true
 # - Verbose output
 addopts = "--doctest-modules -x --ignore-glob='*._*.py' --ignore=Bookdown -v"
 minversion = "6.0"
-
-[tool.setuptools.dynamic]
-version = {attr = "icotronic.__version__"}
-
-[tool.setuptools.packages.find]
-include = ["icotronic*"]

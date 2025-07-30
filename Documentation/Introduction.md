@@ -238,22 +238,6 @@ then you probably need to install the [“Microsoft Visual C++ Redistributable p
 pip install --user icotronic
 ```
 
-#### Unable to Install in Editable Mode
-
-If the ICOtronic install fails with the following error:
-
-```
-ERROR: Project …/ICOtronic has a 'pyproject.toml' and its build backend is missing the 'build_editable' hook.
-Since it does not have a 'setup.py' nor a 'setup.cfg', it cannot be installed in editable mode.
-Consider using a build backend that supports PEP 660.
-```
-
-then your version of [Setuptools](http://setuptools.pypa.io) needs to be updated before you install the ICOtronic package. You can use the following command to do that:
-
-```sh
-pip install -U pip setuptools
-```
-
 #### Unable to Locate HDF5 {#introduction:section:unable-to-locate-hdf5}
 
 The installation of the ICOtronic package might fail with an error message that looks like this:

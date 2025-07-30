@@ -1,3 +1,5 @@
 """Library for interacting with the ICOtronic system"""
 
-__version__ = "3.2.0"
+from importlib.metadata import version
+
+__version__ = version("icotronic")

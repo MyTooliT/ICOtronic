@@ -37,8 +37,13 @@ jobs:
       if: runner.os == 'macOS'
       run: brew install hdf5
 
+    - name: Install Poetry
+      uses: abatilo/actions-poetry@v4
+
     - name: Install ICOtronic and dev/test packages
-      run: pip install -e .[test,dev]
+      run: |
+           poetry lock
+           poetry install --all-extras
 
     - name: Check ICOtronic code base
       run: make check

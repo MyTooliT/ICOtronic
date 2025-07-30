@@ -12,20 +12,19 @@ You can use the instructions below, if you want to work on the code of the ICOtr
 
    or one of the many available [graphical user interfaces for Git](https://git-scm.com/downloads/guis) to do that.
 
-2. Install ICOtronic in “developer mode”
+2. Install ICOtronic with [Poetry](https://python-poetry.org)
    1. Change your working directory to the (root) directory of the cloned repository
    2. Install ICOtronic:
 
       ```sh
-      pip install -e .[dev,test]
+      poetry lock && poetry install --all-extras
       ```
 
       > **Notes:**
       >
-      > - The command above will install the repository in “editable mode” (`-e`), meaning that a command such as `icon` will use the current code inside the repository.
-      > - The command also installs
-      >   - development (`dev`) and
-      >   - test (`test`) dependencies
+      > - The command above will install the package in a virtual environment.
+      > - You need to prefix commands, such as `icon` with the command `poetry run` (e.g. `poetry run icon`) to execute it in this virtual environment.
+      > - Using `poetry run` will only work in the root folder of the repository (that contains `pyproject.toml`).
 
 3. Install other required tools (for tests)
    - `hdf5`: For the command line tool `h5dump` (Linux/macOS). You can install hdf5 via [Homebrew](https://brew.sh):
@@ -41,7 +40,7 @@ Please use the guidelines from [PEP 8](https://www.python.org/dev/peps/pep-0008/
 To format the whole code base you can use the following command in the root of the repository:
 
 ```sh
-black .
+poetry black .
 ```
 
 For development we recommend that you use a tool or plugin that reformats your code with Black every time you save. This way we can ensure that we use a consistent style for the whole code base.
@@ -61,30 +60,18 @@ before you push to the `main` branch.
 
 #### Flake8
 
-We check the code with [flake8](https://flake8.pycqa.org):
+We check the code with [Flake8](https://flake8.pycqa.org). Please use the following command in the root of the repository to make sure you did not add any code that introduces warnings:
 
 ```sh
-pip install flake8
-```
-
-Please use the following command in the root of the repository to make sure you did not add any code that introduces warnings:
-
-```sh
-flake8
+poetry run flake8
 ```
 
 #### mypy
 
-To check the type hint in the code base we use the static code checker [mypy](https://mypy.readthedocs.io):
+To check the type hint in the code base we use the static code checker [mypy](https://mypy.readthedocs.io). Please use the following command in the root of the repository to check the code base for type problems:
 
 ```sh
-pip install mypy
-```
-
-Please use the following command in the root of the repository to check the code base for type problems:
-
-```sh
-mypy icotronic
+poetry run mypy icotronic
 ```
 
 #### Pylint
@@ -92,25 +79,17 @@ mypy icotronic
 We currently use [Pylint](https://github.com/PyCQA/pylint) to check the code:
 
 ```sh
-pylint .
+poetry run pylint .
 ```
 
 ### Automatic Tests
-
-#### Requirements
-
-Please install the [pytest testing module](https://docs.pytest.org):
-
-```sh
-pip install pytest
-```
 
 ##### Usage
 
 Please run the following command in the root of the repository:
 
 ```sh
-pytest -v
+poetry run pytest -v
 ```
 
 and make sure that it reports no test failures.
@@ -119,14 +98,14 @@ and make sure that it reports no test failures.
 
 #### STH Test
 
-1. Call the command `test-sth` for a working STH
+1. Call the command `poetry run test-sth` for a working STH
 2. Wait for the command execution
 3. Check that the command shows no error messages
 4. Open the PDF report (`STH Test.pdf`) in the repository root and make sure that it includes the correct test data
 
 #### STU Test {#development:section:stu-test}
 
-1. Call the command `test-stu` (or `test-stu -k eeprom -k connection` when you want to skip the flash test) for a working STU
+1. Call the command `poetry run test-stu` (or `poetry run test-stu -k eeprom -k connection` when you want to skip the flash test) for a working STU
 2. Wait for the command execution
 3. Check that the command shows no error messages
 4. Open the PDF report (`STU Test.pdf`) in the repository root and make sure that it includes the correct test data
@@ -158,7 +137,7 @@ The text below specifies extended manual test that should be executed before we 
 5. Run the following command
 
    ```sh
-   icon measure -t 300 -n Test-STH
+   poetry run icon measure -t 300 -n Test-STH
    ```
 
    - The command should not print any **no error messages**.
@@ -211,9 +190,9 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 
       If you follow the steps above you make sure that the **flash tests work** for both STU and STH, and there are **no unintentional consequences of (not) flashing the chip** before you run the other parts of the test suite.
 
-5.  Execute the **[extended manual tests](#development:section:extended-tests)** in Windows and check that everything works as expected
+5.  Execute the **[extended manual tests](#development:section:extended-tests)** in Windows and check that everything works as expected.
 
-6.  Create a new release [here](https://github.com/MyTooliT/ICOtronic/releases/new)
+6.  Update the release notes:
     1. Open the [release notes](Releases) for the latest version
     2. Replace links with a permanent version:
 
@@ -224,31 +203,33 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
        where `REVISION` is the latest version of the main branch (e.g. `8568893f` for version `1.0.5`)
 
     3. Commit your changes
-    4. Copy the release notes
-    5. Paste them into the main text of the release web page
-    6. Check that all links work correctly
 
-7.  Change the [`__version__`](../icotronic/__init__.py) number inside the [`icotronic`](../icotronic) package and commit your update
-8.  Add a tag with the version number to the latest commit
+7.  Change the version number and commit your changes (please replace `<VERSION>` with the version number e.g. `1.0.5`):
 
     ```sh
-    export icotronic_version="$(python -c '
-    from icotronic import __version__
-    print(__version__)')"
+    poetry version <VERSION>
+    export icotronic_version="$(poetry version -s)"
+    git commit -a -m "Release: Release version $icotronic_version"
     git tag "$icotronic_version"
-    ```
-
-    **Note:** GitHub CI will publish a package based on this commit and upload it to [PyPi](https://pypi.org/project/icotronic/)
-
-9.  Push the latest updates including the new tag:
-
-    ```sh
     git push && git push --tags
     ```
 
-10. Insert the version number (e.g. `1.0.5`) into the tag field
-11. For the release title use “Version VERSION”, where `VERSION` specifies the version number (e.g. “Version 1.0.5”)
-12. Click on “Publish Release”
-13. Close the [milestone][] for the latest release number
+    **Note:** [GitHub Actions](https://github.com/MyTooliT/ICOtronic/actions) will publish a package based on the tagged commit and upload it to [PyPi](https://pypi.org/project/icotronic/).
+
+8.  Create a new release [here](https://github.com/MyTooliT/ICOtronic/releases/new)
+    1.  Insert the version number (e.g. `1.0.5`) into the tag field
+    2.  For the release title use “Version <VERSION>”, where `<VERSION>` specifies the version number (e.g. “Version 1.0.5”)
+    3.  Paste the release notes for the lastest release into the main text field
+    4.  Click on “Publish Release”
+
+    **Note:** Alternatively you can also use the [`gh`](https://cli.github.com) command:
+
+    ```sh
+    gh release create
+    ```
+
+    to create the release notes.
+
+9.  Close the [milestone][] for the latest release number
 
 [milestone]: https://github.com/MyTooliT/ICOtronic/milestones
