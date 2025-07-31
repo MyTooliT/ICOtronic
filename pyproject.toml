@@ -60,6 +60,7 @@ dev = [
 test = [
     "icolyzer>=1.5.0", # Require ICOlyzer for Prysk tests
     "prysk[pytest-plugin]>=0.15.1",
+    "pytest-asyncio",
     "pytest-sphinx",
     "maisie-sphinx-theme>=0.1.2" # Required for Sphinx doctests
 ]
