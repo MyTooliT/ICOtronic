@@ -21,8 +21,8 @@ TEST_LOCATIONS := $(SPHINX_INPUT_DIRECTORY)/usage.rst $(MODULE) Test
 
 ifeq ($(OS), Windows_NT)
 	OPERATING_SYSTEM := windows
-	# Disable Prysk Pytest plugin
-	export PYTEST_DISABLE_PLUGIN_AUTOLOAD := ""
+	# Disable Prysk pytest plugin
+	export PYTEST_ADDOPTS := -p no:prysk
 else
 	OS_NAME := $(shell uname -s)
 	ifeq ($(OS_NAME), Linux)
