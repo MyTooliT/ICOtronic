@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from argparse import ArgumentTypeError
 from asyncio import sleep
 from time import monotonic
 from types import TracebackType
@@ -11,6 +12,10 @@ from typing import NamedTuple
 
 from netaddr import EUI
 
+from icotronic.cmdline.parse import (
+    node_name as check_name,
+    sensor_node_number as check_sensor_node_number,
+)
 from icotronic.can.constants import SENSOR_NODE_NUMBER_SELF_ADDRESSING
 from icotronic.can.node.eeprom.node import NodeEEPROM
 from icotronic.can.error import ErrorResponseError, NoResponseError
@@ -41,10 +46,18 @@ class AsyncSensorNodeManager:
 
     def __init__(
         self,
-        stu,
+        stu: STU,
         identifier: int | str | EUI,
         sensor_node_class: type[SensorNode] = SensorNode,
     ):
+
+        try:
+            if isinstance(identifier, int):
+                check_sensor_node_number(str(identifier))
+            elif isinstance(identifier, str):
+                check_name(identifier)
+        except ArgumentTypeError as error:
+            raise ValueError(error) from error
 
         self.stu = stu
         self.identifier = identifier

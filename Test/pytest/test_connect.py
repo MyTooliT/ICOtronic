@@ -2,8 +2,6 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from asyncio import sleep
-
 from netaddr import EUI
 from pytest import mark, raises
 
@@ -11,7 +9,7 @@ from icotronic.can.connection import Connection
 
 # -- Globals ------------------------------------------------------------------
 
-sensor_node_name = "Test-STH"
+SENSOR_NODE_NAME = "Test-STH"
 
 # -- Functions ----------------------------------------------------------------
 
@@ -33,13 +31,40 @@ async def test_connect_mac_as_name():
 
     mac_address = None
     async with Connection() as stu:
-        async with stu.connect_sensor_node(sensor_node_name) as sensor_node:
+        async with stu.connect_sensor_node(SENSOR_NODE_NAME) as sensor_node:
             mac_address = await sensor_node.get_mac_address()
             assert isinstance(mac_address, EUI)
 
-    with raises(TimeoutError):
+    with raises(ValueError) as error:
         async with Connection() as stu:
-            async with stu.connect_sensor_node(
-                str(mac_address)
-            ) as sensor_node:
+            async with stu.connect_sensor_node(str(mac_address)):
                 assert False
+
+    assert (
+        str(error.value)
+        == "“08-6B-D7-01-DE-81” is too long to be a valid name"
+    )
+
+
+@mark.asyncio
+async def test_connect_invalid_number():
+    """Check that specifying an invalid sensor node number fails"""
+
+    with raises(ValueError) as error:
+        async with Connection() as stu:
+            async with stu.connect_sensor_node(-1):
+                pass
+
+    assert str(error.value) == "“-1” is not a valid Bluetooth node number"
+
+
+@mark.asyncio
+async def test_connect_invalid_name():
+    """Check that specifying an invalid name fails"""
+
+    with raises(ValueError) as error:
+        async with Connection() as stu:
+            async with stu.connect_sensor_node("👋"):
+                pass
+
+    assert str(error.value) == "“👋” is not a valid name"
