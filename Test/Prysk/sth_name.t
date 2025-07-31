@@ -1,7 +1,7 @@
 -- Setup -----------------------------------------------------------------------
 
   $ cd "$TESTDIR"
-  $ EXAMPLEDIR=../icotronic/examples
+  $ EXAMPLEDIR=../../icotronic/examples
 
 -- Check STH Name Example ------------------------------------------------------
 

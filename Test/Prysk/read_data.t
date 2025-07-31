@@ -1,7 +1,7 @@
 -- Setup -----------------------------------------------------------------------
 
   $ cd "$TESTDIR"
-  $ EXAMPLEDIR=../icotronic/examples
+  $ EXAMPLEDIR=../../icotronic/examples
 
 -- Check Read Data Example -----------------------------------------------------
 
