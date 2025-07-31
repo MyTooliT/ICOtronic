@@ -74,6 +74,7 @@ pytest-test-no-hardware:
 	                  --ignore-glob='*sth_name.t' \
 	                  --ignore-glob='*store_data.t' \
 	                  --ignore-glob='*measure.t' \
+					  --ignore='Test/pytest/test_connect.py' \
 	                  --ignore='Documentation'
 
 # ------------------
