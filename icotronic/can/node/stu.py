@@ -59,12 +59,13 @@ class AsyncSensorNodeManager:
             """Get the MAC address of a sensor node"""
 
             for node in nodes:
-                if (
+                if (  # pylint: disable=too-many-boolean-expressions
                     isinstance(identifier, str)
                     and node.name == identifier
                     or isinstance(identifier, int)
                     and node.sensor_node_number == identifier
-                    or node.mac_address == identifier
+                    or isinstance(identifier, EUI)
+                    and node.mac_address == identifier
                 ):
                     return node
 
