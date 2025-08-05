@@ -42,6 +42,11 @@ class AsyncSensorNodeManager:
         sensor_node_class:
             The sensor node class returned by the context manager
 
+    Raises:
+
+        ValueError:
+             If you use an invalid name or node number as identifier
+
     """
 
     def __init__(
@@ -870,8 +875,14 @@ class STU(Node):
                 Sensor node subclass that should be returned by context manager
 
         Returns:
+
             A context manager that returns a sensor node object for the
             connected node
+
+        Raises:
+
+            ValueError:
+                 If you use an invalid name or node number as identifier
 
         Examples:
 
