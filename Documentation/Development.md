@@ -182,7 +182,7 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
        in the root of the repository
 
 4.  Check that the **firmware flash** works in Windows
-    - Execute `test-sth`
+    - Execute `poetry run test-sth -v`
       1. once with `sth` → `status` set to `Epoxied`, and
       2. once set to `Bare PCB`
 
