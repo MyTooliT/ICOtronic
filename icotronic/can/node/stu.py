@@ -49,7 +49,7 @@ class AsyncSensorNodeManager:
         stu: STU,
         identifier: int | str | EUI,
         sensor_node_class: type[SensorNode] = SensorNode,
-    ):
+    ) -> None:
 
         try:
             if isinstance(identifier, int):
