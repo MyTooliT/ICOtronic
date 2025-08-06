@@ -35,36 +35,29 @@ async def test_connect_mac_as_name():
             mac_address = await sensor_node.get_mac_address()
             assert isinstance(mac_address, EUI)
 
-    with raises(ValueError) as error:
+    with raises(
+        ValueError, match="“08-6B-D7-01-DE-81” is too long to be a valid name"
+    ):
         async with Connection() as stu:
             async with stu.connect_sensor_node(str(mac_address)):
                 assert False
-
-    assert (
-        str(error.value)
-        == "“08-6B-D7-01-DE-81” is too long to be a valid name"
-    )
 
 
 @mark.asyncio
 async def test_connect_invalid_number():
     """Check that specifying an invalid sensor node number fails"""
 
-    with raises(ValueError) as error:
+    with raises(ValueError, match="“-1” is not a valid Bluetooth node number"):
         async with Connection() as stu:
             async with stu.connect_sensor_node(-1):
                 pass
-
-    assert str(error.value) == "“-1” is not a valid Bluetooth node number"
 
 
 @mark.asyncio
 async def test_connect_invalid_name():
     """Check that specifying an invalid name fails"""
 
-    with raises(ValueError) as error:
+    with raises(ValueError, match="“👋” is not a valid name"):
         async with Connection() as stu:
             async with stu.connect_sensor_node("👋"):
                 pass
-
-    assert str(error.value) == "“👋” is not a valid name"
