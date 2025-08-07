@@ -92,8 +92,9 @@ class Connection:
             except (PcanError, OSError) as error:
                 raise CANInitError(
                     f"Unable to initialize CAN connection: {error}\n\n"
-                    "Possible reason:\n\n"
-                    "• CAN adapter is not connected to the computer"
+                    "Possible reasons:\n\n"
+                    "• CAN adapter is not connected to the computer\n"
+                    "• CAN adapter is in use by other program"
                 ) from error
 
             self.bus.__enter__()
