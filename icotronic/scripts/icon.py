@@ -358,39 +358,7 @@ async def command_stu(arguments: Namespace) -> None:
     subcommand = arguments.stu_subcommand
 
     async with Connection() as stu:
-        if subcommand == "ota":
-            # The coroutine below activates the advertisement required for the
-            # Over The Air (OTA) firmware update.
-            #
-            # - The `deactivate_bluetooth` command called when the execution
-            #   leaves the `async with` block seems to not turn off the
-            #   advertisement for the STU.
-            # - Even a **hard STU reset does not turn off the advertisement**.
-            # - Flashing the STU firmware does also not turn off the OTA mode.
-            # - One way to turn off the advertisement temporary seems to be to
-            #   initiate a connection with a sensor node. Even in this case
-            #   the advertisement will still be be turned on again after
-            #   turning the STU off and on.
-            await stu.activate_bluetooth()
-            stu_name = await stu.get_name()
-            print(
-                "\nPlease disconnect the STU from the power source and\n"
-                "reconnect it after all LEDs stopped blinking.\n"
-                "\n"
-                "After these steps the STU should be discoverable under the\n"
-                f"Bluetooth advertisement name “{stu_name}” and you can\n"
-                "update the firmware with “Simplicity Connect”:\n"
-                "\n"
-                "\thttps://www.silabs.com/developer-tools/"
-                "simplicity-connect-mobile-app\n"
-                "\n"
-                "For more information about the OTA update process, please\n"
-                "take a look here:\n"
-                "\n"
-                "\thttps://github.com/MyTooliT/OTA-Update\n"
-            )
-
-        elif subcommand == "mac":
+        if subcommand == "mac":
             print(await stu.get_mac_address())
         elif subcommand == "reset":
             await stu.reset()

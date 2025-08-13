@@ -632,9 +632,6 @@ def create_icon_parser() -> ArgumentParser:
     stu_subparsers = stu_parser.add_subparsers(
         required=True, title="Subcommands", dest="stu_subcommand"
     )
-    stu_subparsers.add_parser(
-        "ota", help="Enable “over the air” (OTA) update mode"
-    )
     stu_subparsers.add_parser("mac", help="Show Bluetooth MAC address")
     stu_subparsers.add_parser("reset", help="Reset STU")
 
