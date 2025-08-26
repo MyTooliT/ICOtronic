@@ -53,6 +53,8 @@ commands:
       # We assume that you moved the unzipped Simplicity Commander directory
       # into the standard Silicon Labs install directory
       - C:\SiliconLabs\Simplicity Commander
+      # Standard install path for applications
+      - C:\Program Files\Simplicity Commander
 
 logger:
   can:
