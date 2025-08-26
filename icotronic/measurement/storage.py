@@ -562,7 +562,7 @@ class StorageData:
         self.acceleration.flush()
 
         stats = calculate_dataloss_stats(
-            [int(record[0]) for record in self.acceleration]
+            (int(record[0]) for record in self.acceleration)
         )
 
         return (stats.retrieved, stats.lost)

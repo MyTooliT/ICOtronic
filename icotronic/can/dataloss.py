@@ -1,5 +1,9 @@
 """Support for calculating dataloss statistics of ICOtronic CAN messages"""
 
+# -- Imports ------------------------------------------------------------------
+
+from collections.abc import Iterable
+
 # -- Classes ------------------------------------------------------------------
 
 
@@ -95,7 +99,7 @@ class MessageStats:
 # -- Functions ----------------------------------------------------------------
 
 
-def calculate_dataloss_stats(counters: list[int]) -> MessageStats:
+def calculate_dataloss_stats(counters: Iterable[int]) -> MessageStats:
     """Determine number of lost and received messages based on message counters
 
     Returns:
@@ -121,14 +125,18 @@ def calculate_dataloss_stats(counters: list[int]) -> MessageStats:
 
     """
 
-    if len(counters) <= 1:
+    iterator = iter(counters)
+
+    try:
+        last_counter = next(iterator)
+    except StopIteration:
         return MessageStats()
 
+    assert last_counter is not None
     lost_messages = 0
     retrieved_messages = 1
-    last_counter = counters[0]
 
-    for counter in counters[1:]:
+    for counter in iterator:
         if counter == last_counter:
             continue  # Skip data with same message counter
 
