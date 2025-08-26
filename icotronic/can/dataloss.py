@@ -1,9 +1,5 @@
 """Support for calculating dataloss statistics of ICOtronic CAN messages"""
 
-# -- Imports ------------------------------------------------------------------
-
-from typing import NamedTuple
-
 # -- Classes ------------------------------------------------------------------
 
 
@@ -20,7 +16,32 @@ class MessageStats:
     def __init__(self, retrieved: int = 0, lost: int = 0):
 
         self.retrieved = retrieved
+        """Number of retrieved messages/streaming data elements"""
+
         self.lost = lost
+        """Number of lost messages/streaming data elements"""
+
+    def __repr__(self):
+        """Get the textual representation of the message statistics
+
+        Returns:
+
+            A string representing the message statistics
+
+        Examples:
+
+            Get string representation of example data
+
+            >>> MessageStats(retrieved=950, lost=50)
+            Retrieved: 950, Lost: 50, Dataloss: 0.05
+
+        """
+
+        return ", ".join([
+            f"Retrieved: {self.retrieved}",
+            f"Lost: {self.lost}",
+            f"Dataloss: {self.dataloss()}",
+        ])
 
     def dataloss(self) -> float:
         """Get the amount of data loss
@@ -32,11 +53,18 @@ class MessageStats:
 
         Examples:
 
+            Get the dataloss for some example data
+
             >>> MessageStats().dataloss()
             0
-
             >>> MessageStats(50, 50).dataloss()
             0.5
+            >>> MessageStats(retrieved=960, lost=40).dataloss()
+            0.04
+            >>> MessageStats(retrieved=490, lost=10).dataloss()
+            0.02
+            >>> MessageStats(retrieved=0, lost=0).dataloss()
+            0
 
         """
 
@@ -48,6 +76,8 @@ class MessageStats:
         """Reset the amount of retrieved and lost messages to 0
 
         Examples:
+
+            Reset stats for some example data
 
             >>> stats = MessageStats(10, 90)
             >>> stats.dataloss()
@@ -62,66 +92,10 @@ class MessageStats:
         self.lost = 0
 
 
-class DatalossStats(NamedTuple):
-    """Data Loss Statistics for measurement/streaming data"""
-
-    retrieved: int = 0
-    """Number of retrieved messages/streaming data elements"""
-
-    lost: int = 0
-    """Number of lost messages/streaming data elements"""
-
-    def __repr__(self):
-        """Get the textual representation of the data loss statistics
-
-        Returns:
-
-            A string representing the data loss statistics
-
-        Examples:
-
-            Get string representation of example data
-
-            >>> DatalossStats(retrieved=950, lost=50)
-            Retrieved: 950, Lost: 50, Dataloss: 0.05
-
-        """
-
-        return ", ".join([
-            f"Retrieved: {self.retrieved}",
-            f"Lost: {self.lost}",
-            f"Dataloss: {self.dataloss()}",
-        ])
-
-    def dataloss(self) -> float:
-        """Get the data loss as number between 0 (no dataloss) and 1
-
-        Returns:
-
-            The amount of lost data to total data (lost + retrieved)
-
-        Examples:
-
-            Get dataloss for some example data
-
-            >>> DatalossStats(retrieved=960, lost=40).dataloss()
-            0.04
-            >>> DatalossStats(retrieved=490, lost=10).dataloss()
-            0.02
-            >>> DatalossStats(retrieved=0, lost=0).dataloss()
-            0
-
-        """
-
-        total = self.retrieved + self.lost
-
-        return self.lost / total if total > 0 else 0
-
-
 # -- Functions ----------------------------------------------------------------
 
 
-def calculate_dataloss_stats(counters: list[int]) -> DatalossStats:
+def calculate_dataloss_stats(counters: list[int]) -> MessageStats:
     """Determine number of lost and received messages based on message counters
 
     Returns:
@@ -148,7 +122,7 @@ def calculate_dataloss_stats(counters: list[int]) -> DatalossStats:
     """
 
     if len(counters) <= 1:
-        return DatalossStats()
+        return MessageStats()
 
     lost_messages = 0
     retrieved_messages = 1
@@ -164,4 +138,4 @@ def calculate_dataloss_stats(counters: list[int]) -> DatalossStats:
 
         last_counter = counter
 
-    return DatalossStats(retrieved=retrieved_messages, lost=lost_messages)
+    return MessageStats(retrieved=retrieved_messages, lost=lost_messages)

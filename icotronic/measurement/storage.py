@@ -23,7 +23,7 @@ from tables import (
 from tables.exceptions import HDF5ExtError
 
 from icotronic.can.adc import ADCConfiguration
-from icotronic.can.dataloss import calculate_dataloss_stats, DatalossStats
+from icotronic.can.dataloss import calculate_dataloss_stats, MessageStats
 from icotronic.can.streaming import StreamingConfiguration, StreamingData
 
 # -- Functions ----------------------------------------------------------------
@@ -608,7 +608,7 @@ class StorageData:
 
         retrieved_messages, lost_messages = self.dataloss_stats()
 
-        return DatalossStats(
+        return MessageStats(
             retrieved=retrieved_messages, lost=lost_messages
         ).dataloss()
 
