@@ -1,7 +1,5 @@
 """Support for streaming (measurement) data in the ICOtronic system"""
 
-# pylint: disable=too-many-lines
-
 # -- Imports ------------------------------------------------------------------
 
 from __future__ import annotations
@@ -9,11 +7,11 @@ from __future__ import annotations
 from asyncio import Queue, wait_for
 from collections.abc import AsyncIterator, Callable, Sequence
 from ctypes import c_uint8, LittleEndianStructure
-from typing import NamedTuple
 
 from can import Listener, Message
 
 from icotronic.can.protocol.identifier import Identifier
+from icotronic.can.dataloss import MessageStats
 
 # -- Classes ------------------------------------------------------------------
 
@@ -292,67 +290,6 @@ class StreamingConfiguration:
         """
 
         return bool(self.channels.third)
-
-
-# pylint: disable=too-few-public-methods
-
-
-class MessageStats:
-    """Store message statistics
-
-    Args:
-
-        retrieved:
-            The number of successfully retrieved messages
-
-    """
-
-    def __init__(self, retrieved: int = 0, lost: int = 0):
-
-        self.retrieved = retrieved
-        self.lost = lost
-
-    def dataloss(self) -> float:
-        """Get the amount of data loss
-
-        Returns:
-
-            The overall amount of data loss as number between 0 (no data loss)
-            and 1 (all data lost).
-
-        Examples:
-
-            >>> MessageStats().dataloss()
-            0
-
-            >>> MessageStats(50, 50).dataloss()
-            0.5
-
-        """
-
-        overall = self.retrieved + self.lost
-
-        return 0 if overall == 0 else self.lost / overall
-
-    def reset(self) -> None:
-        """Reset the amount of retrieved and lost messages to 0
-
-        Examples:
-
-            >>> stats = MessageStats(10, 90)
-            >>> stats.dataloss()
-            0.9
-            >>> stats.reset()
-            >>> stats.dataloss()
-            0
-
-        """
-
-        self.retrieved = 0
-        self.lost = 0
-
-
-# pylint: enable=too-few-public-methods
 
 
 class AsyncStreamBuffer(Listener):
@@ -895,114 +832,6 @@ class StreamingData:
         """
 
         return f"{self.values}@{self.timestamp} #{self.counter}"
-
-
-# -- Functions ----------------------------------------------------------------
-
-
-class DatalossStats(NamedTuple):
-    """Data Loss Statistics for measurement/streaming data"""
-
-    retrieved: int = 0
-    """Number of retrieved messages/streaming data elements"""
-
-    lost: int = 0
-    """Number of lost messages/streaming data elements"""
-
-    def __repr__(self):
-        """Get the textual representation of the data loss statistics
-
-        Returns:
-
-            A string representing the data loss statistics
-
-        Examples:
-
-            Get string representation of example data
-
-            >>> DatalossStats(retrieved=950, lost=50)
-            Retrieved: 950, Lost: 50, Dataloss: 0.05
-
-        """
-
-        return ", ".join([
-            f"Retrieved: {self.retrieved}",
-            f"Lost: {self.lost}",
-            f"Dataloss: {self.dataloss()}",
-        ])
-
-    def dataloss(self) -> float:
-        """Get the data loss as number between 0 (no dataloss) and 1
-
-        Returns:
-
-            The amount of lost data to total data (lost + retrieved)
-
-        Examples:
-
-            Get dataloss for some example data
-
-            >>> DatalossStats(retrieved=960, lost=40).dataloss()
-            0.04
-            >>> DatalossStats(retrieved=490, lost=10).dataloss()
-            0.02
-            >>> DatalossStats(retrieved=0, lost=0).dataloss()
-            0
-
-        """
-
-        total = self.retrieved + self.lost
-
-        return self.lost / total if total > 0 else 0
-
-
-# -- Functions ----------------------------------------------------------------
-
-
-def calculate_dataloss_stats(counters: list[int]) -> DatalossStats:
-    """Determine number of lost and received messages based on message counters
-
-    Returns:
-
-        Tuple containing the number of received and the number of lost
-        messages
-
-    Examples:
-
-        Get data loss statistics for example counters
-
-        >>> counters = [counter for counter in range(256)]
-        >>> counters.extend([counter for counter in range(128, 256)])
-        >>> stats = calculate_dataloss_stats(counters)
-        >>> stats.retrieved
-        384
-        >>> stats.lost
-        128
-
-        >>> counters = [1, 1, 1, 9, 9, 9, 10, 10, 10]
-        >>> calculate_dataloss_stats(counters)
-        Retrieved: 3, Lost: 7, Dataloss: 0.7
-
-    """
-
-    if len(counters) <= 1:
-        return DatalossStats()
-
-    lost_messages = 0
-    retrieved_messages = 1
-    last_counter = counters[0]
-
-    for counter in counters[1:]:
-        if counter == last_counter:
-            continue  # Skip data with same message counter
-
-        retrieved_messages += 1
-
-        lost_messages += (counter - last_counter) % 256 - 1
-
-        last_counter = counter
-
-    return DatalossStats(retrieved=retrieved_messages, lost=lost_messages)
 
 
 # -- Main ---------------------------------------------------------------------

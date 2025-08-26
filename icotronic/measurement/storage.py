@@ -23,12 +23,8 @@ from tables import (
 from tables.exceptions import HDF5ExtError
 
 from icotronic.can.adc import ADCConfiguration
-from icotronic.can.streaming import (
-    calculate_dataloss_stats,
-    DatalossStats,
-    StreamingConfiguration,
-    StreamingData,
-)
+from icotronic.can.dataloss import calculate_dataloss_stats, DatalossStats
+from icotronic.can.streaming import StreamingConfiguration, StreamingData
 
 # -- Functions ----------------------------------------------------------------
 
