@@ -415,38 +415,6 @@ class StorageData:
                 row[accelertation_type] = value
             row.append()
 
-    def store_acceleration_meta(self, name: str, value: str) -> None:
-        """Add acceleration metadata
-
-        Note:
-
-            This function is deprecated, please use ``__setitem__`` (``[]``)
-            instead.
-
-        Args:
-
-            name:
-                The name of the meta attribute
-
-            value:
-                The value of the meta attribute
-
-        Examples:
-
-            Store some example acceleration data
-
-            >>> filepath = Path("test.hdf5")
-            >>> with Storage(filepath,
-            ...              StreamingConfiguration(third=True)) as storage:
-            ...     storage.store_acceleration_meta("something", "some value")
-            ...     print(storage.acceleration.attrs["something"])
-            some value
-            >>> filepath.unlink()
-
-        """
-
-        self.acceleration.attrs[name] = value
-
     def write_sensor_range(self, sensor_range_in_g: float) -> None:
         """Add metadata about sensor range
 
@@ -475,9 +443,7 @@ class StorageData:
 
         sensor_range_positive = round(sensor_range_in_g / 2)
 
-        self.store_acceleration_meta(
-            "Sensor_Range", f"± {sensor_range_positive} g₀"
-        )
+        self["Sensor_Range"] = f"± {sensor_range_positive} g₀"
 
     def write_sample_rate(self, adc_configuration: ADCConfiguration) -> None:
         """Store the sample rate of the ADC
@@ -516,9 +482,7 @@ class StorageData:
             f"Oversampling Rate: {adc_configuration.oversampling_rate}",
         ])
 
-        self.store_acceleration_meta(
-            "Sample_Rate", f"{sample_rate:.2f} Hz ({adc_config_text})"
-        )
+        self["Sample_Rate"] = f"{sample_rate:.2f} Hz ({adc_config_text})"
 
     def dataloss_stats(self) -> tuple[int, int]:
         """Determine number of lost and received messages
