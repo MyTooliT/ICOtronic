@@ -23,7 +23,12 @@ from tables import (
 from tables.exceptions import HDF5ExtError
 
 from icotronic.can.adc import ADCConfiguration
-from icotronic.can.streaming import StreamingConfiguration, StreamingData
+from icotronic.can.streaming import (
+    calculate_dataloss_stats,
+    DatalossStats,
+    StreamingConfiguration,
+    StreamingData,
+)
 
 # -- Functions ----------------------------------------------------------------
 
@@ -560,29 +565,11 @@ class StorageData:
         # Write back acceleration data so we can iterate over it
         self.acceleration.flush()
 
-        lost_messages = 0
-        last_counter = int(self.acceleration[0][0])
-
-        for record in self.acceleration:
-            counter = int(record[0])
-
-            if counter == last_counter:
-                continue  # Skip data with same message counter
-
-            lost_messages += (counter - last_counter) % 256 - 1
-
-            last_counter = counter
-
-        number_rows = len(self.acceleration)
-        # 3 axes → 1 message ↔ 1 row
-        # 2 axes → 1 message ↔ 1 row
-        # 1 axis → 1 message ↔ 3 rows
-
-        retrieved_messages = (
-            number_rows if len(self.axes) >= 2 else number_rows // 3
+        stats = calculate_dataloss_stats(
+            [int(record[0]) for record in self.acceleration]
         )
 
-        return (retrieved_messages, lost_messages)
+        return (stats.retrieved, stats.lost)
 
     def dataloss(self) -> float:
         """Determine (minimum) data loss
@@ -625,9 +612,9 @@ class StorageData:
 
         retrieved_messages, lost_messages = self.dataloss_stats()
 
-        messages = retrieved_messages + lost_messages
-
-        return lost_messages / messages if messages > 0 else 0
+        return DatalossStats(
+            retrieved=retrieved_messages, lost=lost_messages
+        ).dataloss()
 
     def sampling_frequency(self) -> float:
         """Calculate sampling frequency of measurement data
