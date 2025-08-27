@@ -389,9 +389,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h5><span class="header-section-number">1.1.2.3.3</span> Windows<a href="#windows" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <ul>
 <li><p>If you installed Simplicity Studio (including Simplicity Studio) to the standard location, then you do not need to change the configuration.</p></li>
-<li><p>If you download Simplicity Commander directly, then the tests assume that you unzipped the files into the directory <code>C:\SiliconLabs\Simplicity Commander</code>.</p></li>
+<li><p>If you download Simplicity Commander directly, then the tests assume that you unzipped the files into the directory <code>C:\SiliconLabs\Simplicity Commander</code> or <code>C:\Program Files\Simplicity Commander</code>.</p></li>
 <li><p>If you did not use any of the standard install path, then please add the path to <code>commander.exe</code> to the list <code>commands</code> → <code>path</code> → <code>windows</code> in the <a href="#changing-configuration-values">configuration</a>.</p></li>
 </ul>
+<blockquote>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>You also need to install <strong><a href="https://www.segger.com/downloads/jlink/">J-Link</a></strong> for Simplicity Commander to work with a USB programmer.</li>
+<li>If your device does not show up in Simplicity Commander and only appears as <strong>USB BULK device in the Windows device manager</strong>, then please <a href="https://kb.segger.com/J-Link_shown_as_generic_BULK_device_in_Windows">follow the steps described in the Segger Knowledge Base</a>.</li>
+</ul>
+</blockquote>
 </div>
 <div id="additional-notes" class="section level5 hasAnchor" number="1.1.2.3.4">
 <h5><span class="header-section-number">1.1.2.3.4</span> Additional Notes<a href="#additional-notes" class="anchor-section" aria-label="Anchor link to header"></a></h5>
