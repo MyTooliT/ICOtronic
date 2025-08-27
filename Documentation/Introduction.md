@@ -170,9 +170,14 @@ If you install Simplicity Studio or Simplicity Commander in the standard install
 
 - If you installed Simplicity Studio (including Simplicity Studio) to the standard location, then you do not need to change the configuration.
 
-- If you download Simplicity Commander directly, then the tests assume that you unzipped the files into the directory `C:\SiliconLabs\Simplicity Commander`.
+- If you download Simplicity Commander directly, then the tests assume that you unzipped the files into the directory `C:\SiliconLabs\Simplicity Commander` or `C:\Program Files\Simplicity Commander`.
 
 - If you did not use any of the standard install path, then please add the path to `commander.exe` to the list `commands` → `path` → `windows` in the [configuration](#changing-configuration-values).
+
+> **Notes:**
+>
+> - You also need to install **[J-Link](https://www.segger.com/downloads/jlink/)** for Simplicity Commander to work with a USB programmer.
+> - If your device does not show up in Simplicity Commander and only appears as **USB BULK device in the Windows device manager**, then please [follow the steps described in the Segger Knowledge Base](https://kb.segger.com/J-Link_shown_as_generic_BULK_device_in_Windows).
 
 ##### Additional Notes
 
