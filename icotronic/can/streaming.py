@@ -298,10 +298,6 @@ class AsyncStreamBuffer(Listener):
 
     Args:
 
-        configuration:
-            A streaming configuration that specifies which of the three
-            streaming channels should be enabled or not
-
         timeout:
             The amount of seconds between two consecutive messages, before
             a ``StreamingTimeoutError`` will be raised
@@ -318,7 +314,6 @@ class AsyncStreamBuffer(Listener):
 
     def __init__(
         self,
-        configuration: StreamingConfiguration,
         timeout: float,
         max_buffer_size: int,
     ) -> None:
@@ -333,7 +328,6 @@ class AsyncStreamBuffer(Listener):
         )
         self.queue: Queue[tuple[StreamingData, int]] = Queue()
         self.timeout = timeout
-        self.configuration = configuration
         self.last_counter = -1
         self.max_buffer_size = max_buffer_size
         self.stats = MessageStats()
@@ -401,9 +395,7 @@ class AsyncStreamBuffer(Listener):
         counter = data[1]
         timestamp = msg.timestamp + self.timestamp_offset
         data_bytes = (
-            (data[2:4], data[4:6], data[6:8])
-            if self.configuration.data_length() == 3
-            else (data[2:4], data[4:6])
+            data[start : start + 1] for start in range(2, len(data) - 1, 2)
         )
 
         values = [

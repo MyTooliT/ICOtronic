@@ -88,7 +88,6 @@ class DataStreamContextManager:
         # Raise exception if there if there is more than one second worth
         # of buffered data
         self.reader = AsyncStreamBuffer(
-            self.channels,
             self.timeout,
             max_buffer_size=round(adc_config.sample_rate()),
         )
