@@ -112,5 +112,6 @@ ignore_missing_imports = true
 # - Ignore macOS metadata files
 # - Ignore Bookdown output
 # - Verbose output
+asyncio_mode = "auto"
 addopts = "--doctest-modules --ignore-glob='*._*.py' --ignore=Bookdown -v"
 minversion = "6.0"
