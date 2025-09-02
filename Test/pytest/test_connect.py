@@ -11,7 +11,7 @@ from icotronic.can.connection import Connection
 
 
 @mark.asyncio
-async def test_connect_mac_as_name(sensor_node_name):
+async def test_connect_mac_as_name(sensor_node_mac_address: EUI):
     """Check it is not possible to connect with str version of MAC address
 
     While this might sound like a good idea, we designed the API to assume
@@ -25,17 +25,11 @@ async def test_connect_mac_as_name(sensor_node_name):
 
     """
 
-    mac_address = None
-    async with Connection() as stu:
-        async with stu.connect_sensor_node(sensor_node_name) as sensor_node:
-            mac_address = await sensor_node.get_mac_address()
-            assert isinstance(mac_address, EUI)
-
     with raises(
         ValueError, match="“08-6B-D7-01-DE-81” is too long to be a valid name"
     ):
         async with Connection() as stu:
-            async with stu.connect_sensor_node(str(mac_address)):
+            async with stu.connect_sensor_node(str(sensor_node_mac_address)):
                 assert False
 
 
