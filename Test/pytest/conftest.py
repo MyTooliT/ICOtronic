@@ -15,7 +15,7 @@ from icotronic.can import Connection, SensorNode, STU
 
 @fixture(scope="session")
 async def max_time_offset() -> float:
-    """Allowed time offset to local time in seconds"""
+    """Allowed time offset of timestamps to local time in seconds"""
 
     return 1
 
