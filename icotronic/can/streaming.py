@@ -7,6 +7,7 @@ from __future__ import annotations
 from asyncio import Queue, wait_for
 from collections.abc import AsyncIterator, Callable, Sequence
 from ctypes import c_uint8, LittleEndianStructure
+from time import time
 
 from can import Listener, Message
 
@@ -336,6 +337,7 @@ class AsyncStreamBuffer(Listener):
         self.last_counter = -1
         self.max_buffer_size = max_buffer_size
         self.stats = MessageStats()
+        self.timestamp_offset: float | None = None
 
     def __aiter__(self) -> AsyncIterator[tuple[StreamingData, int]]:
         """Retrieve iterator for collected data
@@ -389,9 +391,15 @@ class AsyncStreamBuffer(Listener):
         if msg.arbitration_id != self.identifier.value or len(msg.data) <= 1:
             return
 
+        receive_time = time()
+
+        # Calculate timestamp offset for first received message
+        if self.timestamp_offset is None:
+            self.timestamp_offset = receive_time - msg.timestamp
+
         data = msg.data
         counter = data[1]
-        timestamp = msg.timestamp
+        timestamp = msg.timestamp + self.timestamp_offset
         data_bytes = (
             (data[2:4], data[4:6], data[6:8])
             if self.configuration.data_length() == 3
