@@ -7,15 +7,11 @@ from pytest import mark, raises
 
 from icotronic.can.connection import Connection
 
-# -- Globals ------------------------------------------------------------------
-
-SENSOR_NODE_NAME = "Test-STH"
-
 # -- Functions ----------------------------------------------------------------
 
 
 @mark.asyncio
-async def test_connect_mac_as_name():
+async def test_connect_mac_as_name(sensor_node_name):
     """Check it is not possible to connect with str version of MAC address
 
     While this might sound like a good idea, we designed the API to assume
@@ -31,7 +27,7 @@ async def test_connect_mac_as_name():
 
     mac_address = None
     async with Connection() as stu:
-        async with stu.connect_sensor_node(SENSOR_NODE_NAME) as sensor_node:
+        async with stu.connect_sensor_node(sensor_node_name) as sensor_node:
             mac_address = await sensor_node.get_mac_address()
             assert isinstance(mac_address, EUI)
 
