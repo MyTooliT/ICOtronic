@@ -2,13 +2,17 @@
 
 # -- Imports ------------------------------------------------------------------
 
+from os import environ
 from time import time
+
+from pytest import mark
 
 from icotronic.can import SensorNode, StreamingConfiguration
 
 # -- Functions ----------------------------------------------------------------
 
 
+@mark.skipif("CI" in environ, reason="requires ICOtronic hardware")
 async def check_streaming(
     max_time_offset: float,
     sensor_node: SensorNode,
@@ -51,6 +55,7 @@ async def check_streaming(
             break
 
 
+@mark.skipif("CI" in environ, reason="requires ICOtronic hardware")
 async def test_streaming_one_channel(max_time_offset, sensor_node: SensorNode):
     """Check it a single channel setup returns correct data"""
 
@@ -59,6 +64,7 @@ async def test_streaming_one_channel(max_time_offset, sensor_node: SensorNode):
     )
 
 
+@mark.skipif("CI" in environ, reason="requires ICOtronic hardware")
 async def test_streaming_two_channels(
     max_time_offset, sensor_node: SensorNode
 ):

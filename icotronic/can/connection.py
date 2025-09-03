@@ -16,6 +16,10 @@ from icotronic.can.listener import Logger
 from icotronic.can.node.spu import SPU
 from icotronic.can.node.stu import STU
 from icotronic.config import settings
+from icotronic.test.misc import skip_hardware_tests_ci
+
+pytestmark = skip_hardware_tests_ci()
+
 
 # -- Classes ------------------------------------------------------------------
 

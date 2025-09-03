@@ -11,7 +11,11 @@ from icotronic.can.node.id import NodeId
 from icotronic.can.node.spu import SPU
 from icotronic.can.protocol.message import Message
 from icotronic.can.status import State
+from icotronic.test.misc import skip_hardware_tests_ci
 from icotronic.utility.data import convert_bytes_to_text
+
+pytestmark = skip_hardware_tests_ci()
+
 
 # -- Classes ------------------------------------------------------------------
 

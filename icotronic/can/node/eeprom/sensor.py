@@ -4,6 +4,10 @@
 
 from icotronic.can.constants import ADVERTISEMENT_TIME_EEPROM_TO_MS
 from icotronic.can.node.eeprom.node import NodeEEPROM
+from icotronic.test.misc import skip_hardware_tests_ci
+
+pytestmark = skip_hardware_tests_ci()
+
 
 # -- Sensor -------------------------------------------------------------------
 

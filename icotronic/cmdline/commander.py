@@ -15,6 +15,9 @@ from subprocess import CalledProcessError, run
 from sys import byteorder
 
 from icotronic.config import settings
+from icotronic.test.misc import skip_hardware_tests_ci
+
+pytestmark = skip_hardware_tests_ci()
 
 # -- Classes ------------------------------------------------------------------
 

@@ -38,6 +38,10 @@ from icotronic.can.node.spu import SPU
 from icotronic.config import settings
 from icotronic.measurement.sensor import SensorConfiguration
 from icotronic.measurement.voltage import convert_raw_to_supply_voltage
+from icotronic.test.misc import skip_hardware_tests_ci
+
+pytestmark = skip_hardware_tests_ci()
+
 
 # -- Classes ------------------------------------------------------------------
 
