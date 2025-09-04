@@ -5,56 +5,11 @@
 from collections.abc import Iterable, Iterator, Mapping
 from enum import auto, Enum
 from statistics import mean
-from typing import Callable, NamedTuple
+from typing import NamedTuple
 
-from icotronic.can.streaming import StreamingConfiguration, StreamingData
+from icotronic.can.streaming import StreamingConfiguration
 
 # -- Classes ------------------------------------------------------------------
-
-# pylint: disable=too-few-public-methods
-
-
-class ChannelConfiguration:
-    """Attributes for channel configuration
-
-    Args:
-
-        channel:
-
-            Sensor channel number
-
-        conversion:
-
-            Conversion function that will be applied to streaming data
-
-    """
-
-    def __init__(
-        self,
-        channel: int = 0,
-        conversion: Callable[[StreamingData], StreamingData] | None = None,
-    ) -> None:
-
-        self.channel = channel
-        """Sensor channel number"""
-        self.conversion = (
-            (lambda data: data) if conversion is None else conversion
-        )
-        """Function that will be used to convert streaming data"""
-
-    def __repr__(self) -> str:
-        """Return the textual representation of the configuration
-
-        Returns:
-
-            A string containing the attributes of the channel configuration
-
-        """
-
-        return f"Sensor Channel: {self.channel}"
-
-
-# pylint: enable=too-few-public-methods
 
 
 class SensorConfiguration(Mapping):
@@ -96,18 +51,18 @@ class SensorConfiguration(Mapping):
     def __init__(self, first: int = 0, second: int = 0, third: int = 0):
 
         self.attributes = {
-            "first": ChannelConfiguration(first),
-            "second": ChannelConfiguration(second),
-            "third": ChannelConfiguration(third),
+            "first": first,
+            "second": second,
+            "third": third,
         }
 
-        for name, config in self.attributes.items():
-            if config.channel < 0 or config.channel > 255:
+        for name, channel in self.attributes.items():
+            if channel < 0 or channel > 255:
                 raise ValueError(
-                    f"Incorrect value for {name} channel: “{config.channel}”"
+                    f"Incorrect value for {name} channel: “{channel}”"
                 )
 
-    def __getitem__(self, item: str) -> ChannelConfiguration:
+    def __getitem__(self, item: str) -> int:
         """Return values of the mapping provided by this class
 
         Note:
@@ -129,17 +84,17 @@ class SensorConfiguration(Mapping):
             Create an “empty” example sensor configuration
 
             >>> dict(**SensorConfiguration()) # doctest:+NORMALIZE_WHITESPACE
-            {'first': Sensor Channel: 0,
-             'second': Sensor Channel: 0,
-             'third': Sensor Channel: 0}
+            {'first': 0,
+             'second': 0,
+             'third': 0}
 
             Create an example sensor configuration using init values
 
             >>> dict(**SensorConfiguration(first=1, second=2, third=3)
             ...     ) # doctest:+NORMALIZE_WHITESPACE
-            {'first': Sensor Channel: 1,
-             'second': Sensor Channel: 2,
-             'third': Sensor Channel: 3}
+            {'first': 1,
+             'second': 2,
+             'third': 3}
 
         """
 
@@ -230,9 +185,9 @@ class SensorConfiguration(Mapping):
         """
 
         return ", ".join((
-            f"M{sensor}: S{config.channel}"
-            for sensor, config in enumerate(self.attributes.values(), start=1)
-            if config.channel != 0
+            f"M{sensor}: S{value}"
+            for sensor, value in enumerate(self.attributes.values(), start=1)
+            if value != 0
         ))
 
     def __repr__(self) -> str:
@@ -255,67 +210,73 @@ class SensorConfiguration(Mapping):
         """
 
         return ", ".join((
-            f"M{sensor}: "
-            f"{f'S{config.channel}' if config.channel != 0 else 'None'}"
-            for sensor, config in enumerate(self.attributes.values(), start=1)
+            f"M{sensor}: {f'S{value}' if value != 0 else 'None'}"
+            for sensor, value in enumerate(self.attributes.values(), start=1)
         ))
 
     @property
-    def first(self) -> ChannelConfiguration:
-        """Get the channel configuration for the first channel
+    def first(self) -> int:
+        """Get the sensor for the first channel
 
         Returns:
 
-            The sensor configuration of the first channel
+            The sensor number of the first channel
 
         Examples:
 
             Get the sensor number for the first channel of a sensor config
 
-            >>> SensorConfiguration(first=1, second=3, third=2).first.channel
+            >>> SensorConfiguration(first=1, second=3, third=2).first
             1
 
         """
 
-        return self.attributes["first"]
+        first = self.attributes["first"]
+
+        return 0 if first is None else first
 
     @property
-    def second(self) -> ChannelConfiguration:
-        """Get the channel configuration for the second channel
+    def second(self) -> int:
+        """Get the sensor for the second channel
 
         Returns:
 
-            The sensor configuration of the second channel
+            The sensor number of the second channel
+
 
         Examples:
 
             Get the sensor number for the second channel of a sensor config
 
-            >>> SensorConfiguration(first=1, second=3, third=2).second.channel
+            >>> SensorConfiguration(first=1, second=3, third=2).second
             3
 
         """
 
-        return self.attributes["second"]
+        second = self.attributes["second"]
+
+        return 0 if second is None else second
 
     @property
-    def third(self) -> ChannelConfiguration:
-        """Get the channel configuration for the third channel
+    def third(self) -> int:
+        """Get the sensor for the third channel
 
         Returns:
 
-            The sensor configuration of the third channel
+            The sensor number of the third channel
 
         Examples:
 
             Get the sensor number for the third channel of a sensor config
 
-            >>> SensorConfiguration(first=1, second=3, third=2).third.channel
+            >>> SensorConfiguration(first=1, second=3, third=2).third
             2
 
         """
 
-        return self.attributes["third"]
+        third = self.attributes["third"]
+
+        return 0 if third is None else third
 
     def disable_channel(
         self, first: bool = False, second: bool = False, third: bool = False
@@ -339,11 +300,11 @@ class SensorConfiguration(Mapping):
         """
 
         if first:
-            self.attributes["first"].channel = 0
+            self.attributes["first"] = 0
         if second:
-            self.attributes["second"].channel = 0
+            self.attributes["second"] = 0
         if third:
-            self.attributes["third"].channel = 0
+            self.attributes["third"] = 0
 
     def requires_channel_configuration_support(self) -> bool:
         """Check if the sensor configuration requires channel config support
@@ -375,10 +336,10 @@ class SensorConfiguration(Mapping):
 
         """
 
-        for measurement_channel, config in enumerate(
+        for measurement_channel, sensor_channel in enumerate(
             self.attributes.values(), start=1
         ):
-            if config.channel not in {0, measurement_channel}:
+            if sensor_channel not in {0, measurement_channel}:
                 return True
         return False
 
@@ -404,11 +365,7 @@ class SensorConfiguration(Mapping):
 
         """
 
-        return (
-            self.first.channel == 0
-            and self.second.channel == 0
-            and self.third.channel == 0
-        )
+        return self.first == 0 and self.second == 0 and self.third == 0
 
     def check(self):
         """Check that at least one measurement channel is enabled
@@ -459,8 +416,7 @@ class SensorConfiguration(Mapping):
         """
 
         return StreamingConfiguration(**{
-            channel: bool(config.channel)
-            for channel, config in self.attributes.items()
+            channel: bool(value) for channel, value in self.attributes.items()
         })
 
 
