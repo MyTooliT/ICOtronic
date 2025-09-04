@@ -1156,9 +1156,9 @@ class SensorNode(Node):
         node = self.id
         data = [
             0b1000_0000,
-            sensors.first,
-            sensors.second,
-            sensors.third,
+            sensors.first.channel,
+            sensors.second.channel,
+            sensors.third.channel,
             *(4 * [0]),
         ]
         message = Message(
