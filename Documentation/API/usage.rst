@@ -96,7 +96,7 @@ After you connected to the sensor node use the coroutine :meth:`SensorNode.open_
 The data returned by the ``async for`` (``stream``) is an object of the class :class:`StreamingData` with the following attributes:
 
 - :attr:`StreamingData.values`: a list containing either two or three values,
-- :attr:`StreamingData.timestamp`: the timestamp when the data was collected (actually `when it was received by the CAN controller <https://docs.peak-system.com/API/PCAN-Basic.Net/html/4f55937b-3d8f-de9e-62a9-be1b8a150f05.htm>`_)
+- :attr:`StreamingData.timestamp`: the timestamp when the data was collected
 - :attr:`StreamingData.counter`: a cyclic message counter (0 – 255) that can be used to detect data loss
 
 .. note::
