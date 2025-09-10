@@ -210,7 +210,10 @@ async def command_dataloss(arguments: Namespace) -> None:
                 await sth.set_adc_configuration(**adc_config)
                 logger.info("Sample rate: %s Hz", adc_config.sample_rate())
 
-                with NamedTemporaryFile(suffix=".hdf5") as temp:
+                with NamedTemporaryFile(
+                    suffix=".hdf5", delete_on_close=False
+                ) as temp:
+                    logger.info("Temporary measurement file: %s", temp.name)
                     with Storage(
                         temp.name, sensor_config.streaming_configuration()
                     ) as storage:
