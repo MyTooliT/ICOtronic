@@ -30,10 +30,19 @@ Streaming
 .. autoclass:: StreamingData
    :members:
 
+Measurement
+###########
+
 .. currentmodule:: icotronic.measurement
 
+Data
+****
+
+.. autoclass:: MeasurementData
+   :members:
+
 Storage
-#######
+*******
 
 .. autoclass:: Storage
    :members:
@@ -41,10 +50,10 @@ Storage
 .. autoclass:: StorageData
    :members:
 
-.. currentmodule:: icotronic.can.adc
-
 ADC
 ###
+
+.. currentmodule:: icotronic.can.adc
 
 .. autoclass:: ADCConfiguration
    :members:
