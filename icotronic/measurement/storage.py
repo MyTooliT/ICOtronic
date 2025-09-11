@@ -346,10 +346,6 @@ class StorageData:
 
         Examples:
 
-            Import required library code
-
-            >>> from icotronic.can.streaming import StreamingConfigBits
-
             Store streaming data for single channel
 
             >>> channel3 = StreamingConfiguration(first=False, second=False,
