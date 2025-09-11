@@ -57,7 +57,8 @@ test-no-hardware: pytest-test-no-hardware
 pytest-test:
 	poetry run coverage run -m pytest $(TEST_LOCATIONS) || \
 	  ( poetry run icon stu reset && \
-	    poetry run coverage run --append -m pytest --last-failed )
+	    poetry run coverage run --append -m \
+	    pytest --last-failed $(TEST_LOCATIONS) )
 
 pytest-test-no-hardware:
 	poetry run pytest --ignore-glob='*read_data.t' \
