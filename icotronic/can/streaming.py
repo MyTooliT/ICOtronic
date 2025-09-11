@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from asyncio import Queue, wait_for
-from collections.abc import AsyncIterator, Callable, Sequence
+from collections.abc import AsyncIterator, Callable
 from ctypes import c_uint8, LittleEndianStructure
 from time import time
 
@@ -399,7 +399,8 @@ class AsyncStreamBuffer(Listener):
         )
 
         values = [
-            int.from_bytes(word, byteorder="little") for word in data_bytes
+            float(int.from_bytes(word, byteorder="little"))
+            for word in data_bytes
         ]
         assert len(values) == 2 or len(values) == 3
 
@@ -765,7 +766,7 @@ class StreamingData:
     """
 
     def __init__(
-        self, counter: int, timestamp: float, values: Sequence[float]
+        self, counter: int, timestamp: float, values: list[float]
     ) -> None:
 
         if not 2 <= len(values) <= 3:

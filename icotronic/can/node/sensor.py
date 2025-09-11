@@ -686,7 +686,7 @@ class SensorNode(Node):
         )
 
         values = [
-            int.from_bytes(word, byteorder="little")
+            float(int.from_bytes(word, byteorder="little"))
             for word in (
                 response.data[2:4],
                 response.data[4:6],
