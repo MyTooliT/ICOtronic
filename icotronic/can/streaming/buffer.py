@@ -123,7 +123,7 @@ class AsyncStreamBuffer(Listener):
         counter = data[1]
         timestamp = msg.timestamp + self.timestamp_offset
         data_bytes = (
-            data[start : start + 1] for start in range(2, len(data) - 1, 2)
+            data[start : start + 2] for start in range(2, len(data) - 1, 2)
         )
 
         values = [
