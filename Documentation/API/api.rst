@@ -40,6 +40,10 @@ Data
 
 .. autoclass:: MeasurementData
    :members:
+.. autoclass:: ChannelData
+   :members:
+.. autoclass:: Conversion
+   :members:
 
 Storage
 *******
