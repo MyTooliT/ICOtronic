@@ -136,6 +136,60 @@ For that case you can use the class :class:`MeasurementData`. The example code b
    >>> all(-2 <= data.value <= 2 for data in first_channel_in_g)
    True
 
+Converting Data Values
+======================
+
+The class :class:`Conversion` allows you to apply different functions to the different channels of the streaming data (attributes ``first``, ``second`` and ``third``). Each function gets a measurement value (of type ``float``) and should return a value of type ``float``. If you do not want to apply any conversion to a certain channel you can use the (default value) of ``None`` for the :class:`Conversion` channel attribute. In the example below we apply a Conversion object that
+
+- does not change the data for the first channel,
+- multiplies the values of the second channel by two,
+- adds the value ``10`` to the data of the second channel.
+
+.. doctest::
+
+   >>> from icotronic.can import StreamingConfiguration, StreamingData
+   >>> from icotronic.measurement import Conversion, MeasurementData
+
+   >>> measurement_data = MeasurementData(
+   ...     StreamingConfiguration(first=True, second=True, third=True))
+   >>> s1 = StreamingData(counter=1, timestamp=1757946559.499677,
+   ...                    values=[1.0, 2.0, 3.0])
+   >>> s2 = StreamingData(counter=2, timestamp=1757946559.499680,
+   ...                    values=[4.0, 5.0, 6.0])
+   >>> measurement_data.append(s1)
+   >>> measurement_data.append(s2)
+   >>> measurement_data
+   Channel 1 enabled, Channel 2 enabled, Channel 3 enabled
+   [1.0, 2.0, 3.0]@1757946559.499677 #1
+   [4.0, 5.0, 6.0]@1757946559.49968 #2
+   >>> measurement_data.first()
+   1.0@1757946559.499677 #1
+   4.0@1757946559.49968 #2
+   >>> measurement_data.second()
+   2.0@1757946559.499677 #1
+   5.0@1757946559.49968 #2
+   >>> measurement_data.third()
+   3.0@1757946559.499677 #1
+   6.0@1757946559.49968 #2
+
+   >>> def multiply_by_two(value):
+   ...     return value * 2
+   >>> conversion = Conversion(second=multiply_by_two,
+   ...                         third=(lambda value: value + 10))
+   >>> measurement_data.apply(conversion)
+   Channel 1 enabled, Channel 2 enabled, Channel 3 enabled
+   [1.0, 4.0, 13.0]@1757946559.499677 #1
+   [4.0, 10.0, 16.0]@1757946559.49968 #2
+   >>> measurement_data.first()
+   1.0@1757946559.499677 #1
+   4.0@1757946559.49968 #2
+   >>> measurement_data.second()
+   4.0@1757946559.499677 #1
+   10.0@1757946559.49968 #2
+   >>> measurement_data.third()
+   13.0@1757946559.499677 #1
+   16.0@1757946559.49968 #2
+
 Storing Data
 ************
 
