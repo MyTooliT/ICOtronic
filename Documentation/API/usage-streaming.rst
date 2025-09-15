@@ -18,17 +18,28 @@ After you connected to the sensor node use the coroutine :meth:`SensorNode.open_
    ...             channels = StreamingConfiguration(first=True)
    ...             async with sensor_node.open_data_stream(channels) as stream:
    ...                 async for data, lost_messages in stream:
-   ...                     print(data)
-   ...                     break
+   ...                     return data
 
-   # Example Output: [32579, 32637, 32575]@1724251001.976368
-   >>> run(read_streaming_data()) # doctest:+ELLIPSIS
-   [...]@... #...
+   >>> data = run(read_streaming_data())
+
+   >>> # Example Output: [32579, 32637, 32575]@1724251001.976368 #123
+   >>> data # doctest:+ELLIPSIS
+   [..., ..., ...]@... #...
+
+   >>> len(data.values)
+   3
+   >>> isinstance(data.timestamp, float)
+   True
+   >>> all(0 <= value <= 2**16-1 for value in data.values)
+   True
+   >>> 0 <= data.counter <= 255
+   True
 
 - connects to a node called ``Test-STH``,
 - opens a data stream for the first measurement channel,
-- receives a single streaming message and
-  prints its representation.
+- receives a single streaming data object,
+- prints its representation and
+- shows some of the properties of the streaming data object.
 
 The data returned by the ``async for`` (``stream``) is an object of the class :class:`StreamingData` with the following attributes:
 
