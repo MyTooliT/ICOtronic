@@ -142,6 +142,52 @@ In the example below we convert the first retrieved streaming data object and re
    >>> all([-100 <= value <= 100 for value in streaming_data.values])
    True
 
+Collecting Multiple Values
+**************************
+
+While working directly with the class :class:`StreamingData` might make sense for small projects often you:
+
+- want to collect a bunch of data values,
+- work on data for a specific measurement channel, or
+- convert data values.
+
+For that case you can use the class :class:`MeasurementData`. The example code below
+
+- collects data for all three measurement channels,
+- applies a conversion into multiples of g for the first channel (only), and
+- checks that the values for the first channel are all between -2 g and 2 g.
+
+.. doctest::
+
+   >>> from asyncio import run
+   >>> from time import monotonic
+   >>> from icotronic.can import Connection, STH, StreamingConfiguration
+   >>> from icotronic.measurement import Conversion, MeasurementData
+
+   >>> async def collect_streaming_data(identifier):
+   ...    async with Connection() as stu:
+   ...        async with stu.connect_sensor_node(identifier, STH) as sth:
+   ...            conversion_to_g = (await
+   ...                sth.get_acceleration_conversion_function())
+   ...            all_channels = StreamingConfiguration(
+   ...                first=True, second=True, third=True
+   ...            )
+   ...            measurement_data = MeasurementData(all_channels)
+   ...            async with sth.open_data_stream(all_channels) as stream:
+   ...                messages = 10
+   ...                async for data, _ in stream:
+   ...                    measurement_data.append(data)
+   ...                    messages -= 1
+   ...                    if messages <= 0:
+   ...                        break
+   ...            measurement_data.apply(Conversion(first=conversion_to_g))
+   ...            return measurement_data
+
+   >>> data = run(collect_streaming_data(identifier="Test-STH"))
+   >>> first_channel_in_g = data.first()
+   >>> all(-2 <= data.value <= 2 for data in first_channel_in_g)
+   True
+
 Storing Data
 ************
 
