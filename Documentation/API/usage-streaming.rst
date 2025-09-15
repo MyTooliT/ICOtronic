@@ -102,7 +102,7 @@ While working directly with the class :class:`StreamingData` might make sense fo
 For that case you can use the class :class:`MeasurementData`. The example code below
 
 - collects data for all three measurement channels,
-- applies a conversion into multiples of g for the first channel (only), and
+- applies a conversion into multiples of g for the first channel (only) and
 - checks that the values for the first channel are all between -2 g and 2 g.
 
 .. doctest::
@@ -142,7 +142,7 @@ Converting Data Values
 The class :class:`Conversion` allows you to apply different functions to the different channels of the streaming data (attributes ``first``, ``second`` and ``third``). Each function gets a measurement value (of type ``float``) and should return a value of type ``float``. If you do not want to apply any conversion to a certain channel you can use the (default value) of ``None`` for the :class:`Conversion` channel attribute. In the example below we apply a Conversion object that
 
 - does not change the data for the first channel,
-- multiplies the values of the second channel by two,
+- multiplies the values of the second channel by two and
 - adds the value ``10`` to the data of the second channel.
 
 .. doctest::
