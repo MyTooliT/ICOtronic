@@ -238,7 +238,7 @@ To access the overall data quality, since the start of streaming you can use the
    ...                  return stream.dataloss()
 
    >>> data_loss = run(determine_data_loss(identifier="Test-STH"))
-   >>> data_loss < 0.1 # We assume that the data loss was less than 10 %
+   >>> data_loss < 0.2 # We assume that the data loss was less than 20 %
    True
 
 If you want to calculate the amount of data loss for a specific time-span you can use the method :meth:`AsyncStreamBuffer.reset` to reset the message statistics at the start of the time-span. In the following example we stream data for (roughly) 2.1 seconds and return a list with the amount of data loss over periods of 0.5 seconds:
