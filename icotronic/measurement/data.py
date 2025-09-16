@@ -223,6 +223,37 @@ class MeasurementData:
             ])
         )
 
+    def __iter__(self) -> Iterator:
+        """Iterate over the measurement data
+
+        Returns:
+
+            An iterator over the streaming dat objects contained in the
+            measurement data
+
+        Examples:
+
+            Iterate over some example measurement data
+
+            >>> config = StreamingConfiguration(first=False, second=True,
+            ...                                 third=False)
+            >>> data = MeasurementData(config)
+            >>> s1 = StreamingData(values=[123, 456], counter=155,
+            ...                    timestamp=1758029094.7407959)
+            >>> s2 = StreamingData(values=[78, 9], counter=156,
+            ...                    timestamp=1758029094.7407968)
+            >>> data.append(s1)
+            >>> data.append(s2)
+
+            >>> for stream_data in data:
+            ...     print(stream_data)
+            [123, 456]@1758029094.7407959 #155
+            [78, 9]@1758029094.7407968 #156
+
+        """
+
+        return iter(self.streaming_data_list)
+
     def __len__(self) -> int:
         """Get the length of the measurement data
 
