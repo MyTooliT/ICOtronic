@@ -62,7 +62,7 @@ test = [
     "prysk[pytest-plugin]>=0.15.1",
     "pytest-asyncio",
     "pytest-sphinx",
-    "maisie-sphinx-theme>=0.1.2" # Required for Sphinx doctests
+    "sphinx_rtd_theme" # Required for Sphinx doctests
 ]
 
 [project.scripts]

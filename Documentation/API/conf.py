@@ -4,8 +4,6 @@
 
 # -- Imports ------------------------------------------------------------------
 
-import maisie_sphinx_theme
-
 from icotronic import __version__
 
 # -- Project information ------------------------------------------------------
@@ -25,6 +23,7 @@ extensions = [
     "sphinx_autodoc_typehints",
     "sphinx.ext.doctest",
     "sphinx_toggleprompt",
+    "sphinxjp.themes.basicstrap",
 ]
 
 # Run doctest from doctest directive, but not nested tests from autodoc code
@@ -39,9 +38,6 @@ autodoc_inherit_docstrings = False
 
 # -- Options for HTML output --------------------------------------------------
 
-html_theme_path = maisie_sphinx_theme.html_theme_path()
-html_theme = "maisie_sphinx_theme"
-# Register the theme as an extension to generate a sitemap.xml
-extensions.append("maisie_sphinx_theme")
+html_theme = "sphinx_rtd_theme"
 
 # pylint: enable=invalid-name
