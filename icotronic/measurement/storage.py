@@ -411,6 +411,50 @@ class StorageData:
                 row[accelertation_type] = value
             row.append()
 
+    def add_measurement_data(self, measurement_data: MeasurementData) -> None:
+        """Add streaming data to the storage object
+
+        Args:
+
+            measurement_data:
+
+                The streaming data that should be added to the storage
+
+        Examples:
+
+            Import required library code
+
+            >>> from tempfile import NamedTemporaryFile
+            >>> from icotronic.measurement import MeasurementData
+
+            Store measurement data for two enabled channels
+
+            >>> two_channels = StreamingConfiguration(first=True, second=False,
+            ...                                       third=True)
+            >>> s1 = StreamingData(values=[10, -10], counter=1, timestamp=1)
+            >>> s2 = StreamingData(values=[20, -20], counter=2, timestamp=2)
+            >>> s3 = StreamingData(values=[30, -30], counter=2, timestamp=2)
+            >>> data = MeasurementData(two_channels)
+            >>> data.append(s1)
+            >>> data.append(s2)
+            >>> data.append(s3)
+
+            >>> with NamedTemporaryFile(suffix=".hdf5",
+            ...                         delete_on_close=False) as temp:
+            ...     with Storage(temp.name, two_channels) as storage:
+            ...         storage.add_measurement_data(data)
+            ...         # Normally the class takes care about when to store
+            ...         # back data to the disk itself. We do a manual flush
+            ...         # here to check the number of stored items.
+            ...         storage.acceleration.flush()
+            ...         print(storage.acceleration.nrows)
+            3
+
+        """
+
+        for streaming_data in measurement_data:
+            self.add_streaming_data(streaming_data)
+
     def write_sensor_range(self, sensor_range_in_g: float) -> None:
         """Add metadata about sensor range
 
