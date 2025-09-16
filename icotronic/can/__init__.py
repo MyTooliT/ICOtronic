@@ -7,16 +7,20 @@ for more information
 
 # -- Exports ------------------------------------------------------------------
 
-from .error import ErrorResponseError, CANConnectionError, NoResponseError
-from .connection import Connection
-from .streaming import (
+from icotronic.can.error import (
+    ErrorResponseError,
+    CANConnectionError,
+    NoResponseError,
+)
+from icotronic.can.connection import Connection
+from icotronic.can.streaming import (
     StreamingConfiguration,
     StreamingData,
     StreamingError,
     StreamingTimeoutError,
     StreamingBufferError,
 )
-from .node.sensor import SensorNode
-from .node.stu import STU
-from .node.sth import STH
-from .sensor import SensorConfiguration
+from icotronic.can.sensor import SensorConfiguration
+from icotronic.can.node.sensor import SensorNode
+from icotronic.can.node.stu import STU
+from icotronic.can.node.sth import STH
