@@ -61,3 +61,12 @@ ADC
 
 .. autoclass:: ADCConfiguration
    :members:
+
+
+Sensor Configuration
+####################
+
+.. currentmodule:: icotronic.measurement.sensor
+
+.. autoclass:: SensorConfiguration
+   :members:
