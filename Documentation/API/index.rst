@@ -33,8 +33,8 @@ This documentation **describes the Python library API** (i.e. how to create prog
    :maxdepth: 2
    :caption: Contents:
 
-   usage-connection
-   usage-streaming
-   usage-aux
+   connection
+   streaming
+   auxiliary
    api
    examples
