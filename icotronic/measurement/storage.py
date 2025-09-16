@@ -26,6 +26,8 @@ from icotronic.can.adc import ADCConfiguration
 from icotronic.can.dataloss import calculate_dataloss_stats, MessageStats
 from icotronic.can.streaming import StreamingConfiguration, StreamingData
 
+from icotronic.measurement.data import MeasurementData
+
 # -- Functions ----------------------------------------------------------------
 
 
