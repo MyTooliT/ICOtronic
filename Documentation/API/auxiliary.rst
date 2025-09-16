@@ -142,9 +142,8 @@ The method expects a :class:`SensorConfiguration` object as parameter. The follo
 .. code-block::
 
    from asyncio import run
-   from icotronic.can import Connection
+   from icotronic.can import Connection, SensorConfiguration
    from icotronic.can.error import UnsupportedFeatureException
-   from icotronic.measurement import SensorConfiguration
 
    async def set_sensor_configuration(identifier):
        async with Connection() as stu:

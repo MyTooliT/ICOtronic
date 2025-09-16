@@ -4,10 +4,11 @@
 
 from unittest import main as unittest_main
 
+from icotronic.can.sensor import SensorConfiguration
 from icotronic.can.streaming import StreamingConfiguration
 from icotronic.cmdline.commander import Commander
 from icotronic.config import settings
-from icotronic.measurement.sensor import guess_sensor, SensorConfiguration
+from icotronic.measurement.sensor import guess_sensor
 from icotronic.report.report import Report
 from icotronic.test.unit import ExtendedTestRunner
 from icotronic.test.production.node import BaseTestCases, TestAttribute

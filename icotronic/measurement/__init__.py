@@ -4,5 +4,4 @@
 
 from .acceleration import convert_raw_to_g, ratio_noise_max
 from .data import ChannelData, Conversion, DataPoint, MeasurementData
-from .sensor import SensorConfiguration
 from .storage import Storage, StorageData

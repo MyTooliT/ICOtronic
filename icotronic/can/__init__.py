@@ -19,3 +19,4 @@ from .streaming import (
 from .node.sensor import SensorNode
 from .node.stu import STU
 from .node.sth import STH
+from .sensor import SensorConfiguration
