@@ -126,9 +126,8 @@ class AsyncStreamBuffer(Listener):
             data[start : start + 2] for start in range(2, len(data) - 1, 2)
         )
 
-        values = [
-            float(int.from_bytes(word, byteorder="little"))
-            for word in data_bytes
+        values: list[float] = [
+            int.from_bytes(word, byteorder="little") for word in data_bytes
         ]
         assert len(values) == 2 or len(values) == 3
 
