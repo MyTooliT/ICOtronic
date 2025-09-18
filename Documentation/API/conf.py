@@ -23,7 +23,6 @@ extensions = [
     "sphinx_autodoc_typehints",
     "sphinx.ext.doctest",
     "sphinx_toggleprompt",
-    "sphinxjp.themes.basicstrap",
 ]
 
 # Run doctest from doctest directive, but not nested tests from autodoc code
