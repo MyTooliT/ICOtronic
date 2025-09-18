@@ -25,6 +25,10 @@ Nodes
 Streaming
 #########
 
+.. currentmodule:: icotronic.can.streaming
+
+.. autoclass:: AsyncStreamBuffer
+   :members: dataloss, reset_stats
 .. autoclass:: StreamingConfiguration
    :members:
 .. autoclass:: StreamingData
