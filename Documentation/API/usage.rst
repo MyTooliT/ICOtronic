@@ -163,6 +163,8 @@ While working directly with the class :class:`StreamingData` might make sense fo
 - work on data for a specific measurement channel, or
 - convert data values.
 
+.. currentmodule:: icotronic.measurement
+
 For that case you can use the class :class:`MeasurementData`. The example code below
 
 - collects data for all three measurement channels,
