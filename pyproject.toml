@@ -32,7 +32,6 @@ dependencies = [
 description = """Control and test software for sensory tool holders (STH), \
                  sensor milling heads (SMH) and stationary transceiver units \
                  (STU)"""
-dynamic = ["version"]
 keywords = [
     "smart-tool",
     "smh",
