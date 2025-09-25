@@ -414,36 +414,32 @@ class BaseTestCases:
 
         def _test_firmware_flash(
             self,
-            flash_location: str | Path,
-            programmmer_serial_number: int,
             chip: str,
+            flash_location: str | Path,
         ):
             """Upload bootloader and application into node
 
             Args:
 
-                flash_location:
-                    The location of the flash image
-
-                programmer_serial_number:
-                    The serial number of the programming board
-
                 chip:
                     The name of the chip that should be flashed
+
+                flash_location:
+                    The location of the flash image
 
             """
 
             image_filepath = Path(flash_location).expanduser().resolve()
             self.assertTrue(
-                image_filepath.is_file(),
+                image_filepath.exists(),
                 f"Firmware file {image_filepath} does not exist",
             )
-
-            commander = Commander(
-                serial_number=programmmer_serial_number, chip=chip
+            self.assertTrue(
+                image_filepath.is_file(),
+                f"Firmware file {image_filepath} is not a file",
             )
 
-            commander.upload_flash(image_filepath)
+            Commander().upload_flash(chip, image_filepath)
 
         async def _test_eeprom_product_data(self, config: DynaBox) -> None:
             """Test if reading and writing the product data EEPROM page works

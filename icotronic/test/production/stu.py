@@ -47,9 +47,6 @@ class TestSTU(BaseTestCases.TestNode):
 
         self._test_firmware_flash(
             flash_location=settings.stu.firmware.location.flash,
-            programmmer_serial_number=(
-                settings.stu.programming_board.serial_number
-            ),
             chip="BGM111A256V2",
         )
 

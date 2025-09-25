@@ -6,8 +6,6 @@
 # times. This has the advantage that we only have to update the value in
 # one place.
 
-# We assume that you use the same programming board for the STH (SHA) and STU.
-programming board number: &serial 440120910
 # We assume that you use the same CAN bitrate on Linux and Windows
 can bitrate: &bitrate 1000000
 
@@ -148,13 +146,6 @@ smh:
 
   # Product name for the  manufacturer (maximum of 128 byte UTF-8 encoded text)
   product name: "0"
-
-  programming board:
-    # Please store the serial number of the programming board that is connected
-    # to the SMH here. This number should be displayed in the right bottom
-    # corner of the LC display, after you connect the programmer to a power
-    # source.
-    serial number: *serial
 
   # Serial number for the manufacturer
   serial number: SMH
@@ -298,13 +289,6 @@ sth:
   # Product name for the  manufacturer (maximum of 64 byte UTF-8 encoded text)
   product name: "0"
 
-  programming board:
-    # Please store the serial number of the programming board that is connected
-    # to the STH here. This number should be displayed in the right bottom
-    # corner of the LC display, after you connect the programmer to a power
-    # source
-    serial number: *serial
-
   # Serial number for the manufacturer (maximum of 8 alphanumerical characters);
   # The STH test will rename the STH (from `STH` → `NAME`) to this value, if
   # you set the status (`STH` → `STATUS`) to `Epoxied`. Otherwise the test
@@ -355,13 +339,6 @@ stu:
 
   # Product name for the  manufacturer (maximum of 128 byte UTF-8 encoded text)
   product name: "0"
-
-  programming board:
-    # Please store the serial number of the programming board that is connected
-    # to the STU here. This number should be displayed in the right bottom
-    # corner of the LC display, after you connect the programmer to a power
-    # source
-    serial number: *serial
 
   # Serial number for the manufacturer (maximum of 32 byte UTF-8 encoded text)
   serial number: "0"

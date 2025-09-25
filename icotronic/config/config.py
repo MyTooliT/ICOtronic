@@ -184,7 +184,6 @@ class Settings(Dynaconf):
                 must_exist(
                     f"{name}.batch_number",
                     f"{name}.gtin",
-                    f"{name}.programming_board.serial_number",
                     is_type_of=int,
                 ),
                 must_exist(

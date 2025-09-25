@@ -16,8 +16,6 @@ dynaconf_merge: true
 
 # -- <Production Parameters> ---------------------------------------------------
 
-programming board serial number: &programmer_serial 440120910
-
 # Production date of node (SMH, STH, STU)
 production date: &production_date 2023-09-11
 
@@ -57,8 +55,6 @@ operator:
 
 smh:
   name: *holder_name
-  programming board:
-    serial number: *programmer_serial
   production date: *production_date
 
 sth:
@@ -70,12 +66,8 @@ sth:
   name: *holder_name
   production date: *production_date
   serial number: *holder_serial
-  programming board:
-    serial number: *programmer_serial
 
   status: *state
 
 stu:
   production date: *production_date
-  programming board:
-    serial number: *programmer_serial

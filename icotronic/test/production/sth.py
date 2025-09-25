@@ -176,9 +176,6 @@ class TestSTH(BaseTestCases.TestSensorNode):
 
         self._test_firmware_flash(
             flash_location=settings.sth.firmware.location.flash,
-            programmmer_serial_number=(
-                settings.sth.programming_board.serial_number
-            ),
             chip=chip,
         )
 

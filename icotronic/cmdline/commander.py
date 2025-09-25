@@ -35,33 +35,13 @@ class CommanderOutputMatchException(CommanderException):
 
 
 class Commander:
-    """Wrapper for the Simplicity Commander commandline tool
+    """Wrapper for the Simplicity Commander commandline tool"""
 
-    Args:
-
-        serial_number:
-            The serial number of the programming board that is connected to
-            the hardware
-
-        chip:
-            The identifier of the chip on the PCB e.g. “BGM121A256V2”
-
-    """
-
-    def __init__(self, serial_number: int, chip: str):
+    def __init__(self):
 
         self._add_path_to_environment()
-        self.identification_arguments = [
-            "--serialno",
-            f"{serial_number}",
-            "-d",
-            chip,
-        ]
+
         self.error_reasons = {
-            "incorrect serial": (
-                f"Serial number of programming board “{serial_number}”"
-                " incorrect"
-            ),
             "programmer not connected": (
                 "Programming board is not connected to computer"
             ),
@@ -81,9 +61,7 @@ class Commander:
 
             Check that adding the commander path to the environment works
 
-            >>> commander = Commander(
-            ...     serial_number=settings.sth.programming_board.serial_number,
-            ...     chip='BGM121A256V2')
+            >>> commander = Commander()
 
             >>> from subprocess import run
             >>> result = run("commander --version".split(),
@@ -223,50 +201,86 @@ class Commander:
 
             Enable debug mode of STH programming board
 
-            >>> commander = Commander(
-            ...     serial_number=settings.sth.programming_board.serial_number,
-            ...     chip='BGM121A256V2')
+            >>> commander = Commander()
             >>> commander.enable_debug_mode()
 
         """
 
-        error_reasons = ["programmer not connected", "incorrect serial"]
+        error_reasons = ["programmer not connected"]
         self._run_command(
-            command="adapter dbgmode OUT".split()
-            + self.identification_arguments,
+            command="adapter dbgmode OUT".split(),
             description="enable debug mode",
             possible_error_reasons=error_reasons,
             regex_output="Setting debug mode to OUT",
         )
 
-    def unlock_device(self) -> None:
+    def unlock_device(self, chip: str) -> None:
         """Unlock device for debugging
 
         Warning:
             Calling this method will erase the flash of the device!
 
+        Args:
+
+            chip:
+
+                The identifier of the chip on the PCB e.g. “BGM121A256V2”
+
         """
 
         self._run_command(
-            command="device unlock".split() + self.identification_arguments,
+            command="device unlock".split() + ["-d", f"{chip}"],
             description="unlock device",
             possible_error_reasons=[
                 "device not connected",
                 "programmer not connected",
-                "incorrect serial",
             ],
             regex_output="Chip successfully unlocked",
         )
 
-    def upload_flash(self, filepath: str | Path) -> None:
+    def upload_flash(self, chip: str, filepath: str | Path) -> None:
         """Upload code into the flash memory of the device
 
         Args:
 
+            chip:
+                The identifier of the chip on the PCB e.g. “BGM121A256V2”
+
             filepath:
                 The filepath of the flash image
 
+        Examples:
+
+            Trying to upload a non existent file causes an error
+
+            >>> commander = Commander()
+            >>> # We assume the following file does not exist on your machine
+            >>> filepath = "nothing here"
+            >>> commander.upload_flash("BGM121A256V2",
+            ...     filepath)  # doctest: +IGNORE_EXCEPTION_DETAIL
+            Traceback (most recent call last):
+               ...
+            CommanderException: Firmware file “nothing here” does not exist
+
+            Trying to upload a directory instead of a file results in an error
+
+            >>> commander.upload_flash("BGM121A256V2",
+            ...     Path.home()) # doctest: +IGNORE_EXCEPTION_DETAIL
+            Traceback (most recent call last):
+               ...
+            CommanderException: “...” is not a file
+
         """
+
+        firmware_filepath = Path(filepath)
+
+        if not firmware_filepath.exists():
+            raise CommanderException(
+                f"Firmware file “{filepath}” does not exist"
+            )
+
+        if not firmware_filepath.is_file():
+            raise CommanderException(f"“{filepath}” is not a file")
 
         # Set debug mode to out, to make sure we flash the STH (connected via
         # debug cable) and not another microcontroller connected to the
@@ -274,11 +288,17 @@ class Commander:
         self.enable_debug_mode()
 
         # Unlock device (triggers flash erase)
-        self.unlock_device()
+        self.unlock_device(chip)
 
         self._run_command(
-            command=["flash", f"{filepath}", "--address", "0x0"]
-            + self.identification_arguments,
+            command=[
+                "flash",
+                f"{firmware_filepath}",
+                "-d",
+                f"{chip}",
+                "--address",
+                "0x0",
+            ],
             description="upload firmware",
         )
 
@@ -302,9 +322,7 @@ class Commander:
 
             Measure power usage of connected STH
 
-            >>> commander = Commander(
-            ...     serial_number=settings.sth.programming_board.serial_number,
-            ...     chip='BGM121A256V2')
+            >>> commander = Commander()
             >>> commander.read_power_usage() > 0
             True
 
@@ -315,17 +333,14 @@ class Commander:
             "measure",
             "--windowlength",
             str(milliseconds),
-        ] + self.identification_arguments
+        ]
 
         regex = r"Power\s*\[mW\]\s*:\s*(?P<milliwatts>\d+\.\d+)"
         try:
             output = self._run_command(
                 command=command,
                 description="read power usage",
-                possible_error_reasons=[
-                    "programmer not connected",
-                    "incorrect serial",
-                ],
+                possible_error_reasons=["programmer not connected"],
                 regex_output=regex,
             )
         except CommanderOutputMatchException as error:

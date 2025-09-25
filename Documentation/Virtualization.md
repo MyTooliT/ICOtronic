@@ -306,29 +306,24 @@ Using ICOtronic in the WSL 2 currently [requires using a custom Linux kernel](ht
 5. Check if `commander` JLink connection works without using `sudo` (Linux Shell)
 
    ```sh
-   commander adapter dbgmode OUT --serialno <serialnumber>
+   commander adapter dbgmode OUT
    # Setting debug mode to OUT...
    # DONE
    ```
 
-   Notes:
-   - Please replace `<serialnumber>` with the serial number of your programming board (e.g. `440069950`):
+   Note:
 
-     ```sh
-     commander adapter dbgmode OUT --serialno 440069950
-     ```
+   If the command above [fails with the error message](https://stackoverflow.com/questions/55313610/importerror-libgl-so-1-cannot-open-shared-object-file-no-such-file-or-directo):
 
-   - If the command above [fails with the error message](https://stackoverflow.com/questions/55313610/importerror-libgl-so-1-cannot-open-shared-object-file-no-such-file-or-directo):
+   ```
+   error while loading shared libraries: libGL.so.1: cannot open shared object file…
+   ```
 
-     ```
-     error while loading shared libraries: libGL.so.1: cannot open shared object file…
-     ```
+   then you need to install `libgl1`:
 
-     then you need to install `libgl1`:
-
-     ```sh
-     sudo apt install -y libgl1
-     ```
+   ```sh
+   sudo apt install -y libgl1
+   ```
 
 ### Run Tests in WSL
 

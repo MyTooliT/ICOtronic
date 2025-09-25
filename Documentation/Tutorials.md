@@ -46,28 +46,21 @@ which will open the the user configuration in your default text editor. You can 
 
    If you never edited the configuration before, then the displayed text should be the same as in the file linked [here](https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/user.yaml).
 
-2. Change the **programming board serial number**, to the serial number of your programming board (shown on the bottom of the display):
-
-   ```yaml
-   # Use the programmer with serial number 440069950:
-   programming board serial number: &programmer_serial 440069950
-   ```
-
-3. Change the production date to the one of your PCB in [ISO date format](https://en.wikipedia.org/wiki/ISO_8601):
+2. Change the production date to the one of your PCB in [ISO date format](https://en.wikipedia.org/wiki/ISO_8601):
 
    ```yaml
    # Use the production date “February the 1st of the year 3456”
    production date: &production_date 3456-02-01
    ```
 
-4. Change the user name to the name of the person that runs the test:
+3. Change the user name to the name of the person that runs the test:
 
    ```yaml
    # Use “Jane Doe” as name for the test operator
    user name: &username Jane Doe
    ```
 
-5. Change the holder type (only relevant for the test report):
+4. Change the holder type (only relevant for the test report):
 
    ```yaml
    # Specify the holder type (the holder that contains the PCB)
@@ -75,14 +68,14 @@ which will open the the user configuration in your default text editor. You can 
    holder type: &holder_type D 10x130 HSK-A63
    ```
 
-6. Change the holder name (Bluetooth advertisement name) to the one of your sensor node. If your are not sure about the name you can use the [`icon`](#icon-cli-tool) command line tool to determine the name. The STH and SMH tests use this value to connect to the node.
+5. Change the holder name (Bluetooth advertisement name) to the one of your sensor node. If your are not sure about the name you can use the [`icon`](#icon-cli-tool) command line tool to determine the name. The STH and SMH tests use this value to connect to the node.
 
    ```yaml
    # Connect to the sensor node with the name “untested”
    holder name: &holder_name untested
    ```
 
-7. Update the serial number of the sensor node. The STH and SMH tests change the sensor node Bluetooth advertisement name to this value, after the EEPROM (part of the) test was executed, **if the state value is set to `Epoxied`**.
+6. Update the serial number of the sensor node. The STH and SMH tests change the sensor node Bluetooth advertisement name to this value, after the EEPROM (part of the) test was executed, **if the state value is set to `Epoxied`**.
 
    ```yaml
    # Use the value “tested” as sensor node name,
@@ -90,7 +83,7 @@ which will open the the user configuration in your default text editor. You can 
    holder serial number: &holder_serial tested
    ```
 
-8. Change the state value to
+7. Change the state value to
    - `Bare PCB`, if the **sensor node test** (SMH/STH test) should flash **the sensor node** or to
    - `Epoxied` if the test should not flash the sensor node.
 
@@ -389,17 +382,14 @@ The text below gives you a more detailed step-by-step guide on how to run the te
 
    As alternative to the steps above you can also change the variable `sth` → `firmware` → `location` → `flash` in the [configuration](#changing-configuration-values) to point to the firmware that should be used for the flash test.
 
-2. Make sure that [the configuration values](#changing-configuration-values) are set correctly. You probably need to change at least the following variables:
-   - **Name**: Please change the Bluetooth advertisement name (`sth` → `name` ) to the name of the STH you want to test.
-
-   - **Serial Number of Programming Board**: Please make sure, that the variable `sth` → `programming board` → `serial number` contains the serial number of the programming board connected to the STH. This serial number should be displayed on the bottom right of the LCD on the programming board.
+2. Make sure that [the configuration values](#changing-configuration-values) are set correctly. You probably need to change at least the Bluetooth advertisement name (`sth` → `name` ) to the name of the STH you want to test.
 
 3. Please open your favorite Terminal application and execute the STH test using the command `test-sth`. For more information about this command, please take a look at the section [“General”](#tutorials:section:general) above.
 
    Please note, that the test will rename the tested STH
    - to a [**Base64 encoded version of the Bluetooth MAC address**](#mac-address-conversion), if `sth` → `status` is set to `Bare PCB`, or
 
-   - to the **serial number** (`sth` → `programming board` → `serial number`), if you set the status to `Epoxied`.
+   - to the **serial number** (`sth` → `serial number`), if you set the status to `Epoxied`.
 
 ### SMH {#tutorials:section:smh}
 
@@ -407,7 +397,7 @@ The preparation steps for the SMH test are very similar to the ones of the [STH 
 
 1. Please make sure that the config value that stores the SMH firmware filepath (`smh` → `firmware` → `location` → `flash`) points to the correct firmware. If you have not downloaded a firmware image for the SMH you can do so [here](https://github.com/MyTooliT/STH/releases).
 
-2. Check that the [configuration values](#changing-configuration-values) like SMH name (`smh` → `name`) and programming board serial number (`smh` → `programming board` → `serial number`) are set correctly.
+2. Check that the [configuration values](#changing-configuration-values) such as the SMH name (`smh` → `name`) are set correctly.
 
 3. Please execute the test using the following command:
 

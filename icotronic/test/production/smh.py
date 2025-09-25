@@ -56,9 +56,6 @@ class TestSMH(BaseTestCases.TestSensorNode):
 
         self._test_firmware_flash(
             flash_location=settings.smh.firmware.location.flash,
-            programmmer_serial_number=(
-                settings.smh.programming_board.serial_number
-            ),
             chip="BGM121A256V2",
         )
 
@@ -158,10 +155,7 @@ class TestSMH(BaseTestCases.TestSensorNode):
     def test_power_usage_disconnected(self) -> None:
         """Check power usage in disconnected state"""
 
-        commander = Commander(
-            serial_number=settings.smh.programming_board.serial_number,
-            chip="BGM121A256V2",
-        )
+        commander = Commander()
 
         commander.enable_debug_mode()
         power_usage_mw = commander.read_power_usage()
