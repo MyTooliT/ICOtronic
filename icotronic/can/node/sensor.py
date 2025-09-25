@@ -1082,7 +1082,7 @@ class SensorNode(Node):
             ...         async with stu.connect_sensor_node(0) as sensor_node:
             ...             return await sensor_node.get_sensor_configuration()
             >>> config = run(
-            ...     read_sensor_config()) #doctest: +IGNORE_EXCEPTION_DETAIL
+            ...     read_sensor_config()) # doctest: +IGNORE_EXCEPTION_DETAIL
             Traceback (most recent call last):
                ...
             UnsupportedFeatureException: Reading sensor configuration is not
@@ -1145,7 +1145,7 @@ class SensorNode(Node):
             ...                 SensorConfiguration(
             ...                     first=0, second=0, third=0))
             >>> config = run(
-            ...     set_sensor_config()) #doctest: +IGNORE_EXCEPTION_DETAIL
+            ...     set_sensor_config()) # doctest: +IGNORE_EXCEPTION_DETAIL
             Traceback (most recent call last):
                ...
             UnsupportedFeatureException: Writing sensor configuration is not
