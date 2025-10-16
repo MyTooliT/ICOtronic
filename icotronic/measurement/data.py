@@ -152,6 +152,13 @@ class Conversion:
 
             The conversion function for the third channel
 
+    Examples:
+
+        Create a conversion object that doubles values of the first channel
+
+        >>> double = lambda value: value * 2
+        >>> conversion = Conversion(second=double)
+
     """
 
     def __init__(
