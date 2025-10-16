@@ -36,6 +36,15 @@ endif
 
 run: check test
 
+
+# =========
+# = Setup =
+# =========
+
+.PHONY: setup
+setup:
+	poetry lock && poetry install --all-extras
+
 # =========
 # = Tests =
 # =========
