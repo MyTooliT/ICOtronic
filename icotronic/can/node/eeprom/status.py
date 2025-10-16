@@ -69,6 +69,44 @@ class EEPROMStatus:
 
         self.value = status
 
+    def __eq__(self, other: object) -> bool:
+        """Compare this EEPROM status to another object
+
+        Args:
+
+            other:
+
+                The other object the status should be compared to
+
+        Returns:
+
+            - ``True``, if the given object is a EEPROM status and it has the
+              same value as this state
+
+            - ``False``, otherwise
+
+        Examples:
+
+            Compare some example EEPROM status objects
+
+            >>> initialized = EEPROMStatus('Initialized')
+            >>> locked = EEPROMStatus('Locked')
+
+            >>> initialized == EEPROMStatus('Initialized')
+            True
+            >>> locked == EEPROMStatus(0xCA)
+            True
+            >>> locked == initialized
+            False
+
+
+        """
+
+        if isinstance(other, EEPROMStatus):
+            return self.value == other.value
+
+        return False
+
     def __repr__(self) -> str:
         """Return the string representation of the status byte
 
