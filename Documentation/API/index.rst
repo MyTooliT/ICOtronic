@@ -8,7 +8,7 @@ Purpose
 
 The ICOtronic package contains
 
-- a set of command line tools (`icon`_, `test-sth`_, …) and
+- a set of command line tools (|icon|_, |test-sth|_, …) and
 - a `Python library`_
 
 .. |icon| replace:: ``icon``
