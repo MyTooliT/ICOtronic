@@ -210,8 +210,8 @@ class Node:
             ...     async with Connection() as stu:
             ...         return await stu.get_hardware_version()
             >>> hardware_version = run(read_hardware_version())
-            >>> hardware_version.major
-            1
+            >>> 1 <= hardware_version.major <= 2
+            True
 
         """
 
