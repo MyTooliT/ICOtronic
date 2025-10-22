@@ -139,41 +139,6 @@ On macOS you can use the [PCBUSB](https://github.com/mac-can/PCBUSB-Library) lib
 
 You can find the download link for the PCAN Windows driver [here](https://www.peak-system.com/quick/DrvSetup). Please make sure that you include the “PCAN-Basic API” when you install the software.
 
-#### Simplicity Commander (Optional)
-
-For the [production tests](tutorials:section:production-tests) that require a firmware flash you need to **either** install
-
-- [Simplicity Studio](https://www.silabs.com/products/development-tools/software/simplicity-studio) or
-- [Simplicity Commander](https://www.silabs.com/developers/mcu-programming-options).
-
-If you choose the first option, then please make sure to install the Simplicity Commander tool inside Simplicity Studio.
-
-##### Linux
-
-Please add the path to `commander` to the list `commands` → `path` → `linux` in the [configuration](#changing-configuration-values).
-
-##### macOS
-
-If you install Simplicity Studio or Simplicity Commander in the standard install path (`/Applications`) you do not need to change the config. If you put the application in a different directory, then please add the path to `commander` to the list `commands` → `path` → `mac` in the [configuration](#changing-configuration-values).
-
-##### Windows
-
-- If you installed Simplicity Studio (including Simplicity Studio) to the standard location, then you do not need to change the configuration.
-
-- If you download Simplicity Commander directly, then the tests assume that you unzipped the files into the directory `C:\SiliconLabs\Simplicity Commander` or `C:\Program Files\Simplicity Commander`.
-
-- If you did not use any of the standard install path, then please add the path to `commander.exe` to the list `commands` → `path` → `windows` in the [configuration](#changing-configuration-values).
-
-> **Notes:**
->
-> - You also need to install **[J-Link](https://www.segger.com/downloads/jlink/)** for Simplicity Commander to work with a USB programmer.
-> - If your device does not show up in Simplicity Commander and only appears as **USB BULK device in the Windows device manager**, then please [follow the steps described in the Segger Knowledge Base](https://kb.segger.com/J-Link_shown_as_generic_BULK_device_in_Windows).
-
-##### Additional Notes
-
-- If you **do not want to change the config**, and Simplicity Commander (`commander`) is not part of the standard search locations for your operating system, then please make sure that `commander` is accessible via the `PATH` environment variable.
-- Please note, that you **do not need to install Simplicity Commander** if you just want to **collect data** with the ICOtronic library.
-
 ## Install
 
 Please use the following command:
