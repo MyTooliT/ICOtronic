@@ -387,7 +387,7 @@ The text below gives you a more detailed step-by-step guide on how to run the te
 3. Please open your favorite Terminal application and execute the STH test using the command `test-sth`. For more information about this command, please take a look at the section [“General”](#tutorials:section:general) above.
 
    Please note, that the test will rename the tested STH
-   - to a [**Base64 encoded version of the Bluetooth MAC address**](#mac-address-conversion), if `sth` → `status` is set to `Bare PCB`, or
+   - to a **Base64 encoded version of the Bluetooth MAC address**, if `sth` → `status` is set to `Bare PCB`, or
 
    - to the **serial number** (`sth` → `serial number`), if you set the status to `Epoxied`.
 

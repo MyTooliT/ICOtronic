@@ -147,7 +147,7 @@ Please use the following command:
 pip install icotronic
 ```
 
-to install the [latest official version of the ICOtronic library from PyPi](https://pypi.org/project/icotronic). Afterwards you can use the various [scripts](#scripts:section:scripts) included in the package.
+to install the [latest official version of the ICOtronic library from PyPi](https://pypi.org/project/icotronic).
 
 ### Install the Package Using Windows Terminal
 
@@ -174,7 +174,7 @@ pip install 'git+https://github.com/MyTooliT/ICOtronic'
 
 #### Import Errors
 
-If [one of the scripts](#scripts:section:scripts) fails with an error message that looks similar to the following text on Windows:
+If [`icon`](#icon-cli-tool) fails with an error message that looks similar to the following text on Windows:
 
 ```
 Traceback (most recent call last):
@@ -222,7 +222,7 @@ pip install --no-cache-dir tables
 
 #### HDF5 Library Not Loaded
 
-Some of the [ICOtronic scripts](#scripts:section:scripts) might fail with an error message that looks like this on macOS:
+If [`icon`](#icon-cli-tool) fails with an error message that looks like this on macOS:
 
 > `Library not loaded: /opt/homebrew/opt/hdf5/lib/libhdf5.….dylib`
 
@@ -230,7 +230,7 @@ In that case you might have installed an outdated cached version of [PyTables](h
 
 #### Unable to open OpenBLAS library
 
-If one of the [ICOtronic scripts](#scripts:section:scripts) fails with the error message:
+If [`icon`](#icon-cli-tool) fails with the error message:
 
 > ImportError: libopenblas.so.0: cannot open shared object file: No such file or directory
 
