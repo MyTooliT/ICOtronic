@@ -88,6 +88,7 @@ ignore = [
 per-file-ignores = "__init__.py:F401"
 exclude = [
   ".git",
+  ".venv",
   "__pycache__",
   "._*",
   "Documentation",
@@ -95,6 +96,9 @@ exclude = [
 
 [tool.mypy]
 ignore_missing_imports = true
+
+[tool.pylint]
+ignore-paths = [ ".venv/.*$" ]
 
 [tool.pytest.ini_options]
 # - Use doctests
