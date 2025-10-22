@@ -5,10 +5,8 @@ Currently the configuration is mainly used in the hardware (production tests).
 
 # -- Import -------------------------------------------------------------------
 
-from datetime import date, datetime
-from functools import partial
+from datetime import datetime
 from importlib.resources import as_file, files
-from numbers import Real
 from os import makedirs
 from pathlib import Path
 from platform import system
@@ -155,98 +153,6 @@ class Settings(Dynaconf):
 
             return Validator(*arguments, must_exist=True, **keyword_arguments)
 
-        def element_is_type(
-            nodes,
-            name: str,
-            element_type: type,
-        ):
-            """Check that all elements of a list have a certain type"""
-            if nodes is None:
-                return True  # Let parent validator handle wrong type
-
-            for node in nodes:
-                if not isinstance(node, element_type):
-                    raise ValidationError(
-                        f"Element “{node}” of {name} has wrong type "
-                        f"“{type(node)}” instead of “{element_type}”"
-                    )
-            return True
-
-        def element_is_string(nodes, name: str):
-            """Check that all elements of a list are strings"""
-            return element_is_type(nodes, name, element_type=str)
-
-        def element_is_int(nodes, name: str):
-            """Check that all elements of a list are ints"""
-            return element_is_type(nodes, name, element_type=int)
-
-        def node_validators(name: str):
-            """Return shared validator for ICOtronic node (STH, STU, SMH)"""
-
-            return [
-                must_exist(
-                    f"{name}.batch_number",
-                    f"{name}.gtin",
-                    is_type_of=int,
-                ),
-                must_exist(
-                    f"{name}.firmware.location.flash",
-                    f"{name}.firmware.release_name",
-                    f"{name}.hardware_version",
-                    is_type_of=str,
-                ),
-                must_exist(
-                    f"{name}.oem_data",
-                    is_type_of=list,
-                    condition=partial(element_is_int, name="{name}.oem_data"),
-                ),
-                must_exist(
-                    f"{name}.production_date",
-                    is_type_of=date,
-                ),
-                must_exist(
-                    f"{name}.product_name",
-                    is_type_of=str,
-                    len_max=128,
-                    cast=str,
-                ),
-                must_exist(
-                    f"{name}.serial_number",
-                    is_type_of=str,
-                    len_max=8,
-                    cast=str,
-                ),
-            ]
-
-        def sensor_node_validators(name: str):
-            """Return shared validator for STH or SMH"""
-
-            return node_validators(name) + [
-                must_exist(
-                    f"{name}.name",
-                    is_type_of=str,
-                ),
-            ]
-
-        def sensor_validators(name: str):
-            prefix = "sth.acceleration_sensor"
-            return [
-                must_exist(
-                    f"{prefix}.{name}.acceleration.maximum",
-                    f"{prefix}.{name}.acceleration.ratio_noise_to_max_value",
-                    f"{prefix}.{name}.acceleration.tolerance",
-                    f"{prefix}.{name}.reference_voltage",
-                    f"{prefix}.{name}.self_test.voltage.difference",
-                    f"{prefix}.{name}.self_test.voltage.tolerance",
-                    is_type_of=Real,
-                ),
-                must_exist(
-                    f"{prefix}.{name}.self_test.dimension",
-                    is_type_of=str,
-                    is_in=("x", "y", "z"),
-                ),
-            ]
-
         config_system = "mac" if system() == "Darwin" else system().lower()
         can_validators = [
             must_exist(f"can.{config_system}.bitrate", is_type_of=int),
@@ -254,27 +160,6 @@ class Settings(Dynaconf):
                 f"can.{config_system}.channel",
                 f"can.{config_system}.interface",
                 is_type_of=str,
-            ),
-        ]
-        commands_validators = [
-            must_exist(
-                "commands.path.linux",
-                is_type_of=list,
-                condition=partial(
-                    element_is_string, name="commands.path.linux"
-                ),
-            ),
-            must_exist(
-                "commands.path.mac",
-                is_type_of=list,
-                condition=partial(element_is_string, name="commands.path.mac"),
-            ),
-            must_exist(
-                "commands.path.windows",
-                is_type_of=list,
-                condition=partial(
-                    element_is_string, name="commands.path.windows"
-                ),
             ),
         ]
         logger_validators = [
@@ -298,61 +183,8 @@ class Settings(Dynaconf):
                 is_type_of=str,
             ),
         ]
-        operator_validators = [must_exist("operator.name", is_type_of=str)]
-        general_sensor_node_validators = [
-            must_exist(
-                "sensor_node.bluetooth.advertisement_time_1",
-                "sensor_node.bluetooth.advertisement_time_2",
-                "sensor_node.bluetooth.sleep_time_1",
-                "sensor_node.bluetooth.sleep_time_2",
-                is_type_of=int,
-            )
-        ]
-        smh_validators = sensor_node_validators("smh") + [
-            must_exist(
-                "smh.channels",
-                is_type_of=int,
-            )
-        ]
-        sth_validators = (
-            sensor_node_validators("sth")
-            + sensor_validators("ADXL1001")
-            + sensor_validators("ADXL1002")
-            + sensor_validators("ADXL356")
-        ) + [
-            must_exist(
-                "sth.acceleration_sensor.sensor",
-                is_in=(
-                    "ADXL1001",
-                    "ADXL1002",
-                    "ADXL356",
-                ),
-            ),
-            must_exist(
-                "sth.battery_voltage.average",
-                "sth.battery_voltage.tolerance",
-                is_type_of=Real,
-            ),
-            must_exist(
-                "sth.status",
-                is_in=(
-                    "Bare PCB",
-                    "Epoxied",
-                ),
-            ),
-        ]
-        stu_validators = node_validators("stu")
-
         self.validators.register(
-            *can_validators,
-            *commands_validators,
-            *logger_validators,
-            *measurement_validators,
-            *operator_validators,
-            *general_sensor_node_validators,
-            *smh_validators,
-            *sth_validators,
-            *stu_validators,
+            *can_validators, *logger_validators, *measurement_validators
         )
 
         try:
@@ -370,19 +202,6 @@ class Settings(Dynaconf):
             ) from error
 
     # pylint: enable=too-many-locals
-
-    def acceleration_sensor(self):
-        """Get the settings for the current acceleration sensor
-
-        Returns:
-
-            A configuration object for the currently selected accelerometer
-            sensor
-
-        """
-
-        sensor_settings = self.sth.acceleration_sensor
-        return sensor_settings[sensor_settings.sensor]
 
     def output_directory(self) -> Path:
         """Get the HDF output directory
