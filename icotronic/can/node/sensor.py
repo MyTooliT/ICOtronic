@@ -35,7 +35,6 @@ from icotronic.can.streaming import (
     StreamingFormatVoltage,
 )
 from icotronic.can.node.spu import SPU
-from icotronic.config import settings
 from icotronic.can.sensor import SensorConfiguration
 from icotronic.measurement.voltage import convert_raw_to_supply_voltage
 from icotronic.test.misc import skip_hardware_tests_ci
@@ -385,9 +384,7 @@ class SensorNode(Node):
 
         return Times(sleep=wait_time, advertisement=advertisement_time)
 
-    async def set_energy_mode_reduced(
-        self, times: Times | None = None
-    ) -> None:
+    async def set_energy_mode_reduced(self, times: Times) -> None:
         """Writes the time values for the reduced energy mode (mode 1)
 
         See also:
@@ -401,9 +398,6 @@ class SensorNode(Node):
                 mode in milliseconds and the time until the node will go into
                 the low energy mode (mode 1) from the disconnected state – if
                 there is no activity – in milliseconds.
-
-                If you do not specify these values then the default values
-                from the configuration will be used
 
         Examples:
 
@@ -423,9 +417,7 @@ class SensorNode(Node):
             ...                       advertisement=advertisement))
             ...             times = await sensor_node.get_energy_mode_reduced()
             ...
-            ...             # Overwrite changed values with default config
-            ...             # values
-            ...             await sensor_node.set_energy_mode_reduced()
+            ...             await sensor_node.set_energy_mode_reduced(times)
             ...
             ...             return times
             >>> times = run(read_write_energy_mode_reduced(200_000, 2000))
@@ -435,13 +427,6 @@ class SensorNode(Node):
             2000
 
         """
-
-        if times is None:
-            time_settings = settings.sensor_node.bluetooth
-            times = Times(
-                sleep=time_settings.sleep_time_1,
-                advertisement=time_settings.advertisement_time_1,
-            )
 
         sleep_time = times.sleep
         advertisement_time = round(
@@ -513,7 +498,7 @@ class SensorNode(Node):
 
         return Times(sleep=wait_time, advertisement=advertisement_time)
 
-    async def set_energy_mode_lowest(self, times: Times | None = None) -> None:
+    async def set_energy_mode_lowest(self, times: Times) -> None:
         """Writes the time values for the lowest energy mode (mode 2)
 
         See also:
@@ -527,9 +512,6 @@ class SensorNode(Node):
                 mode in milliseconds and the time until the node will go into
                 the lowest energy mode (mode 2) from the reduced energy mode
                 (mode 1) – if there is no activity – in milliseconds.
-
-                If you do not specify these values then the default values
-                from the configuration will be used
 
         Examples:
 
@@ -549,9 +531,7 @@ class SensorNode(Node):
             ...                       advertisement=advertisement))
             ...             times = await sensor_node.get_energy_mode_lowest()
             ...
-            ...             # Overwrite changed values with default config
-            ...             # values
-            ...             await sensor_node.set_energy_mode_lowest()
+            ...             await sensor_node.set_energy_mode_lowest(times)
             ...
             ...             return times
             >>> times = run(read_write_energy_mode_lowest(200_000, 2000))
@@ -561,13 +541,6 @@ class SensorNode(Node):
             2000
 
         """
-
-        if times is None:
-            time_settings = settings.sensor_node.bluetooth
-            times = Times(
-                sleep=time_settings.sleep_time_2,
-                advertisement=time_settings.advertisement_time_2,
-            )
 
         sleep_time = times.sleep
         advertisement_time = round(
