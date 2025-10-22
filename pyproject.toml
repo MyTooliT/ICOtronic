@@ -28,7 +28,7 @@ dependencies = [
   "semantic_version>=2.10,<3",
   "universal-startfile>=0.4",
 ]
-description = """Control and test software for sensory tool holders (STH), \
+description = """Control software for sensory tool holders (STH), \
                  sensor milling heads (SMH) and stationary transceiver units \
                  (STU)"""
 keywords = [
