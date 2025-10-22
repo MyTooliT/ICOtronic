@@ -1,8 +1,6 @@
 # -- Variables -----------------------------------------------------------------
 
 MODULE := icotronic
-STH_TEST := $(MODULE)/test/production/sth.py
-STU_TEST := $(MODULE)/test/production/stu.py
 
 BOOKDOWN_DIRECTORY := Bookdown
 SPHINX_DIRECTORY := Sphinx
@@ -56,7 +54,8 @@ check:
 	poetry run pylint .
 
 .PHONY: test
-test: pytest-test hardware-test coverage
+test: pytest-test
+	poetry run coverage report
 test-no-hardware: pytest-test-no-hardware
 
 # ----------
@@ -75,40 +74,6 @@ pytest-test-no-hardware:
 	                  --ignore-glob='*store_data.t' \
 	                  --ignore-glob='*measure.t' \
 	                  --ignore='Documentation'
-
-# ------------------
-# - Hardware Tests -
-# ------------------
-
-hardware-test: run-hardware-test open-test-report-$(OPERATING_SYSTEM)
-
-run-hardware-test:
-	poetry run coverage run -a $(STH_TEST) -v
-	poetry run coverage run -a $(STU_TEST) -v -k eeprom -k connection
-
-open-test-report-windows:
-	@powershell -c "Invoke-Item (Join-Path $$PWD 'STH Test.pdf')"
-	@powershell -c "Invoke-Item (Join-Path $$PWD 'STU Test.pdf')"
-
-open-test-report-mac:
-	@open 'STH Test.pdf' 'STU Test.pdf'
-
-open-test-report-linux:
-	@if [ -z "$(DISPLAY)" ]; \
-	then \
-	  printf "Please check the files “STH Test.pdf” and “STU Test.pdf”\n"; \
-	else \
-	  xdg-open 'STH Test.pdf'; \
-	  xdg-open 'STU Test.pdf'; \
-	fi
-
-# ------------
-# - Coverage -
-# ------------
-
-.PHONY: coverage
-coverage:
-	poetry run coverage report
 
 # =================
 # = Documentation =
