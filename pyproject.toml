@@ -64,12 +64,6 @@ dev = [
 
 [project.scripts]
 icon = "icotronic.scripts.icon:main"
-check-eeprom = "icotronic.scripts.eeprom:main"
-test-smh = "icotronic.test.production.smh:main"
-test-sth = "icotronic.test.production.sth:main"
-test-stu = "icotronic.test.production.stu:main"
-convert-base64-mac = "icotronic.scripts.name:main"
-convert-mac-base64 = "icotronic.scripts.mac:main"
 
 [project.urls]
 Documentation = "https://mytoolit.github.io/ICOtronic/"
