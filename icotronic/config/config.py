@@ -384,17 +384,6 @@ class Settings(Dynaconf):
         sensor_settings = self.sth.acceleration_sensor
         return sensor_settings[sensor_settings.sensor]
 
-    def sth_name(self) -> str:
-        """Return the current name of the STH as string
-
-        Returns:
-
-            The name of the STH
-
-        """
-
-        return str(self.sth.name)
-
     def output_directory(self) -> Path:
         """Get the HDF output directory
 
