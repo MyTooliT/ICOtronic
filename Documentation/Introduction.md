@@ -6,21 +6,11 @@ description: Library and scripts for the ICOtronic system
 
 # Introduction
 
-ICOtronic is a
+ICOtronic is a [Python library](https://pypi.org/project/icotronic) (based on [`python-can`](https://pypi.org/project/python-can/))
+for the [ICOtronic system](https://www.mytoolit.com/ICOtronic/). The main purpose of the software is **data collection**:
 
-- [Python library](https://pypi.org/project/icotronic) (based on [`python-can`](https://pypi.org/project/python-can/)) and
-- a collection of tools and scripts
-
-for the [ICOtronic system](https://www.mytoolit.com/ICOtronic/). Currently the main purpose of the software is:
-
-- **Data collection**
-  - directly [via the API][API] or
-  - the script [`icon`](#icon-cli-tool)
-- **Testing** the functionality of
-  - a [Stationary Transceiver Unit (STU)](#tutorials:section:stu) or
-  - a sensor node, such as a
-    - [Sensory Holder Assembly (SHA)/Sensory Tool Holder (STH)](#tutorials:section:sth) or
-    - [Sensory Milling Head (SMH)](#tutorials:section:smh)
+- directly [via the API][API] or
+- the script [`icon`](#icon-cli-tool)
 
 [API]: https://icotronic.readthedocs.io
 

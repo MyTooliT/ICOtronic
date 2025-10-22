@@ -2,7 +2,7 @@
 
 # ICOtronic
 
-This repository contains data collection and test software for the [ICOtronic system](https://www.mytoolit.com/ICOtronic/). For more information, please take a look [at the online documentation](https://mytoolit.github.io/ICOtronic/).
+This repository contains a data collection library for the [ICOtronic system](https://www.mytoolit.com/ICOtronic/). For more information, please take a look [at the online documentation](https://mytoolit.github.io/ICOtronic/).
 
 ## Documentation
 
