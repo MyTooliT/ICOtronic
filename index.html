@@ -160,11 +160,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path=""><a href="#tutorials"><i class="fa fa-check"></i><b>3</b> Tutorials</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path=""><a href="#changing-configuration-values"><i class="fa fa-check"></i><b>3.1</b> Changing Configuration Values</a>
-<ul>
-<li class="chapter" data-level="3.1.1" data-path=""><a href="#adding-the-path-to-simplicity-commander-on-linux"><i class="fa fa-check"></i><b>3.1.1</b> Adding the Path to Simplicity Commander on Linux</a></li>
-<li class="chapter" data-level="3.1.2" data-path=""><a href="#setting-up-the-test-environment"><i class="fa fa-check"></i><b>3.1.2</b> Setting up the Test Environment</a></li>
-</ul></li>
+<li class="chapter" data-level="3.1" data-path=""><a href="#changing-configuration-values"><i class="fa fa-check"></i><b>3.1</b> Changing Configuration Values</a></li>
 <li class="chapter" data-level="3.2" data-path=""><a href="#icon-cli-tool"><i class="fa fa-check"></i><b>3.2</b> ICOn CLI Tool</a>
 <ul>
 <li class="chapter" data-level="3.2.1" data-path=""><a href="#help"><i class="fa fa-check"></i><b>3.2.1</b> Help</a></li>
@@ -173,14 +169,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.4" data-path=""><a href="#tutorials:section:sth-renaming"><i class="fa fa-check"></i><b>3.2.4</b> Renaming a Sensor Node</a></li>
 <li class="chapter" data-level="3.2.5" data-path=""><a href="#opening-the-user-configuration"><i class="fa fa-check"></i><b>3.2.5</b> Opening the User Configuration</a></li>
 <li class="chapter" data-level="3.2.6" data-path=""><a href="#stu-commands"><i class="fa fa-check"></i><b>3.2.6</b> STU Commands</a></li>
-</ul></li>
-<li class="chapter" data-level="3.3" data-path=""><a href="#tutorials:section:production-tests"><i class="fa fa-check"></i><b>3.3</b> Production Tests</a>
-<ul>
-<li class="chapter" data-level="3.3.1" data-path=""><a href="#tutorials:section:general"><i class="fa fa-check"></i><b>3.3.1</b> General</a></li>
-<li class="chapter" data-level="3.3.2" data-path=""><a href="#tutorials:section:sth"><i class="fa fa-check"></i><b>3.3.2</b> STH</a></li>
-<li class="chapter" data-level="3.3.3" data-path=""><a href="#tutorials:section:smh"><i class="fa fa-check"></i><b>3.3.3</b> SMH</a></li>
-<li class="chapter" data-level="3.3.4" data-path=""><a href="#tutorials:section:stu"><i class="fa fa-check"></i><b>3.3.4</b> STU</a></li>
-<li class="chapter" data-level="3.3.5" data-path=""><a href="#firmware-versions"><i class="fa fa-check"></i><b>3.3.5</b> Firmware Versions</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path=""><a href="#code-examples"><i class="fa fa-check"></i><b>4</b> Code Examples</a></li>
@@ -594,88 +582,40 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <p>All configuration options are currently stored in <a href="https://yaml.org">YAML</a> files (handled by the configuration library <a href="https://www.dynaconf.com">Dynaconf</a>). The <a href="https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml">default values</a> are stored inside the package itself. If you want to overwrite or extend these values you should create a user configuration file. To do that you can use the command:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="ex">icon</span> config</span></code></pre></div>
 <p>which will open the the user configuration in your default text editor. You can then edit this file and save your changes to update the configuration. For a list of available options, please take a look at the <a href="https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml">default configuration</a>. Please make sure to not make any mistakes when you edit this file. Otherwise (parts of) the ICOtronic commands will not work, printing an error message about the (first) incorrect configuration value.</p>
-<div id="adding-the-path-to-simplicity-commander-on-linux" class="section level3 hasAnchor" number="3.1.1">
-<h3><span class="header-section-number">3.1.1</span> Adding the Path to Simplicity Commander on Linux<a href="#adding-the-path-to-simplicity-commander-on-linux" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<ol style="list-style-type: decimal">
-<li><p>Open the user configuration file in your default text editor using the command line tool <code>icon</code>:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="ex">icon</span> config</span></code></pre></div></li>
-<li><p>Add the path to Simplicity commander (e.g. <code>/opt/Simplicity Commander/commander/</code>) to the list <code>commands</code> → <code>path</code> → <code>linux</code>:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">commands</span><span class="kw">:</span></span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="at">  </span><span class="fu">path</span><span class="kw">:</span></span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="at">    </span><span class="fu">linux</span><span class="kw">:</span></span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> /opt/Simplicity Commander/commander/</span></span></code></pre></div>
-<blockquote>
-<p><strong>Note:</strong> Keys (such as <code>commands</code>, <code>path</code> and <code>linux</code>) in the example above are case-insensitive in <a href="https://www.dynaconf.com">Dynaconf</a>, e.g. it does not matter if you use <code>commands</code> or <code>COMMANDS</code> in the example above.</p>
-</blockquote></li>
-<li><p>Store the modified configuration file</p></li>
-</ol>
-</div>
-<div id="setting-up-the-test-environment" class="section level3 hasAnchor" number="3.1.2">
-<h3><span class="header-section-number">3.1.2</span> Setting up the Test Environment<a href="#setting-up-the-test-environment" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<ol style="list-style-type: decimal">
-<li><p>Open the user configuration in your default text editor:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="ex">icon</span> config</span></code></pre></div>
-<p>If you never edited the configuration before, then the displayed text should be the same as in the file linked <a href="https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/user.yaml">here</a>.</p></li>
-<li><p>Change the production date to the one of your PCB in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO date format</a>:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># Use the production date “February the 1st of the year 3456”</span></span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">production date</span><span class="kw">:</span><span class="at"> </span><span class="ot">&amp;production_date</span><span class="at"> 3456-02-01</span></span></code></pre></div></li>
-<li><p>Change the user name to the name of the person that runs the test:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># Use “Jane Doe” as name for the test operator</span></span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">user name</span><span class="kw">:</span><span class="at"> </span><span class="ot">&amp;username</span><span class="at"> Jane Doe</span></span></code></pre></div></li>
-<li><p>Change the holder type (only relevant for the test report):</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co"># Specify the holder type (the holder that contains the PCB)</span></span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="co"># as “D 10x130 HSK-A63”</span></span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="fu">holder type</span><span class="kw">:</span><span class="at"> </span><span class="ot">&amp;holder_type</span><span class="at"> D 10x130 HSK-A63</span></span></code></pre></div></li>
-<li><p>Change the holder name (Bluetooth advertisement name) to the one of your sensor node. If your are not sure about the name you can use the <a href="#icon-cli-tool"><code>icon</code></a> command line tool to determine the name. The STH and SMH tests use this value to connect to the node.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co"># Connect to the sensor node with the name “untested”</span></span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="fu">holder name</span><span class="kw">:</span><span class="at"> </span><span class="ot">&amp;holder_name</span><span class="at"> untested</span></span></code></pre></div></li>
-<li><p>Update the serial number of the sensor node. The STH and SMH tests change the sensor node Bluetooth advertisement name to this value, after the EEPROM (part of the) test was executed, <strong>if the state value is set to <code>Epoxied</code></strong>.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co"># Use the value “tested” as sensor node name,</span></span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="co"># after the EEPROM test (succeeded)</span></span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="fu">holder serial number</span><span class="kw">:</span><span class="at"> </span><span class="ot">&amp;holder_serial</span><span class="at"> tested</span></span></code></pre></div></li>
-<li><p>Change the state value to</p>
-<ul>
-<li><code>Bare PCB</code>, if the <strong>sensor node test</strong> (SMH/STH test) should flash <strong>the sensor node</strong> or to</li>
-<li><code>Epoxied</code> if the test should not flash the sensor node.</li>
-</ul>
-<div class="sourceCode" id="cb30"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co"># Do not flash the chip in the SMH/STH test</span></span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="ot">&amp;state</span><span class="at"> Epoxied</span></span></code></pre></div></li>
-</ol>
-</div>
 </div>
 <div id="icon-cli-tool" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> ICOn CLI Tool<a href="#icon-cli-tool" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="help" class="section level3 hasAnchor" number="3.2.1">
 <h3><span class="header-section-number">3.2.1</span> Help<a href="#help" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To show the available subcommands and options of <code>icon</code> you can use the option <code>-h</code> or <code>--help</code>:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="ex">icon</span> <span class="at">-h</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="ex">icon</span> <span class="at">-h</span></span></code></pre></div>
 <p>To show the available options for a certain subcommand add the subcommand before the option. For example, to show the help text for the subcommand <code>measure</code> you can use the following command:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-h</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-h</span></span></code></pre></div>
 </div>
 <div id="listing-available-sensor-nodes" class="section level3 hasAnchor" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> Listing Available Sensor Nodes<a href="#listing-available-sensor-nodes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To print a list of all available sensor nodes, including their identifiers (name, MAC address, node number), please use the subcommand <code>list</code>:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="ex">icon</span> list</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="ex">icon</span> list</span></code></pre></div>
 </div>
 <div id="collecting-measurement-data" class="section level3 hasAnchor" number="3.2.3">
 <h3><span class="header-section-number">3.2.3</span> Collecting Measurement Data<a href="#collecting-measurement-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To collect and store measurement data from an STH you can uses the subcommand <code>measure</code>:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="ex">icon</span> measure</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="ex">icon</span> measure</span></code></pre></div>
 <p>By default the command will collect streaming data for 10 seconds for the first measurement channel and store the data in a file starting with the name <code>Measurement</code> and the extension <code>.hdf5</code> in the current working directory.</p>
 <div id="specifying-the-sensor-hardware" class="section level4 hasAnchor" number="3.2.3.1">
 <h4><span class="header-section-number">3.2.3.1</span> Specifying the Sensor Hardware<a href="#specifying-the-sensor-hardware" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The <code>measure</code> subcommand requires that you specify one of the identifiers of a sensor node.</p>
 <p>To connect to a sensor node by <strong>name</strong> use the option <code>-n</code> or <code>--name</code>. For example, the command below collects data from the sensor node with the name <code>Test-STH</code>:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-n</span> <span class="st">&#39;Test-STH&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-n</span> <span class="st">&#39;Test-STH&#39;</span></span></code></pre></div>
 <p>You can also use the MAC address to connect to a certain sensor node with the option <code>-m</code> or <code>--mac-address</code>:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-m</span> <span class="st">&#39;08-6B-D7-01-DE-81&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-m</span> <span class="st">&#39;08-6B-D7-01-DE-81&#39;</span></span></code></pre></div>
 <p>To connect using the node number use the option <code>-d</code> or <code>--node-number</code>:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-d</span> 0</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-d</span> 0</span></code></pre></div>
 </div>
 <div id="changing-the-run-time" class="section level4 hasAnchor" number="3.2.3.2">
 <h4><span class="header-section-number">3.2.3.2</span> Changing the Run Time<a href="#changing-the-run-time" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To change the run time of the measurement you can use the option <code>-t</code>, which takes the runtime in seconds as argument. The command</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-t</span> 300</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-t</span> 300</span></code></pre></div>
 <p>for example, changes the runtime to 300 seconds (5 minutes).</p>
 </div>
 <div id="channel-selection" class="section level4 hasAnchor" number="3.2.3.3">
@@ -686,7 +626,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <li>a “newer” STH (Firmware <code>3.x</code>, <code>BGM121</code> chip)</li>
 </ul>
 <p>you can use the following command:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-1</span> 1 <span class="at">-2</span> 2 <span class="at">-3</span> 0</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-1</span> 1 <span class="at">-2</span> 2 <span class="at">-3</span> 0</span></code></pre></div>
 <p>Here:</p>
 <ul>
 <li><code>0</code> indicates that you want to disable the specified measurement channel, while</li>
@@ -714,7 +654,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <li>hardware channel 3 for the third measurement channel</li>
 </ul>
 <p>you can use the following command:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-1</span> 8 <span class="at">-2</span> 1 <span class="at">-3</span> 3</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-1</span> 8 <span class="at">-2</span> 1 <span class="at">-3</span> 3</span></code></pre></div>
 <p>If you just want to enable/set a measurement channel and use the hardware channel with the same number you can also just leave the argument for the specific measurement channel empty. For example, to use</p>
 <ul>
 <li>hardware channel 1 for measurement channel 1,</li>
@@ -722,14 +662,14 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <li>hardware channel 3 for measurement channel 3</li>
 </ul>
 <p>you can use the following command:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-1</span> <span class="at">-2</span> <span class="at">-3</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-1</span> <span class="at">-2</span> <span class="at">-3</span></span></code></pre></div>
 <p>or even shorter, since the default value for measurement channel 1 is hardware channel 1:</p>
 <pre><code>icon measure -2 -3</code></pre>
 </div>
 <div id="changing-the-reference-voltage" class="section level4 hasAnchor" number="3.2.3.4">
 <h4><span class="header-section-number">3.2.3.4</span> Changing the Reference Voltage<a href="#changing-the-reference-voltage" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>For certain sensor nodes you have to change the reference voltage to retrieve a proper measurement value. For example, STHs that use a ± 40 g acceleration sensor (<a href="https://www.analog.com/en/products/adxl356.html">ADXL356</a>) require a reference voltage of 1.8 V instead of the usual supply voltage (<code>VDD</code>) of 3.3 V. To select the correct reference voltage for these nodes at startup use the option <code>-v 1.8</code>:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-v</span> 1.8</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">-v</span> 1.8</span></code></pre></div>
 </div>
 <div id="changing-the-sampling-rate" class="section level4 hasAnchor" number="3.2.3.5">
 <h4><span class="header-section-number">3.2.3.5</span> Changing the Sampling Rate<a href="#changing-the-sampling-rate" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -741,40 +681,40 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 </ul>
 <p>The formula which can be used to calculate the sampling rate can be found in the general ICOtronic system documentation under the section <a href="https://mytoolit.github.io/Documentation/#sampling-rate">“Sampling Rate”</a>. Please be aware that the actual sample rate might be slightly lower, even if there is no data loss.</p>
 <p>For example, to use a sampling rate of about 2381 Hz you can use the following command:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">--prescaler</span> 2 <span class="at">--acquisition</span> 8 <span class="at">--oversampling</span> 256</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="ex">icon</span> measure <span class="at">--prescaler</span> 2 <span class="at">--acquisition</span> 8 <span class="at">--oversampling</span> 256</span></code></pre></div>
 </div>
 </div>
 <div id="tutorials:section:sth-renaming" class="section level3 hasAnchor" number="3.2.4">
 <h3><span class="header-section-number">3.2.4</span> Renaming a Sensor Node<a href="#tutorials:section:sth-renaming" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To change the name of a sensor you can use the subcommand <code>rename</code>. For example, to change the name of the sensor node with the Bluetooth MAC address <code>08-6B-D7-01-DE-81</code> to <code>Test-STH</code> use the following command:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="ex">icon</span> rename <span class="at">-m</span> 08-6B-D7-01-DE-81 Test-STH</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="ex">icon</span> rename <span class="at">-m</span> 08-6B-D7-01-DE-81 Test-STH</span></code></pre></div>
 <p>For more information about the command you can use the option <code>-h</code>/<code>--help</code>:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="ex">icon</span> rename <span class="at">-h</span></span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="ex">icon</span> rename <span class="at">-h</span></span></code></pre></div>
 </div>
 <div id="opening-the-user-configuration" class="section level3 hasAnchor" number="3.2.5">
 <h3><span class="header-section-number">3.2.5</span> Opening the User Configuration<a href="#opening-the-user-configuration" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To open the user configuration file, you can use the subcommand <code>config</code>:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="ex">icon</span> config</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="ex">icon</span> config</span></code></pre></div>
 <p>If the file does not exist yet, then it will be created and filled with the content of the <a href="https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/user.yaml">default user configuration</a>. For more information on how to change the configuration, please take a look at the section <a href="#changing-configuration-values">“Changing Configuration Values”</a>.</p>
 </div>
 <div id="stu-commands" class="section level3 hasAnchor" number="3.2.6">
 <h3><span class="header-section-number">3.2.6</span> STU Commands<a href="#stu-commands" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To list all available STU subcommands, please use the option <code>-h</code> (or <code>--help</code>):</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="ex">icon</span> stu <span class="at">-h</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="ex">icon</span> stu <span class="at">-h</span></span></code></pre></div>
 <div id="enable-stu-ota-mode" class="section level4 hasAnchor" number="3.2.6.1">
 <h4><span class="header-section-number">3.2.6.1</span> Enable STU OTA Mode<a href="#enable-stu-ota-mode" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To enable the Bluetooth advertising of the STU and hence the “over the air” firmware update, please run the following command:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="ex">icon</span> stu ota</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="ex">icon</span> stu ota</span></code></pre></div>
 </div>
 <div id="retrieve-the-bluetooth-stu-mac-address" class="section level4 hasAnchor" number="3.2.6.2">
 <h4><span class="header-section-number">3.2.6.2</span> Retrieve the Bluetooth STU MAC Address<a href="#retrieve-the-bluetooth-stu-mac-address" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To retrieve the STU Bluetooth address you can use the following command:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a><span class="ex">icon</span> stu mac</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="ex">icon</span> stu mac</span></code></pre></div>
 </div>
 <div id="reset-stu" class="section level4 hasAnchor" number="3.2.6.3">
 <h4><span class="header-section-number">3.2.6.3</span> Reset STU<a href="#reset-stu" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To reset the STU please use the following command:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="ex">icon</span> stu reset</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="ex">icon</span> stu reset</span></code></pre></div>
 </div>
 <div id="determining-data-loss" class="section level4 hasAnchor" number="3.2.6.4">
 <h4><span class="header-section-number">3.2.6.4</span> Determining Data Loss<a href="#determining-data-loss" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -785,152 +725,10 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 </ul>
 <p>the ICOtronic library might not be able to keep up with the rate of measurement data that is collected by the STU and stored in the buffer of the CAN adapter. The result in this case will be a certain rate of data loss, since the CAN adapter will get rid of old data if it is not collected fast enough.</p>
 <p>To minimize the chance of this kind of data loss you can use the command</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a><span class="ex">icon</span> dataloss</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="ex">icon</span> dataloss</span></code></pre></div>
 <p>to determine the CPU usage and data loss for the current computer at certain sample rates.</p>
-</div>
-</div>
-</div>
-<div id="tutorials:section:production-tests" class="section level2 hasAnchor" number="3.3">
-<h2><span class="header-section-number">3.3</span> Production Tests<a href="#tutorials:section:production-tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This tutorial lists the usual steps to test a sensory holder assembly or a sensory tool holder.</p>
-<div id="tutorials:section:general" class="section level3 hasAnchor" number="3.3.1">
-<h3><span class="header-section-number">3.3.1</span> General<a href="#tutorials:section:general" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>To run the production tests for one of the ICOtronic nodes, please execute one of the following commands:</p>
-<table>
-<colgroup>
-<col width="15%" />
-<col width="84%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Command</th>
-<th>Node</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>test-stu</code></td>
-<td>Stationary Transceiver Unit (STU)</td>
-</tr>
-<tr class="even">
-<td><code>test-sth</code></td>
-<td>Sensory Holder Assembly (SHA), Sensory Tool Holder (STH)</td>
-</tr>
-<tr class="odd">
-<td><code>test-smh</code></td>
-<td>Sensory Milling Head (SMH)</td>
-</tr>
-</tbody>
-</table>
-<p>For a list of available command line options, please use the option <code>-h</code> after one of the commands e.g.:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="ex">test-sth</span> <span class="at">-h</span></span></code></pre></div>
-<div id="specific-tests" class="section level4 hasAnchor" number="3.3.1.1">
-<h4><span class="header-section-number">3.3.1.1</span> Specific Tests<a href="#specific-tests" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>To only run a single test you need the specify its name. For example, to run the test <code>test__firmware_flash</code> of the STU you can use the following command:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a><span class="ex">test-stu</span> TestSTU.test__firmware_flash</span></code></pre></div>
-<p>You can also run specific tests using pattern matching. To do that use the command line option <code>-k</code>. For example, to run the firmware flash and the connection test of the STH test you can use the command:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="ex">test-sth</span> <span class="at">-k</span> flash <span class="at">-k</span> connection</span></code></pre></div>
-<p>which executes all tests that contain the text <code>flash</code> or <code>connection</code>.</p>
-</div>
-</div>
-<div id="tutorials:section:sth" class="section level3 hasAnchor" number="3.3.2">
-<h3><span class="header-section-number">3.3.2</span> STH<a href="#tutorials:section:sth" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The text below gives you a more detailed step-by-step guide on how to run the tests of the STH.</p>
-<ol style="list-style-type: decimal">
-<li><blockquote>
-<p><strong>Note:</strong> You can <strong>skip this step, if you do not want to run the flash test</strong>. To skip the flash test, please set <code>sth</code> → <code>status</code> in the <a href="#changing-configuration-values">configuration</a> to <code>Epoxied</code>.</p>
-</blockquote>
-<p>Please create a directory called <code>Firmware</code> in the current user’s <code>Documents</code> directory (<code>~/Documents</code>).</p>
-<blockquote>
-<p><strong>Note:</strong> To open the user’s home directory on Windows you can use the following command in (Windows) Terminal:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a><span class="ex">ii</span> ~/Documents</span></code></pre></div>
-</blockquote>
-<p>Then put the <a href="https://github.com/MyTooliT/STH/releases/download/2.1.10/manufacturingImageSthv2.1.10.hex">current version of the STH firmware</a> into this directory. Afterwards the directory and file structure should look like this:</p>
-<pre><code>~
-└── Documents
-        └── Firmware
-                └── manufacturingImageSthv2.1.10.hex</code></pre>
-<p>As alternative to the steps above you can also change the variable <code>sth</code> → <code>firmware</code> → <code>location</code> → <code>flash</code> in the <a href="#changing-configuration-values">configuration</a> to point to the firmware that should be used for the flash test.</p></li>
-<li><p>Make sure that <a href="#changing-configuration-values">the configuration values</a> are set correctly. You probably need to change at least the Bluetooth advertisement name (<code>sth</code> → <code>name</code> ) to the name of the STH you want to test.</p></li>
-<li><p>Please open your favorite Terminal application and execute the STH test using the command <code>test-sth</code>. For more information about this command, please take a look at the section <a href="#tutorials:section:general">“General”</a> above.</p>
-<p>Please note, that the test will rename the tested STH</p>
-<ul>
-<li><p>to a <strong>Base64 encoded version of the Bluetooth MAC address</strong>, if <code>sth</code> → <code>status</code> is set to <code>Bare PCB</code>, or</p></li>
-<li><p>to the <strong>serial number</strong> (<code>sth</code> → <code>serial number</code>), if you set the status to <code>Epoxied</code>.</p></li>
-</ul></li>
-</ol>
-</div>
-<div id="tutorials:section:smh" class="section level3 hasAnchor" number="3.3.3">
-<h3><span class="header-section-number">3.3.3</span> SMH<a href="#tutorials:section:smh" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The preparation steps for the SMH test are very similar to the ones of the <a href="#tutorials:section:sth">STH test</a>.</p>
-<ol style="list-style-type: decimal">
-<li><p>Please make sure that the config value that stores the SMH firmware filepath (<code>smh</code> → <code>firmware</code> → <code>location</code> → <code>flash</code>) points to the correct firmware. If you have not downloaded a firmware image for the SMH you can do so <a href="https://github.com/MyTooliT/STH/releases">here</a>.</p></li>
-<li><p>Check that the <a href="#changing-configuration-values">configuration values</a> such as the SMH name (<code>smh</code> → <code>name</code>) are set correctly.</p></li>
-<li><p>Please execute the test using the following command:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" tabindex="-1"></a><span class="ex">test-smh</span></span></code></pre></div></li>
-</ol>
-</div>
-<div id="tutorials:section:stu" class="section level3 hasAnchor" number="3.3.4">
-<h3><span class="header-section-number">3.3.4</span> STU<a href="#tutorials:section:stu" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The following description shows you how to run the STU tests.</p>
-<ol style="list-style-type: decimal">
-<li><blockquote>
-<p><strong>Note:</strong> You can <strong>skip this step, if you do not want to run the flash test</strong>.</p>
-</blockquote>
-<p>Please take a look at step 1 of the description for the <a href="#tutorials:section:sth">STH test</a> and replace every occurrence of STH (or <code>sth</code>) with STU (or <code>stu</code>).</p>
-<blockquote>
-<p><strong>Note:</strong> The STU test always uploads the flash file to the board, i.e. the setting <code>stu</code> → <code>status</code> is <strong>not</strong> read/used by the STU tests.</p>
-</blockquote>
-<p>In the end of this step the directory structure should look like this:</p>
-<pre><code>~
-└── Documents
-       └── Firmware
-              └── manufacturingImageStuv2.1.10.hex</code></pre>
-<p>You can find the current version of the STU firmware <a href="https://github.com/MyTooliT/STU/releases">here</a>.</p></li>
-<li><p>Please take a look at the section <a href="#tutorials:section:general">“General”</a> to find out how to execute the production tests for the STU. If you want to run the connection and EEPROM test (aka <strong>all tests except the flash test</strong>, i.e. the EEPROM and connection test), then please execute the following command:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a><span class="ex">test-stu</span> <span class="at">-k</span> eeprom <span class="at">-k</span> connection</span></code></pre></div></li>
-</ol>
-</div>
-<div id="firmware-versions" class="section level3 hasAnchor" number="3.3.5">
-<h3><span class="header-section-number">3.3.5</span> Firmware Versions<a href="#firmware-versions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The (non-exhaustive) table below shows the compatible firmware for a certain node. The production tests assume that you use <strong>firmware that includes the bootloader</strong>.</p>
-<table>
-<colgroup>
-<col width="1%" />
-<col width="7%" />
-<col width="7%" />
-<col width="82%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Node</th>
-<th>Hardware Version</th>
-<th>Microcontroller</th>
-<th>Firmware</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>STH</td>
-<td><code>1.3</code></td>
-<td>BGM113</td>
-<td>• <a href="https://github.com/MyTooliT/STH/releases/tag/2.1.10">Version 2.1.10</a></td>
-</tr>
-<tr class="even">
-<td>STH</td>
-<td><code>2.2</code></td>
-<td>BGM123</td>
-<td>• <a href="https://github.com/MyTooliT/STH/releases/tag/Aladdin">Aladdin</a></td>
-</tr>
-<tr class="odd">
-<td>SMH</td>
-<td><code>2.1</code></td>
-<td>BGM121</td>
-<td>• <a href="https://github.com/MyTooliT/STH/releases/tag/3.0.0">Version 3.0.0</a> <br/>• <a href="https://github.com/MyTooliT/STH/releases/tag/E3016_BETA(11_Sensors)">Version E3016 Beta</a></td>
-</tr>
-</tbody>
-</table>
 
+</div>
 </div>
 </div>
 </div>
@@ -1055,17 +853,17 @@ wsl --export Ubuntu-22.04 CANbuntu.tar
 wsl --import CANbuntu CANbuntu CANbuntu.tar
 wsl --distribution CANbuntu --user &lt;user&gt;</code></pre>
 <p>Linux Shell:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
-<span id="cb65-2"><a href="#cb65-2" tabindex="-1"></a><span class="fu">sudo</span> apt upgrade <span class="at">-y</span></span>
-<span id="cb65-3"><a href="#cb65-3" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-y</span> bc build-essential flex bison libssl-dev libelf-dev <span class="dt">\</span></span>
-<span id="cb65-4"><a href="#cb65-4" tabindex="-1"></a>                    libncurses-dev autoconf libudev-dev libtool dwarves</span>
-<span id="cb65-5"><a href="#cb65-5" tabindex="-1"></a><span class="bu">cd</span> ~</span>
-<span id="cb65-6"><a href="#cb65-6" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/microsoft/WSL2-Linux-Kernel.git</span>
-<span id="cb65-7"><a href="#cb65-7" tabindex="-1"></a><span class="bu">cd</span> WSL2-Linux-Kernel</span>
-<span id="cb65-8"><a href="#cb65-8" tabindex="-1"></a><span class="fu">uname</span> <span class="at">-r</span> <span class="co"># 5.15.74.2-microsoft-standard-WSL2 → branch …5.15.y</span></span>
-<span id="cb65-9"><a href="#cb65-9" tabindex="-1"></a><span class="fu">git</span> checkout linux-msft-wsl-5.15.y</span>
-<span id="cb65-10"><a href="#cb65-10" tabindex="-1"></a><span class="fu">cat</span> /proc/config.gz <span class="kw">|</span> <span class="fu">gunzip</span> <span class="op">&gt;</span> .config</span>
-<span id="cb65-11"><a href="#cb65-11" tabindex="-1"></a><span class="fu">make</span> menuconfig</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a><span class="fu">sudo</span> apt upgrade <span class="at">-y</span></span>
+<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-y</span> bc build-essential flex bison libssl-dev libelf-dev <span class="dt">\</span></span>
+<span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a>                    libncurses-dev autoconf libudev-dev libtool dwarves</span>
+<span id="cb48-5"><a href="#cb48-5" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb48-6"><a href="#cb48-6" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/microsoft/WSL2-Linux-Kernel.git</span>
+<span id="cb48-7"><a href="#cb48-7" tabindex="-1"></a><span class="bu">cd</span> WSL2-Linux-Kernel</span>
+<span id="cb48-8"><a href="#cb48-8" tabindex="-1"></a><span class="fu">uname</span> <span class="at">-r</span> <span class="co"># 5.15.74.2-microsoft-standard-WSL2 → branch …5.15.y</span></span>
+<span id="cb48-9"><a href="#cb48-9" tabindex="-1"></a><span class="fu">git</span> checkout linux-msft-wsl-5.15.y</span>
+<span id="cb48-10"><a href="#cb48-10" tabindex="-1"></a><span class="fu">cat</span> /proc/config.gz <span class="kw">|</span> <span class="fu">gunzip</span> <span class="op">&gt;</span> .config</span>
+<span id="cb48-11"><a href="#cb48-11" tabindex="-1"></a><span class="fu">make</span> menuconfig</span></code></pre></div>
 <p>Make sure the following features are enabled:</p>
 <ul>
 <li><code>Device Drivers</code> → <code>USB Support</code></li>
@@ -1086,39 +884,39 @@ wsl --distribution CANbuntu --user &lt;user&gt;</code></pre>
 </ul>
 <p>Save the modified kernel configuration.</p>
 <p>Linux Shell:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="fu">touch</span> .scmversion</span>
-<span id="cb66-2"><a href="#cb66-2" tabindex="-1"></a><span class="fu">make</span></span>
-<span id="cb66-3"><a href="#cb66-3" tabindex="-1"></a><span class="fu">sudo</span> make modules_install</span>
-<span id="cb66-4"><a href="#cb66-4" tabindex="-1"></a><span class="fu">sudo</span> make install</span></code></pre></div></li>
+<div class="sourceCode" id="cb49"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="fu">touch</span> .scmversion</span>
+<span id="cb49-2"><a href="#cb49-2" tabindex="-1"></a><span class="fu">make</span></span>
+<span id="cb49-3"><a href="#cb49-3" tabindex="-1"></a><span class="fu">sudo</span> make modules_install</span>
+<span id="cb49-4"><a href="#cb49-4" tabindex="-1"></a><span class="fu">sudo</span> make install</span></code></pre></div></li>
 <li><p>Install <code>usbipd-win</code> (Linux Shell):</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a><span class="bu">cd</span> tools/usb/usbip</span>
-<span id="cb67-2"><a href="#cb67-2" tabindex="-1"></a><span class="ex">./autogen.sh</span></span>
-<span id="cb67-3"><a href="#cb67-3" tabindex="-1"></a><span class="ex">./configure</span></span>
-<span id="cb67-4"><a href="#cb67-4" tabindex="-1"></a><span class="fu">sudo</span> make install</span>
-<span id="cb67-5"><a href="#cb67-5" tabindex="-1"></a><span class="fu">sudo</span> cp libsrc/.libs/libusbip.so.0 /lib/libusbip.so.0</span>
-<span id="cb67-6"><a href="#cb67-6" tabindex="-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> hwdata</span></code></pre></div></li>
+<div class="sourceCode" id="cb50"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="bu">cd</span> tools/usb/usbip</span>
+<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a><span class="ex">./autogen.sh</span></span>
+<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a><span class="ex">./configure</span></span>
+<span id="cb50-4"><a href="#cb50-4" tabindex="-1"></a><span class="fu">sudo</span> make install</span>
+<span id="cb50-5"><a href="#cb50-5" tabindex="-1"></a><span class="fu">sudo</span> cp libsrc/.libs/libusbip.so.0 /lib/libusbip.so.0</span>
+<span id="cb50-6"><a href="#cb50-6" tabindex="-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> hwdata</span></code></pre></div></li>
 <li><p>Copy image (Linux Shell):</p>
 <blockquote>
 <p><strong>Note:</strong> Please replace <code>&lt;user&gt;</code> with your (Windows) username (e.g. <code>rene</code>)</p>
 </blockquote>
-<div class="sourceCode" id="cb68"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" tabindex="-1"></a><span class="bu">cd</span> ~/WSL2-Linux-Kernel</span>
-<span id="cb68-2"><a href="#cb68-2" tabindex="-1"></a><span class="fu">cp</span> arch/x86/boot/bzImage /mnt/c/Users/<span class="op">&lt;</span>user<span class="op">&gt;</span>/Documents/WSL/canbuntu-bzImage</span></code></pre></div></li>
+<div class="sourceCode" id="cb51"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a><span class="bu">cd</span> ~/WSL2-Linux-Kernel</span>
+<span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a><span class="fu">cp</span> arch/x86/boot/bzImage /mnt/c/Users/<span class="op">&lt;</span>user<span class="op">&gt;</span>/Documents/WSL/canbuntu-bzImage</span></code></pre></div></li>
 <li><p>Create <code>.wslconfig</code> in (root of) Windows user directory and store the following text:</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb69-1"><a href="#cb69-1" tabindex="-1"></a><span class="kw">[wsl2]</span></span>
-<span id="cb69-2"><a href="#cb69-2" tabindex="-1"></a><span class="dt">kernel</span><span class="ot">=</span><span class="st">c:\\users\\&lt;user&gt;\\Documents\\WSL\\canbuntu-bzImage</span></span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="kw">[wsl2]</span></span>
+<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a><span class="dt">kernel</span><span class="ot">=</span><span class="st">c:\\users\\&lt;user&gt;\\Documents\\WSL\\canbuntu-bzImage</span></span></code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> Please replace <code>&lt;user&gt;</code> with your (Windows) username (e.g. <code>rene</code>)</p>
 </blockquote></li>
 <li><p>Set default distribution (Windows Shell)</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1" tabindex="-1"></a><span class="ex">wsl</span> <span class="at">--setdefault</span> CANbuntu</span></code></pre></div></li>
+<div class="sourceCode" id="cb53"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a><span class="ex">wsl</span> <span class="at">--setdefault</span> CANbuntu</span></code></pre></div></li>
 <li><p>Shutdown and restart WSL (Windows Shell):</p>
 <pre class="pwsh"><code>wsl --shutdown
 wsl -d CANbuntu --cd &quot;~&quot;</code></pre></li>
 <li><p>Change default user of WSL distro (Linux Shell)</p>
 <pre><code>sudo nano /etc/wsl.conf</code></pre>
 <p>Insert the following text:</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb73-1"><a href="#cb73-1" tabindex="-1"></a><span class="kw">[user]</span></span>
-<span id="cb73-2"><a href="#cb73-2" tabindex="-1"></a><span class="dt">default</span><span class="ot">=</span><span class="st">&lt;user&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="kw">[user]</span></span>
+<span id="cb56-2"><a href="#cb56-2" tabindex="-1"></a><span class="dt">default</span><span class="ot">=</span><span class="st">&lt;user&gt;</span></span></code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> Please replace <code>&lt;user&gt;</code> with your (Windows) username (e.g. <code>rene</code>)</p>
 </blockquote>
@@ -1142,18 +940,18 @@ usbipd wsl list
 # 5-3    0c72:0012  PCAN-USB FD                      Attached - CANbuntu
 # …</code></pre></li>
 <li><p>Check for PEAK CAN adapter in Linux (Optional, Linux Shell):</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a><span class="fu">dmesg</span> <span class="kw">|</span> <span class="fu">grep</span> peak_usb</span>
-<span id="cb76-2"><a href="#cb76-2" tabindex="-1"></a><span class="co"># …</span></span>
-<span id="cb76-3"><a href="#cb76-3" tabindex="-1"></a><span class="co"># peak_usb 1-1:1.0: PEAK-System PCAN-USB FD v1 fw v3.2.0 (1 channels)</span></span>
-<span id="cb76-4"><a href="#cb76-4" tabindex="-1"></a><span class="co"># …</span></span>
-<span id="cb76-5"><a href="#cb76-5" tabindex="-1"></a></span>
-<span id="cb76-6"><a href="#cb76-6" tabindex="-1"></a><span class="ex">lsusb</span></span>
-<span id="cb76-7"><a href="#cb76-7" tabindex="-1"></a><span class="co"># …</span></span>
-<span id="cb76-8"><a href="#cb76-8" tabindex="-1"></a><span class="co"># Bus 001 Device 002: ID 0c72:0012 PEAK System PCAN-USB FD</span></span>
-<span id="cb76-9"><a href="#cb76-9" tabindex="-1"></a><span class="co"># …</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb59"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" tabindex="-1"></a><span class="fu">dmesg</span> <span class="kw">|</span> <span class="fu">grep</span> peak_usb</span>
+<span id="cb59-2"><a href="#cb59-2" tabindex="-1"></a><span class="co"># …</span></span>
+<span id="cb59-3"><a href="#cb59-3" tabindex="-1"></a><span class="co"># peak_usb 1-1:1.0: PEAK-System PCAN-USB FD v1 fw v3.2.0 (1 channels)</span></span>
+<span id="cb59-4"><a href="#cb59-4" tabindex="-1"></a><span class="co"># …</span></span>
+<span id="cb59-5"><a href="#cb59-5" tabindex="-1"></a></span>
+<span id="cb59-6"><a href="#cb59-6" tabindex="-1"></a><span class="ex">lsusb</span></span>
+<span id="cb59-7"><a href="#cb59-7" tabindex="-1"></a><span class="co"># …</span></span>
+<span id="cb59-8"><a href="#cb59-8" tabindex="-1"></a><span class="co"># Bus 001 Device 002: ID 0c72:0012 PEAK System PCAN-USB FD</span></span>
+<span id="cb59-9"><a href="#cb59-9" tabindex="-1"></a><span class="co"># …</span></span></code></pre></div></li>
 <li><p>Add virtual link for CAN device (Linux Shell)</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 type can bitrate 1000000</span>
-<span id="cb77-2"><a href="#cb77-2" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 up</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 type can bitrate 1000000</span>
+<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 up</span></code></pre></div>
 <blockquote>
 <p><strong>Note</strong>: If the commands above fail with the error message:</p>
 <blockquote>
@@ -1162,16 +960,16 @@ usbipd wsl list
 <p>then please disconnect and connect the USB CAN adapter. After that attach it to the Linux VM again (see step <code>12</code>).</p>
 </blockquote></li>
 <li><p>Install <code>pip</code> (Linux Shell):</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-y</span> python3-pip</span></code></pre></div></li>
+<div class="sourceCode" id="cb61"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-y</span> python3-pip</span></code></pre></div></li>
 <li><p>Install ICOtronic (Linux Shell)</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb79-1"><a href="#cb79-1" tabindex="-1"></a><span class="bu">cd</span> ~</span>
-<span id="cb79-2"><a href="#cb79-2" tabindex="-1"></a><span class="fu">mkdir</span> Documents</span>
-<span id="cb79-3"><a href="#cb79-3" tabindex="-1"></a><span class="bu">cd</span> Documents</span>
-<span id="cb79-4"><a href="#cb79-4" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/MyTooliT/ICOtronic.git</span>
-<span id="cb79-5"><a href="#cb79-5" tabindex="-1"></a><span class="bu">cd</span> ICOtronic</span>
-<span id="cb79-6"><a href="#cb79-6" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="at">--prefix</span><span class="op">=</span><span class="va">$(</span><span class="ex">python3</span> <span class="at">-m</span> site <span class="at">--user-base</span><span class="va">)</span> <span class="at">-e</span> .</span></code></pre></div></li>
+<div class="sourceCode" id="cb62"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb62-2"><a href="#cb62-2" tabindex="-1"></a><span class="fu">mkdir</span> Documents</span>
+<span id="cb62-3"><a href="#cb62-3" tabindex="-1"></a><span class="bu">cd</span> Documents</span>
+<span id="cb62-4"><a href="#cb62-4" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/MyTooliT/ICOtronic.git</span>
+<span id="cb62-5"><a href="#cb62-5" tabindex="-1"></a><span class="bu">cd</span> ICOtronic</span>
+<span id="cb62-6"><a href="#cb62-6" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="at">--prefix</span><span class="op">=</span><span class="va">$(</span><span class="ex">python3</span> <span class="at">-m</span> site <span class="at">--user-base</span><span class="va">)</span> <span class="at">-e</span> .</span></code></pre></div></li>
 <li><p>Run a script to test that everything works as expected (Linux Shell)</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" tabindex="-1"></a><span class="ex">icon</span> list</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" tabindex="-1"></a><span class="ex">icon</span> list</span></code></pre></div>
 <p>If the command above fails with the message</p>
 <pre><code>Command &#39;icon&#39; not found…</code></pre>
 <p>then you might have to logout and login into the WSL session again before you execute <code>icon list</code> again.</p></li>
@@ -1192,27 +990,27 @@ usbipd wsl list
 <h3><span class="header-section-number">5.1.1</span> Installing/Using Simplicity Commander<a href="#installingusing-simplicity-commander" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ol style="list-style-type: decimal">
 <li><p>Download and unpack <a href="https://community.silabs.com/s/article/simplicity-commander?language=en_US">Simplicity Commander</a> (Linux Shell)</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb82-1"><a href="#cb82-1" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-y</span> unzip</span>
-<span id="cb82-2"><a href="#cb82-2" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/Downloads</span>
-<span id="cb82-3"><a href="#cb82-3" tabindex="-1"></a><span class="bu">cd</span> ~/Downloads</span>
-<span id="cb82-4"><a href="#cb82-4" tabindex="-1"></a><span class="fu">wget</span> https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip</span>
-<span id="cb82-5"><a href="#cb82-5" tabindex="-1"></a><span class="fu">unzip</span> SimplicityCommander-Linux.zip</span>
-<span id="cb82-6"><a href="#cb82-6" tabindex="-1"></a><span class="bu">cd</span> SimplicityCommander-Linux</span>
-<span id="cb82-7"><a href="#cb82-7" tabindex="-1"></a><span class="fu">tar</span> xf Commander-cli_linux_x86_64<span class="pp">*</span>.tar.bz</span>
-<span id="cb82-8"><a href="#cb82-8" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/Applications</span>
-<span id="cb82-9"><a href="#cb82-9" tabindex="-1"></a><span class="fu">mv</span> commander-cli ~/Applications/commander</span>
-<span id="cb82-10"><a href="#cb82-10" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> ~/Applications/commander/commander-cli ~/Applications/commander/commander</span>
-<span id="cb82-11"><a href="#cb82-11" tabindex="-1"></a><span class="co"># Fix J-Link connection</span></span>
-<span id="cb82-12"><a href="#cb82-12" tabindex="-1"></a><span class="co"># https://wiki.segger.com/J-Link_cannot_connect_to_the_CPU</span></span>
-<span id="cb82-13"><a href="#cb82-13" tabindex="-1"></a><span class="fu">sudo</span> cp ~/Applications/commander/99-jlink.rules /etc/udev/rules.d/</span></code></pre></div></li>
+<div class="sourceCode" id="cb65"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-y</span> unzip</span>
+<span id="cb65-2"><a href="#cb65-2" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/Downloads</span>
+<span id="cb65-3"><a href="#cb65-3" tabindex="-1"></a><span class="bu">cd</span> ~/Downloads</span>
+<span id="cb65-4"><a href="#cb65-4" tabindex="-1"></a><span class="fu">wget</span> https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip</span>
+<span id="cb65-5"><a href="#cb65-5" tabindex="-1"></a><span class="fu">unzip</span> SimplicityCommander-Linux.zip</span>
+<span id="cb65-6"><a href="#cb65-6" tabindex="-1"></a><span class="bu">cd</span> SimplicityCommander-Linux</span>
+<span id="cb65-7"><a href="#cb65-7" tabindex="-1"></a><span class="fu">tar</span> xf Commander-cli_linux_x86_64<span class="pp">*</span>.tar.bz</span>
+<span id="cb65-8"><a href="#cb65-8" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/Applications</span>
+<span id="cb65-9"><a href="#cb65-9" tabindex="-1"></a><span class="fu">mv</span> commander-cli ~/Applications/commander</span>
+<span id="cb65-10"><a href="#cb65-10" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> ~/Applications/commander/commander-cli ~/Applications/commander/commander</span>
+<span id="cb65-11"><a href="#cb65-11" tabindex="-1"></a><span class="co"># Fix J-Link connection</span></span>
+<span id="cb65-12"><a href="#cb65-12" tabindex="-1"></a><span class="co"># https://wiki.segger.com/J-Link_cannot_connect_to_the_CPU</span></span>
+<span id="cb65-13"><a href="#cb65-13" tabindex="-1"></a><span class="fu">sudo</span> cp ~/Applications/commander/99-jlink.rules /etc/udev/rules.d/</span></code></pre></div></li>
 <li><p>Add <code>commander</code> binary to path (Linux Shell)</p>
 <ol style="list-style-type: decimal">
 <li><p>Open <code>~/.profile</code> in <code>nano</code>:</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb83-1"><a href="#cb83-1" tabindex="-1"></a><span class="fu">nano</span> ~/.profile</span></code></pre></div></li>
+<div class="sourceCode" id="cb66"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="fu">nano</span> ~/.profile</span></code></pre></div></li>
 <li><p>Add the following text at the bottom:</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb84-1"><a href="#cb84-1" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-d</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Applications/commander&quot;</span> <span class="bu">]</span> <span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb84-2"><a href="#cb84-2" tabindex="-1"></a>    <span class="va">PATH</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Applications/commander:</span><span class="va">$PATH</span><span class="st">&quot;</span></span>
-<span id="cb84-3"><a href="#cb84-3" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb67"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-d</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Applications/commander&quot;</span> <span class="bu">]</span> <span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb67-2"><a href="#cb67-2" tabindex="-1"></a>    <span class="va">PATH</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Applications/commander:</span><span class="va">$PATH</span><span class="st">&quot;</span></span>
+<span id="cb67-3"><a href="#cb67-3" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div></li>
 <li><p>Save your changes</p></li>
 </ol></li>
 <li><p>Restart WSL</p></li>
@@ -1223,14 +1021,14 @@ usbipd wsl list
 # …
 usbipd wsl attach --busid 5-4</code></pre></li>
 <li><p>Check if <code>commander</code> JLink connection works without using <code>sudo</code> (Linux Shell)</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb86-1"><a href="#cb86-1" tabindex="-1"></a><span class="ex">commander</span> adapter dbgmode OUT</span>
-<span id="cb86-2"><a href="#cb86-2" tabindex="-1"></a><span class="co"># Setting debug mode to OUT...</span></span>
-<span id="cb86-3"><a href="#cb86-3" tabindex="-1"></a><span class="co"># DONE</span></span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" tabindex="-1"></a><span class="ex">commander</span> adapter dbgmode OUT</span>
+<span id="cb69-2"><a href="#cb69-2" tabindex="-1"></a><span class="co"># Setting debug mode to OUT...</span></span>
+<span id="cb69-3"><a href="#cb69-3" tabindex="-1"></a><span class="co"># DONE</span></span></code></pre></div>
 <p>Note:</p>
 <p>If the command above <a href="https://stackoverflow.com/questions/55313610/importerror-libgl-so-1-cannot-open-shared-object-file-no-such-file-or-directo">fails with the error message</a>:</p>
 <pre><code>error while loading shared libraries: libGL.so.1: cannot open shared object file…</code></pre>
 <p>then you need to install <code>libgl1</code>:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-y</span> libgl1</span></code></pre></div></li>
+<div class="sourceCode" id="cb71"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-y</span> libgl1</span></code></pre></div></li>
 </ol>
 </div>
 <div id="run-tests-in-wsl" class="section level3 hasAnchor" number="5.1.2">
@@ -1241,17 +1039,17 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <pre><code>pip3 install --user git+https://github.com/cpbotha/xdg-open-wsl.git</code></pre>
 <ol style="list-style-type: decimal">
 <li><p>Start WSL (Windows Shell)</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb90-1"><a href="#cb90-1" tabindex="-1"></a><span class="ex">wsl</span> <span class="at">-d</span> CANbuntu <span class="at">--cd</span> <span class="st">&quot;~/Documents/ICOtronic&quot;</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb73"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb73-1"><a href="#cb73-1" tabindex="-1"></a><span class="ex">wsl</span> <span class="at">-d</span> CANbuntu <span class="at">--cd</span> <span class="st">&quot;~/Documents/ICOtronic&quot;</span></span></code></pre></div></li>
 <li><p>Connect programming/CAN adapter to Linux (Windows Shell):</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb91-1"><a href="#cb91-1" tabindex="-1"></a><span class="va">$jlink_id</span> = usbipd wsl list <span class="kw">|</span> <span class="ex">Select-String</span> JLink <span class="kw">|</span> <span class="ex">%{</span><span class="va">$_</span> <span class="at">-replace</span> <span class="st">&#39;(\d-\d).*&#39;</span>,<span class="st">&#39;$1&#39;</span>}</span>
-<span id="cb91-2"><a href="#cb91-2" tabindex="-1"></a><span class="va">$can_id</span> = usbipd wsl list <span class="kw">|</span> <span class="ex">Select-String</span> PCAN-USB <span class="kw">|</span> <span class="ex">%{</span><span class="va">$_</span> <span class="at">-replace</span> <span class="st">&#39;(\d-\d).*&#39;</span>,<span class="st">&#39;$1&#39;</span>}</span>
-<span id="cb91-3"><a href="#cb91-3" tabindex="-1"></a><span class="ex">usbipd</span> wsl attach <span class="at">-d</span> CANbuntu <span class="at">--busid</span> <span class="va">$jlink_id</span></span>
-<span id="cb91-4"><a href="#cb91-4" tabindex="-1"></a><span class="ex">usbipd</span> wsl attach <span class="at">-d</span> CANbuntu <span class="at">--busid</span> <span class="va">$can_id</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb74"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a><span class="va">$jlink_id</span> = usbipd wsl list <span class="kw">|</span> <span class="ex">Select-String</span> JLink <span class="kw">|</span> <span class="ex">%{</span><span class="va">$_</span> <span class="at">-replace</span> <span class="st">&#39;(\d-\d).*&#39;</span>,<span class="st">&#39;$1&#39;</span>}</span>
+<span id="cb74-2"><a href="#cb74-2" tabindex="-1"></a><span class="va">$can_id</span> = usbipd wsl list <span class="kw">|</span> <span class="ex">Select-String</span> PCAN-USB <span class="kw">|</span> <span class="ex">%{</span><span class="va">$_</span> <span class="at">-replace</span> <span class="st">&#39;(\d-\d).*&#39;</span>,<span class="st">&#39;$1&#39;</span>}</span>
+<span id="cb74-3"><a href="#cb74-3" tabindex="-1"></a><span class="ex">usbipd</span> wsl attach <span class="at">-d</span> CANbuntu <span class="at">--busid</span> <span class="va">$jlink_id</span></span>
+<span id="cb74-4"><a href="#cb74-4" tabindex="-1"></a><span class="ex">usbipd</span> wsl attach <span class="at">-d</span> CANbuntu <span class="at">--busid</span> <span class="va">$can_id</span></span></code></pre></div></li>
 <li><p>Configure CAN interface (Linux Shell):</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 type can bitrate 1000000</span>
-<span id="cb92-2"><a href="#cb92-2" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 up</span></code></pre></div></li>
+<div class="sourceCode" id="cb75"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 type can bitrate 1000000</span>
+<span id="cb75-2"><a href="#cb75-2" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 up</span></code></pre></div></li>
 <li><p>Run tests (Linux Shell):</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb93-1"><a href="#cb93-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div></li>
+<div class="sourceCode" id="cb76"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div></li>
 </ol>
 
 </div>
@@ -1269,7 +1067,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <div id="building-the-docker-image" class="section level3 hasAnchor" number="6.1.2">
 <h3><span class="header-section-number">6.1.2</span> Building the Docker Image<a href="#building-the-docker-image" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If you do not want to create a <code>Dockerfile</code> yourself, you can build an image based on our Docker example file:</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb94-1"><a href="#cb94-1" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> mytoolit/icotronic <span class="at">-f</span> Docker/Dockerfile .</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> mytoolit/icotronic <span class="at">-f</span> Docker/Dockerfile .</span></code></pre></div>
 </div>
 <div id="using-icotronic-in-the-docker-container" class="section level3 hasAnchor" number="6.1.3">
 <h3><span class="header-section-number">6.1.3</span> Using ICOtronic in the Docker Container<a href="#using-icotronic-in-the-docker-container" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1278,18 +1076,18 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <ol style="list-style-type: decimal">
 <li><p>Open a new terminal window</p></li>
 <li><p>Open a shell in the Docker container</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb95-1"><a href="#cb95-1" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-it</span> <span class="at">--name</span> icotronic mytoolit/icotronic</span></code></pre></div></li>
+<div class="sourceCode" id="cb78"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-it</span> <span class="at">--name</span> icotronic mytoolit/icotronic</span></code></pre></div></li>
 </ol></li>
 <li><p>Move the CAN interface into the network space of the Docker container <strong>(Terminal 2)</strong></p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb96-1"><a href="#cb96-1" tabindex="-1"></a><span class="bu">export</span> <span class="va">DOCKERPID</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">docker</span> inspect <span class="at">-f</span> <span class="st">&#39;{{ .State.Pid }}&#39;</span> icotronic<span class="va">)</span><span class="st">&quot;</span></span>
-<span id="cb96-2"><a href="#cb96-2" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 netns <span class="st">&quot;</span><span class="va">$DOCKERPID</span><span class="st">&quot;</span></span>
-<span id="cb96-3"><a href="#cb96-3" tabindex="-1"></a><span class="fu">sudo</span> nsenter <span class="at">-t</span> <span class="st">&quot;</span><span class="va">$DOCKERPID</span><span class="st">&quot;</span> <span class="at">-n</span> ip link set can0 type can bitrate 1000000</span>
-<span id="cb96-4"><a href="#cb96-4" tabindex="-1"></a><span class="fu">sudo</span> nsenter <span class="at">-t</span> <span class="st">&quot;</span><span class="va">$DOCKERPID</span><span class="st">&quot;</span> <span class="at">-n</span> ip link set can0 up</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb79-1"><a href="#cb79-1" tabindex="-1"></a><span class="bu">export</span> <span class="va">DOCKERPID</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">docker</span> inspect <span class="at">-f</span> <span class="st">&#39;{{ .State.Pid }}&#39;</span> icotronic<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb79-2"><a href="#cb79-2" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 netns <span class="st">&quot;</span><span class="va">$DOCKERPID</span><span class="st">&quot;</span></span>
+<span id="cb79-3"><a href="#cb79-3" tabindex="-1"></a><span class="fu">sudo</span> nsenter <span class="at">-t</span> <span class="st">&quot;</span><span class="va">$DOCKERPID</span><span class="st">&quot;</span> <span class="at">-n</span> ip link set can0 type can bitrate 1000000</span>
+<span id="cb79-4"><a href="#cb79-4" tabindex="-1"></a><span class="fu">sudo</span> nsenter <span class="at">-t</span> <span class="st">&quot;</span><span class="va">$DOCKERPID</span><span class="st">&quot;</span> <span class="at">-n</span> ip link set can0 up</span></code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> Alternatively you can also add the option <code>--network host</code> to the Docker command from step 1. Please check out the <a href="https://docs.docker.com/engine/network/drivers/host/">Docker documentation</a> to learn more about the consequences of using this option.</p>
 </blockquote></li>
 <li><p>Run a test command in Docker container <strong>(Terminal 1)</strong> e.g.:</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb97-1"><a href="#cb97-1" tabindex="-1"></a><span class="ex">icon</span> list</span></code></pre></div></li>
+<div class="sourceCode" id="cb80"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" tabindex="-1"></a><span class="ex">icon</span> list</span></code></pre></div></li>
 </ol>
 
 </div>
@@ -1302,13 +1100,13 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <p>You can use the instructions below, if you want to work on the code of the ICOtronic package, i.e. add additional features or fix bugs.</p>
 <ol style="list-style-type: decimal">
 <li><p>Clone <a href="https://github.com/MyTooliT/ICOtronic">the repository</a> to a directory of your choice. You can either use the <a href="https://git-scm.com/downloads">command line tool <code>git</code></a>:</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb98-1"><a href="#cb98-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/MyTooliT/ICOtronic.git</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/MyTooliT/ICOtronic.git</span></code></pre></div>
 <p>or one of the many available <a href="https://git-scm.com/downloads/guis">graphical user interfaces for Git</a> to do that.</p></li>
 <li><p>Install ICOtronic with <a href="https://python-poetry.org">Poetry</a></p>
 <ol style="list-style-type: decimal">
 <li><p>Change your working directory to the (root) directory of the cloned repository</p></li>
 <li><p>Install ICOtronic:</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb99-1"><a href="#cb99-1" tabindex="-1"></a><span class="ex">poetry</span> lock <span class="kw">&amp;&amp;</span> <span class="ex">poetry</span> install <span class="at">--all-extras</span></span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb82-1"><a href="#cb82-1" tabindex="-1"></a><span class="ex">poetry</span> lock <span class="kw">&amp;&amp;</span> <span class="ex">poetry</span> install <span class="at">--all-extras</span></span></code></pre></div>
 <blockquote>
 <p><strong>Notes:</strong></p>
 <ul>
@@ -1321,7 +1119,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <li><p>Install other required tools (for tests)</p>
 <ul>
 <li><p><code>hdf5</code>: For the command line tool <code>h5dump</code> (Linux/macOS). You can install hdf5 via <a href="https://brew.sh">Homebrew</a>:</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb100-1"><a href="#cb100-1" tabindex="-1"></a><span class="ex">brew</span> install hdf5</span></code></pre></div></li>
+<div class="sourceCode" id="cb83"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb83-1"><a href="#cb83-1" tabindex="-1"></a><span class="ex">brew</span> install hdf5</span></code></pre></div></li>
 </ul></li>
 </ol>
 </div>
@@ -1329,7 +1127,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <h2><span class="header-section-number">7.2</span> Style<a href="#style" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Please use the guidelines from <a href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a>. For code formatting we currently use <a href="https://github.com/psf/black">Black</a>, which should format code according to PEP 8 by default.</p>
 <p>To format the whole code base you can use the following command in the root of the repository:</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb101-1"><a href="#cb101-1" tabindex="-1"></a><span class="ex">poetry</span> black .</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb84-1"><a href="#cb84-1" tabindex="-1"></a><span class="ex">poetry</span> black .</span></code></pre></div>
 <p>For development we recommend that you use a tool or plugin that reformats your code with Black every time you save. This way we can ensure that we use a consistent style for the whole code base.</p>
 </div>
 <div id="tests" class="section level2 hasAnchor" number="7.3">
@@ -1346,17 +1144,17 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <div id="flake8" class="section level4 hasAnchor" number="7.3.1.1">
 <h4><span class="header-section-number">7.3.1.1</span> Flake8<a href="#flake8" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We check the code with <a href="https://flake8.pycqa.org">Flake8</a>. Please use the following command in the root of the repository to make sure you did not add any code that introduces warnings:</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb102-1"><a href="#cb102-1" tabindex="-1"></a><span class="ex">poetry</span> run flake8</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" tabindex="-1"></a><span class="ex">poetry</span> run flake8</span></code></pre></div>
 </div>
 <div id="mypy" class="section level4 hasAnchor" number="7.3.1.2">
 <h4><span class="header-section-number">7.3.1.2</span> mypy<a href="#mypy" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To check the type hint in the code base we use the static code checker <a href="https://mypy.readthedocs.io">mypy</a>. Please use the following command in the root of the repository to check the code base for type problems:</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb103-1"><a href="#cb103-1" tabindex="-1"></a><span class="ex">poetry</span> run mypy icotronic</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb86-1"><a href="#cb86-1" tabindex="-1"></a><span class="ex">poetry</span> run mypy icotronic</span></code></pre></div>
 </div>
 <div id="pylint" class="section level4 hasAnchor" number="7.3.1.3">
 <h4><span class="header-section-number">7.3.1.3</span> Pylint<a href="#pylint" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We currently use <a href="https://github.com/PyCQA/pylint">Pylint</a> to check the code:</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb104-1"><a href="#cb104-1" tabindex="-1"></a><span class="ex">poetry</span> run pylint .</span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb87-1"><a href="#cb87-1" tabindex="-1"></a><span class="ex">poetry</span> run pylint .</span></code></pre></div>
 </div>
 </div>
 <div id="automatic-tests" class="section level3 hasAnchor" number="7.3.2">
@@ -1364,7 +1162,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <div id="usage" class="section level5 hasAnchor" number="7.3.2.0.1">
 <h5><span class="header-section-number">7.3.2.0.1</span> Usage<a href="#usage" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>Please run the following command in the root of the repository:</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb105-1"><a href="#cb105-1" tabindex="-1"></a><span class="ex">poetry</span> run pytest <span class="at">-v</span></span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1" tabindex="-1"></a><span class="ex">poetry</span> run pytest <span class="at">-v</span></span></code></pre></div>
 <p>and make sure that it reports no test failures.</p>
 </div>
 </div>
@@ -1395,21 +1193,21 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <ol style="list-style-type: decimal">
 <li><p>Open your favorite terminal application and change your working directory to the root of the repository</p></li>
 <li><p>Remove HDF5 files from the repository:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb106-1"><a href="#cb106-1" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>.hdf5</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb89-1"><a href="#cb89-1" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>.hdf5</span></code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> You can ignore errors about “no matches for wildcard” on Linux and macOS. This message just tells you that there is no file with the extension <code>hdf5</code> in the current directory.</p>
 </blockquote></li>
 <li><p>Check that no HDF5 files exist in the repository. The following command should not produce any output:</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb107-1"><a href="#cb107-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
+<div class="sourceCode" id="cb90"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb90-1"><a href="#cb90-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
 <li><p>Give your test STH the <a href="#tutorials:section:sth-renaming">name</a> “Test-STH”</p></li>
 <li><p>Run the following command</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb108-1"><a href="#cb108-1" tabindex="-1"></a><span class="ex">poetry</span> run icon measure <span class="at">-t</span> 300 <span class="at">-n</span> Test-STH</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb91-1"><a href="#cb91-1" tabindex="-1"></a><span class="ex">poetry</span> run icon measure <span class="at">-t</span> 300 <span class="at">-n</span> Test-STH</span></code></pre></div>
 <ul>
 <li>The command should not print any <strong>no error messages</strong>.</li>
 <li>The <strong>data loss must be below 1 %</strong>.</li>
 </ul></li>
 <li><p>Check that the repo now contains a HDF5 (<code>*.hdf5</code>) file</p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb109-1"><a href="#cb109-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
+<div class="sourceCode" id="cb92"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
 <li><p>Open the file in <a href="#measurement-data">HDFView</a></p></li>
 <li><p>Check that the timestamp of the last value in the <code>acceleration</code> table has <strong>approximately the value <code>30 000 000</code></strong> (all values above <code>29 900 000</code> should be fine).</p></li>
 </ol>
@@ -1424,7 +1222,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <p><strong>Note:</strong> For the text below we assume that you installed <a href="https://en.wikipedia.org/wiki/Make_(software)#Makefile"><code>make</code></a> on your machine.</p>
 </blockquote>
 <p>To run all checks, the STH test and the STU test use the following <code>make</code> command:</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb93-1"><a href="#cb93-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
 <p>Afterwards make sure there were no (unexpected) errors in the output of the STH and STU test.</p>
 </div>
 </div>
@@ -1437,7 +1235,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <ol style="list-style-type: decimal">
 <li><p>Set the value of <code>sth</code> → <code>status</code> in the <a href="#changing-configuration-values">configuration</a> to <code>Epoxied</code></p></li>
 <li><p>Execute the command:</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb94-1"><a href="#cb94-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
 <p>in the root of the repository</p></li>
 </ol></li>
 <li><p>Check that the <strong>firmware flash</strong> works in Windows</p>
@@ -1464,11 +1262,11 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <li><p>Commit your changes</p></li>
 </ol></li>
 <li><p>Change the version number and commit your changes (please replace <code>&lt;VERSION&gt;</code> with the version number e.g. <code>1.0.5</code>):</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1" tabindex="-1"></a><span class="ex">poetry</span> version <span class="op">&lt;</span>VERSION<span class="op">&gt;</span></span>
-<span id="cb112-2"><a href="#cb112-2" tabindex="-1"></a><span class="bu">export</span> <span class="va">icotronic_version</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">poetry</span> version <span class="at">-s</span><span class="va">)</span><span class="st">&quot;</span></span>
-<span id="cb112-3"><a href="#cb112-3" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-a</span> <span class="at">-m</span> <span class="st">&quot;Release: Release version </span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
-<span id="cb112-4"><a href="#cb112-4" tabindex="-1"></a><span class="fu">git</span> tag <span class="st">&quot;</span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
-<span id="cb112-5"><a href="#cb112-5" tabindex="-1"></a><span class="fu">git</span> push <span class="kw">&amp;&amp;</span> <span class="fu">git</span> push <span class="at">--tags</span></span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb95-1"><a href="#cb95-1" tabindex="-1"></a><span class="ex">poetry</span> version <span class="op">&lt;</span>VERSION<span class="op">&gt;</span></span>
+<span id="cb95-2"><a href="#cb95-2" tabindex="-1"></a><span class="bu">export</span> <span class="va">icotronic_version</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">poetry</span> version <span class="at">-s</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb95-3"><a href="#cb95-3" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-a</span> <span class="at">-m</span> <span class="st">&quot;Release: Release version </span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
+<span id="cb95-4"><a href="#cb95-4" tabindex="-1"></a><span class="fu">git</span> tag <span class="st">&quot;</span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
+<span id="cb95-5"><a href="#cb95-5" tabindex="-1"></a><span class="fu">git</span> push <span class="kw">&amp;&amp;</span> <span class="fu">git</span> push <span class="at">--tags</span></span></code></pre></div>
 <p><strong>Note:</strong> <a href="https://github.com/MyTooliT/ICOtronic/actions">GitHub Actions</a> will publish a package based on the tagged commit and upload it to <a href="https://pypi.org/project/icotronic/">PyPi</a>.</p></li>
 <li><p>Create a new release <a href="https://github.com/MyTooliT/ICOtronic/releases/new">here</a></p>
 <ol style="list-style-type: decimal">
@@ -1478,7 +1276,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <li>Click on “Publish Release”</li>
 </ol>
 <p><strong>Note:</strong> Alternatively you can also use the <a href="https://cli.github.com"><code>gh</code></a> command:</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb113-1"><a href="#cb113-1" tabindex="-1"></a><span class="ex">gh</span> release create</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb96-1"><a href="#cb96-1" tabindex="-1"></a><span class="ex">gh</span> release create</span></code></pre></div>
 <p>to create the release notes.</p></li>
 <li><p>Close the <a href="https://github.com/MyTooliT/ICOtronic/milestones">milestone</a> for the latest release number</p></li>
 </ol>
