@@ -558,7 +558,7 @@ class SensorNode(Node):
             subcommand=16,
             data=data,
             response_data=list(data),
-            description="set reduced energy time values of sensor node",
+            description="set lowest energy time values of sensor node",
         )
 
     async def get_mac_address(self) -> EUI:
