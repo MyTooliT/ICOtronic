@@ -174,11 +174,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path=""><a href="#code-examples"><i class="fa fa-check"></i><b>4</b> Code Examples</a></li>
 <li class="chapter" data-level="5" data-path=""><a href="#virtualization"><i class="fa fa-check"></i><b>5</b> Virtualization</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path=""><a href="#windows-subsystem-for-linux-2"><i class="fa fa-check"></i><b>5.1</b> Windows Subsystem for Linux 2</a>
-<ul>
-<li class="chapter" data-level="5.1.1" data-path=""><a href="#installingusing-simplicity-commander"><i class="fa fa-check"></i><b>5.1.1</b> Installing/Using Simplicity Commander</a></li>
-<li class="chapter" data-level="5.1.2" data-path=""><a href="#run-tests-in-wsl"><i class="fa fa-check"></i><b>5.1.2</b> Run Tests in WSL</a></li>
-</ul></li>
+<li class="chapter" data-level="5.1" data-path=""><a href="#windows-subsystem-for-linux-2"><i class="fa fa-check"></i><b>5.1</b> Windows Subsystem for Linux 2</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path=""><a href="#containerization"><i class="fa fa-check"></i><b>6</b> Containerization</a>
 <ul>
@@ -986,73 +982,7 @@ usbipd wsl list
 <li>Unfortunately <a href="#introduction:section:pcan-driver:linux">configuring the CAN interface automatically</a> does not seem to work (reliably) on WSL yet</li>
 </ul>
 </blockquote>
-<div id="installingusing-simplicity-commander" class="section level3 hasAnchor" number="5.1.1">
-<h3><span class="header-section-number">5.1.1</span> Installing/Using Simplicity Commander<a href="#installingusing-simplicity-commander" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<ol style="list-style-type: decimal">
-<li><p>Download and unpack <a href="https://community.silabs.com/s/article/simplicity-commander?language=en_US">Simplicity Commander</a> (Linux Shell)</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-y</span> unzip</span>
-<span id="cb65-2"><a href="#cb65-2" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/Downloads</span>
-<span id="cb65-3"><a href="#cb65-3" tabindex="-1"></a><span class="bu">cd</span> ~/Downloads</span>
-<span id="cb65-4"><a href="#cb65-4" tabindex="-1"></a><span class="fu">wget</span> https://www.silabs.com/documents/public/software/SimplicityCommander-Linux.zip</span>
-<span id="cb65-5"><a href="#cb65-5" tabindex="-1"></a><span class="fu">unzip</span> SimplicityCommander-Linux.zip</span>
-<span id="cb65-6"><a href="#cb65-6" tabindex="-1"></a><span class="bu">cd</span> SimplicityCommander-Linux</span>
-<span id="cb65-7"><a href="#cb65-7" tabindex="-1"></a><span class="fu">tar</span> xf Commander-cli_linux_x86_64<span class="pp">*</span>.tar.bz</span>
-<span id="cb65-8"><a href="#cb65-8" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/Applications</span>
-<span id="cb65-9"><a href="#cb65-9" tabindex="-1"></a><span class="fu">mv</span> commander-cli ~/Applications/commander</span>
-<span id="cb65-10"><a href="#cb65-10" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> ~/Applications/commander/commander-cli ~/Applications/commander/commander</span>
-<span id="cb65-11"><a href="#cb65-11" tabindex="-1"></a><span class="co"># Fix J-Link connection</span></span>
-<span id="cb65-12"><a href="#cb65-12" tabindex="-1"></a><span class="co"># https://wiki.segger.com/J-Link_cannot_connect_to_the_CPU</span></span>
-<span id="cb65-13"><a href="#cb65-13" tabindex="-1"></a><span class="fu">sudo</span> cp ~/Applications/commander/99-jlink.rules /etc/udev/rules.d/</span></code></pre></div></li>
-<li><p>Add <code>commander</code> binary to path (Linux Shell)</p>
-<ol style="list-style-type: decimal">
-<li><p>Open <code>~/.profile</code> in <code>nano</code>:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="fu">nano</span> ~/.profile</span></code></pre></div></li>
-<li><p>Add the following text at the bottom:</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-d</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Applications/commander&quot;</span> <span class="bu">]</span> <span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb67-2"><a href="#cb67-2" tabindex="-1"></a>    <span class="va">PATH</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Applications/commander:</span><span class="va">$PATH</span><span class="st">&quot;</span></span>
-<span id="cb67-3"><a href="#cb67-3" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div></li>
-<li><p>Save your changes</p></li>
-</ol></li>
-<li><p>Restart WSL</p></li>
-<li><p>Connect programming adapter to Linux (Windows Shell)</p>
-<pre class="pwsh"><code>usbipd wsl list
-# …
-# 5-4    1366:0105  JLink CDC UART Port (COM3), J-Link driver Not attached
-# …
-usbipd wsl attach --busid 5-4</code></pre></li>
-<li><p>Check if <code>commander</code> JLink connection works without using <code>sudo</code> (Linux Shell)</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" tabindex="-1"></a><span class="ex">commander</span> adapter dbgmode OUT</span>
-<span id="cb69-2"><a href="#cb69-2" tabindex="-1"></a><span class="co"># Setting debug mode to OUT...</span></span>
-<span id="cb69-3"><a href="#cb69-3" tabindex="-1"></a><span class="co"># DONE</span></span></code></pre></div>
-<p>Note:</p>
-<p>If the command above <a href="https://stackoverflow.com/questions/55313610/importerror-libgl-so-1-cannot-open-shared-object-file-no-such-file-or-directo">fails with the error message</a>:</p>
-<pre><code>error while loading shared libraries: libGL.so.1: cannot open shared object file…</code></pre>
-<p>then you need to install <code>libgl1</code>:</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-y</span> libgl1</span></code></pre></div></li>
-</ol>
-</div>
-<div id="run-tests-in-wsl" class="section level3 hasAnchor" number="5.1.2">
-<h3><span class="header-section-number">5.1.2</span> Run Tests in WSL<a href="#run-tests-in-wsl" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<blockquote>
-<p><strong>Note:</strong> The tests use the command-line <code>xdg-open</code>. For the tests also work on Linux, then you need to install the Python package <a href="https://github.com/cpbotha/xdg-open-wsl"><code>xdg-open-wsl</code></a>:</p>
-</blockquote>
-<pre><code>pip3 install --user git+https://github.com/cpbotha/xdg-open-wsl.git</code></pre>
-<ol style="list-style-type: decimal">
-<li><p>Start WSL (Windows Shell)</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb73-1"><a href="#cb73-1" tabindex="-1"></a><span class="ex">wsl</span> <span class="at">-d</span> CANbuntu <span class="at">--cd</span> <span class="st">&quot;~/Documents/ICOtronic&quot;</span></span></code></pre></div></li>
-<li><p>Connect programming/CAN adapter to Linux (Windows Shell):</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a><span class="va">$jlink_id</span> = usbipd wsl list <span class="kw">|</span> <span class="ex">Select-String</span> JLink <span class="kw">|</span> <span class="ex">%{</span><span class="va">$_</span> <span class="at">-replace</span> <span class="st">&#39;(\d-\d).*&#39;</span>,<span class="st">&#39;$1&#39;</span>}</span>
-<span id="cb74-2"><a href="#cb74-2" tabindex="-1"></a><span class="va">$can_id</span> = usbipd wsl list <span class="kw">|</span> <span class="ex">Select-String</span> PCAN-USB <span class="kw">|</span> <span class="ex">%{</span><span class="va">$_</span> <span class="at">-replace</span> <span class="st">&#39;(\d-\d).*&#39;</span>,<span class="st">&#39;$1&#39;</span>}</span>
-<span id="cb74-3"><a href="#cb74-3" tabindex="-1"></a><span class="ex">usbipd</span> wsl attach <span class="at">-d</span> CANbuntu <span class="at">--busid</span> <span class="va">$jlink_id</span></span>
-<span id="cb74-4"><a href="#cb74-4" tabindex="-1"></a><span class="ex">usbipd</span> wsl attach <span class="at">-d</span> CANbuntu <span class="at">--busid</span> <span class="va">$can_id</span></span></code></pre></div></li>
-<li><p>Configure CAN interface (Linux Shell):</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 type can bitrate 1000000</span>
-<span id="cb75-2"><a href="#cb75-2" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 up</span></code></pre></div></li>
-<li><p>Run tests (Linux Shell):</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div></li>
-</ol>
 
-</div>
 </div>
 </div>
 <div id="containerization" class="section level1 hasAnchor" number="6">
@@ -1067,7 +997,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <div id="building-the-docker-image" class="section level3 hasAnchor" number="6.1.2">
 <h3><span class="header-section-number">6.1.2</span> Building the Docker Image<a href="#building-the-docker-image" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If you do not want to create a <code>Dockerfile</code> yourself, you can build an image based on our Docker example file:</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> mytoolit/icotronic <span class="at">-f</span> Docker/Dockerfile .</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> mytoolit/icotronic <span class="at">-f</span> Docker/Dockerfile .</span></code></pre></div>
 </div>
 <div id="using-icotronic-in-the-docker-container" class="section level3 hasAnchor" number="6.1.3">
 <h3><span class="header-section-number">6.1.3</span> Using ICOtronic in the Docker Container<a href="#using-icotronic-in-the-docker-container" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1076,18 +1006,18 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <ol style="list-style-type: decimal">
 <li><p>Open a new terminal window</p></li>
 <li><p>Open a shell in the Docker container</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-it</span> <span class="at">--name</span> icotronic mytoolit/icotronic</span></code></pre></div></li>
+<div class="sourceCode" id="cb66"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-it</span> <span class="at">--name</span> icotronic mytoolit/icotronic</span></code></pre></div></li>
 </ol></li>
 <li><p>Move the CAN interface into the network space of the Docker container <strong>(Terminal 2)</strong></p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb79-1"><a href="#cb79-1" tabindex="-1"></a><span class="bu">export</span> <span class="va">DOCKERPID</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">docker</span> inspect <span class="at">-f</span> <span class="st">&#39;{{ .State.Pid }}&#39;</span> icotronic<span class="va">)</span><span class="st">&quot;</span></span>
-<span id="cb79-2"><a href="#cb79-2" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 netns <span class="st">&quot;</span><span class="va">$DOCKERPID</span><span class="st">&quot;</span></span>
-<span id="cb79-3"><a href="#cb79-3" tabindex="-1"></a><span class="fu">sudo</span> nsenter <span class="at">-t</span> <span class="st">&quot;</span><span class="va">$DOCKERPID</span><span class="st">&quot;</span> <span class="at">-n</span> ip link set can0 type can bitrate 1000000</span>
-<span id="cb79-4"><a href="#cb79-4" tabindex="-1"></a><span class="fu">sudo</span> nsenter <span class="at">-t</span> <span class="st">&quot;</span><span class="va">$DOCKERPID</span><span class="st">&quot;</span> <span class="at">-n</span> ip link set can0 up</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a><span class="bu">export</span> <span class="va">DOCKERPID</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">docker</span> inspect <span class="at">-f</span> <span class="st">&#39;{{ .State.Pid }}&#39;</span> icotronic<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb67-2"><a href="#cb67-2" tabindex="-1"></a><span class="fu">sudo</span> ip link set can0 netns <span class="st">&quot;</span><span class="va">$DOCKERPID</span><span class="st">&quot;</span></span>
+<span id="cb67-3"><a href="#cb67-3" tabindex="-1"></a><span class="fu">sudo</span> nsenter <span class="at">-t</span> <span class="st">&quot;</span><span class="va">$DOCKERPID</span><span class="st">&quot;</span> <span class="at">-n</span> ip link set can0 type can bitrate 1000000</span>
+<span id="cb67-4"><a href="#cb67-4" tabindex="-1"></a><span class="fu">sudo</span> nsenter <span class="at">-t</span> <span class="st">&quot;</span><span class="va">$DOCKERPID</span><span class="st">&quot;</span> <span class="at">-n</span> ip link set can0 up</span></code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> Alternatively you can also add the option <code>--network host</code> to the Docker command from step 1. Please check out the <a href="https://docs.docker.com/engine/network/drivers/host/">Docker documentation</a> to learn more about the consequences of using this option.</p>
 </blockquote></li>
 <li><p>Run a test command in Docker container <strong>(Terminal 1)</strong> e.g.:</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" tabindex="-1"></a><span class="ex">icon</span> list</span></code></pre></div></li>
+<div class="sourceCode" id="cb68"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" tabindex="-1"></a><span class="ex">icon</span> list</span></code></pre></div></li>
 </ol>
 
 </div>
@@ -1100,13 +1030,13 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <p>You can use the instructions below, if you want to work on the code of the ICOtronic package, i.e. add additional features or fix bugs.</p>
 <ol style="list-style-type: decimal">
 <li><p>Clone <a href="https://github.com/MyTooliT/ICOtronic">the repository</a> to a directory of your choice. You can either use the <a href="https://git-scm.com/downloads">command line tool <code>git</code></a>:</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/MyTooliT/ICOtronic.git</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/MyTooliT/ICOtronic.git</span></code></pre></div>
 <p>or one of the many available <a href="https://git-scm.com/downloads/guis">graphical user interfaces for Git</a> to do that.</p></li>
 <li><p>Install ICOtronic with <a href="https://python-poetry.org">Poetry</a></p>
 <ol style="list-style-type: decimal">
 <li><p>Change your working directory to the (root) directory of the cloned repository</p></li>
 <li><p>Install ICOtronic:</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb82-1"><a href="#cb82-1" tabindex="-1"></a><span class="ex">poetry</span> lock <span class="kw">&amp;&amp;</span> <span class="ex">poetry</span> install <span class="at">--all-extras</span></span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1" tabindex="-1"></a><span class="ex">poetry</span> lock <span class="kw">&amp;&amp;</span> <span class="ex">poetry</span> install <span class="at">--all-extras</span></span></code></pre></div>
 <blockquote>
 <p><strong>Notes:</strong></p>
 <ul>
@@ -1119,7 +1049,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <li><p>Install other required tools (for tests)</p>
 <ul>
 <li><p><code>hdf5</code>: For the command line tool <code>h5dump</code> (Linux/macOS). You can install hdf5 via <a href="https://brew.sh">Homebrew</a>:</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb83-1"><a href="#cb83-1" tabindex="-1"></a><span class="ex">brew</span> install hdf5</span></code></pre></div></li>
+<div class="sourceCode" id="cb71"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1" tabindex="-1"></a><span class="ex">brew</span> install hdf5</span></code></pre></div></li>
 </ul></li>
 </ol>
 </div>
@@ -1127,7 +1057,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <h2><span class="header-section-number">7.2</span> Style<a href="#style" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Please use the guidelines from <a href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a>. For code formatting we currently use <a href="https://github.com/psf/black">Black</a>, which should format code according to PEP 8 by default.</p>
 <p>To format the whole code base you can use the following command in the root of the repository:</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb84-1"><a href="#cb84-1" tabindex="-1"></a><span class="ex">poetry</span> black .</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a><span class="ex">poetry</span> black .</span></code></pre></div>
 <p>For development we recommend that you use a tool or plugin that reformats your code with Black every time you save. This way we can ensure that we use a consistent style for the whole code base.</p>
 </div>
 <div id="tests" class="section level2 hasAnchor" number="7.3">
@@ -1144,17 +1074,17 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <div id="flake8" class="section level4 hasAnchor" number="7.3.1.1">
 <h4><span class="header-section-number">7.3.1.1</span> Flake8<a href="#flake8" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We check the code with <a href="https://flake8.pycqa.org">Flake8</a>. Please use the following command in the root of the repository to make sure you did not add any code that introduces warnings:</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" tabindex="-1"></a><span class="ex">poetry</span> run flake8</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb73-1"><a href="#cb73-1" tabindex="-1"></a><span class="ex">poetry</span> run flake8</span></code></pre></div>
 </div>
 <div id="mypy" class="section level4 hasAnchor" number="7.3.1.2">
 <h4><span class="header-section-number">7.3.1.2</span> mypy<a href="#mypy" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To check the type hint in the code base we use the static code checker <a href="https://mypy.readthedocs.io">mypy</a>. Please use the following command in the root of the repository to check the code base for type problems:</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb86-1"><a href="#cb86-1" tabindex="-1"></a><span class="ex">poetry</span> run mypy icotronic</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a><span class="ex">poetry</span> run mypy icotronic</span></code></pre></div>
 </div>
 <div id="pylint" class="section level4 hasAnchor" number="7.3.1.3">
 <h4><span class="header-section-number">7.3.1.3</span> Pylint<a href="#pylint" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We currently use <a href="https://github.com/PyCQA/pylint">Pylint</a> to check the code:</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb87-1"><a href="#cb87-1" tabindex="-1"></a><span class="ex">poetry</span> run pylint .</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1" tabindex="-1"></a><span class="ex">poetry</span> run pylint .</span></code></pre></div>
 </div>
 </div>
 <div id="automatic-tests" class="section level3 hasAnchor" number="7.3.2">
@@ -1162,7 +1092,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <div id="usage" class="section level5 hasAnchor" number="7.3.2.0.1">
 <h5><span class="header-section-number">7.3.2.0.1</span> Usage<a href="#usage" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>Please run the following command in the root of the repository:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1" tabindex="-1"></a><span class="ex">poetry</span> run pytest <span class="at">-v</span></span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a><span class="ex">poetry</span> run pytest <span class="at">-v</span></span></code></pre></div>
 <p>and make sure that it reports no test failures.</p>
 </div>
 </div>
@@ -1193,21 +1123,21 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <ol style="list-style-type: decimal">
 <li><p>Open your favorite terminal application and change your working directory to the root of the repository</p></li>
 <li><p>Remove HDF5 files from the repository:</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb89-1"><a href="#cb89-1" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>.hdf5</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>.hdf5</span></code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> You can ignore errors about “no matches for wildcard” on Linux and macOS. This message just tells you that there is no file with the extension <code>hdf5</code> in the current directory.</p>
 </blockquote></li>
 <li><p>Check that no HDF5 files exist in the repository. The following command should not produce any output:</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb90-1"><a href="#cb90-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
+<div class="sourceCode" id="cb78"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
 <li><p>Give your test STH the <a href="#tutorials:section:sth-renaming">name</a> “Test-STH”</p></li>
 <li><p>Run the following command</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb91-1"><a href="#cb91-1" tabindex="-1"></a><span class="ex">poetry</span> run icon measure <span class="at">-t</span> 300 <span class="at">-n</span> Test-STH</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb79-1"><a href="#cb79-1" tabindex="-1"></a><span class="ex">poetry</span> run icon measure <span class="at">-t</span> 300 <span class="at">-n</span> Test-STH</span></code></pre></div>
 <ul>
 <li>The command should not print any <strong>no error messages</strong>.</li>
 <li>The <strong>data loss must be below 1 %</strong>.</li>
 </ul></li>
 <li><p>Check that the repo now contains a HDF5 (<code>*.hdf5</code>) file</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
+<div class="sourceCode" id="cb80"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
 <li><p>Open the file in <a href="#measurement-data">HDFView</a></p></li>
 <li><p>Check that the timestamp of the last value in the <code>acceleration</code> table has <strong>approximately the value <code>30 000 000</code></strong> (all values above <code>29 900 000</code> should be fine).</p></li>
 </ol>
@@ -1222,7 +1152,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <p><strong>Note:</strong> For the text below we assume that you installed <a href="https://en.wikipedia.org/wiki/Make_(software)#Makefile"><code>make</code></a> on your machine.</p>
 </blockquote>
 <p>To run all checks, the STH test and the STU test use the following <code>make</code> command:</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb93-1"><a href="#cb93-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
 <p>Afterwards make sure there were no (unexpected) errors in the output of the STH and STU test.</p>
 </div>
 </div>
@@ -1235,7 +1165,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <ol style="list-style-type: decimal">
 <li><p>Set the value of <code>sth</code> → <code>status</code> in the <a href="#changing-configuration-values">configuration</a> to <code>Epoxied</code></p></li>
 <li><p>Execute the command:</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb94-1"><a href="#cb94-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb82-1"><a href="#cb82-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
 <p>in the root of the repository</p></li>
 </ol></li>
 <li><p>Check that the <strong>firmware flash</strong> works in Windows</p>
@@ -1262,11 +1192,11 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <li><p>Commit your changes</p></li>
 </ol></li>
 <li><p>Change the version number and commit your changes (please replace <code>&lt;VERSION&gt;</code> with the version number e.g. <code>1.0.5</code>):</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb95-1"><a href="#cb95-1" tabindex="-1"></a><span class="ex">poetry</span> version <span class="op">&lt;</span>VERSION<span class="op">&gt;</span></span>
-<span id="cb95-2"><a href="#cb95-2" tabindex="-1"></a><span class="bu">export</span> <span class="va">icotronic_version</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">poetry</span> version <span class="at">-s</span><span class="va">)</span><span class="st">&quot;</span></span>
-<span id="cb95-3"><a href="#cb95-3" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-a</span> <span class="at">-m</span> <span class="st">&quot;Release: Release version </span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
-<span id="cb95-4"><a href="#cb95-4" tabindex="-1"></a><span class="fu">git</span> tag <span class="st">&quot;</span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
-<span id="cb95-5"><a href="#cb95-5" tabindex="-1"></a><span class="fu">git</span> push <span class="kw">&amp;&amp;</span> <span class="fu">git</span> push <span class="at">--tags</span></span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb83-1"><a href="#cb83-1" tabindex="-1"></a><span class="ex">poetry</span> version <span class="op">&lt;</span>VERSION<span class="op">&gt;</span></span>
+<span id="cb83-2"><a href="#cb83-2" tabindex="-1"></a><span class="bu">export</span> <span class="va">icotronic_version</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">poetry</span> version <span class="at">-s</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb83-3"><a href="#cb83-3" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-a</span> <span class="at">-m</span> <span class="st">&quot;Release: Release version </span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
+<span id="cb83-4"><a href="#cb83-4" tabindex="-1"></a><span class="fu">git</span> tag <span class="st">&quot;</span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
+<span id="cb83-5"><a href="#cb83-5" tabindex="-1"></a><span class="fu">git</span> push <span class="kw">&amp;&amp;</span> <span class="fu">git</span> push <span class="at">--tags</span></span></code></pre></div>
 <p><strong>Note:</strong> <a href="https://github.com/MyTooliT/ICOtronic/actions">GitHub Actions</a> will publish a package based on the tagged commit and upload it to <a href="https://pypi.org/project/icotronic/">PyPi</a>.</p></li>
 <li><p>Create a new release <a href="https://github.com/MyTooliT/ICOtronic/releases/new">here</a></p>
 <ol style="list-style-type: decimal">
@@ -1276,7 +1206,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <li>Click on “Publish Release”</li>
 </ol>
 <p><strong>Note:</strong> Alternatively you can also use the <a href="https://cli.github.com"><code>gh</code></a> command:</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb96-1"><a href="#cb96-1" tabindex="-1"></a><span class="ex">gh</span> release create</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb84-1"><a href="#cb84-1" tabindex="-1"></a><span class="ex">gh</span> release create</span></code></pre></div>
 <p>to create the release notes.</p></li>
 <li><p>Close the <a href="https://github.com/MyTooliT/ICOtronic/milestones">milestone</a> for the latest release number</p></li>
 </ol>
