@@ -384,7 +384,10 @@ class SensorNode(Node):
 
         return Times(sleep=wait_time, advertisement=advertisement_time)
 
-    async def set_energy_mode_reduced(self, times: Times) -> None:
+    async def set_energy_mode_reduced(
+        self,
+        times: Times = Times(sleep=5 * 60 * 1000, advertisement=1.25 * 1000),
+    ) -> None:
         """Writes the time values for the reduced energy mode (mode 1)
 
         See also:
@@ -394,6 +397,7 @@ class SensorNode(Node):
         Args:
 
             times:
+
                 The values for the advertisement time in the reduced energy
                 mode in milliseconds and the time until the node will go into
                 the low energy mode (mode 1) from the disconnected state – if
@@ -417,7 +421,7 @@ class SensorNode(Node):
             ...                       advertisement=advertisement))
             ...             times = await sensor_node.get_energy_mode_reduced()
             ...
-            ...             await sensor_node.set_energy_mode_reduced(times)
+            ...             await sensor_node.set_energy_mode_reduced()
             ...
             ...             return times
             >>> times = run(read_write_energy_mode_reduced(200_000, 2000))
@@ -498,7 +502,12 @@ class SensorNode(Node):
 
         return Times(sleep=wait_time, advertisement=advertisement_time)
 
-    async def set_energy_mode_lowest(self, times: Times) -> None:
+    async def set_energy_mode_lowest(
+        self,
+        times: Times = Times(
+            sleep=3 * 24 * 3600 * 1000, advertisement=2.5 * 1000
+        ),
+    ) -> None:
         """Writes the time values for the lowest energy mode (mode 2)
 
         See also:
@@ -531,7 +540,7 @@ class SensorNode(Node):
             ...                       advertisement=advertisement))
             ...             times = await sensor_node.get_energy_mode_lowest()
             ...
-            ...             await sensor_node.set_energy_mode_lowest(times)
+            ...             await sensor_node.set_energy_mode_lowest()
             ...
             ...             return times
             >>> times = run(read_write_energy_mode_lowest(200_000, 2000))
