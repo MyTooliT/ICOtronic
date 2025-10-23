@@ -1098,28 +1098,9 @@ usbipd wsl list
 </div>
 <div id="manual-tests" class="section level3 hasAnchor" number="7.3.3">
 <h3><span class="header-section-number">7.3.3</span> Manual Tests<a href="#manual-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="sth-test" class="section level4 hasAnchor" number="7.3.3.1">
-<h4><span class="header-section-number">7.3.3.1</span> STH Test<a href="#sth-test" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<ol style="list-style-type: decimal">
-<li>Call the command <code>poetry run test-sth</code> for a working STH</li>
-<li>Wait for the command execution</li>
-<li>Check that the command shows no error messages</li>
-<li>Open the PDF report (<code>STH Test.pdf</code>) in the repository root and make sure that it includes the correct test data</li>
-</ol>
-</div>
-<div id="development:section:stu-test" class="section level4 hasAnchor" number="7.3.3.2">
-<h4><span class="header-section-number">7.3.3.2</span> STU Test<a href="#development:section:stu-test" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<ol style="list-style-type: decimal">
-<li>Call the command <code>poetry run test-stu</code> (or <code>poetry run test-stu -k eeprom -k connection</code> when you want to skip the flash test) for a working STU</li>
-<li>Wait for the command execution</li>
-<li>Check that the command shows no error messages</li>
-<li>Open the PDF report (<code>STU Test.pdf</code>) in the repository root and make sure that it includes the correct test data</li>
-</ol>
-<div id="development:section:extended-tests" class="section level5 hasAnchor" number="7.3.3.2.1">
-<h5><span class="header-section-number">7.3.3.2.1</span> Extended Tests<a href="#development:section:extended-tests" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<p>The text below specifies extended manual test that should be executed before we <a href="#development:section:release">release a new version of the ICOtronic package</a>. Please note that the tests assume that you more or less use the <a href="https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml">default configuration values</a>.</p>
-<div id="check-the-performance-of-the-library" class="section level6 hasAnchor" number="7.3.3.2.1.1">
-<h6><span class="header-section-number">7.3.3.2.1.1</span> Check the Performance of the Library<a href="#check-the-performance-of-the-library" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<p>The text below specifies the manual test that should be executed before we <a href="#development:section:release">release a new version of the ICOtronic package</a>. Please note that the tests assume that you more or less use the <a href="https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml">default configuration values</a>.</p>
+<div id="check-the-performance-of-the-library" class="section level5 hasAnchor" number="7.3.3.0.1">
+<h5><span class="header-section-number">7.3.3.0.1</span> Check the Performance of the Library<a href="#check-the-performance-of-the-library" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <ol style="list-style-type: decimal">
 <li><p>Open your favorite terminal application and change your working directory to the root of the repository</p></li>
 <li><p>Remove HDF5 files from the repository:</p>
@@ -1141,8 +1122,6 @@ usbipd wsl list
 <li><p>Open the file in <a href="#measurement-data">HDFView</a></p></li>
 <li><p>Check that the timestamp of the last value in the <code>acceleration</code> table has <strong>approximately the value <code>30 000 000</code></strong> (all values above <code>29 900 000</code> should be fine).</p></li>
 </ol>
-</div>
-</div>
 </div>
 </div>
 <div id="combined-checks-tests" class="section level3 hasAnchor" number="7.3.4">
@@ -1168,17 +1147,7 @@ usbipd wsl list
 <div class="sourceCode" id="cb82"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb82-1"><a href="#cb82-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
 <p>in the root of the repository</p></li>
 </ol></li>
-<li><p>Check that the <strong>firmware flash</strong> works in Windows</p>
-<ul>
-<li><p>Execute <code>poetry run test-sth -v</code></p>
-<ol style="list-style-type: decimal">
-<li>once with <code>sth</code> → <code>status</code> set to <code>Epoxied</code>, and</li>
-<li>once set to <code>Bare PCB</code></li>
-</ol>
-<p>in the <a href="#changing-configuration-values">configuration</a>. To make sure, that the STU flash test also works, please use both STU test commands described in the section <a href="#development:section:stu-test">“STU Test”</a>.</p>
-<p>If you follow the steps above you make sure that the <strong>flash tests work</strong> for both STU and STH, and there are <strong>no unintentional consequences of (not) flashing the chip</strong> before you run the other parts of the test suite.</p></li>
-</ul></li>
-<li><p>Execute the <strong><a href="#development:section:extended-tests">extended manual tests</a></strong> in Windows and check that everything works as expected.</p></li>
+<li><p>Execute the <strong><a href="#manual-tests">manual tests</a></strong> in Windows and check that everything works as expected.</p></li>
 <li><p>Update the release notes:</p>
 <ol style="list-style-type: decimal">
 <li><p>Open the <a href="Releases">release notes</a> for the latest version</p></li>
