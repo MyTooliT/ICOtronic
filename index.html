@@ -201,30 +201,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1.3" data-path=""><a href="#using-icotronic-in-the-docker-container"><i class="fa fa-check"></i><b>6.1.3</b> Using ICOtronic in the Docker Container</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path=""><a href="#scripts:section:scripts"><i class="fa fa-check"></i><b>7</b> Scripts</a>
+<li class="chapter" data-level="7" data-path=""><a href="#development"><i class="fa fa-check"></i><b>7</b> Development</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path=""><a href="#eeprom-check"><i class="fa fa-check"></i><b>7.1</b> EEPROM Check</a></li>
-<li class="chapter" data-level="7.2" data-path=""><a href="#section:scripts:icon"><i class="fa fa-check"></i><b>7.2</b> ICOn</a></li>
-<li class="chapter" data-level="7.3" data-path=""><a href="#mac-address-conversion"><i class="fa fa-check"></i><b>7.3</b> MAC Address Conversion</a>
+<li class="chapter" data-level="7.1" data-path=""><a href="#install-1"><i class="fa fa-check"></i><b>7.1</b> Install</a></li>
+<li class="chapter" data-level="7.2" data-path=""><a href="#style"><i class="fa fa-check"></i><b>7.2</b> Style</a></li>
+<li class="chapter" data-level="7.3" data-path=""><a href="#tests"><i class="fa fa-check"></i><b>7.3</b> Tests</a>
 <ul>
-<li class="chapter" data-level="7.3.1" data-path=""><a href="#examples"><i class="fa fa-check"></i><b>7.3.1</b> Examples</a></li>
+<li class="chapter" data-level="7.3.1" data-path=""><a href="#code-checks"><i class="fa fa-check"></i><b>7.3.1</b> Code Checks</a></li>
+<li class="chapter" data-level="7.3.2" data-path=""><a href="#automatic-tests"><i class="fa fa-check"></i><b>7.3.2</b> Automatic Tests</a></li>
+<li class="chapter" data-level="7.3.3" data-path=""><a href="#manual-tests"><i class="fa fa-check"></i><b>7.3.3</b> Manual Tests</a></li>
+<li class="chapter" data-level="7.3.4" data-path=""><a href="#combined-checks-tests"><i class="fa fa-check"></i><b>7.3.4</b> Combined Checks &amp; Tests</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path=""><a href="#section:scripts:test-sth"><i class="fa fa-check"></i><b>7.4</b> Test-STH</a></li>
-<li class="chapter" data-level="7.5" data-path=""><a href="#section:scripts:test-stu"><i class="fa fa-check"></i><b>7.5</b> Test-STU</a></li>
-<li class="chapter" data-level="7.6" data-path=""><a href="#section:scripts:test-smh"><i class="fa fa-check"></i><b>7.6</b> Test-SMH</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path=""><a href="#development"><i class="fa fa-check"></i><b>8</b> Development</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path=""><a href="#install-1"><i class="fa fa-check"></i><b>8.1</b> Install</a></li>
-<li class="chapter" data-level="8.2" data-path=""><a href="#style"><i class="fa fa-check"></i><b>8.2</b> Style</a></li>
-<li class="chapter" data-level="8.3" data-path=""><a href="#tests"><i class="fa fa-check"></i><b>8.3</b> Tests</a>
-<ul>
-<li class="chapter" data-level="8.3.1" data-path=""><a href="#code-checks"><i class="fa fa-check"></i><b>8.3.1</b> Code Checks</a></li>
-<li class="chapter" data-level="8.3.2" data-path=""><a href="#automatic-tests"><i class="fa fa-check"></i><b>8.3.2</b> Automatic Tests</a></li>
-<li class="chapter" data-level="8.3.3" data-path=""><a href="#manual-tests"><i class="fa fa-check"></i><b>8.3.3</b> Manual Tests</a></li>
-<li class="chapter" data-level="8.3.4" data-path=""><a href="#combined-checks-tests"><i class="fa fa-check"></i><b>8.3.4</b> Combined Checks &amp; Tests</a></li>
-</ul></li>
-<li class="chapter" data-level="8.4" data-path=""><a href="#development:section:release"><i class="fa fa-check"></i><b>8.4</b> Release</a></li>
+<li class="chapter" data-level="7.4" data-path=""><a href="#development:section:release"><i class="fa fa-check"></i><b>7.4</b> Release</a></li>
 </ul></li>
 </ul>
 
@@ -249,27 +237,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="introduction" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">1</span> Introduction<a href="#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>ICOtronic is a</p>
-<ul>
-<li><a href="https://pypi.org/project/icotronic">Python library</a> (based on <a href="https://pypi.org/project/python-can/"><code>python-can</code></a>) and</li>
-<li>a collection of tools and scripts</li>
-</ul>
-<p>for the <a href="https://www.mytoolit.com/ICOtronic/">ICOtronic system</a>. Currently the main purpose of the software is:</p>
-<ul>
-<li><strong>Data collection</strong>
+<p>ICOtronic is a <a href="https://pypi.org/project/icotronic">Python library</a> (based on <a href="https://pypi.org/project/python-can/"><code>python-can</code></a>)
+for the <a href="https://www.mytoolit.com/ICOtronic/">ICOtronic system</a>. The main purpose of the software is <strong>data collection</strong>:</p>
 <ul>
 <li>directly <a href="https://icotronic.readthedocs.io">via the API</a> or</li>
 <li>the script <a href="#icon-cli-tool"><code>icon</code></a></li>
-</ul></li>
-<li><strong>Testing</strong> the functionality of
-<ul>
-<li>a <a href="#tutorials:section:stu">Stationary Transceiver Unit (STU)</a> or</li>
-<li>a sensor node, such as a
-<ul>
-<li><a href="#tutorials:section:sth">Sensory Holder Assembly (SHA)/Sensory Tool Holder (STH)</a> or</li>
-<li><a href="#tutorials:section:smh">Sensory Milling Head (SMH)</a></li>
-</ul></li>
-</ul></li>
 </ul>
 <p>The software reads data from the Stationary Transceiver Unit (STU) via CAN using the <a href="https://mytoolit.github.io/Documentation/#mytoolit-communication-protocol">MyTooliT protocol</a>. The STU itself reads from and writes data to the sensor nodes via Bluetooth.</p>
 <div id="requirements" class="section level2 hasAnchor" number="1.1">
@@ -311,7 +283,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">1.1.2</span> Software<a href="#software" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="python" class="section level4 hasAnchor" number="1.1.2.1">
 <h4><span class="header-section-number">1.1.2.1</span> Python<a href="#python" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>The ICOtronic package supports <code>3.10</code> and later. We recommend you use the 64-bit version of Python.</p>
+<p>The ICOtronic package supports <code>3.12</code> and later. We recommend you use the 64-bit version of Python.</p>
 <p>You can download Python <a href="https://www.python.org/downloads">here</a>. When you install the software, please do not forget to enable the checkbox <strong>“Add Python to PATH”</strong> in the setup window of the installer.</p>
 </div>
 <div id="pcan-driver" class="section level4 hasAnchor" number="1.1.2.2">
@@ -369,52 +341,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>You can find the download link for the PCAN Windows driver <a href="https://www.peak-system.com/quick/DrvSetup">here</a>. Please make sure that you include the “PCAN-Basic API” when you install the software.</p>
 </div>
 </div>
-<div id="simplicity-commander-optional" class="section level4 hasAnchor" number="1.1.2.3">
-<h4><span class="header-section-number">1.1.2.3</span> Simplicity Commander (Optional)<a href="#simplicity-commander-optional" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>For the <a href="tutorials:section:production-tests">production tests</a> that require a firmware flash you need to <strong>either</strong> install</p>
-<ul>
-<li><a href="https://www.silabs.com/products/development-tools/software/simplicity-studio">Simplicity Studio</a> or</li>
-<li><a href="https://www.silabs.com/developers/mcu-programming-options">Simplicity Commander</a>.</li>
-</ul>
-<p>If you choose the first option, then please make sure to install the Simplicity Commander tool inside Simplicity Studio.</p>
-<div id="linux" class="section level5 hasAnchor" number="1.1.2.3.1">
-<h5><span class="header-section-number">1.1.2.3.1</span> Linux<a href="#linux" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<p>Please add the path to <code>commander</code> to the list <code>commands</code> → <code>path</code> → <code>linux</code> in the <a href="#changing-configuration-values">configuration</a>.</p>
-</div>
-<div id="macos" class="section level5 hasAnchor" number="1.1.2.3.2">
-<h5><span class="header-section-number">1.1.2.3.2</span> macOS<a href="#macos" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<p>If you install Simplicity Studio or Simplicity Commander in the standard install path (<code>/Applications</code>) you do not need to change the config. If you put the application in a different directory, then please add the path to <code>commander</code> to the list <code>commands</code> → <code>path</code> → <code>mac</code> in the <a href="#changing-configuration-values">configuration</a>.</p>
-</div>
-<div id="windows" class="section level5 hasAnchor" number="1.1.2.3.3">
-<h5><span class="header-section-number">1.1.2.3.3</span> Windows<a href="#windows" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<ul>
-<li><p>If you installed Simplicity Studio (including Simplicity Studio) to the standard location, then you do not need to change the configuration.</p></li>
-<li><p>If you download Simplicity Commander directly, then the tests assume that you unzipped the files into the directory <code>C:\SiliconLabs\Simplicity Commander</code> or <code>C:\Program Files\Simplicity Commander</code>.</p></li>
-<li><p>If you did not use any of the standard install path, then please add the path to <code>commander.exe</code> to the list <code>commands</code> → <code>path</code> → <code>windows</code> in the <a href="#changing-configuration-values">configuration</a>.</p></li>
-</ul>
-<blockquote>
-<p><strong>Notes:</strong></p>
-<ul>
-<li>You also need to install <strong><a href="https://www.segger.com/downloads/jlink/">J-Link</a></strong> for Simplicity Commander to work with a USB programmer.</li>
-<li>If your device does not show up in Simplicity Commander and only appears as <strong>USB BULK device in the Windows device manager</strong>, then please <a href="https://kb.segger.com/J-Link_shown_as_generic_BULK_device_in_Windows">follow the steps described in the Segger Knowledge Base</a>.</li>
-</ul>
-</blockquote>
-</div>
-<div id="additional-notes" class="section level5 hasAnchor" number="1.1.2.3.4">
-<h5><span class="header-section-number">1.1.2.3.4</span> Additional Notes<a href="#additional-notes" class="anchor-section" aria-label="Anchor link to header"></a></h5>
-<ul>
-<li>If you <strong>do not want to change the config</strong>, and Simplicity Commander (<code>commander</code>) is not part of the standard search locations for your operating system, then please make sure that <code>commander</code> is accessible via the <code>PATH</code> environment variable.</li>
-<li>Please note, that you <strong>do not need to install Simplicity Commander</strong> if you just want to <strong>collect data</strong> with the ICOtronic library.</li>
-</ul>
-</div>
-</div>
 </div>
 </div>
 <div id="install" class="section level2 hasAnchor" number="1.2">
 <h2><span class="header-section-number">1.2</span> Install<a href="#install" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Please use the following command:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="ex">pip</span> install icotronic</span></code></pre></div>
-<p>to install the <a href="https://pypi.org/project/icotronic">latest official version of the ICOtronic library from PyPi</a>. Afterwards you can use the various <a href="#scripts:section:scripts">scripts</a> included in the package.</p>
+<p>to install the <a href="https://pypi.org/project/icotronic">latest official version of the ICOtronic library from PyPi</a>.</p>
 <div id="install-the-package-using-windows-terminal" class="section level3 hasAnchor" number="1.2.1">
 <h3><span class="header-section-number">1.2.1</span> Install the Package Using Windows Terminal<a href="#install-the-package-using-windows-terminal" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ol style="list-style-type: decimal">
@@ -435,7 +368,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">1.2.3</span> Troubleshooting<a href="#troubleshooting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="import-errors" class="section level4 hasAnchor" number="1.2.3.1">
 <h4><span class="header-section-number">1.2.3.1</span> Import Errors<a href="#import-errors" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>If <a href="#scripts:section:scripts">one of the scripts</a> fails with an error message that looks similar to the following text on Windows:</p>
+<p>If <a href="#icon-cli-tool"><code>icon</code></a> fails with an error message that looks similar to the following text on Windows:</p>
 <pre><code>Traceback (most recent call last):
 …
     from numexpr.interpreter import MAX_THREADS, use_vml, __BLOCK_SIZE1__
@@ -468,7 +401,7 @@ DLL load failed while importing interpreter: The specified module could not be f
 </div>
 <div id="hdf5-library-not-loaded" class="section level4 hasAnchor" number="1.2.3.4">
 <h4><span class="header-section-number">1.2.3.4</span> HDF5 Library Not Loaded<a href="#hdf5-library-not-loaded" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Some of the <a href="#scripts:section:scripts">ICOtronic scripts</a> might fail with an error message that looks like this on macOS:</p>
+<p>If <a href="#icon-cli-tool"><code>icon</code></a> fails with an error message that looks like this on macOS:</p>
 <blockquote>
 <p><code>Library not loaded: /opt/homebrew/opt/hdf5/lib/libhdf5.….dylib</code></p>
 </blockquote>
@@ -476,7 +409,7 @@ DLL load failed while importing interpreter: The specified module could not be f
 </div>
 <div id="unable-to-open-openblas-library" class="section level4 hasAnchor" number="1.2.3.5">
 <h4><span class="header-section-number">1.2.3.5</span> Unable to open OpenBLAS library<a href="#unable-to-open-openblas-library" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>If one of the <a href="#scripts:section:scripts">ICOtronic scripts</a> fails with the error message:</p>
+<p>If <a href="#icon-cli-tool"><code>icon</code></a> fails with the error message:</p>
 <blockquote>
 <p>ImportError: libopenblas.so.0: cannot open shared object file: No such file or directory</p>
 </blockquote>
@@ -922,7 +855,7 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5</code></pre>
 <li><p>Please open your favorite Terminal application and execute the STH test using the command <code>test-sth</code>. For more information about this command, please take a look at the section <a href="#tutorials:section:general">“General”</a> above.</p>
 <p>Please note, that the test will rename the tested STH</p>
 <ul>
-<li><p>to a <a href="#mac-address-conversion"><strong>Base64 encoded version of the Bluetooth MAC address</strong></a>, if <code>sth</code> → <code>status</code> is set to <code>Bare PCB</code>, or</p></li>
+<li><p>to a <strong>Base64 encoded version of the Bluetooth MAC address</strong>, if <code>sth</code> → <code>status</code> is set to <code>Bare PCB</code>, or</p></li>
 <li><p>to the <strong>serial number</strong> (<code>sth</code> → <code>serial number</code>), if you set the status to <code>Epoxied</code>.</p></li>
 </ul></li>
 </ol>
@@ -1362,72 +1295,20 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 </div>
 </div>
 </div>
-<div id="scripts:section:scripts" class="section level1 hasAnchor" number="7">
-<h1><span class="header-section-number">7</span> Scripts<a href="#scripts:section:scripts" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>After you installed the ICOtronic package various helper scripts are available:</p>
-<ul>
-<li><a href="#mac-address-conversion"><code>convert-base64-mac</code></a>: Utility to convert a Base64 encoded 8 character text into a Bluetooth MAC address</li>
-<li><a href="#mac-address-conversion"><code>convert-mac-base64</code></a>: Convert Bluetooth MAC address into a (Base64) encoded 8 character string</li>
-<li><a href="#eeprom-check"><code>check-eeprom</code></a>: Write a byte value into the cells of an EEPROM page an check how many of the values are read incorrectly after an reset</li>
-<li><a href="#section:scripts:icon"><code>icon</code></a>: Controller software for the ICOtronic system</li>
-<li><a href="#section:scripts:test-smh"><code>test-smh</code></a>: Test code for the SMH</li>
-<li><a href="#section:scripts:test-sth"><code>test-sth</code></a>: Test code for the STH/SHA</li>
-<li><a href="#section:scripts:test-stu"><code>test-stu</code></a>: Test code for the STU</li>
-</ul>
-<div id="eeprom-check" class="section level2 hasAnchor" number="7.1">
-<h2><span class="header-section-number">7.1</span> EEPROM Check<a href="#eeprom-check" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The script <code>check-eeprom</code> connects to an STH using its MAC address. Afterwards it writes a given byte value (default: <code>10</code>) into all the cells of an EEPROM page. It then resets the STH, connects again and shows the amount of incorrect EEPROM bytes. It repeats the last steps 5 times before it prints all values in the EEPROM page.</p>
-<p>The command below shows how to execute the EEPROM check for the STH with MAC address <code>08:6b:d7:01:de:81</code>:</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb98-1"><a href="#cb98-1" tabindex="-1"></a><span class="ex">check-eeprom</span> 08:6b:d7:01:de:81</span></code></pre></div>
-<p>You can specify the value that should be written into the EEPROM cells using the option <code>--value</code>:</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb99-1"><a href="#cb99-1" tabindex="-1"></a><span class="ex">check-eeprom</span> 08:6b:d7:01:de:81 <span class="at">--value</span> 42</span></code></pre></div>
-</div>
-<div id="section:scripts:icon" class="section level2 hasAnchor" number="7.2">
-<h2><span class="header-section-number">7.2</span> ICOn<a href="#section:scripts:icon" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The command ICOn provides various subcommands to work with the ICOtronic system. For more information, please take a look at the <a href="#icon-cli-tool">tutorial section about the tool</a>.</p>
-</div>
-<div id="mac-address-conversion" class="section level2 hasAnchor" number="7.3">
-<h2><span class="header-section-number">7.3</span> MAC Address Conversion<a href="#mac-address-conversion" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The utility <code>convert-mac-base64</code> returns the Base64 encoded version of a MAC address. We use the encoded addresses as unique Bluetooth advertisement name for the STH (or SHA). Unfortunately we can not use the MAC address directly because the maximum length of the name is limited to 8 characters. To decode the Base64 name back into a Bluetooth address you can use the script <code>convert-base64-mac</code>.</p>
-<div id="examples" class="section level3 hasAnchor" number="7.3.1">
-<h3><span class="header-section-number">7.3.1</span> Examples<a href="#examples" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb100"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb100-1"><a href="#cb100-1" tabindex="-1"></a><span class="co"># Convert a MAC address into an 8 character name</span></span>
-<span id="cb100-2"><a href="#cb100-2" tabindex="-1"></a><span class="ex">convert-mac-base64</span> 08:6b:d7:01:de:81</span>
-<span id="cb100-3"><a href="#cb100-3" tabindex="-1"></a><span class="co">#&gt; CGvXAd6B</span></span>
-<span id="cb100-4"><a href="#cb100-4" tabindex="-1"></a></span>
-<span id="cb100-5"><a href="#cb100-5" tabindex="-1"></a><span class="co"># Convert the Base64 encoded name back into a MAC address</span></span>
-<span id="cb100-6"><a href="#cb100-6" tabindex="-1"></a><span class="ex">convert-base64-mac</span> CGvXAd6B</span>
-<span id="cb100-7"><a href="#cb100-7" tabindex="-1"></a><span class="co">#&gt; 08:6b:d7:01:de:81</span></span></code></pre></div>
-</div>
-</div>
-<div id="section:scripts:test-sth" class="section level2 hasAnchor" number="7.4">
-<h2><span class="header-section-number">7.4</span> Test-STH<a href="#section:scripts:test-sth" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The command <code>test-sth</code> executes the tests for the STH (<a href="https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/sth.py"><code>sth.py</code></a>). All command line arguments of the wrapper will be forwarded to <a href="https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/sth.py"><code>sth.py</code></a>.</p>
-</div>
-<div id="section:scripts:test-stu" class="section level2 hasAnchor" number="7.5">
-<h2><span class="header-section-number">7.5</span> Test-STU<a href="#section:scripts:test-stu" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The command <code>test-stu</code> is a wrapper that executes the tests for the STU (<a href="https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/stu.py"><code>stu.py</code></a>). All command line arguments of the wrapper will be forwarded to <a href="https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/stu.py"><code>stu.py</code></a>.</p>
-</div>
-<div id="section:scripts:test-smh" class="section level2 hasAnchor" number="7.6">
-<h2><span class="header-section-number">7.6</span> Test-SMH<a href="#section:scripts:test-smh" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The command <code>test-smh</code> is a wrapper that executes the tests for the SMH (<a href="https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/smh.py"><code>smh.py</code></a>). All command line arguments of the wrapper will be forwarded to <a href="https://github.com/MyTooliT/ICOtronic/tree/main/icotronic/test/production/smh.py"><code>smh.py</code></a>.</p>
-
-</div>
-</div>
-<div id="development" class="section level1 hasAnchor" number="8">
-<h1><span class="header-section-number">8</span> Development<a href="#development" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="install-1" class="section level2 hasAnchor" number="8.1">
-<h2><span class="header-section-number">8.1</span> Install<a href="#install-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="development" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">7</span> Development<a href="#development" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="install-1" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Install<a href="#install-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>You can use the instructions below, if you want to work on the code of the ICOtronic package, i.e. add additional features or fix bugs.</p>
 <ol style="list-style-type: decimal">
 <li><p>Clone <a href="https://github.com/MyTooliT/ICOtronic">the repository</a> to a directory of your choice. You can either use the <a href="https://git-scm.com/downloads">command line tool <code>git</code></a>:</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb101-1"><a href="#cb101-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/MyTooliT/ICOtronic.git</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb98-1"><a href="#cb98-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/MyTooliT/ICOtronic.git</span></code></pre></div>
 <p>or one of the many available <a href="https://git-scm.com/downloads/guis">graphical user interfaces for Git</a> to do that.</p></li>
 <li><p>Install ICOtronic with <a href="https://python-poetry.org">Poetry</a></p>
 <ol style="list-style-type: decimal">
 <li><p>Change your working directory to the (root) directory of the cloned repository</p></li>
 <li><p>Install ICOtronic:</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb102-1"><a href="#cb102-1" tabindex="-1"></a><span class="ex">poetry</span> lock <span class="kw">&amp;&amp;</span> <span class="ex">poetry</span> install <span class="at">--all-extras</span></span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb99-1"><a href="#cb99-1" tabindex="-1"></a><span class="ex">poetry</span> lock <span class="kw">&amp;&amp;</span> <span class="ex">poetry</span> install <span class="at">--all-extras</span></span></code></pre></div>
 <blockquote>
 <p><strong>Notes:</strong></p>
 <ul>
@@ -1440,19 +1321,19 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <li><p>Install other required tools (for tests)</p>
 <ul>
 <li><p><code>hdf5</code>: For the command line tool <code>h5dump</code> (Linux/macOS). You can install hdf5 via <a href="https://brew.sh">Homebrew</a>:</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb103-1"><a href="#cb103-1" tabindex="-1"></a><span class="ex">brew</span> install hdf5</span></code></pre></div></li>
+<div class="sourceCode" id="cb100"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb100-1"><a href="#cb100-1" tabindex="-1"></a><span class="ex">brew</span> install hdf5</span></code></pre></div></li>
 </ul></li>
 </ol>
 </div>
-<div id="style" class="section level2 hasAnchor" number="8.2">
-<h2><span class="header-section-number">8.2</span> Style<a href="#style" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="style" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Style<a href="#style" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Please use the guidelines from <a href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a>. For code formatting we currently use <a href="https://github.com/psf/black">Black</a>, which should format code according to PEP 8 by default.</p>
 <p>To format the whole code base you can use the following command in the root of the repository:</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb104-1"><a href="#cb104-1" tabindex="-1"></a><span class="ex">poetry</span> black .</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb101-1"><a href="#cb101-1" tabindex="-1"></a><span class="ex">poetry</span> black .</span></code></pre></div>
 <p>For development we recommend that you use a tool or plugin that reformats your code with Black every time you save. This way we can ensure that we use a consistent style for the whole code base.</p>
 </div>
-<div id="tests" class="section level2 hasAnchor" number="8.3">
-<h2><span class="header-section-number">8.3</span> Tests<a href="#tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="tests" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Tests<a href="#tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The following text describes some of the measures we should take to keep the software stable.</p>
 <p>Please only push your changes to the <code>main</code> branch, if you think there are no new bugs or regressions. The <code>main</code> branch <strong>should always contain a working version of the software</strong>. Please <strong>always run</strong></p>
 <ul>
@@ -1460,37 +1341,37 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <li>the <strong>manual tests</strong> on Windows</li>
 </ul>
 <p>before you push to the <code>main</code> branch.</p>
-<div id="code-checks" class="section level3 hasAnchor" number="8.3.1">
-<h3><span class="header-section-number">8.3.1</span> Code Checks<a href="#code-checks" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="flake8" class="section level4 hasAnchor" number="8.3.1.1">
-<h4><span class="header-section-number">8.3.1.1</span> Flake8<a href="#flake8" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="code-checks" class="section level3 hasAnchor" number="7.3.1">
+<h3><span class="header-section-number">7.3.1</span> Code Checks<a href="#code-checks" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="flake8" class="section level4 hasAnchor" number="7.3.1.1">
+<h4><span class="header-section-number">7.3.1.1</span> Flake8<a href="#flake8" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We check the code with <a href="https://flake8.pycqa.org">Flake8</a>. Please use the following command in the root of the repository to make sure you did not add any code that introduces warnings:</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb105-1"><a href="#cb105-1" tabindex="-1"></a><span class="ex">poetry</span> run flake8</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb102-1"><a href="#cb102-1" tabindex="-1"></a><span class="ex">poetry</span> run flake8</span></code></pre></div>
 </div>
-<div id="mypy" class="section level4 hasAnchor" number="8.3.1.2">
-<h4><span class="header-section-number">8.3.1.2</span> mypy<a href="#mypy" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="mypy" class="section level4 hasAnchor" number="7.3.1.2">
+<h4><span class="header-section-number">7.3.1.2</span> mypy<a href="#mypy" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To check the type hint in the code base we use the static code checker <a href="https://mypy.readthedocs.io">mypy</a>. Please use the following command in the root of the repository to check the code base for type problems:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb106-1"><a href="#cb106-1" tabindex="-1"></a><span class="ex">poetry</span> run mypy icotronic</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb103-1"><a href="#cb103-1" tabindex="-1"></a><span class="ex">poetry</span> run mypy icotronic</span></code></pre></div>
 </div>
-<div id="pylint" class="section level4 hasAnchor" number="8.3.1.3">
-<h4><span class="header-section-number">8.3.1.3</span> Pylint<a href="#pylint" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="pylint" class="section level4 hasAnchor" number="7.3.1.3">
+<h4><span class="header-section-number">7.3.1.3</span> Pylint<a href="#pylint" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We currently use <a href="https://github.com/PyCQA/pylint">Pylint</a> to check the code:</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb107-1"><a href="#cb107-1" tabindex="-1"></a><span class="ex">poetry</span> run pylint .</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb104-1"><a href="#cb104-1" tabindex="-1"></a><span class="ex">poetry</span> run pylint .</span></code></pre></div>
 </div>
 </div>
-<div id="automatic-tests" class="section level3 hasAnchor" number="8.3.2">
-<h3><span class="header-section-number">8.3.2</span> Automatic Tests<a href="#automatic-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="usage" class="section level5 hasAnchor" number="8.3.2.0.1">
-<h5><span class="header-section-number">8.3.2.0.1</span> Usage<a href="#usage" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div id="automatic-tests" class="section level3 hasAnchor" number="7.3.2">
+<h3><span class="header-section-number">7.3.2</span> Automatic Tests<a href="#automatic-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="usage" class="section level5 hasAnchor" number="7.3.2.0.1">
+<h5><span class="header-section-number">7.3.2.0.1</span> Usage<a href="#usage" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>Please run the following command in the root of the repository:</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb108-1"><a href="#cb108-1" tabindex="-1"></a><span class="ex">poetry</span> run pytest <span class="at">-v</span></span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb105-1"><a href="#cb105-1" tabindex="-1"></a><span class="ex">poetry</span> run pytest <span class="at">-v</span></span></code></pre></div>
 <p>and make sure that it reports no test failures.</p>
 </div>
 </div>
-<div id="manual-tests" class="section level3 hasAnchor" number="8.3.3">
-<h3><span class="header-section-number">8.3.3</span> Manual Tests<a href="#manual-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="sth-test" class="section level4 hasAnchor" number="8.3.3.1">
-<h4><span class="header-section-number">8.3.3.1</span> STH Test<a href="#sth-test" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="manual-tests" class="section level3 hasAnchor" number="7.3.3">
+<h3><span class="header-section-number">7.3.3</span> Manual Tests<a href="#manual-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="sth-test" class="section level4 hasAnchor" number="7.3.3.1">
+<h4><span class="header-section-number">7.3.3.1</span> STH Test<a href="#sth-test" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ol style="list-style-type: decimal">
 <li>Call the command <code>poetry run test-sth</code> for a working STH</li>
 <li>Wait for the command execution</li>
@@ -1498,37 +1379,37 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <li>Open the PDF report (<code>STH Test.pdf</code>) in the repository root and make sure that it includes the correct test data</li>
 </ol>
 </div>
-<div id="development:section:stu-test" class="section level4 hasAnchor" number="8.3.3.2">
-<h4><span class="header-section-number">8.3.3.2</span> STU Test<a href="#development:section:stu-test" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="development:section:stu-test" class="section level4 hasAnchor" number="7.3.3.2">
+<h4><span class="header-section-number">7.3.3.2</span> STU Test<a href="#development:section:stu-test" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ol style="list-style-type: decimal">
 <li>Call the command <code>poetry run test-stu</code> (or <code>poetry run test-stu -k eeprom -k connection</code> when you want to skip the flash test) for a working STU</li>
 <li>Wait for the command execution</li>
 <li>Check that the command shows no error messages</li>
 <li>Open the PDF report (<code>STU Test.pdf</code>) in the repository root and make sure that it includes the correct test data</li>
 </ol>
-<div id="development:section:extended-tests" class="section level5 hasAnchor" number="8.3.3.2.1">
-<h5><span class="header-section-number">8.3.3.2.1</span> Extended Tests<a href="#development:section:extended-tests" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div id="development:section:extended-tests" class="section level5 hasAnchor" number="7.3.3.2.1">
+<h5><span class="header-section-number">7.3.3.2.1</span> Extended Tests<a href="#development:section:extended-tests" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <p>The text below specifies extended manual test that should be executed before we <a href="#development:section:release">release a new version of the ICOtronic package</a>. Please note that the tests assume that you more or less use the <a href="https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml">default configuration values</a>.</p>
-<div id="check-the-performance-of-the-library" class="section level6 hasAnchor" number="8.3.3.2.1.1">
-<h6><span class="header-section-number">8.3.3.2.1.1</span> Check the Performance of the Library<a href="#check-the-performance-of-the-library" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<div id="check-the-performance-of-the-library" class="section level6 hasAnchor" number="7.3.3.2.1.1">
+<h6><span class="header-section-number">7.3.3.2.1.1</span> Check the Performance of the Library<a href="#check-the-performance-of-the-library" class="anchor-section" aria-label="Anchor link to header"></a></h6>
 <ol style="list-style-type: decimal">
 <li><p>Open your favorite terminal application and change your working directory to the root of the repository</p></li>
 <li><p>Remove HDF5 files from the repository:</p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb109-1"><a href="#cb109-1" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>.hdf5</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb106-1"><a href="#cb106-1" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>.hdf5</span></code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> You can ignore errors about “no matches for wildcard” on Linux and macOS. This message just tells you that there is no file with the extension <code>hdf5</code> in the current directory.</p>
 </blockquote></li>
 <li><p>Check that no HDF5 files exist in the repository. The following command should not produce any output:</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
+<div class="sourceCode" id="cb107"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb107-1"><a href="#cb107-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
 <li><p>Give your test STH the <a href="#tutorials:section:sth-renaming">name</a> “Test-STH”</p></li>
 <li><p>Run the following command</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1" tabindex="-1"></a><span class="ex">poetry</span> run icon measure <span class="at">-t</span> 300 <span class="at">-n</span> Test-STH</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb108-1"><a href="#cb108-1" tabindex="-1"></a><span class="ex">poetry</span> run icon measure <span class="at">-t</span> 300 <span class="at">-n</span> Test-STH</span></code></pre></div>
 <ul>
 <li>The command should not print any <strong>no error messages</strong>.</li>
 <li>The <strong>data loss must be below 1 %</strong>.</li>
 </ul></li>
 <li><p>Check that the repo now contains a HDF5 (<code>*.hdf5</code>) file</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
+<div class="sourceCode" id="cb109"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb109-1"><a href="#cb109-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.hdf5</span></code></pre></div></li>
 <li><p>Open the file in <a href="#measurement-data">HDFView</a></p></li>
 <li><p>Check that the timestamp of the last value in the <code>acceleration</code> table has <strong>approximately the value <code>30 000 000</code></strong> (all values above <code>29 900 000</code> should be fine).</p></li>
 </ol>
@@ -1536,19 +1417,19 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 </div>
 </div>
 </div>
-<div id="combined-checks-tests" class="section level3 hasAnchor" number="8.3.4">
-<h3><span class="header-section-number">8.3.4</span> Combined Checks &amp; Tests<a href="#combined-checks-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="combined-checks-tests" class="section level3 hasAnchor" number="7.3.4">
+<h3><span class="header-section-number">7.3.4</span> Combined Checks &amp; Tests<a href="#combined-checks-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>While you need to execute some test for the ICOtronic package manually, other tests and checks can be automated.</p>
 <blockquote>
 <p><strong>Note:</strong> For the text below we assume that you installed <a href="https://en.wikipedia.org/wiki/Make_(software)#Makefile"><code>make</code></a> on your machine.</p>
 </blockquote>
 <p>To run all checks, the STH test and the STU test use the following <code>make</code> command:</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb113-1"><a href="#cb113-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
 <p>Afterwards make sure there were no (unexpected) errors in the output of the STH and STU test.</p>
 </div>
 </div>
-<div id="development:section:release" class="section level2 hasAnchor" number="8.4">
-<h2><span class="header-section-number">8.4</span> Release<a href="#development:section:release" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="development:section:release" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Release<a href="#development:section:release" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ol style="list-style-type: decimal">
 <li><p>Check that the <a href="https://github.com/MyTooliT/ICOtronic/actions"><strong>CI jobs</strong> for the <code>main</code> branch finished successfully</a></p></li>
 <li><p>Check that the most recent <a href="https://app.readthedocs.org/projects/icotronic/">“Read the Docs” build of the documentation ran successfully</a></p></li>
@@ -1556,7 +1437,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <ol style="list-style-type: decimal">
 <li><p>Set the value of <code>sth</code> → <code>status</code> in the <a href="#changing-configuration-values">configuration</a> to <code>Epoxied</code></p></li>
 <li><p>Execute the command:</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb114-1"><a href="#cb114-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
 <p>in the root of the repository</p></li>
 </ol></li>
 <li><p>Check that the <strong>firmware flash</strong> works in Windows</p>
@@ -1583,11 +1464,11 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <li><p>Commit your changes</p></li>
 </ol></li>
 <li><p>Change the version number and commit your changes (please replace <code>&lt;VERSION&gt;</code> with the version number e.g. <code>1.0.5</code>):</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb115-1"><a href="#cb115-1" tabindex="-1"></a><span class="ex">poetry</span> version <span class="op">&lt;</span>VERSION<span class="op">&gt;</span></span>
-<span id="cb115-2"><a href="#cb115-2" tabindex="-1"></a><span class="bu">export</span> <span class="va">icotronic_version</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">poetry</span> version <span class="at">-s</span><span class="va">)</span><span class="st">&quot;</span></span>
-<span id="cb115-3"><a href="#cb115-3" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-a</span> <span class="at">-m</span> <span class="st">&quot;Release: Release version </span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
-<span id="cb115-4"><a href="#cb115-4" tabindex="-1"></a><span class="fu">git</span> tag <span class="st">&quot;</span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
-<span id="cb115-5"><a href="#cb115-5" tabindex="-1"></a><span class="fu">git</span> push <span class="kw">&amp;&amp;</span> <span class="fu">git</span> push <span class="at">--tags</span></span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1" tabindex="-1"></a><span class="ex">poetry</span> version <span class="op">&lt;</span>VERSION<span class="op">&gt;</span></span>
+<span id="cb112-2"><a href="#cb112-2" tabindex="-1"></a><span class="bu">export</span> <span class="va">icotronic_version</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">poetry</span> version <span class="at">-s</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb112-3"><a href="#cb112-3" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-a</span> <span class="at">-m</span> <span class="st">&quot;Release: Release version </span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
+<span id="cb112-4"><a href="#cb112-4" tabindex="-1"></a><span class="fu">git</span> tag <span class="st">&quot;</span><span class="va">$icotronic_version</span><span class="st">&quot;</span></span>
+<span id="cb112-5"><a href="#cb112-5" tabindex="-1"></a><span class="fu">git</span> push <span class="kw">&amp;&amp;</span> <span class="fu">git</span> push <span class="at">--tags</span></span></code></pre></div>
 <p><strong>Note:</strong> <a href="https://github.com/MyTooliT/ICOtronic/actions">GitHub Actions</a> will publish a package based on the tagged commit and upload it to <a href="https://pypi.org/project/icotronic/">PyPi</a>.</p></li>
 <li><p>Create a new release <a href="https://github.com/MyTooliT/ICOtronic/releases/new">here</a></p>
 <ol style="list-style-type: decimal">
@@ -1597,7 +1478,7 @@ usbipd wsl attach --busid 5-4</code></pre></li>
 <li>Click on “Publish Release”</li>
 </ol>
 <p><strong>Note:</strong> Alternatively you can also use the <a href="https://cli.github.com"><code>gh</code></a> command:</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb116-1"><a href="#cb116-1" tabindex="-1"></a><span class="ex">gh</span> release create</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb113-1"><a href="#cb113-1" tabindex="-1"></a><span class="ex">gh</span> release create</span></code></pre></div>
 <p>to create the release notes.</p></li>
 <li><p>Close the <a href="https://github.com/MyTooliT/ICOtronic/milestones">milestone</a> for the latest release number</p></li>
 </ol>
