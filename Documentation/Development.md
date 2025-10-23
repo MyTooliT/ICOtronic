@@ -96,25 +96,9 @@ and make sure that it reports no test failures.
 
 ### Manual Tests
 
-#### STH Test
+The text below specifies the manual test that should be executed before we [release a new version of the ICOtronic package](#development:section:release). Please note that the tests assume that you more or less use the [default configuration values](https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml).
 
-1. Call the command `poetry run test-sth` for a working STH
-2. Wait for the command execution
-3. Check that the command shows no error messages
-4. Open the PDF report (`STH Test.pdf`) in the repository root and make sure that it includes the correct test data
-
-#### STU Test {#development:section:stu-test}
-
-1. Call the command `poetry run test-stu` (or `poetry run test-stu -k eeprom -k connection` when you want to skip the flash test) for a working STU
-2. Wait for the command execution
-3. Check that the command shows no error messages
-4. Open the PDF report (`STU Test.pdf`) in the repository root and make sure that it includes the correct test data
-
-##### Extended Tests {#development:section:extended-tests}
-
-The text below specifies extended manual test that should be executed before we [release a new version of the ICOtronic package](#development:section:release). Please note that the tests assume that you more or less use the [default configuration values](https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml).
-
-###### Check the Performance of the Library
+##### Check the Performance of the Library
 
 1. Open your favorite terminal application and change your working directory to the root of the repository
 
@@ -181,18 +165,9 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 
        in the root of the repository
 
-4.  Check that the **firmware flash** works in Windows
-    - Execute `poetry run test-sth -v`
-      1. once with `sth` → `status` set to `Epoxied`, and
-      2. once set to `Bare PCB`
+4.  Execute the **[manual tests](#manual-tests)** in Windows and check that everything works as expected.
 
-      in the [configuration](#changing-configuration-values). To make sure, that the STU flash test also works, please use both STU test commands described in the section [“STU Test”](#development:section:stu-test).
-
-      If you follow the steps above you make sure that the **flash tests work** for both STU and STH, and there are **no unintentional consequences of (not) flashing the chip** before you run the other parts of the test suite.
-
-5.  Execute the **[extended manual tests](#development:section:extended-tests)** in Windows and check that everything works as expected.
-
-6.  Update the release notes:
+5.  Update the release notes:
     1. Open the [release notes](Releases) for the latest version
     2. Replace links with a permanent version:
 
@@ -204,7 +179,7 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 
     3. Commit your changes
 
-7.  Change the version number and commit your changes (please replace `<VERSION>` with the version number e.g. `1.0.5`):
+6.  Change the version number and commit your changes (please replace `<VERSION>` with the version number e.g. `1.0.5`):
 
     ```sh
     poetry version <VERSION>
@@ -216,7 +191,7 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 
     **Note:** [GitHub Actions](https://github.com/MyTooliT/ICOtronic/actions) will publish a package based on the tagged commit and upload it to [PyPi](https://pypi.org/project/icotronic/).
 
-8.  Create a new release [here](https://github.com/MyTooliT/ICOtronic/releases/new)
+7.  Create a new release [here](https://github.com/MyTooliT/ICOtronic/releases/new)
     1.  Insert the version number (e.g. `1.0.5`) into the tag field
     2.  For the release title use “Version <VERSION>”, where `<VERSION>` specifies the version number (e.g. “Version 1.0.5”)
     3.  Paste the release notes for the lastest release into the main text field
@@ -230,6 +205,6 @@ Afterwards make sure there were no (unexpected) errors in the output of the STH 
 
     to create the release notes.
 
-9.  Close the [milestone][] for the latest release number
+8.  Close the [milestone][] for the latest release number
 
 [milestone]: https://github.com/MyTooliT/ICOtronic/milestones
