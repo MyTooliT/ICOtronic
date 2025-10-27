@@ -95,6 +95,9 @@ The following steps describe one possible option to configure the CAN interface 
 You can also configure the CAN interface **automatically**. For that purpose please store the following text:
 
 ```ini
+[Unit]
+description=Set default CAN adapter speed
+
 [Match]
 Name=can*
 
@@ -102,7 +105,7 @@ Name=can*
 BitRate=1000000
 ```
 
-in a file called `/etc/systemd/network/can.network`. Afterwards enable `networkd` and reload the configuration with the commands:
+in a file called `/etc/systemd/network/80-can.network`. Afterwards enable `networkd` and reload the configuration with the commands:
 
 ```sh
 sudo systemctl enable systemd-networkd
