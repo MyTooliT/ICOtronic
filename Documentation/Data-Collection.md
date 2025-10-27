@@ -69,8 +69,8 @@ Filepath: Measurement_2025-05-14_15-11-25.hdf5
 By default measurement files will be stored in the current working directory with
 
 - a name starting with the text `Measurement`
-- followed by a date/time-stamp,
-- and the extension `.hdf5`.
+- followed by a date/time-stamp, and
+- the extension `.hdf5`.
 
 ## Measurement Data
 
