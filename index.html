@@ -1040,17 +1040,18 @@ DLL load failed while importing interpreter: The specified module could not be f
 <li><p>Clone <a href="https://github.com/MyTooliT/ICOtronic">the repository</a> to a directory of your choice. You can either use the <a href="https://git-scm.com/downloads">command line tool <code>git</code></a>:</p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/MyTooliT/ICOtronic.git</span></code></pre></div>
 <p>or one of the many available <a href="https://git-scm.com/downloads/guis">graphical user interfaces for Git</a> to do that.</p></li>
-<li><p>Install ICOtronic with <a href="https://python-poetry.org">Poetry</a></p>
+<li><p>Install ICOtronic with <a href="https://docs.astral.sh/uv">uv</a></p>
 <ol style="list-style-type: decimal">
 <li><p>Change your working directory to the (root) directory of the cloned repository</p></li>
 <li><p>Install ICOtronic:</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" tabindex="-1"></a><span class="ex">poetry</span> lock <span class="kw">&amp;&amp;</span> <span class="ex">poetry</span> install <span class="at">--all-extras</span></span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" tabindex="-1"></a><span class="ex">uv</span> venv <span class="at">--allow-existing</span></span>
+<span id="cb69-2"><a href="#cb69-2" tabindex="-1"></a><span class="ex">uv</span> sync <span class="at">--all-extras</span></span></code></pre></div>
 <blockquote>
 <p><strong>Notes:</strong></p>
 <ul>
 <li>The command above will install the package in a virtual environment.</li>
-<li>You need to prefix commands, such as <code>icon</code> with the command <code>poetry run</code> (e.g. <code>poetry run icon</code>) to execute it in this virtual environment.</li>
-<li>Using <code>poetry run</code> will only work in the root folder of the repository (that contains <code>pyproject.toml</code>).</li>
+<li>You need to prefix commands, such as <code>icon</code> with the command <code>uv run</code> (e.g. <code>uv run icon</code>) to execute it in this virtual environment.</li>
+<li>Using <code>uv run</code> will only work in the root folder of the repository (that contains <code>pyproject.toml</code>).</li>
 </ul>
 </blockquote></li>
 </ol></li>
