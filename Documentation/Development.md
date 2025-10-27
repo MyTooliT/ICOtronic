@@ -47,14 +47,11 @@ For development we recommend that you use a tool or plugin that reformats your c
 
 ## Tests
 
-The following text describes some of the measures we should take to keep the software stable.
+The following text describes some of the measures we should take to keep the software stable:
 
-Please only push your changes to the `main` branch, if you think there are no new bugs or regressions. The `main` branch **should always contain a working version of the software**. Please **always run**
+- Please only push your changes to the `main` branch, if you think there are no new bugs or regressions. The `main` branch **should always contain a working version of the software**.
 
-- the **automatic test** (`make run`) for **every supported OS** (Linux, macOS, Windows) and
-- the **manual tests** on Windows
-
-before you push to the `main` branch.
+- Please **always run** the **automatic test** (`make run`) for **every supported OS** (Linux, macOS, Windows) before you push to the `main` branch.
 
 ### Code Checks
 
