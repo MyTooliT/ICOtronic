@@ -6,11 +6,11 @@ The text below shows how you can use (code of) the ICOtronic package in a Docker
 
 ### Creating a Docker Image
 
-To create a Docker image that contains ICOtronic just install the package with `pip` inside your `Dockerfile`. We recommend that you use a virtual environment to install the package. For an example, please take a look at the [`Dockerfile` in the folder Docker](Docker/Dockerfile).
+To create a Docker image that contains ICOtronic just install the package with `pip` inside your `Dockerfile`. We recommend that you use a virtual environment to install the package. For an example, please take a look at our [`Dockerfile`](https://github.com/MyTooliT/ICOtronic/blob/main/Docker/Dockerfile).
 
 ### Building the Docker Image
 
-If you do not want to create a `Dockerfile` yourself, you can build an image based on our Docker example file:
+If you do not want to create a `Dockerfile` yourself, you can build an image based on our Docker example file. To do that, please run the following command in the root of the repository:
 
 ```sh
 docker build -t mytoolit/icotronic -f Docker/Dockerfile .
