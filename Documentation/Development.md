@@ -146,8 +146,6 @@ To run all checks, the STH test and the STU test use the following `make` comman
 make run
 ```
 
-Afterwards make sure there were no (unexpected) errors in the output of the STH and STU test.
-
 ## Release {#development:section:release}
 
 1.  Check that the [**CI jobs** for the `main` branch finished successfully](https://github.com/MyTooliT/ICOtronic/actions)
