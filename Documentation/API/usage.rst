@@ -435,7 +435,7 @@ To change
 
 of the analog digital converter (ADC) of your sensor node you can use the coroutine :meth:`SensorNode.set_adc_configuration`. Since all of the parameters of this coroutine use default values, you can also just call it without changing any parameters to apply the default ADC configuration.
 
-.. note:: Some sensor nodes use a different reference voltage (**not 3.3V**), in this case applying the default configuration might not be what you want.
+.. note:: Some sensor nodes use a different reference voltage (**not 3.3V**). In this case applying the default configuration might not be what you want.
 
 To retrieve the current ADC configuration use the coroutine :meth:`SensorNode.get_adc_configuration`, which will return an :class:`ADCConfiguration` object. This object provides the method :meth:`ADCConfiguration.sample_rate` to calculate the sampling rate/frequency based on the current value of prescaler, acquisition time and oversampling rate.
 
