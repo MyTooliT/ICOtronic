@@ -12,19 +12,20 @@ You can use the instructions below, if you want to work on the code of the ICOtr
 
    or one of the many available [graphical user interfaces for Git](https://git-scm.com/downloads/guis) to do that.
 
-2. Install ICOtronic with [Poetry](https://python-poetry.org)
+2. Install ICOtronic with [uv](https://docs.astral.sh/uv)
    1. Change your working directory to the (root) directory of the cloned repository
    2. Install ICOtronic:
 
       ```sh
-      poetry lock && poetry install --all-extras
+      uv venv --allow-existing
+      uv sync --all-extras
       ```
 
       > **Notes:**
       >
       > - The command above will install the package in a virtual environment.
-      > - You need to prefix commands, such as `icon` with the command `poetry run` (e.g. `poetry run icon`) to execute it in this virtual environment.
-      > - Using `poetry run` will only work in the root folder of the repository (that contains `pyproject.toml`).
+      > - You need to prefix commands, such as `icon` with the command `uv run` (e.g. `uv run icon`) to execute it in this virtual environment.
+      > - Using `uv run` will only work in the root folder of the repository (that contains `pyproject.toml`).
 
 3. Install other required tools (for tests)
    - `hdf5`: For the command line tool `h5dump` (Linux/macOS). You can install hdf5 via [Homebrew](https://brew.sh):
@@ -177,8 +178,8 @@ make run
 6.  Change the version number and commit your changes (please replace `<VERSION>` with the version number e.g. `1.0.5`):
 
     ```sh
-    poetry version <VERSION>
-    export icotronic_version="$(poetry version -s)"
+    uv version <VERSION>
+    export icotronic_version="$(uv version --short)"
     git commit -a -m "Release: Release version $icotronic_version"
     git tag "$icotronic_version"
     git push && git push --tags

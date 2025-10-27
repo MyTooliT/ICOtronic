@@ -41,7 +41,8 @@ run: check test
 
 .PHONY: setup
 setup:
-	poetry lock && poetry install --all-extras
+	uv venv --allow-existing
+	uv sync --all-extras
 
 # =========
 # = Tests =
@@ -49,13 +50,13 @@ setup:
 
 .PHONY: check
 check:
-	poetry run flake8
-	poetry run mypy $(MODULE)
-	poetry run pylint .
+	uv run flake8
+	uv run mypy $(MODULE)
+	uv run pylint .
 
 .PHONY: test
 test: pytest-test
-	poetry run coverage report
+	uv run coverage report
 test-no-hardware: pytest-test-no-hardware
 
 # ----------
@@ -63,13 +64,13 @@ test-no-hardware: pytest-test-no-hardware
 # ----------
 
 pytest-test:
-	poetry run coverage run -m pytest $(TEST_LOCATIONS) || \
-	  ( poetry run icon stu reset && \
-	    poetry run coverage run --append -m \
+	uv run coverage run -m pytest $(TEST_LOCATIONS) || \
+	  ( uv run icon stu reset && \
+	    uv run coverage run --append -m \
 	    pytest --last-failed $(TEST_LOCATIONS) )
 
 pytest-test-no-hardware:
-	poetry run pytest --ignore-glob='*read_data.t' \
+	uv run pytest --ignore-glob='*read_data.t' \
 	                  --ignore-glob='*sth_name.t' \
 	                  --ignore-glob='*store_data.t' \
 	                  --ignore-glob='*measure.t' \
@@ -121,6 +122,6 @@ clean: cleanup
 
 .PHONY: doc-api
 doc-api:
-	poetry run sphinx-apidoc -f -o $(SPHINX_DIRECTORY) $(SPHINX_INPUT_DIRECTORY)
-	poetry run sphinx-build -M html $(SPHINX_INPUT_DIRECTORY) \
+	uv run sphinx-apidoc -f -o $(SPHINX_DIRECTORY) $(SPHINX_INPUT_DIRECTORY)
+	uv run sphinx-build -M html $(SPHINX_INPUT_DIRECTORY) \
 	  $(SPHINX_DIRECTORY)
