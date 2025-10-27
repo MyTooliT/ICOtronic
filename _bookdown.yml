@@ -9,4 +9,5 @@ rmd_files:
   - Documentation/Code.md
   - Documentation/Virtualization.md
   - Documentation/Containerization.md
+  - Documentation/Troubleshooting.md
   - Documentation/Development.md
