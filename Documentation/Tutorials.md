@@ -205,14 +205,6 @@ To list all available STU subcommands, please use the option `-h` (or `--help`):
 icon stu -h
 ```
 
-#### Enable STU OTA Mode
-
-To enable the Bluetooth advertising of the STU and hence the “over the air” firmware update, please run the following command:
-
-```sh
-icon stu ota
-```
-
 #### Retrieve the Bluetooth STU MAC Address
 
 To retrieve the STU Bluetooth address you can use the following command:
