@@ -408,7 +408,7 @@ Auxiliary Functionality
 Reading Names
 *************
 
-After your are connected to the a node you can read its (advertisement) name using the coroutine :meth:`SensorNode.get_name`:
+After your are connected to a node you can read its (advertisement) name using the coroutine :meth:`SensorNode.get_name`:
 
 .. doctest::
 
