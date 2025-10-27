@@ -1,14 +1,5 @@
-# Ignore log files in repository root
-!/requirements.txt
-
 # Ignore measurement output in HDF5 format
 *.hdf5
-
-# Ignore PDF test reports
-
-/SMH Test.pdf
-/STH Test.pdf
-/STU Test.pdf
 
 # Ignore bookdown output
 
@@ -21,6 +12,9 @@
 # Ignore API documentation output
 
 /Sphinx
+
+# Ignore Poetry lock file
+/poetry.lock
 
 # Ignore uv lock file
 /uv.lock
@@ -39,6 +33,3 @@ __pycache__/
 # Spyder project settings
 .spyderproject
 .spyproject
-
-# Ignore Poetry lock file
-/poetry.lock
