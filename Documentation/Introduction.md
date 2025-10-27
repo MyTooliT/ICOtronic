@@ -14,7 +14,7 @@ for the [ICOtronic system](https://www.mytoolit.com/ICOtronic/). The main purpos
 
 [API]: https://icotronic.readthedocs.io
 
-The software reads data from the Stationary Transceiver Unit (STU) via CAN using the [MyTooliT protocol](https://mytoolit.github.io/Documentation/#mytoolit-communication-protocol). The STU itself reads from and writes data to the sensor nodes via Bluetooth.
+The software reads data from the Stationary Transceiver Unit (STU) via CAN using the [MyTooliT protocol](https://mytoolit.github.io/Documentation/#mytoolit-communication-protocol). The STU itself reads from and writes data to a sensor node via Bluetooth.
 
 ## Requirements
 
@@ -53,7 +53,7 @@ In order to use the ICOtronic system you need at least:
 
 #### Python
 
-The ICOtronic package supports `3.12` and later. We recommend you use the 64-bit version of Python.
+For the currently supported Python versions, please take a look the “Meta” section of the [ICOtronic package on the Python Package Index](https://pypi.org/project/icotronic/) (PyPI). We recommend you use a current 64-bit version of Python.
 
 You can download Python [here](https://www.python.org/downloads). When you install the software, please do not forget to enable the checkbox **“Add Python to PATH”** in the setup window of the installer.
 
