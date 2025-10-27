@@ -301,12 +301,15 @@ for the <a href="https://www.mytoolit.com/ICOtronic/">ICOtronic system</a>. The 
 <pre><code>sudo ip link set can0 up</code></pre></li>
 </ol>
 <p>You can also configure the CAN interface <strong>automatically</strong>. For that purpose please store the following text:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="kw">[Match]</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="dt">Name</span><span class="ot">=</span><span class="st">can*</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="kw">[Unit]</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="dt">description</span><span class="ot">=</span><span class="st">Set default CAN adapter speed</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="kw">[CAN]</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="dt">BitRate</span><span class="ot">=</span><span class="dv">1000000</span></span></code></pre></div>
-<p>in a file called <code>/etc/systemd/network/can.network</code>. Afterwards enable <code>networkd</code> and reload the configuration with the commands:</p>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="kw">[Match]</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="dt">Name</span><span class="ot">=</span><span class="st">can*</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="kw">[CAN]</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="dt">BitRate</span><span class="ot">=</span><span class="dv">1000000</span></span></code></pre></div>
+<p>in a file called <code>/etc/systemd/network/80-can.network</code>. Afterwards enable <code>networkd</code> and reload the configuration with the commands:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">sudo</span> systemctl enable systemd-networkd</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">sudo</span> systemctl restart systemd-networkd</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># Note: The command `networkctl reload` only works in systemd 244 or newer</span></span>
