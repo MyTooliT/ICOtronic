@@ -17,6 +17,52 @@ Please make sure to not make any mistakes when you edit this file. Otherwise som
 [Dynaconf]: https://www.dynaconf.com
 [default values]: https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml
 
+### Changing the CAN Device (Channel) Name
+
+1. Open the user configuration file in your default text editor using the command line tool `icon`:
+
+   ```sh
+   icon config
+   ```
+
+2. Update the values for you CAN device; For example, if you want to use the CAN adapter `can1` instead of the default (`can0`) in Linux, then add the following text (below `dynaconf_merge: true`):
+
+   ```yaml
+   can:
+     linux:
+       channel: can1
+   ```
+
+3. Save the modified configuration file
+
+### Changing the CAN Interface Name
+
+1. Open the user configuration file in your default text editor using the command line tool `icon`:
+
+   ```sh
+   icon config
+   ```
+
+2. Update the configuration values for your CAN interface according to the description at the [python-can website](https://python-can.readthedocs.io/en/stable/configuration.html#interface-names). Please add the values below `can` → `<OS>`, where `<OS>` should be replaced with the name of you operating system, either:
+   - `linux`,
+   - `mac`, or
+   - `windows`.
+
+   For example, to use
+   - the interface [`ETAS`](https://python-can.readthedocs.io/en/stable/interfaces/etas.html) on Windows (`windows`)
+   - with the channel identifier `ETAS://ETH/ES910:abcd/CAN:1`
+
+   add the following text (below `dynaconf_merge: true`):
+
+   ```yaml
+   can:
+     windows:
+       interface: etas
+       channel: ETAS://ETH/ES910:abcd/CAN:1
+   ```
+
+3. Save the modified configuration file
+
 ## ICOn CLI Tool
 
 ### Help
