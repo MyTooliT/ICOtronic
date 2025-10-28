@@ -12,7 +12,7 @@ icon config
 
 which will open the the user configuration in your default text editor. You can then edit this file and save your changes to update the configuration. For a list of available options, please take a look at the [default configuration][default values].
 
-Please make sure to not make any mistakes when you edit this file. Otherwise some parts of the ICOtronic library will not work correctly, printing an error message about the (first) incorrect configuration value. In that case the library will also try to open the user configuration file in your standard text editor so you can fix the problem.
+Please make sure to not make any mistakes when you edit this file. Otherwise some parts of the ICOtronic library will not work correctly, printing an error message about the (first) incorrect configuration value. If there is an configuration error the library will also (try to) open the user configuration file in your standard text editor so you can fix the problem.
 
 [Dynaconf]: https://www.dynaconf.com
 [default values]: https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml
