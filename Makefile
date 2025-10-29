@@ -64,10 +64,7 @@ test-no-hardware: pytest-test-no-hardware
 # ----------
 
 pytest-test:
-	uv run coverage run -m pytest $(TEST_LOCATIONS) || \
-	  ( uv run icon stu reset && \
-	    uv run coverage run --append -m \
-	    pytest --last-failed $(TEST_LOCATIONS) )
+	uv run coverage run -m pytest --reruns 5 --reruns-delay 1 $(TEST_LOCATIONS)
 
 pytest-test-no-hardware:
 	uv run pytest --ignore-glob='*read_data.t' \
