@@ -151,15 +151,13 @@ make run
 
 1.  Check that the [**CI jobs** for the `main` branch finished successfully](https://github.com/MyTooliT/ICOtronic/actions)
 2.  Check that the most recent [“Read the Docs” build of the documentation ran successfully](https://app.readthedocs.org/projects/icotronic/)
-3.  Check that the **checks and tests** run without any problems on **Linux**, **macOS** and **Windows**
-    1. Set the value of `sth` → `status` in the [configuration](#changing-configuration-values) to `Epoxied`
-    2. Execute the command:
+3.  Check that the **checks and tests** run without any problems on **Linux**, **macOS** and **Windows**. To do that execute them command:
 
-       ```sh
-       make run
-       ```
+    ```sh
+    make run
+    ```
 
-       in the root of the repository
+    in the root of the repository
 
 4.  Execute the **[manual tests](#manual-tests)** in Windows and check that everything works as expected.
 
