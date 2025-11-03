@@ -149,56 +149,56 @@ make run
 
 ## Release {#development:section:release}
 
-1.  Check that the [**CI jobs** for the `main` branch finished successfully](https://github.com/MyTooliT/ICOtronic/actions)
-2.  Check that the most recent [“Read the Docs” build of the documentation ran successfully](https://app.readthedocs.org/projects/icotronic/)
-3.  Check that the **checks and tests** run without any problems on **Linux**, **macOS** and **Windows**. To do that execute them command:
+1. Check that the [**CI jobs** for the `main` branch finished successfully](https://github.com/MyTooliT/ICOtronic/actions)
+2. Check that the most recent [“Read the Docs” build of the documentation ran successfully](https://app.readthedocs.org/projects/icotronic/)
+3. Check that the **checks and tests** run without any problems on **Linux**, **macOS** and **Windows**. To do that execute them command:
 
-    ```sh
-    make run
-    ```
+   ```sh
+   make run
+   ```
 
-    in the root of the repository
+   in the root of the repository
 
-4.  Execute the **[manual tests](#manual-tests)** in Windows and check that everything works as expected.
+4. Execute the **[manual tests](#manual-tests)** in Windows and check that everything works as expected.
 
-5.  Update the release notes:
-    1. Open the [release notes](Releases) for the latest version
-    2. Replace links with a permanent version:
+5. Update the release notes:
+   1. Open the [release notes](Releases) for the latest version
+   2. Replace links with a permanent version:
 
-       For example instead of
-       - `../../something.txt` use
-       - `https://github.com/MyTooliT/ICOtronic/blob/REVISION/something.txt`,
+      For example instead of
+      - `../../something.txt` use
+      - `https://github.com/MyTooliT/ICOtronic/blob/REVISION/something.txt`,
 
-       where `REVISION` is the latest version of the main branch (e.g. `8568893f` for version `1.0.5`)
+      where `REVISION` is the latest version of the main branch (e.g. `8568893f` for version `1.0.5`)
 
-    3. Commit your changes
+   3. Commit your changes
 
-6.  Change the version number and commit your changes (please replace `<VERSION>` with the version number e.g. `1.0.5`):
+6. Change the version number and commit your changes (please replace `<VERSION>` with the version number e.g. `1.0.5`):
 
-    ```sh
-    uv version <VERSION>
-    export icotronic_version="$(uv version --short)"
-    git commit -a -m "Release: Release version $icotronic_version"
-    git tag "$icotronic_version"
-    git push && git push --tags
-    ```
+   ```sh
+   uv version <VERSION>
+   export icotronic_version="$(uv version --short)"
+   git commit -a -m "Release: Release version $icotronic_version"
+   git tag "$icotronic_version"
+   git push && git push --tags
+   ```
 
-    **Note:** [GitHub Actions](https://github.com/MyTooliT/ICOtronic/actions) will publish a package based on the tagged commit and upload it to [PyPi](https://pypi.org/project/icotronic/).
+   **Note:** [GitHub Actions](https://github.com/MyTooliT/ICOtronic/actions) will publish a package based on the tagged commit and upload it to [PyPi](https://pypi.org/project/icotronic/).
 
-7.  Create a new release [here](https://github.com/MyTooliT/ICOtronic/releases/new)
-    1.  Insert the version number (e.g. `1.0.5`) into the tag field
-    2.  For the release title use “Version <VERSION>”, where `<VERSION>` specifies the version number (e.g. “Version 1.0.5”)
-    3.  Paste the release notes for the lastest release into the main text field
-    4.  Click on “Publish Release”
+7. Create a new release [here](https://github.com/MyTooliT/ICOtronic/releases/new)
+   1. Insert the version number (e.g. `1.0.5`) into the tag field
+   2. For the release title use “Version <VERSION>”, where `<VERSION>` specifies the version number (e.g. “Version 1.0.5”)
+   3. Paste the release notes for the lastest release into the main text field
+   4. Click on “Publish Release”
 
-    **Note:** Alternatively you can also use the [`gh`](https://cli.github.com) command:
+   **Note:** Alternatively you can also use the [`gh`](https://cli.github.com) command:
 
-    ```sh
-    gh release create
-    ```
+   ```sh
+   gh release create
+   ```
 
-    to create the release notes.
+   to create the release notes.
 
-8.  Close the [milestone][] for the latest release number
+8. Close the [milestone][] for the latest release number
 
 [milestone]: https://github.com/MyTooliT/ICOtronic/milestones
