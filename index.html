@@ -1186,13 +1186,9 @@ DLL load failed while importing interpreter: The specified module could not be f
 <ol style="list-style-type: decimal">
 <li><p>Check that the <a href="https://github.com/MyTooliT/ICOtronic/actions"><strong>CI jobs</strong> for the <code>main</code> branch finished successfully</a></p></li>
 <li><p>Check that the most recent <a href="https://app.readthedocs.org/projects/icotronic/">“Read the Docs” build of the documentation ran successfully</a></p></li>
-<li><p>Check that the <strong>checks and tests</strong> run without any problems on <strong>Linux</strong>, <strong>macOS</strong> and <strong>Windows</strong></p>
-<ol style="list-style-type: decimal">
-<li><p>Set the value of <code>sth</code> → <code>status</code> in the <a href="#changing-configuration-values">configuration</a> to <code>Epoxied</code></p></li>
-<li><p>Execute the command:</p>
+<li><p>Check that the <strong>checks and tests</strong> run without any problems on <strong>Linux</strong>, <strong>macOS</strong> and <strong>Windows</strong>. To do that execute them command:</p>
 <div class="sourceCode" id="cb85"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
 <p>in the root of the repository</p></li>
-</ol></li>
 <li><p>Execute the <strong><a href="#manual-tests">manual tests</a></strong> in Windows and check that everything works as expected.</p></li>
 <li><p>Update the release notes:</p>
 <ol style="list-style-type: decimal">
