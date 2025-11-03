@@ -2,7 +2,10 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from pytest import MarkDecorator
+try:
+    from pytest import MarkDecorator
+except ModuleNotFoundError:
+    from types import NoneType as MarkDecorator  # type: ignore[assignment]
 
 # -- Functions ----------------------------------------------------------------
 
