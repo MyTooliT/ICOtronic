@@ -61,7 +61,7 @@ The following text describes some of the measures we should take to keep the sof
 We check the code with [Flake8](https://flake8.pycqa.org). Please use the following command in the root of the repository to make sure you did not add any code that introduces warnings:
 
 ```sh
-poetry run flake8
+uv run flake8
 ```
 
 #### mypy
@@ -69,7 +69,7 @@ poetry run flake8
 To check the type hint in the code base we use the static code checker [mypy](https://mypy.readthedocs.io). Please use the following command in the root of the repository to check the code base for type problems:
 
 ```sh
-poetry run mypy icotronic
+uv run mypy icotronic
 ```
 
 #### Pylint
@@ -77,7 +77,7 @@ poetry run mypy icotronic
 We currently use [Pylint](https://github.com/PyCQA/pylint) to check the code:
 
 ```sh
-poetry run pylint .
+uv run pylint .
 ```
 
 ### Automatic Tests
@@ -87,7 +87,7 @@ poetry run pylint .
 Please run the following command in the root of the repository:
 
 ```sh
-poetry run pytest -v
+uv run pytest -v
 ```
 
 and make sure that it reports no test failures.
@@ -119,7 +119,7 @@ The text below specifies the manual test that should be executed before we [rele
 5. Run the following command
 
    ```sh
-   poetry run icon measure -t 300 -n Test-STH
+   uv run icon measure -t 300 -n Test-STH
    ```
 
    - The command should not print any **no error messages**.
