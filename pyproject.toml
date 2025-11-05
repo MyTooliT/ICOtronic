@@ -27,7 +27,6 @@ dependencies = [
   "tqdm>=4.65,<5",
   "semantic_version>=2.10,<3",
   "universal-startfile>=0.4",
-  "pytest-rerunfailures>=16.1",
 ]
 description = """Control software for sensory tool holders (STH), \
                  sensor milling heads (SMH) and stationary transceiver units \
@@ -56,6 +55,7 @@ dev = [
     "pytest-asyncio",
     "pytest-sphinx",
     "pytest-sugar>=1.1.1",
+    "pytest-rerunfailures>=16.1",
     "sphinx_rtd_theme",
     "sphinx_toggleprompt>=0.6.0",
     "sphinx-autodoc-typehints>=3",
