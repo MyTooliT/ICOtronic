@@ -52,7 +52,7 @@ The following text describes some of the measures we should take to keep the sof
 
 - Please only push your changes to the `main` branch, if you think there are no new bugs or regressions. The `main` branch **should always contain a working version of the software**.
 
-- Please **always run** the **automatic test** (`make run`) for **every supported OS** (Linux, macOS, Windows) before you push to the `main` branch.
+- Please **always run** the **automatic test** (`just run`) for **every supported OS** (Linux, macOS, Windows) before you push to the `main` branch.
 
 ### Code Checks
 
@@ -139,12 +139,12 @@ The text below specifies the manual test that should be executed before we [rele
 
 While you need to execute some test for the ICOtronic package manually, other tests and checks can be automated.
 
-> **Note:** For the text below we assume that you installed [`make`](<https://en.wikipedia.org/wiki/Make_(software)#Makefile>) on your machine.
+> **Note:** For the text below we assume that you installed [`just`](https://github.com/casey/just) on your machine.
 
-To run all checks, the STH test and the STU test use the following `make` command:
+To run all automated checks and tests use the following `just` command:
 
 ```sh
-make run
+just
 ```
 
 ## Release {#development:section:release}
@@ -154,7 +154,7 @@ make run
 3. Check that the **checks and tests** run without any problems on **Linux**, **macOS** and **Windows**. To do that execute them command:
 
    ```sh
-   make run
+   just run
    ```
 
    in the root of the repository

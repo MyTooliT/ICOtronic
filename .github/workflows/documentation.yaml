@@ -30,9 +30,13 @@ jobs:
       - name: Install bookdown
         run: Rscript -e "install.packages(c('rmarkdown', 'bookdown'))"
 
+      - name: Install just
+        uses: taiki-e/install-action@just
+
       - name: Build documentation
-        run: |
-             ! make doc 2>&1 >/dev/null | grep 'Warning: LaTeX Warning'
+        run: >
+             ! just documentation-general 2>&1 >/dev/null |
+             grep 'Warning: LaTeX Warning'
 
       - name: Upload documentation
         uses: actions/upload-artifact@v4

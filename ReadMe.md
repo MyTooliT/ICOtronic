@@ -16,19 +16,19 @@ If you want to build the documentation yourself, you need the following software
 
 - [R](https://www.r-project.org),
 - [bookdown](https://bookdown.org),
-- [make](<https://en.wikipedia.org/wiki/Make_(software)>), and
+- [just](https://github.com/casey/just), and
 - (optionally for the PDF version of the manual) the [TinyTeX R package](https://yihui.org/tinytex/).
 
 After you installed the required software you can build the
 
-- HTML (`make html`),
-- EPUB (`make epub`), and
-- PDF (`make pdf`)
+- HTML (`just html`),
+- EPUB (`just epub`), and
+- PDF (`just pdf`)
 
 version of the documentation. The output will be stored in the folder `Bookdown` in the root of the repository. If you want to build all versions of the documentation, just use the command
 
 ```sh
-make doc
+just documentation-general
 ```
 
 in the repo root.

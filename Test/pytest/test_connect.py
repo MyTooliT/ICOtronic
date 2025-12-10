@@ -12,7 +12,10 @@ from icotronic.can.connection import Connection
 # -- Functions ----------------------------------------------------------------
 
 
-@mark.skipif("CI" in environ, reason="requires ICOtronic hardware")
+@mark.skipif(
+    "CI" in environ and environ["CI"] == "true",
+    reason="requires ICOtronic hardware",
+)
 async def test_connect_mac_as_name(sensor_node_mac_address: EUI):
     """Check it is not possible to connect with str version of MAC address
 
@@ -35,7 +38,10 @@ async def test_connect_mac_as_name(sensor_node_mac_address: EUI):
                 assert False
 
 
-@mark.skipif("CI" in environ, reason="requires ICOtronic hardware")
+@mark.skipif(
+    "CI" in environ and environ["CI"] == "true",
+    reason="requires ICOtronic hardware",
+)
 async def test_connect_invalid_number():
     """Check that specifying an invalid sensor node number fails"""
 
@@ -45,7 +51,10 @@ async def test_connect_invalid_number():
                 pass
 
 
-@mark.skipif("CI" in environ, reason="requires ICOtronic hardware")
+@mark.skipif(
+    "CI" in environ and environ["CI"] == "true",
+    reason="requires ICOtronic hardware",
+)
 async def test_connect_invalid_name():
     """Check that specifying an invalid name fails"""
 

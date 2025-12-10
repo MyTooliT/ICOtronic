@@ -28,7 +28,8 @@ def skip_hardware_tests_ci() -> MarkDecorator | None:
         from os import environ
 
         return mark.skipif(
-            "CI" in environ, reason="requires ICOtronic hardware"
+            "CI" in environ and environ["CI"] == "true",
+            reason="requires ICOtronic hardware",
         )
     except ModuleNotFoundError:
         return None

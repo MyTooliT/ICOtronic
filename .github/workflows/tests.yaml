@@ -40,12 +40,8 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install ICOtronic and dev/test packages
-      run: |
-           make setup
+    - name: Install just
+      uses: taiki-e/install-action@just
 
-    - name: Check ICOtronic code base
-      run: make check
-
-    - name: Test ICOtronic
-      run: make test-no-hardware
+    - name: Check and test codebase
+      run: just test-no-hardware
