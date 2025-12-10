@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>ICOtronic Package Documentation</title>
   <meta name="description" content="Library and scripts for the ICOtronic system" />
-  <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
   <meta property="og:title" content="ICOtronic Package Documentation" />
   <meta property="og:type" content="book" />
@@ -1114,7 +1114,7 @@ DLL load failed while importing interpreter: The specified module could not be f
 <p>The following text describes some of the measures we should take to keep the software stable:</p>
 <ul>
 <li><p>Please only push your changes to the <code>main</code> branch, if you think there are no new bugs or regressions. The <code>main</code> branch <strong>should always contain a working version of the software</strong>.</p></li>
-<li><p>Please <strong>always run</strong> the <strong>automatic test</strong> (<code>make run</code>) for <strong>every supported OS</strong> (Linux, macOS, Windows) before you push to the <code>main</code> branch.</p></li>
+<li><p>Please <strong>always run</strong> the <strong>automatic test</strong> (<code>just run</code>) for <strong>every supported OS</strong> (Linux, macOS, Windows) before you push to the <code>main</code> branch.</p></li>
 </ul>
 <div id="code-checks" class="section level3 hasAnchor" number="8.3.1">
 <h3><span class="header-section-number">8.3.1</span> Code Checks<a href="#code-checks" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1175,10 +1175,10 @@ DLL load failed while importing interpreter: The specified module could not be f
 <h3><span class="header-section-number">8.3.4</span> Combined Checks &amp; Tests<a href="#combined-checks-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>While you need to execute some test for the ICOtronic package manually, other tests and checks can be automated.</p>
 <blockquote>
-<p><strong>Note:</strong> For the text below we assume that you installed <a href="https://en.wikipedia.org/wiki/Make_(software)#Makefile"><code>make</code></a> on your machine.</p>
+<p><strong>Note:</strong> For the text below we assume that you installed <a href="https://github.com/casey/just"><code>just</code></a> on your machine.</p>
 </blockquote>
-<p>To run all checks, the STH test and the STU test use the following <code>make</code> command:</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb84-1"><a href="#cb84-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
+<p>To run all automated checks and tests use the following <code>just</code> command:</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb84-1"><a href="#cb84-1" tabindex="-1"></a><span class="ex">just</span></span></code></pre></div>
 </div>
 </div>
 <div id="development:section:release" class="section level2 hasAnchor" number="8.4">
@@ -1187,7 +1187,7 @@ DLL load failed while importing interpreter: The specified module could not be f
 <li><p>Check that the <a href="https://github.com/MyTooliT/ICOtronic/actions"><strong>CI jobs</strong> for the <code>main</code> branch finished successfully</a></p></li>
 <li><p>Check that the most recent <a href="https://app.readthedocs.org/projects/icotronic/">“Read the Docs” build of the documentation ran successfully</a></p></li>
 <li><p>Check that the <strong>checks and tests</strong> run without any problems on <strong>Linux</strong>, <strong>macOS</strong> and <strong>Windows</strong>. To do that execute them command:</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" tabindex="-1"></a><span class="fu">make</span> run</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" tabindex="-1"></a><span class="ex">just</span> run</span></code></pre></div>
 <p>in the root of the repository</p></li>
 <li><p>Execute the <strong><a href="#manual-tests">manual tests</a></strong> in Windows and check that everything works as expected.</p></li>
 <li><p>Update the release notes:</p>
