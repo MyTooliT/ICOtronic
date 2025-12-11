@@ -19,7 +19,7 @@ To communicate with the ICOtronic system use the the async context manager of th
 
    >>> async def create_and_shutdown_connection():
    ...     async with Connection() as stu:
-   ...         pass # ← Your code goes here
+   ...         ... # ← Your code goes here
 
    >>> run(create_and_shutdown_connection())
 
