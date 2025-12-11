@@ -19,6 +19,9 @@ classifiers = [
 
 dependencies = [
   "bidict>=0.22.1,<2",
+  # We install `blosc2` for Python/OS versions where no binary package
+  # (wheel) of `tables` is available.
+  "blosc2>=2.3.0",
   "dynaconf>=3.1.12,<4",
   "netaddr>=0.8.0,<2",
   "platformdirs>=3.5.0,<5",
