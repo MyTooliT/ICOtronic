@@ -7,10 +7,12 @@ The [ICOtronic package](https://pypi.org/project/icotronic) provides two differe
 
 [API]: https://icotronic.readthedocs.io
 
-> **Note:** Since ICOn currently only provides very basic functionality for data collection you might be happier using one of the tools below. Both are currently based on an [older (deprecated) version of this Python package][ICOc]:
+> **Note:** Since ICOn currently only provides very basic functionality for data collection you might be happier using one of the tools below:
 >
-> - [ICOdaq](https://git.ift.tuwien.ac.at/lab/ift/icotronic/icodaq): A closed source Electron application for Windows
-> - [ICOc](https://mytoolit.github.io/ICOc/#basic-usage): A text based UI for Windows
+> - [ICOapi](https://github.com/MyTooliT/ICOapi): A RESTful API for using the ICOtronic system via HTTP
+> - [ICOweb](https://github.com/MyTooliT/ICOweb): A frontend/client developed in conjunction with the corresponding ICOapi backend. It is designed to be run in any form of modern browser.
+> - [ICOdaq](https://git.ift.tuwien.ac.at/lab/ift/icotronic/icodaq): A closed source Electron application for Windows (based on ICOapi & ICOweb)
+> - [ICOc](https://mytoolit.github.io/ICOc/#basic-usage): A text based UI for Windows, based on an older deprecated version of the ICOtronic library.
 
 [ICOc]: https://github.com/mytoolit/ICOc
 
