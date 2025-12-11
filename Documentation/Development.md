@@ -159,7 +159,7 @@ just
 3. Check that the **checks and tests** run without any problems on **Linux**, **macOS** and **Windows**. To do that execute them command:
 
    ```sh
-   just run
+   just
    ```
 
    in the root of the repository
