@@ -8,6 +8,8 @@ set windows-shell := ["pwsh.exe", "-NoLogo", "-Command"]
 package := "icotronic"
 
 bookdown_directory := "Bookdown"
+pictures_input_directory := "Documentation/Pictures"
+pictures_output_directory := "Pictures"
 output_name := "Documentation"
 index_file := "Documentation/Introduction.md"
 html_file := bookdown_directory + "/" + output_name + ".html"
@@ -81,11 +83,11 @@ documentation-api:
 [group('documentation')]
 documentation-general: init epub html pdf cleanup
 
-# Copy pictures to repository root and create diagrams
+# Copy pictures to repository root
 [private]
 init:
-	Rscript -e "dir.create('Pictures')"
-	Rscript -e "file.copy('Documentation/Pictures', '.', recursive=T)"
+	Rscript -e "dir.create('{{pictures_output_directory}}')"
+	Rscript -e "file.copy('{{pictures_input_directory}}', '.', recursive=T)"
 
 # Remove pictures from repository root
 [private]
