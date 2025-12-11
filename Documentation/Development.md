@@ -181,11 +181,7 @@ just
 6. Change the version number and commit your changes (please replace `<VERSION>` with the version number e.g. `1.0.5`):
 
    ```sh
-   uv version <VERSION>
-   export icotronic_version="$(uv version --short)"
-   git commit -a -m "Release: Release version $icotronic_version"
-   git tag "$icotronic_version"
-   git push && git push --tags
+   just release <VERSION>
    ```
 
    **Note:** [GitHub Actions](https://github.com/MyTooliT/ICOtronic/actions) will publish a package based on the tagged commit and upload it to [PyPi](https://pypi.org/project/icotronic/).
