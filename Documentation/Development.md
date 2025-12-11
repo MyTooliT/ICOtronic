@@ -1,5 +1,14 @@
 # Development
 
+## Requirements
+
+While not strictly required we assume that you installed
+
+- [`just`](https://github.com/casey/just) and
+- [`uv`](https://docs.astral.sh/uv)
+
+in the description below.
+
 ## Install
 
 You can use the instructions below, if you want to work on the code of the ICOtronic package, i.e. add additional features or fix bugs.
@@ -137,11 +146,7 @@ The text below specifies the manual test that should be executed before we [rele
 
 ### Combined Checks & Tests
 
-While you need to execute some test for the ICOtronic package manually, other tests and checks can be automated.
-
-> **Note:** For the text below we assume that you installed [`just`](https://github.com/casey/just) on your machine.
-
-To run all automated checks and tests use the following `just` command:
+While you need to execute some test for the ICOtronic package manually, other tests and checks can be automated. To run all automated checks and tests use the following `just` command:
 
 ```sh
 just
