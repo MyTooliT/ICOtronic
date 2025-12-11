@@ -105,7 +105,7 @@ and make sure that it reports no test failures.
 
 The text below specifies the manual test that should be executed before we [release a new version of the ICOtronic package](#development:section:release). Please note that the tests assume that you more or less use the [default configuration values](https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml).
 
-##### Check the Performance of the Library
+#### Check the Performance of the Library
 
 1. Open your favorite terminal application and change your working directory to the root of the repository
 
