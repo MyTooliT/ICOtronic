@@ -99,11 +99,11 @@ After you connected to the sensor node use the coroutine :meth:`SensorNode.open_
    >>> 0 <= data.counter <= 255
    True
 
-- connects to a node called ``Test-STH``,
-- opens a data stream for the first measurement channel,
-- receives a single streaming data object,
-- prints its representation and
-- shows some of the properties of the streaming data object.
+1. connects to a node called ``Test-STH``,
+2. opens a data stream for the first measurement channel,
+3. receives a single streaming data object,
+4. prints its representation and
+5. shows some of the properties of the streaming data object.
 
 The data returned by the ``async for`` (``stream``) is an object of the class :class:`StreamingData` with the following attributes:
 
