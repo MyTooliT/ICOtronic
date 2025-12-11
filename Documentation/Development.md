@@ -41,7 +41,7 @@ Please use the guidelines from [PEP 8](https://www.python.org/dev/peps/pep-0008/
 To format the whole code base you can use the following command in the root of the repository:
 
 ```sh
-poetry black .
+uv black .
 ```
 
 For development we recommend that you use a tool or plugin that reformats your code with Black every time you save. This way we can ensure that we use a consistent style for the whole code base.
