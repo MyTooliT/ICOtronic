@@ -68,11 +68,12 @@ jobs:
     - name: Install PyTables dependencies on macOS (Python 3.14)
       if: ${{ runner.os == 'macOS' && matrix.python-version == '3.14' }}
       run: |
-        brew install c-blosc2 bzip2 hdf5
-        mkdir -p "$PWD/.venv/lib/python3.14/site-packages/tables/"
-        ln -s \
-          "$(pkg-config blosc2 --variable sharedlibdir)"/libblosc2.dylib \
-          "$PWD/.venv/lib/python3.14/site-packages/tables/libblosc2.dylib"
+        brew install bzip2 hdf5
+        export LZO_DIR=/opt/homebrew/opt/lzo
+        export BZIP2_DIR=/opt/homebrew/opt/bzip2
+        tables='tables@git+https://github.com/PyTables/PyTables.git@6c7b53a'
+        sed -i '' "s~tables>=3.10.1,<4~${tables}~" pyproject.toml
+        just setup
 
     - name: Check and test codebase
       run: just test-no-hardware
