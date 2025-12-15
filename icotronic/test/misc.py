@@ -13,7 +13,7 @@ except ModuleNotFoundError:
 
 
 def skip_hardware_tests_ci() -> MarkDecorator | None:
-    """Skip hardware dependent test on CI sytem
+    """Skip hardware dependent test on CI system
 
     Returns:
 
