@@ -58,6 +58,7 @@ test: (_test "false" sphinx_tests test_directory package)
 # Run hardware-independent tests
 [group('test')]
 test-no-hardware: (_test "true"
+	"--ignore-glob='*concurrent_access.t'"
 	"--ignore-glob='*read_data.t'"
 	"--ignore-glob='*sth_name.t'"
 	"--ignore-glob='*store_data.t'"
