@@ -131,7 +131,7 @@ The text below specifies the manual test that should be executed before we [rele
    uv run icon measure -t 300 -n Test-STH
    ```
 
-   - The command should not print any **no error messages**.
+   - The command should **not print any error messages**.
    - The **data loss must be below 1 %**.
 
 6. Check that the repo now contains a HDF5 (`*.hdf5`) file
