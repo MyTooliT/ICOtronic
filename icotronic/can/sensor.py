@@ -289,6 +289,7 @@ class SensorConfiguration(Mapping):
             [8, 2]
 
             Get the enabled channels of a sensor config with three sensors
+
             >>> SensorConfiguration(third=30, first=10, second=20,
             ...                    ).enabled_channels()
             [10, 20, 30]
