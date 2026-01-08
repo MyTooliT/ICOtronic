@@ -274,6 +274,29 @@ class SensorConfiguration(Mapping):
 
         return 0 if third is None else third
 
+    def enabled_channels(self) -> list[int]:
+        """Get the enabled channels in order
+
+        Returns:
+
+            A list of enabled channels
+
+        Examples:
+
+            Get the enabled channels of a sensor config with two sensors
+
+            >>> SensorConfiguration(first=8, third=2).enabled_channels()
+            [8, 2]
+
+            Get the enabled channels of a sensor config with three sensors
+            >>> SensorConfiguration(third=30, first=10, second=20,
+            ...                    ).enabled_channels()
+            [10, 20, 30]
+
+        """
+
+        return [value for value in self.attributes.values() if value != 0]
+
     def disable_channel(
         self, first: bool = False, second: bool = False, third: bool = False
     ) -> None:
