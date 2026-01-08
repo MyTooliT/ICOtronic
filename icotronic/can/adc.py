@@ -40,7 +40,7 @@ class ADCConfiguration(Mapping):
 
         reference_voltage:
             The ADC reference voltage in Volt
-            (1.25, 1.65, 1.8, 2.1, 2.2, 2.5, 2.7, 3.3, 5, 6.6)
+            (1.25, 1.65, 1.8, 2.1, 2.2, 2.5, 2.7, 3.3, 5, 6.6); default: 3.3
 
     Examples:
 
