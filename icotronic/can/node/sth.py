@@ -2,8 +2,8 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from functools import partial
 from collections.abc import Callable
+from functools import partial
 
 from icotronic.can.calibration import CalibrationMeasurementFormat
 from icotronic.can.node.eeprom.sth import STHEEPROM
@@ -207,7 +207,9 @@ class STH(SensorNode):
         adc_value = int.from_bytes(response.data[4:], "little")
         return adc_value / ADC_MAX_VALUE * reference_voltage
 
-    async def get_acceleration_sensor_range_in_g(self) -> int:
+    async def get_acceleration_sensor_range_in_g(
+        self, default: int = 200, ignore_errors: bool = False
+    ) -> int:
         """Retrieve the maximum acceleration sensor range in multiples of g₀
 
         - For a ±100 g₀ sensor this method returns 200 (100 + abs(-100)).
@@ -216,10 +218,30 @@ class STH(SensorNode):
         For this to work correctly the EEPROM value of the x-axis acceleration
         offset in the EEPROM has to be set.
 
+        Args:
+
+            default:
+
+                The default value that should be used, if the value could not
+                be determined from the EEPROM; This value will only be used if
+                ``ignore_errors`` is set to ``True``
+
+            ignore_errors:
+
+                Determines, if the function should raise an error, if
+                the value could not be determined from the EEPROM
+
         Returns:
 
             Range of current acceleration sensor in multiples of earth’s
             gravitation
+
+        Raises:
+
+            ValueError:
+
+                If the sensor range could not be determined and
+                ``ignore_errors`` is set to ``False``
 
         Examples:
 
@@ -244,19 +266,51 @@ class STH(SensorNode):
         """
 
         assert isinstance(self.eeprom, STHEEPROM)
-        return round(
-            abs(await self.eeprom.read_x_axis_acceleration_offset()) * 2
-        )
+
+        try:
+            return round(
+                abs(await self.eeprom.read_x_axis_acceleration_offset()) * 2
+            )
+        except ValueError as error:
+            if not ignore_errors:
+                raise ValueError(
+                    "Unable to determine sensor range from EEPROM value",
+                ) from error
+
+        return default
 
     async def get_acceleration_conversion_function(
-        self,
+        self, default: int = 200, ignore_errors: bool = False
     ) -> Callable[[float], float]:
         """Retrieve function to convert raw sensor data into g
+
+        Args:
+
+            default:
+
+                The default sensor range that should be used, if the sensor
+                range could not be determined from the EEPROM; This value will
+                only be used if ``ignore_errors`` is set to ``True``; The
+                default value for of ``200`` represents a ±100 g₀ sensor
+
+            ignore_errors:
+
+                Determines, if the function should raise an error, if
+                the sensor range value value could not be determined; If this
+                is set to ``False``, then the function will use the value
+                ``default`` as default sensor range
 
         Returns:
 
             A function that converts 16 bit raw values from the STH into
             multiples of earth’s gravitation (g)
+
+        Raises:
+
+            ValueError:
+
+                If the sensor range could not be determined and
+                ``ignore_errors`` is set to ``False``
 
         Examples:
 
@@ -286,7 +340,9 @@ class STH(SensorNode):
 
         """
 
-        sensor_range = await self.get_acceleration_sensor_range_in_g()
+        sensor_range = await self.get_acceleration_sensor_range_in_g(
+            default=default, ignore_errors=ignore_errors
+        )
         return partial(convert_raw_to_g, max_value=sensor_range)
 
 

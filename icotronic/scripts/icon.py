@@ -31,7 +31,7 @@ from icotronic.utility.performance import PerformanceMeasurement
 # -- Functions ----------------------------------------------------------------
 
 
-async def get_acceleration_sensor_range_in_g(sth: STH) -> float:
+async def get_acceleration_sensor_range_in_g(sth: STH) -> int:
     """Read sensor range of acceleration sensor
 
     Args:
@@ -57,10 +57,9 @@ async def get_acceleration_sensor_range_in_g(sth: STH) -> float:
                 file=stderr,
             )
             sensor_range = 200
-    except ValueError:
+    except ValueError as error:
         print(
-            "Warning: Unable to determine sensor range from "
-            "EEPROM value — Assuming ± 100 g sensor",
+            f"Warning: {error} — Assuming ± 100 g sensor",
             file=stderr,
         )
 
@@ -73,9 +72,13 @@ def command_config() -> None:
     ConfigurationUtility.open_user_config()
 
 
+# pylint: disable=too-many-locals
+
+
 async def read_data(
     sth: STH,
     sensor_config: SensorConfiguration,
+    sensor_range: int,
     storage: StorageData,
     measurement_time_s: float,
 ) -> PerformanceMeasurement:
@@ -88,6 +91,9 @@ async def read_data(
 
         sensor_config:
             The sensor configuration that should be used for reading data
+
+        sensor_range:
+            The range of the acceleration sensor
 
         storage:
             The storage object that should be used to store the acceleration
@@ -115,7 +121,10 @@ async def read_data(
         disable=None,
     )
 
-    conversion_to_g = await sth.get_acceleration_conversion_function()
+    conversion_to_g = await sth.get_acceleration_conversion_function(
+        default=sensor_range,
+        ignore_errors=True,
+    )
     values_per_message = streaming_config.data_length()
 
     performance_measurement = PerformanceMeasurement()
@@ -140,6 +149,9 @@ async def read_data(
         progress.close()
 
     return performance_measurement
+
+
+# pylint: enable=too-many-locals
 
 
 def print_dataloss_data(storage: StorageData) -> None:
@@ -222,7 +234,11 @@ async def command_dataloss(arguments: Namespace) -> None:
 
                         try:
                             performance = await read_data(
-                                sth, sensor_config, storage, measurement_time_s
+                                sth,
+                                sensor_config,
+                                sensor_range,
+                                storage,
+                                measurement_time_s,
                             )
                         except StreamingBufferError as error:
                             print(f"⚠️ {error}", file=stderr)
@@ -313,7 +329,11 @@ async def command_measure(arguments: Namespace) -> None:
 
                 try:
                     await read_data(
-                        sth, user_sensor_config, storage, measurement_time_s
+                        sth,
+                        user_sensor_config,
+                        sensor_range,
+                        storage,
+                        measurement_time_s,
                     )
                 except KeyboardInterrupt:
                     pass
