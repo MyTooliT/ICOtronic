@@ -34,9 +34,11 @@ jobs:
         uses: taiki-e/install-action@just
 
       - name: Build documentation
+        run: just documentation-general 2>&1 | tee -a output.log
+
+      - name: Check for undefined references
         run: >
-             ! just documentation-general 2>&1 >/dev/null |
-             grep 'Warning: LaTeX Warning'
+             ! grep 'Warning: LaTeX Warning' output.log
 
       - name: Upload documentation
         uses: actions/upload-pages-artifact@v4
