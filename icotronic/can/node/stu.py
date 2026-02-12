@@ -12,7 +12,7 @@ from typing import NamedTuple
 
 from netaddr import EUI
 
-from icotronic.cmdline.parse import (
+from icotronic.cmdline.types import (
     node_name as check_name,
     sensor_node_number as check_sensor_node_number,
 )
