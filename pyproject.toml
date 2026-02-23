@@ -56,7 +56,8 @@ dev = [
     "prysk[pytest-plugin]>=0.15.1",
     "pydoclint[flake8]>=0.6.6",
     "pylint>=3.3.1",
-    "pytest-sphinx",
+    "pytest>=9",
+    "pytest-sphinx>=0.7.1",
     "pytest-sugar>=1.1.1",
     "pytest-rerunfailures>=16.1",
     "sphinx>=9,<10",
@@ -113,4 +114,4 @@ anyio_mode = "auto"
 # - Ignore Bookdown output
 # - Verbose output
 addopts = "--doctest-modules --ignore-glob='*._*.py' --ignore=Bookdown"
-minversion = "6.0"
+minversion = "9.0"
