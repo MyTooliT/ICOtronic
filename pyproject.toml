@@ -48,6 +48,7 @@ version = "6.4.0"
 
 [project.optional-dependencies]
 dev = [
+    "anyio>=4.12", # For pytest anyio plugin
     "coverage>=7.8.2",
     "Flake8-pyproject>=1.2.3",
     "icolyzer>=1.5.0", # Require ICOlyzer for Prysk tests
@@ -55,7 +56,6 @@ dev = [
     "prysk[pytest-plugin]>=0.15.1",
     "pydoclint[flake8]>=0.6.6",
     "pylint>=3.3.1",
-    "pytest-asyncio",
     "pytest-sphinx",
     "pytest-sugar>=1.1.1",
     "pytest-rerunfailures>=16.1",
@@ -107,7 +107,7 @@ ignore_missing_imports = true
 ignore-paths = [ ".venv/.*$" ]
 
 [tool.pytest.ini_options]
-asyncio_mode = "auto"
+anyio_mode = "auto"
 # - Use doctests
 # - Ignore macOS metadata files
 # - Ignore Bookdown output

@@ -14,6 +14,13 @@ from icotronic.can import Connection, SensorNode, STU
 
 
 @fixture(scope="session")
+def anyio_backend():
+    """Set default async backend"""
+
+    return "asyncio"
+
+
+@fixture
 async def max_time_offset() -> float:
     """Allowed time offset of timestamps to local time in seconds"""
 
