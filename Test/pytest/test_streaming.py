@@ -5,9 +5,6 @@
 from time import time
 
 from icotronic.can import SensorNode, StreamingConfiguration
-from icotronic.test.misc import skip_hardware_tests_ci
-
-pytestmark = skip_hardware_tests_ci()
 
 # -- Functions ----------------------------------------------------------------
 

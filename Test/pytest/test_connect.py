@@ -6,9 +6,6 @@ from netaddr import EUI
 from pytest import raises
 
 from icotronic.can.connection import Connection
-from icotronic.test.misc import skip_hardware_tests_ci
-
-pytestmark = skip_hardware_tests_ci()
 
 # -- Functions ----------------------------------------------------------------
 

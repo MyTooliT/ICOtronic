@@ -24,9 +24,6 @@ from icotronic.can.node.id import NodeId
 from icotronic.can.node.sensor import SensorNode
 from icotronic.can.node.spu import SPU
 from icotronic.utility.data import convert_bytes_to_text
-from icotronic.test.misc import skip_hardware_tests_ci
-
-pytestmark = skip_hardware_tests_ci()
 
 
 # -- Classes ------------------------------------------------------------------

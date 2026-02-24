@@ -3,9 +3,6 @@
 # -- Imports ------------------------------------------------------------------
 
 from icotronic.can.node.eeprom.sensor import SensorNodeEEPROM
-from icotronic.test.misc import skip_hardware_tests_ci
-
-pytestmark = skip_hardware_tests_ci()
 
 
 # -- Sensor -------------------------------------------------------------------

@@ -43,7 +43,7 @@ check: setup
 
 # Helper for running tests
 [group('test')]
-_test $CI *options: check && coverage
+_test *options: check && coverage
 	uv run coverage run -m pytest \
 		--reruns 5 \
 		--reruns-delay 1 \
@@ -53,17 +53,29 @@ _test $CI *options: check && coverage
 # Run tests
 [default]
 [group('test')]
-test: (_test "false" sphinx_tests test_directory package)
+test: (_test sphinx_tests test_directory package)
 
 # Run hardware-independent tests
 [group('test')]
-test-no-hardware: (_test "true"
-	"--ignore-glob='*concurrent_access.t'"
-	"--ignore-glob='*read_data.t'"
-	"--ignore-glob='*sth_name.t'"
-	"--ignore-glob='*store_data.t'"
-	"--ignore-glob='*measure.t'"
-	"--ignore='Documentation'")
+test-no-hardware: (_test
+	"--ignore=Test/Prysk/concurrent_access.t"
+	"--ignore=Test/Prysk/read_data.t"
+	"--ignore=Test/Prysk/sth_name.t"
+	"--ignore=Test/Prysk/store_data.t"
+	"--ignore=Test/Prysk/measure.t"
+	"--ignore=Test/pytest/test_connect.py"
+	"--ignore=Test/pytest/test_streaming.py"
+	"--ignore=icotronic/can/connection.py"
+	"--ignore=icotronic/can/node/basic.py"
+	"--ignore=icotronic/can/node/eeprom/basic.py"
+	"--ignore=icotronic/can/node/eeprom/node.py"
+	"--ignore=icotronic/can/node/eeprom/sensor.py"
+	"--ignore=icotronic/can/node/eeprom/sth.py"
+	"--ignore=icotronic/can/node/sensor.py"
+	"--ignore=icotronic/can/node/spu.py"
+	"--ignore=icotronic/can/node/sth.py"
+	"--ignore=icotronic/can/node/stu.py"
+	"--ignore=Documentation")
 
 # Print coverage report
 [private]

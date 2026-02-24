@@ -8,9 +8,6 @@ from semantic_version import Version
 
 from icotronic.can.node.eeprom.basic import EEPROM
 from icotronic.can.node.eeprom.status import EEPROMStatus
-from icotronic.test.misc import skip_hardware_tests_ci
-
-pytestmark = skip_hardware_tests_ci()
 
 
 # -- Classes ------------------------------------------------------------------

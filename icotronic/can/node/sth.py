@@ -12,9 +12,6 @@ from icotronic.can.node.sensor import SensorNode
 from icotronic.can.node.spu import SPU
 from icotronic.measurement.acceleration import convert_raw_to_g
 from icotronic.measurement.constants import ADC_MAX_VALUE
-from icotronic.test.misc import skip_hardware_tests_ci
-
-pytestmark = skip_hardware_tests_ci()
 
 
 # -- Classes ------------------------------------------------------------------
