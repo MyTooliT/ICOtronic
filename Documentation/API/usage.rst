@@ -269,7 +269,7 @@ If you want to store streaming data for later use you can use the :class:`Storag
    >>> from pathlib import Path
    >>> from time import monotonic
    >>> from icotronic.can import Connection, STH, StreamingConfiguration
-   >>> from icotronic.measurement import Storage
+   >>> from icotronic.measurement.storage import Storage
 
    >>> async def store_streaming_data(identifier, storage):
    ...     async with Connection() as stu:

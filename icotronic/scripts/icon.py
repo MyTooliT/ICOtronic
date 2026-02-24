@@ -25,7 +25,7 @@ from icotronic.can.sensor import SensorConfiguration
 from icotronic.can.streaming import StreamingBufferError, StreamingTimeoutError
 from icotronic.cmdline.parse import create_icon_parser
 from icotronic.config import ConfigurationUtility, settings
-from icotronic.measurement import Storage, StorageData
+from icotronic.measurement.storage import Storage, StorageData
 from icotronic.utility.performance import PerformanceMeasurement
 
 # -- Functions ----------------------------------------------------------------

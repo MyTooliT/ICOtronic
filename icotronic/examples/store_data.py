@@ -9,7 +9,7 @@ from time import monotonic
 from netaddr import EUI
 
 from icotronic.can import Connection, StreamingConfiguration, STH
-from icotronic.measurement import Storage
+from icotronic.measurement.storage import Storage
 
 # -- Functions ----------------------------------------------------------------
 
