@@ -42,11 +42,13 @@ Measurement
 Data
 ****
 
-.. autoclass:: MeasurementData
+.. autoclass:: DataPoint
    :members:
 .. autoclass:: ChannelData
    :members:
    :special-members: __add__
+.. autoclass:: MeasurementData
+   :members:
 .. autoclass:: Conversion
    :members:
 
