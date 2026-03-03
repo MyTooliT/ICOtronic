@@ -632,6 +632,40 @@ class MeasurementData:
 
         return channel_data
 
+    def values(self) -> list[float]:
+        """Return all the values stored in the measurement
+
+        The order of values is the same as the one of the underlying streaming
+        data.
+
+        Returns:
+
+            A list containing all measured values
+
+        Examples:
+
+            Get the values of some example measurement data
+
+            >>> config = StreamingConfiguration(first=True, second=False,
+            ...                                 third=True)
+            >>> data = MeasurementData(config)
+            >>> s1 = StreamingData(values=[1, 2], counter=0,
+            ...                    timestamp=1756125747.528234)
+            >>> s2 = StreamingData(values=[3, 4], counter=1,
+            ...                    timestamp=1756125747.528237)
+            >>> data.append(s1)
+            >>> data.append(s2)
+            >>> data.values()
+            [1, 2, 3, 4]
+
+        """
+
+        values: list[float] = []
+        for streaming_data in self.streaming_data_list:
+            values.extend(streaming_data.values)
+
+        return values
+
     def dataloss(self) -> float:
         """Get measurement dataloss based on message counters
 
