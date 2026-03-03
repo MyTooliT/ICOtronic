@@ -188,6 +188,30 @@ class ChannelData:
 
         self.data.append(data)
 
+    def values(self) -> list[float]:
+        """Return a list of all the values of the channel data
+
+        Returns:
+
+            The values of the channel data
+
+        Examples:
+
+            Return the values of example channel data
+
+            >>> data = ChannelData()
+
+            >>> t1 = 1756124450.256398
+            >>> t2 = t1 + 0.000003
+            >>> data.append(DataPoint(counter=10, timestamp=t1, value=10))
+            >>> data.append(DataPoint(counter=11, timestamp=t2, value=20))
+            >>> data.values()
+            [10, 20]
+
+        """
+
+        return [data.value for data in self]
+
 
 # pylint: disable=too-few-public-methods
 
