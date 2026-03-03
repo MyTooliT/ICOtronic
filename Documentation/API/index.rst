@@ -20,8 +20,6 @@ This documentation **describes the Python library API** (i.e. how to create prog
 .. _general ICOtronic documentation: https://mytoolit.github.io/ICOtronic/
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
 
    usage
    api
