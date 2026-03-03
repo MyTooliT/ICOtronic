@@ -52,6 +52,8 @@ Data
 Storage
 *******
 
+.. currentmodule:: icotronic.measurement.storage
+
 .. autoclass:: Storage
    :members:
 
