@@ -77,6 +77,63 @@ class ChannelData:
 
         return "\n".join([repr(datapoint) for datapoint in self.data])
 
+    def __add__(self, other: object) -> ChannelData:
+        """Concatenate channel data with other channel data
+
+        Args:
+
+            other:
+
+                The other channel data that should be concatenated to this
+                channel data object
+
+        Returns:
+
+            A new channel data object containing the data point of this
+            channel data object followed by the data points of ``other``
+
+        Examples:
+
+            Concatenate some channel data
+
+            >>> t1 = 1756124450.256398
+            >>> data1 = ChannelData()
+            >>> data1.append(DataPoint(counter=1, timestamp=t1, value=4))
+            >>> data1.append(DataPoint(counter=1, timestamp=t1, value=5))
+            >>> data1.append(DataPoint(counter=1, timestamp=t1, value=6))
+            >>> data1 # doctest:+NORMALIZE_WHITESPACE
+            4@1756124450.256398 #1
+            5@1756124450.256398 #1
+            6@1756124450.256398 #1
+
+
+            >>> t2 = 1756124450.2564
+            >>> data2 = ChannelData()
+            >>> data2.append(DataPoint(counter=2, timestamp=t2, value=7))
+            >>> data2.append(DataPoint(counter=2, timestamp=t2, value=8))
+            >>> data2.append(DataPoint(counter=2, timestamp=t2, value=9))
+            >>> data2 # doctest:+NORMALIZE_WHITESPACE
+            7@1756124450.2564 #2
+            8@1756124450.2564 #2
+            9@1756124450.2564 #2
+
+            >>> data1 + data2 # doctest:+NORMALIZE_WHITESPACE
+            4@1756124450.256398 #1
+            5@1756124450.256398 #1
+            6@1756124450.256398 #1
+            7@1756124450.2564 #2
+            8@1756124450.2564 #2
+            9@1756124450.2564 #2
+
+        """
+
+        if not isinstance(other, type(self)):
+            return NotImplemented
+
+        channel_data = ChannelData()
+        channel_data.data = list(self.data) + list(other.data)
+        return channel_data
+
     def __iter__(self) -> Iterator:
         """Iterate over the channel data
 

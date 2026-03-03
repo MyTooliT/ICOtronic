@@ -46,6 +46,7 @@ Data
    :members:
 .. autoclass:: ChannelData
    :members:
+   :special-members: __add__
 .. autoclass:: Conversion
    :members:
 
