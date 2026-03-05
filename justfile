@@ -6,7 +6,7 @@ set windows-shell := ["pwsh.exe", "-NoLogo", "-Command"]
 # -- Variables -----------------------------------------------------------------
 
 package := "icotronic"
-sphinx_input_directory := "Documentation/API"
+sphinx_input_directory := "Documentation/Sphinx"
 sphinx_directory := "Sphinx"
 test_directory := "Test"
 # Note: The pytest plugin `pytest-sphinx` (version 0.6.3) does unfortunately not
