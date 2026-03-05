@@ -1,5 +1,7 @@
 # Tutorials
 
+(changing-configuration-values)=
+
 ## Changing Configuration Values
 
 > **Note:** If you only use the `icon` command line tool, then you most probably do not need to change the configuration at all.
