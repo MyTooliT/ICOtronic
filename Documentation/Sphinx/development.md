@@ -26,8 +26,7 @@ You can use the instructions below, if you want to work on the code of the ICOtr
    2. Install ICOtronic:
 
       ```sh
-      uv venv --allow-existing
-      uv sync --all-extras
+      just setup
       ```
 
       > **Notes:**
