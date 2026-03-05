@@ -583,6 +583,8 @@ For hardware that supports channel configuration the code should print the follo
   Sensor configuration: M1: S1, M2: S2, M3: S3
   Updated sensor configuration: M1: S2, M2: S4, M3: S1
 
+.. currentmodule:: icotronic.can
+
 *******************
 Classes & Functions
 *******************
