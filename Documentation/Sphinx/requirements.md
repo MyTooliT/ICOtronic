@@ -4,7 +4,7 @@
 
 In order to use the ICOtronic system you need at least:
 
-- a [PCAN adapter](https://www.peak-system.com):
+- a [PCAN adapter](https://www.peak-system.com) (or another [CAN adapter supported by `python-can`](https://python-can.readthedocs.io/en/stable/interfaces.html)):
 
   ![PCAN Adapter](Pictures/PCAN.jpg)
 
