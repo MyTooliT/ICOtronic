@@ -152,7 +152,9 @@ While you need to execute some test for the ICOtronic package manually, other te
 just
 ```
 
-## Release {#development:section:release}
+(development:section:release)=
+
+## Release
 
 1. Check that the [**CI jobs** for the `main` branch finished successfully](https://github.com/MyTooliT/ICOtronic/actions)
 2. Check that the most recent [“Read the Docs” build of the documentation ran successfully](https://app.readthedocs.org/projects/icotronic/)
