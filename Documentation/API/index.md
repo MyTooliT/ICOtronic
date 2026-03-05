@@ -1,19 +1,15 @@
 # ICOtronic Package Documentation
 
-The ICOtronic package
+ICOtronic is a [Python library](https://pypi.org/project/icotronic) (based on [`python-can`](https://pypi.org/project/python-can/))
+for the [ICOtronic system](https://www.mytoolit.com/ICOtronic/). The main purpose of the software is **data collection**:
 
-- contains a command line tool called [`icon`] and
-- a [Python library] to control the [ICOtronic system] and acquire data.
+- directly via the API or
+- the script `icon`.
 
-This documentation **describes the Python library API** (i.e. how to create programs that use the [ICOtronic system]). If you want information about the command line tool [`icon`] and the [ICOtronic system] itself we recommend that you check out the [general ICOtronic documentation].
+The software reads data from a Stationary Transceiver Unit (STU) via CAN using the [MyTooliT protocol](https://mytoolit.github.io/Documentation/#mytoolit-communication-protocol). The STU itself reads from and writes data to a sensor node via Bluetooth.
 
 ```{toctree}
 usage
 api
 examples
 ```
-
-[general icotronic documentation]: https://mytoolit.github.io/ICOtronic/
-[`icon`]: https://mytoolit.github.io/ICOtronic/#icon-cli-tool
-[icotronic system]: https://www.mytoolit.com/icotronic/
-[python library]: https://pypi.org/project/icotronic/
