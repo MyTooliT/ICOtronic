@@ -6,17 +6,8 @@ set windows-shell := ["pwsh.exe", "-NoLogo", "-Command"]
 # -- Variables -----------------------------------------------------------------
 
 package := "icotronic"
-
-bookdown_directory := "Bookdown"
-pictures_input_directory := "Documentation/Pictures"
-pictures_output_directory := "Pictures"
-output_name := "Documentation"
-index_file := "Documentation/Introduction.md"
-html_file := bookdown_directory + "/" + output_name + ".html"
-
 sphinx_input_directory := "Documentation/API"
 sphinx_directory := "Sphinx"
-
 test_directory := "Test"
 # Note: The pytest plugin `pytest-sphinx` (version 0.6.3) does unfortunately not
 # find our API documentation doctests, hence we specify the test files (*.rst)
@@ -106,56 +97,8 @@ release version:
 	git push
 	git push --tags
 
-# =================
-# = Documentation =
-# =================
-
 # Generate documentation
 [group('documentation')]
 documentation: setup
 	uv run sphinx-apidoc -f -o {{sphinx_directory}} {{sphinx_input_directory}}
 	uv run sphinx-build -M html {{sphinx_input_directory}} {{sphinx_directory}}
-
-# Generate general documentation
-[group('documentation')]
-documentation-general: init epub html pdf cleanup
-
-# Copy pictures to repository root
-[private]
-init:
-	Rscript -e "dir.create('{{pictures_output_directory}}')"
-	Rscript -e "file.copy('{{pictures_input_directory}}', '.', recursive=T)"
-
-# Remove pictures from repository root
-[private]
-cleanup:
-	Rscript -e "unlink('Pictures', recursive = TRUE)"
-
-_epub:
-	Rscript -e "bookdown::render_book('{{index_file}}', 'bookdown::epub_book')"
-
-_html:
-	Rscript -e "bookdown::render_book('{{index_file}}', 'bookdown::gitbook')"
-	Rscript -e \
-		"file.rename('{{html_file}}', '{{bookdown_directory}}/index.html')"
-
-_pdf:
-	Rscript -e "bookdown::render_book('{{index_file}}', 'bookdown::pdf_book')"
-
-# Create general documentation in EPUB format
-[group('documentation')]
-epub: init _epub && cleanup
-
-# Create general documentation in HTML format
-[group('documentation')]
-html: init _html && cleanup
-
-# Create general documentation in PDF format
-[group('documentation')]
-pdf: init _pdf && cleanup
-
-# Remove generated documentation
-[group('documentation')]
-clean: cleanup
-	Rscript -e "unlink('{{bookdown_directory}}', recursive = TRUE)"
-	Rscript -e "unlink('{{sphinx_directory}}', recursive = TRUE)"
