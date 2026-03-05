@@ -6,13 +6,13 @@ In order to use the ICOtronic system you need at least:
 
 - a [PCAN adapter](https://www.peak-system.com):
 
-  ![PCAN Adapter](Documentation/Pictures/PCAN.jpg)
+  ![PCAN Adapter](Pictures/PCAN.jpg)
 
   including:
   - power injector, and
   - power supply unit (for the power injector):
 
-    ![Power Injector](Documentation/Pictures/Power-Injector.jpg)
+    ![Power Injector](Pictures/Power-Injector.jpg)
 
   > **Note:** Other [CAN adapters supported by python-can](https://python-can.readthedocs.io/en/stable/interfaces.html) should work as well. However, you need to update the [configuration](#changing-configuration-values) for the CAN connection accordingly.
 
