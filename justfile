@@ -110,9 +110,9 @@ release version:
 # = Documentation =
 # =================
 
-# Generate API documentation
+# Generate documentation
 [group('documentation')]
-documentation-api: setup
+documentation: setup
 	uv run sphinx-apidoc -f -o {{sphinx_directory}} {{sphinx_input_directory}}
 	uv run sphinx-build -M html {{sphinx_input_directory}} {{sphinx_directory}}
 
