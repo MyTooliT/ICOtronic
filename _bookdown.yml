@@ -3,8 +3,6 @@ book_filename:
 delete_merged_file: true
 output_dir: Bookdown
 rmd_files:
-  - Documentation/Introduction.md
-  - Documentation/Data-Collection.md
   - Documentation/Tutorials.md
   - Documentation/Code.md
   - Documentation/Virtualization.md

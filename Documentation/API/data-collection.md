@@ -86,7 +86,7 @@ To take a look at the measurement data you can use the tool [HDFView][].
 
 The screenshot below shows a measurement file produced by the ICOtronic library:
 
-![Main Window of HDFView](Documentation/Pictures/HDFView-File.png)
+![Main Window of HDFView](Pictures/HDFView-File.png)
 
 As you can see the table with the name `acceleration` stores the acceleration data. The screenshot above displays the metadata of the table. The most important meta attributes here are probably:
 
@@ -95,7 +95,7 @@ As you can see the table with the name `acceleration` stores the acceleration da
 
 After you double click on the acceleration table on the left, HDFView will show you the actual acceleration data:
 
-<img src="Documentation/Pictures/HDFView-Table.png" alt="Acceleration Table in HDFView" width="500"/>
+<img src="Pictures/HDFView-Table.png" alt="Acceleration Table in HDFView" width="500"/>
 
 As you can infer from the `x` column above the table shows the acceleration measurement data (in multiples of g₀) for a single axis. The table below describes the meaning of the columns:
 
@@ -116,7 +116,7 @@ If you want you can also use HDFView to print a simple graph for your accelerati
 
 The screenshot below shows an example of such a graph:
 
-![Acceleration Graph in HDFView](Documentation/Pictures/HDFView-Graph.png)
+![Acceleration Graph in HDFView](Pictures/HDFView-Graph.png)
 
 For a more advanced analysis of the data files you can use our collection of measurement utilities [ICOlyzer](https://github.com/MyTooliT/ICOlyzer).
 
@@ -143,7 +143,7 @@ Now you should be able to add and modify attributes. For example, to add a revol
 9. Optionally you can also check “Unsigned”, if you are sure that you only want to store positive values
 10. Click the button “OK”
 
-![HDFView: RPM Attribute](Documentation/Pictures/HDFView-RPM.png)
+![HDFView: RPM Attribute](Pictures/HDFView-RPM.png)
 
 Sometimes you also want to add some general purpose data. For that you can use the “STRING” datatype class. For example, to store the text “hello world” in an attribute called “Comment” you can do the following
 
@@ -152,6 +152,6 @@ Sometimes you also want to add some general purpose data. For that you can use t
 3. Under “Array Size” choose a length that is large enough to store the text such as “1000” (every size larger than or equal to 11 characters should work)
 4. Click the button “OK”
 
-![HDFView: Comment Attribute](Documentation/Pictures/HDFView-Comment.png)
+![HDFView: Comment Attribute](Pictures/HDFView-Comment.png)
 
 If you want you can also add multiline text. Since you can not add newlines using <kbd>⏎</kbd> in HDFView directly, we recommend you open your favorite text editor to write the text and then copy and paste the text into the value field. HDFView will only show the last line of the pasted text. However, after you copy and paste the text into another program you will see that HDFView stored the text including the newlines.
