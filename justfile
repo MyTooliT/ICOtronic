@@ -12,7 +12,7 @@ test_directory := "Test"
 # Note: The pytest plugin `pytest-sphinx` (version 0.6.3) does unfortunately not
 # find our API documentation doctests, hence we specify the test files (*.rst)
 # manually.
-sphinx_tests := sphinx_input_directory / "usage.rst"
+sphinx_tests := sphinx_input_directory / "api.rst"
 test_locations := package + " " + test_directory
 
 export PYTEST_ADDOPTS := if os() == "windows" { "-p no:prysk" } else { "" }
