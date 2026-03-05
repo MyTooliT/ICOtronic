@@ -101,6 +101,8 @@ uv run pytest -v
 
 and make sure that it reports no test failures.
 
+(manual-tests)=
+
 ### Manual Tests
 
 The text below specifies the manual test that should be executed before we [release a new version of the ICOtronic package](#development:section:release). Please note that the tests assume that you more or less use the [default configuration values](https://github.com/MyTooliT/ICOtronic/blob/main/icotronic/config/config.yaml).
@@ -169,7 +171,7 @@ just
 4. Execute the **[manual tests](#manual-tests)** in Windows and check that everything works as expected.
 
 5. Update the release notes:
-   1. Open the [release notes](Releases) for the latest version
+   1. Open the [release notes](https://github.com/MyTooliT/ICOtronic/tree/main/Documentation/Releases) for the latest version
    2. Replace links with a permanent version:
 
       For example instead of

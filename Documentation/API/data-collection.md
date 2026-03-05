@@ -74,6 +74,8 @@ By default measurement files will be stored in the current working directory wit
 - followed by a date/time-stamp, and
 - the extension `.hdf5`.
 
+(measurement-data)=
+
 ## Measurement Data
 
 > **Note:** ICOn **assumes** that the sensor node always measures **acceleration data** in multiples of the [gravity of earth](https://en.wikipedia.org/wiki/Gravity_of_Earth), commonly referred as $g$ or $g_0$. While this is true for most of the sensor hardware (such as STHs), some sensor nodes measure other values, e.g. force or temperature. Even in this case the measurement software will (incorrectly) [convert the data into multiples of $g$](https://github.com/MyTooliT/ICOtronic/blob/dc636ce2cda8f380aa0f031fc743062820eb3443/mytoolit/measurement/acceleration.py#L50-L51). We are **working on adding support for configuring the sensor type** in the firmware and the ICOtronic package to **fix this issue**.

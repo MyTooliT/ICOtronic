@@ -65,6 +65,8 @@ Please make sure to not make any mistakes when you edit this file. Otherwise som
 
 3. Save the modified configuration file
 
+(icon-cli-tool)=
+
 ## ICOn CLI Tool
 
 ### Help
@@ -221,7 +223,9 @@ For example, to use a sampling rate of about 2381 Hz you can use the following c
 icon measure --prescaler 2 --acquisition 8 --oversampling 256
 ```
 
-### Renaming a Sensor Node {#tutorials:section:sth-renaming}
+(tutorials:section:sth-renaming)=
+
+### Renaming a Sensor Node
 
 To change the name of a sensor you can use the subcommand `rename`. For example, to change the name of the sensor node with the Bluetooth MAC address `08-6B-D7-01-DE-81` to `Test-STH` use the following command:
 

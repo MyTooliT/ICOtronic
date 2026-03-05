@@ -26,7 +26,9 @@ then you probably need to install the [“Microsoft Visual C++ Redistributable p
 pip install --user icotronic
 ```
 
-## Unable to Locate HDF5 {#introduction:section:unable-to-locate-hdf5}
+(troubleshooting:section:unable-to-locate-hdf5)=
+
+## Unable to Locate HDF5
 
 The installation of the ICOtronic package might fail with an error message that looks like this:
 
@@ -54,7 +56,7 @@ If [`icon`](#icon-cli-tool) fails with an error message that looks like this on 
 
 > `Library not loaded: /opt/homebrew/opt/hdf5/lib/libhdf5.….dylib`
 
-In that case you might have installed an outdated cached version of [PyTables](https://www.pytables.org). You should be able to fix this issue using the same steps as described [above ](#introduction:section:unable-to-locate-hdf5).
+In that case you might have installed an outdated cached version of [PyTables](https://www.pytables.org). You should be able to fix this issue using the same steps as described [above ](#troubleshooting:section:unable-to-locate-hdf5).
 
 ## Unable to open OpenBLAS library
 
