@@ -2,10 +2,8 @@
 
 The [ICOtronic package](https://pypi.org/project/icotronic) provides two different options to collect sensor data with the [ICOtronic system](https://mytoolit.com/icotronic):
 
-1. Use the [API][] to write your own Python scripts: To learn more about this option, please take a look at the [API documentation][API].
+1. Use the [API](#api:api) to write your own Python scripts.
 2. Use the [`icon`](#icon-cli-tool) script to collect data: We will describe how to measure some basic data with this script in the text below
-
-[API]: https://icotronic.readthedocs.io
 
 > **Note:** Since ICOn currently only provides very basic functionality for data collection you might be happier using one of the tools below:
 >
