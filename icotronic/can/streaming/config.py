@@ -138,9 +138,8 @@ class StreamingConfiguration:
         - 2 (when 2 channels are active), or
         - 3 (when 1 or 3 channels are active)
 
-        For more information, please take a look `here`_.
-
-        .. _here: https://mytoolit.github.io/Documentation/#command-data
+        For more information, please take a look
+        `here <https://mytoolit.github.io/Documentation/#command-data>`__.
 
         Returns:
 

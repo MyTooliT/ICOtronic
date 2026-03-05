@@ -53,6 +53,7 @@ dev = [
     "Flake8-pyproject>=1.2.3",
     "icolyzer>=1.5.0", # Require ICOlyzer for Prysk tests
     "mypy",
+    "myst-parser>=5",
     "prysk[pytest-plugin]>=0.15.1",
     "pydoclint[flake8]>=0.6.6",
     "pylint>=3.3.1",

@@ -18,6 +18,7 @@ release = __version__
 # -- General configuration ----------------------------------------------------
 
 extensions = [
+    "myst_parser",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx_autodoc_typehints",
