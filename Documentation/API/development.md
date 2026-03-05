@@ -91,7 +91,7 @@ uv run pylint .
 
 ### Automatic Tests
 
-##### Usage
+#### Usage
 
 Please run the following command in the root of the repository:
 
