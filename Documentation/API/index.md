@@ -12,5 +12,6 @@ The software reads data from a Stationary Transceiver Unit (STU) via CAN using t
 requirements
 install
 data-collection
+tutorials
 api
 ```
