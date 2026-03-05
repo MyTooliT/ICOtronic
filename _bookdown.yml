@@ -3,5 +3,4 @@ book_filename:
 delete_merged_file: true
 output_dir: Bookdown
 rmd_files:
-  - Documentation/Troubleshooting.md
   - Documentation/Development.md

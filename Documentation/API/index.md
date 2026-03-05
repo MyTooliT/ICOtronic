@@ -15,5 +15,6 @@ data-collection
 tutorials
 virtualization
 containerization
+troubleshooting
 api
 ```
