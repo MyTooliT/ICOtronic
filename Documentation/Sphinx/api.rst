@@ -1,5 +1,7 @@
 .. currentmodule:: icotronic.can
 
+.. _api:api:
+
 ###
 API
 ###
