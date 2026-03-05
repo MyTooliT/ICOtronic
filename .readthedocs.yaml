@@ -13,4 +13,4 @@ python:
         - dev
 
 sphinx:
-  configuration: Documentation/API/conf.py
+  configuration: Documentation/Sphinx/conf.py
