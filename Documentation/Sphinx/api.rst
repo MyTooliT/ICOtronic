@@ -211,7 +211,7 @@ For that case you can use the class :class:`MeasurementData`. The example code b
    True
 
 Converting Data Values
-======================
+----------------------
 
 The class :class:`Conversion` allows you to apply different functions to the different channels of the streaming data (attributes ``first``, ``second`` and ``third``). Each function gets a measurement value (of type ``float``) and should return a value of type ``float``. If you do not want to apply any conversion to a certain channel you can use the (default value) of ``None`` for the :class:`Conversion` channel attribute. In the example below we apply a Conversion object that
 
