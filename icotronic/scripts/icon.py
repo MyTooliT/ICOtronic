@@ -10,7 +10,7 @@ for more information
 from argparse import Namespace
 from asyncio import run
 from logging import basicConfig, getLogger
-from sys import stderr
+from sys import exit as sys_exit, stderr
 from tempfile import NamedTemporaryFile
 from time import monotonic, perf_counter_ns, process_time_ns
 
@@ -389,6 +389,21 @@ async def command_stu(arguments: Namespace) -> None:
             raise ValueError(f"Unknown STU subcommand “{subcommand}”")
 
 
+def exit_error(message: str) -> None:
+    """Exit the program with an error status
+
+    Args:
+
+        message:
+
+            The message that should be printed to `stderr` as error reason
+
+    """
+
+    print(message, file=stderr)
+    sys_exit(1)
+
+
 def main():
     """ICOtronic command line tool"""
 
@@ -447,9 +462,9 @@ def main():
             UnsupportedFeatureException,
             ValueError,
         ) as error:
-            print(error, file=stderr)
+            exit_error(error)
         except StreamingTimeoutError as error:
-            print(f"Quitting Measurement: {error}")
+            exit_error(f"Quitting Measurement: {error}")
         except KeyboardInterrupt:
             pass
 
