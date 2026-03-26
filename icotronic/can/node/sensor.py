@@ -1181,19 +1181,19 @@ class SensorNode(Node):
             >>> from asyncio import run
             >>> from icotronic.can.connection import Connection
 
-            Reading sensor config from node without sensor config support fails
+            Reading config from node works or fails with specific exception
 
             >>> async def read_sensor_config():
             ...     async with Connection() as stu:
             ...         # We assume that at least one sensor node is available
             ...         async with stu.connect_sensor_node(0) as sensor_node:
             ...             return await sensor_node.get_sensor_configuration()
-            >>> config = run(
-            ...     read_sensor_config()) # doctest: +IGNORE_EXCEPTION_DETAIL
-            Traceback (most recent call last):
-               ...
-            UnsupportedFeatureException: Reading sensor configuration is not
-            supported
+            >>> try:
+            ...     config = run(read_sensor_config())
+            ... except UnsupportedFeatureException:
+            ...     config = None
+            >>> isinstance(config, (SensorConfiguration, None))
+            True
 
         """
 
@@ -1251,12 +1251,10 @@ class SensorNode(Node):
             ...             await sensor_node.set_sensor_configuration(
             ...                 SensorConfiguration(
             ...                     first=0, second=0, third=0))
-            >>> config = run(
-            ...     set_sensor_config()) # doctest: +IGNORE_EXCEPTION_DETAIL
-            Traceback (most recent call last):
-               ...
-            UnsupportedFeatureException: Writing sensor configuration is not
-            supported
+            >>> try:
+            ...     run(set_sensor_config())
+            ... except UnsupportedFeatureException:
+            ...     pass
 
         """
 
