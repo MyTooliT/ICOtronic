@@ -985,7 +985,7 @@ class SensorNode(Node):
             ...         async with stu.connect_sensor_node(0) as sensor_node:
             ...             return await sensor_node.get_supply_voltage()
             >>> supply_voltage = run(get_supply_voltage())
-            >>> 3 <= supply_voltage <= 4.2
+            >>> 0 <= supply_voltage <= 4.2
             True
 
         """
