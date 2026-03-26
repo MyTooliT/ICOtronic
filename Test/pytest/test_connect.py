@@ -25,7 +25,11 @@ async def test_connect_mac_as_name(sensor_node_mac_address: EUI):
     """
 
     with raises(
-        ValueError, match="“08-6B-D7-01-DE-81” is too long to be a valid name"
+        ValueError,
+        match=(
+            r"([0-9A-Fa-f]{2}-){5}[0-9A-Fa-f]{2}” is too long to be a valid "
+            r"name"
+        ),
     ):
         async with Connection() as stu:
             async with stu.connect_sensor_node(str(sensor_node_mac_address)):
