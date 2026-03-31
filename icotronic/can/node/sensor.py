@@ -1180,6 +1180,7 @@ class SensorNode(Node):
 
             >>> from asyncio import run
             >>> from icotronic.can.connection import Connection
+            >>> from types import NoneType
 
             Reading config from node works or fails with specific exception
 
@@ -1192,7 +1193,7 @@ class SensorNode(Node):
             ...     config = run(read_sensor_config())
             ... except UnsupportedFeatureException:
             ...     config = None
-            >>> isinstance(config, (SensorConfiguration, None))
+            >>> isinstance(config, (SensorConfiguration, NoneType))
             True
 
         """
