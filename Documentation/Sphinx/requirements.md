@@ -118,6 +118,22 @@ IDX LINK   TYPE     OPERATIONAL SETUP
 - [Question: How can I automatically bring up CAN interface using netplan?](https://github.com/linux-can/can-utils/issues/68#issuecomment-584505426)
 - [networkd › systemd › Wiki › ubuntuusers](https://wiki.ubuntuusers.de/systemd/networkd/)
 
+##### Debugging
+
+**Note:** Please replace `<device>` in the text below with the identifier of your CAN device, e.g. `can0`.
+
+To determine the status of the SocketCAN connection use the following command:
+
+```sh
+ip -details link show <device>
+```
+
+To “reset” your CAN connection, restart `systemd-networkd`:
+
+```sh
+sudo systemctl restart systemd-networkd
+```
+
 (introduction:section:pcan-driver:macos)=
 
 #### macOS
