@@ -14,6 +14,7 @@ from sys import exit as sys_exit, stderr
 from tempfile import NamedTemporaryFile
 from time import monotonic, perf_counter_ns, process_time_ns
 
+from can.exceptions import CanOperationError
 from can.interfaces.pcan import PcanError
 from tqdm import tqdm
 
@@ -457,6 +458,7 @@ def main():
             )
         except (
             CANConnectionError,
+            CanOperationError,
             StreamingBufferError,
             TimeoutError,
             UnsupportedFeatureException,
