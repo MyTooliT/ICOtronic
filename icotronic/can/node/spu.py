@@ -85,7 +85,7 @@ class SPU:
 
         """
 
-        logger = getLogger()
+        logger = getLogger(__name__)
         logger.debug("Send request to %s", description)
 
         for attempt in range(retries):

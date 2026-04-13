@@ -110,7 +110,7 @@ async def read_data(
     """
 
     streaming_config = sensor_config.streaming_configuration()
-    logger = getLogger()
+    logger = getLogger(__name__)
     logger.info("Streaming Configuration: %s", streaming_config)
 
     sample_rate = (await sth.get_adc_configuration()).sample_rate()
@@ -201,7 +201,7 @@ async def command_dataloss(arguments: Namespace) -> None:
     identifier = arguments.identifier
     measurement_time_s = arguments.time
 
-    logger = getLogger()
+    logger = getLogger(__name__)
 
     async with Connection() as stu:
         logger.info("Connecting to “%s”", identifier)
@@ -427,7 +427,7 @@ def main():
         format="{asctime} {levelname:7} {message}",
     )
 
-    logger = getLogger()
+    logger = getLogger(__name__)
     logger.info("CLI Arguments: %s", arguments)
 
     if arguments.subcommand == "config":
