@@ -422,9 +422,10 @@ def main():
         parser.error(str(error))
 
     basicConfig(
+        encoding="utf-8",
+        format="{asctime} {levelname:7} {message}",
         level=arguments.log.upper(),
         style="{",
-        format="{asctime} {levelname:7} {message}",
     )
 
     logger = getLogger(__name__)
