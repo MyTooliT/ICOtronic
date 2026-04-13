@@ -423,7 +423,7 @@ def main():
 
     basicConfig(
         encoding="utf-8",
-        format="{asctime} {levelname:7} {message}",
+        format="{asctime} {levelname:7} {name:10} {message}",
         level=arguments.log.upper(),
         style="{",
     )
