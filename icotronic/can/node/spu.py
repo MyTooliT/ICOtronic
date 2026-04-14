@@ -91,8 +91,11 @@ class SPU:
         for attempt in range(retries):
             listener = ResponseListener(message, response_data)
             self.notifier.add_listener(listener)
-            getLogger("icotronic.can").debug("%s", message)
             self.bus.send(message.to_python_can())
+            # This logger exists only for writing CAN messages. It specifically
+            # targets a namespace that is **not** part of the module library,
+            # i.e. there is no file `icotronic.can.messages.py`.
+            getLogger("icotronic.can.messages").debug("%s", message)
 
             try:
                 # We increase the timeout after the first and second try.

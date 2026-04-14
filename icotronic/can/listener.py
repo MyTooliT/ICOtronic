@@ -35,7 +35,10 @@ class Logger(Listener):
     """Log ICOtronic CAN messages in a machine and human readable format"""
 
     def __init__(self):
-        self.logger = getLogger("icotronic.can")
+        # This logger exists only for writing CAN messages.
+        # It specifically targets a namespace that is **not** part of the
+        # module library, i.e. there is no file `icotronic.can.messages.py`.
+        self.logger = getLogger("icotronic.can.messages")
         self.logger.propagate = False
         # We use `Logger` in the code below, since the `.logger` attribute
         # stores internal DynaConf data
