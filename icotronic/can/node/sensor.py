@@ -340,6 +340,7 @@ class SensorNode(Node):
     def __init__(
         self, spu: SPU, eeprom: type[SensorNodeEEPROM] = SensorNodeEEPROM
     ) -> None:
+        self.logger = getLogger(__name__)
 
         super().__init__(spu, eeprom, NodeId("STH 1"))
 
@@ -380,9 +381,12 @@ class SensorNode(Node):
 
         """
 
-        return await self.spu.get_name(
+        name = await self.spu.get_name(
             node=self.id, sensor_node_number=SENSOR_NODE_NUMBER_SELF_ADDRESSING
         )
+        self.logger.info("Sensor node name “%s”", name)
+
+        return name
 
     async def set_name(self, name: str) -> None:
         """Set the name of a sensor node
@@ -454,6 +458,7 @@ class SensorNode(Node):
             data=bytes_name[6:] + [0] * 4,
             description=f"set second part of {description}",
         )
+        self.logger.info("Set sensor node name to “%s”", name)
 
     async def get_rssi(self) -> int:
         """Retrieve the RSSI (Received Signal Strength Indication) of the node
@@ -724,9 +729,13 @@ class SensorNode(Node):
 
         """
 
-        return await self.spu.get_mac_address(
+        mac_address = await self.spu.get_mac_address(
             self.id, SENSOR_NODE_NUMBER_SELF_ADDRESSING
         )
+
+        self.logger.info("Sensor node MAC address “%s”", mac_address)
+
+        return mac_address
 
     # =============
     # = Streaming =
@@ -854,13 +863,15 @@ class SensorNode(Node):
             (f"{channel}, " for channel in measurement_channels[:-2])
         ) + " and ".join(measurement_channels[-2:])
 
+        operation = (
+            f"streaming of {channels_text} measurement channel of “{node}”"
+        )
         await self.spu.request(
             message,
-            description=(
-                f"enable streaming of {channels_text} measurement "
-                f"channel of “{node}”"
-            ),
+            description=f"enable {operation}",
         )
+
+        self.logger.info("Enabled %s", operation)
 
     async def stop_streaming_data(
         self, retries: int = 10, ignore_errors=False
@@ -891,14 +902,18 @@ class SensorNode(Node):
         )
 
         try:
-
+            operation = f"data streaming of “{node}”"
             await self.spu.request(
                 message,
-                description=f"disable data streaming of “{node}”",
+                description=f"disable {operation}",
                 retries=retries,
             )
+            self.logger.info("Disabled %s", operation)
 
         except (NoResponseError, ErrorResponseError) as error:
+            self.logger.warning(
+                "Error while disabling data streaming: %s", error
+            )
             if not ignore_errors:
                 raise error
 
@@ -1012,10 +1027,13 @@ class SensorNode(Node):
 
         adc_configuration = await self.get_adc_configuration()
 
-        return convert_raw_to_supply_voltage(
+        supply_voltage = convert_raw_to_supply_voltage(
             voltage_raw,
             reference_voltage=adc_configuration.reference_voltage,
         )
+
+        self.logger.info("Supply voltage: %s", supply_voltage)
+        return supply_voltage
 
     # =================
     # = Configuration =
@@ -1067,7 +1085,11 @@ class SensorNode(Node):
             message, description=f"Read ADC configuration of “{node}”"
         )
 
-        return ADCConfiguration(response.data[0:5])
+        adc_config = ADCConfiguration(response.data[0:5])
+
+        self.logger.info("ADC configuration of sensor node: %s", adc_config)
+
+        return adc_config
 
     async def set_adc_configuration(
         self,
@@ -1158,6 +1180,10 @@ class SensorNode(Node):
             message, description=f"write ADC configuration of “{node}”"
         )
 
+        self.logger.info(
+            "Set ADC configuration of sensor node to %s", adc_configuration
+        )
+
     # --------------------------------
     # - Get/Set Sensor Configuration -
     # --------------------------------
@@ -1221,7 +1247,13 @@ class SensorNode(Node):
 
         channels = response.data[1:4]
 
-        return SensorConfiguration(*channels)
+        sensor_configuration = SensorConfiguration(*channels)
+
+        self.logger.info(
+            "Sensor configuration of sensor node: %s", sensor_configuration
+        )
+
+        return sensor_configuration
 
     async def set_sensor_configuration(
         self, sensors: SensorConfiguration
@@ -1280,6 +1312,10 @@ class SensorNode(Node):
 
             await self.spu.request(
                 message, description=f"set sensor configuration of “{node}”"
+            )
+            self.logger.info(
+                "Set sensor configuration of sensor node to: %s",
+                sensors,
             )
 
         except ErrorResponseError as error:
