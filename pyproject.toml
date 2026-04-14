@@ -64,7 +64,7 @@ dev = [
     "sphinx>=9,<10",
     "sphinx_rtd_theme>=3.1.0rc1",
     "sphinx_toggleprompt>=0.6.0",
-    "sphinx-autodoc-typehints>=3",
+    "sphinx-autodoc-typehints>=3.10.1",
     "toml",
 ]
 
