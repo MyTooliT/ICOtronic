@@ -65,6 +65,34 @@ Please make sure to not make any mistakes when you edit this file. Otherwise som
 
 3. Save the modified configuration file
 
+### Enable Logging of CAN Messages
+
+The text below describes how to log all CAN messages of the library in a file called `can.log` in the user logging directory.
+
+1. Open the user configuration file in your default text editor using the command line tool `icon`:
+
+   ```sh
+   icon config
+   ```
+
+2. Change the logging level `logger.can.level` to `DEBUG` or a lower [logging level](https://docs.python.org/3/library/logging.html#logging-levels):
+
+   ```yaml
+   logger:
+     can:
+       level: DEBUG
+   ```
+
+3. Save the modified configuration file
+
+**Note:** To determine the location of `can.log` you can use the following code:
+
+```py
+from icotronic.utility.log import get_log_file_handler
+
+print(get_log_file_handler("can.log").baseFilename)
+```
+
 (icon-cli-tool)=
 
 ## ICOn CLI Tool
