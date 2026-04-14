@@ -13,7 +13,6 @@ from icotronic.can.node.spu import SPU
 from icotronic.measurement.acceleration import convert_raw_to_g
 from icotronic.measurement.constants import ADC_MAX_VALUE
 
-
 # -- Classes ------------------------------------------------------------------
 
 
@@ -264,17 +263,20 @@ class STH(SensorNode):
 
         assert isinstance(self.eeprom, STHEEPROM)
 
+        sensor_range = default
         try:
-            return round(
+            sensor_range = round(
                 abs(await self.eeprom.read_x_axis_acceleration_offset()) * 2
             )
         except ValueError as error:
+            description = "Unable to determine sensor range from EEPROM value"
+            self.logger.warning(description)
             if not ignore_errors:
-                raise ValueError(
-                    "Unable to determine sensor range from EEPROM value",
-                ) from error
+                raise ValueError(description) from error
 
-        return default
+        self.logger.info("Sensor range: %s", sensor_range)
+
+        return sensor_range
 
     async def get_acceleration_conversion_function(
         self, default: int = 200, ignore_errors: bool = False
