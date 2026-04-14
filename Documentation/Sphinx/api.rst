@@ -668,6 +668,21 @@ Sensor Configuration
 
 .. _Examples:
 
+*******
+Logging
+*******
+
+The ICOtronic library uses the standard `Python logging library <https://docs.python.org/3/library/logging.html#module-logging>`_ to log data below the namespace ``icotronic``. For example, code in the file ``icotronic.can.node.stu.py`` will log data to the logger with the name(space) ``icotronic.can.node.stu``.
+
+CAN Messages
+============
+
+To log all sent and received CAN messages you can enable the :ref:`logger for CAN message <enable-logging-of-can-messages>`. Please note that this logger
+
+- does not inherit the configuration of the root logger (``propagate`` is set to ``False``)
+- uses the namespace of a module that does not exist: ``icotronic.can.messages``,
+- writes to a file by default.
+
 ********
 Examples
 ********

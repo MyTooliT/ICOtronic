@@ -65,6 +65,8 @@ Please make sure to not make any mistakes when you edit this file. Otherwise som
 
 3. Save the modified configuration file
 
+(enable-logging-of-can-messages)=
+
 ### Enable Logging of CAN Messages
 
 The text below describes how to log all CAN messages of the library in a file called `can.log` in the user logging directory.
