@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from argparse import ArgumentTypeError
 from asyncio import sleep
+from logging import getLogger
 from time import monotonic
 from types import TracebackType
 from typing import NamedTuple
@@ -24,7 +25,6 @@ from icotronic.can.node.id import NodeId
 from icotronic.can.node.sensor import SensorNode
 from icotronic.can.node.spu import SPU
 from icotronic.utility.data import convert_bytes_to_text
-
 
 # -- Classes ------------------------------------------------------------------
 
@@ -151,6 +151,8 @@ class AsyncSensorNodeManager:
                     break
 
                 await sleep(0.1)
+
+        getLogger(__name__).info("Connected to sensor node: %s", sensor_node)
 
         return self.sensor_node_class(self.stu.spu)
 
@@ -331,6 +333,7 @@ class STU(Node):
     def __init__(self, spu: SPU) -> None:
 
         super().__init__(spu, NodeEEPROM, NodeId("STU 1"))
+        self.logger = getLogger(__name__)
 
     async def activate_bluetooth(self) -> None:
         """Activate Bluetooth on the STU
@@ -358,6 +361,8 @@ class STU(Node):
             response_data=6 * [0],  # type: ignore[arg-type]
         )
 
+        self.logger.info("Activated Bluetooth")
+
     async def deactivate_bluetooth(self) -> None:
         """Deactivate Bluetooth on the STU
 
@@ -383,6 +388,8 @@ class STU(Node):
             description=f"deactivate Bluetooth on “{self.id}”",
             response_data=6 * [0],  # type: ignore[arg-type]
         )
+
+        self.logger.info("Deactivated Bluetooth")
 
     async def get_available_nodes(self) -> int:
         """Retrieve the number of available sensor nodes
@@ -423,6 +430,8 @@ class STU(Node):
         )
 
         available_nodes = int(convert_bytes_to_text(answer.data[2:]))
+
+        self.logger.info("Available sensor nodes: %d", available_nodes)
 
         return available_nodes
 
@@ -472,9 +481,15 @@ class STU(Node):
 
         """
 
-        return await self.spu.get_name(
+        name = await self.spu.get_name(
             node=self.id, sensor_node_number=sensor_node_number
         )
+
+        self.logger.info(
+            "Received name of sensor node %d: “%s”", sensor_node_number, name
+        )
+
+        return name
 
     async def connect_with_number(self, sensor_node_number: int = 0) -> bool:
         """Connect to a Bluetooth node using a node number
@@ -578,6 +593,7 @@ class STU(Node):
 
         mac_address_bytes_reversed = list(reversed(mac_address.packed))
         node = "STU 1"
+        info = "to node “{mac_address}” from “{node}”"
         # The STU returns reversed MAC address once, probably after the
         # connection was established successfully.
         # Otherwise (before and after) connection took place it returns
@@ -587,8 +603,10 @@ class STU(Node):
             node=node,
             subcommand=18,
             data=mac_address_bytes_reversed,
-            description=f"connect to node “{mac_address}” from “{node}”",
+            description=f"connect {info}",
         )
+
+        self.logger.info("Connected %s", info)
 
     async def is_connected(self) -> bool:
         """Check if the STU is connected to a Bluetooth node
@@ -642,7 +660,11 @@ class STU(Node):
             ),
         )
 
-        return bool(response.data[2])
+        connected = bool(response.data[2])
+
+        self.logger.info("STU connected to sensor node: %s", connected)
+
+        return connected
 
     async def get_rssi(self, sensor_node_number: int):
         """Retrieve the RSSI (Received Signal Strength Indication) of an STH
@@ -678,9 +700,15 @@ class STU(Node):
 
         """
 
-        return await self.spu.get_rssi(
+        rssi = await self.spu.get_rssi(
             node=self.id, sensor_node_number=sensor_node_number
         )
+
+        self.logger.info(
+            "RSSI of sensor node %d: %d", sensor_node_number, rssi
+        )
+
+        return rssi
 
     async def get_mac_address(
         self, sensor_node_number: int = SENSOR_NODE_NUMBER_SELF_ADDRESSING
@@ -726,7 +754,17 @@ class STU(Node):
 
         """
 
-        return await self.spu.get_mac_address(self.id, sensor_node_number)
+        mac_address = await self.spu.get_mac_address(
+            self.id, sensor_node_number
+        )
+
+        self.logger.info(
+            "MAC address of sensor node %d: %s",
+            sensor_node_number,
+            mac_address,
+        )
+
+        return mac_address
 
     async def get_sensor_nodes(self) -> list[SensorNodeInfo]:
         """Retrieve a list of available sensor nodes
@@ -793,6 +831,8 @@ class STU(Node):
                 )
             )
 
+        self.logger.info("Found sensor nodes: %s", nodes)
+
         return nodes
 
     async def collect_sensor_nodes(self, timeout=5) -> list[SensorNodeInfo]:
@@ -852,7 +892,11 @@ class STU(Node):
             )
             await sleep(0.5)
 
-        return list(sensor_nodes)
+        collected_sensor_nodes = list(sensor_nodes)
+
+        self.logger.info("Collected sensor nodes: %s", collected_sensor_nodes)
+
+        return collected_sensor_nodes
 
     def connect_sensor_node(
         self,
