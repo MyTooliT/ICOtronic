@@ -83,6 +83,14 @@ To show the available options for a certain subcommand add the subcommand before
 icon measure -h
 ```
 
+### Changing the Default Logging Level
+
+To change the minimum log level of messages that will be written to the [standard error output](<https://en.wikipedia.org/wiki/Standard_streams#Standard_error_(stderr)>) use the option `--log`. For example, to log messages of [level `debug`](https://docs.python.org/3/library/logging.html#logging-levels) or higher while [resetting the STU](#icon-cli-tool:reset-stu) use the command:
+
+```sh
+icon --log debug stu reset
+```
+
 ### Listing Available Sensor Nodes
 
 To print a list of all available sensor nodes, including their identifiers (name, MAC address, node number), please use the subcommand `list`:
@@ -264,6 +272,8 @@ To retrieve the STU Bluetooth address you can use the following command:
 ```sh
 icon stu mac
 ```
+
+(icon-cli-tool:reset-stu)=
 
 #### Reset STU
 
