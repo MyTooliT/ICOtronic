@@ -136,7 +136,7 @@ class DataStreamContextManager:
             # error. It would also take considerably more time until the
             # computer would report an error, since the code would usually try
             # to stop the stream (and fail) multiple times beforehand.
-            self.logger.info(
+            self.logger.warning(
                 "Stopping stream after error (%s)", exception_type
             )
             await self.node.stop_streaming_data(retries=1, ignore_errors=True)

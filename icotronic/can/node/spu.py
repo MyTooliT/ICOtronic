@@ -91,7 +91,7 @@ class SPU:
             listener = ResponseListener(message, response_data)
             self.notifier.add_listener(listener)
             self.bus.send(message.to_python_can())
-            logger.debug(
+            logger.info(
                 "Send request to %s (Attempt %d)", description, attempt
             )
             # This logger exists only for writing CAN messages. It specifically
@@ -130,7 +130,7 @@ class SPU:
                     f"Response Message: {Message(response.message)}"
                 )
 
-            logger.debug("Retrieved answer for request to %s", description)
+            logger.info("Retrieved answer for request to %s", description)
             return response.message
 
         raise NoResponseError(f"Unable to {description}")
