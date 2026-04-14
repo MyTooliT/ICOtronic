@@ -124,8 +124,8 @@ class DataStreamContextManager:
         if exception_type is None or isinstance(
             exception_type, type(CancelledError)
         ):
-            self.logger.info("Stopping stream")
             await self.node.stop_streaming_data()
+            self.logger.info("Stopped stream")
         else:
             # If there was an error while streaming data, then stoping the
             # stream will usually also fail. Because of this we only try once
