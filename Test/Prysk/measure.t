@@ -9,13 +9,13 @@ Reset STU to make sure we do not have higher than usual dataloss
   $ icon stu reset
 
   $ dataloss=$(icon measure -t 10 -d 0 2>/dev/null | grep 'Data Loss' | \
-  > sed -E 's/[^0-9]+([0-9]\.[0-9]+)[^0-9]*/\1/')
+  > sed -E 's/[^0-9]+([0-9]+([.][0-9]*)?|[.][0-9]+)[^0-9]*/\1/')
   $ if [ "$(printf "%s < 10.0\n" "${dataloss}" | bc)" -eq 1 ]; then
-  >   printf "Data loss below 10%%\n"
+  >   printf "Data loss (%s) below 10%%\n" "$dataloss"
   > else
   >   printf "Data loss equal to or greater than 10%% (%s)\n" "$dataloss"
   > fi
-  Data loss below 10%
+  Data loss (.*) below 10% (re)
 
   $ runtime=$(icoanalyzer Measurement*.hdf5 | 
   >           grep 'Runtime:' | 
