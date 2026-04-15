@@ -65,6 +65,7 @@ class AsyncSensorNodeManager:
         except ArgumentTypeError as error:
             raise ValueError(error) from error
 
+        self.logger = getLogger(__name__)
         self.stu = stu
         self.identifier = identifier
         self.sensor_node_class = sensor_node_class
@@ -152,7 +153,7 @@ class AsyncSensorNodeManager:
 
                 await sleep(0.1)
 
-        getLogger(__name__).info("Connected to sensor node: %s", sensor_node)
+        self.logger.info("Connected to sensor node: %s", sensor_node)
 
         return self.sensor_node_class(self.stu.spu)
 
@@ -179,8 +180,9 @@ class AsyncSensorNodeManager:
 
         try:
             await self.stu.deactivate_bluetooth()
-        except (NoResponseError, ErrorResponseError):
-            pass
+            self.logger.info("Disconnected from sensor node")
+        except (NoResponseError, ErrorResponseError) as error:
+            self.logger.warning("Error while disconnecting: %s", error)
 
 
 class SensorNodeInfo(NamedTuple):
