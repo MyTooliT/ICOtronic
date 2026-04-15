@@ -433,7 +433,9 @@ class STU(Node):
 
         available_nodes = int(convert_bytes_to_text(answer.data[2:]))
 
-        self.logger.info("Available sensor nodes: %d", available_nodes)
+        self.logger.info(
+            "Number of available sensor nodes: %d", available_nodes
+        )
 
         return available_nodes
 
@@ -595,7 +597,7 @@ class STU(Node):
 
         mac_address_bytes_reversed = list(reversed(mac_address.packed))
         node = "STU 1"
-        info = "to node “{mac_address}” from “{node}”"
+        info = "to sensor node with MAC address “{mac_address}”"
         # The STU returns reversed MAC address once, probably after the
         # connection was established successfully.
         # Otherwise (before and after) connection took place it returns
