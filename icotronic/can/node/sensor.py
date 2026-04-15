@@ -384,7 +384,7 @@ class SensorNode(Node):
         name = await self.spu.get_name(
             node=self.id, sensor_node_number=SENSOR_NODE_NUMBER_SELF_ADDRESSING
         )
-        self.logger.info("Sensor node name “%s”", name)
+        self.logger.info("Sensor node name: %s", name)
 
         return name
 
@@ -458,7 +458,7 @@ class SensorNode(Node):
             data=bytes_name[6:] + [0] * 4,
             description=f"set second part of {description}",
         )
-        self.logger.info("Set sensor node name to “%s”", name)
+        self.logger.info("Set sensor node name to: %s", name)
 
     async def get_rssi(self) -> int:
         """Retrieve the RSSI (Received Signal Strength Indication) of the node
@@ -487,9 +487,12 @@ class SensorNode(Node):
 
         """
 
-        return await self.spu.get_rssi(
+        rssi = await self.spu.get_rssi(
             self.id, SENSOR_NODE_NUMBER_SELF_ADDRESSING
         )
+        self.logger.info("RSSI of sensor node: %d", rssi)
+
+        return rssi
 
     async def get_energy_mode_reduced(self) -> Times:
         """Read the reduced energy mode (mode 1) sensor node time values
@@ -534,7 +537,10 @@ class SensorNode(Node):
             description="get reduced energy time values of sensor node",
         )
 
-        return Times.from_data(response.data[2:])
+        times = Times.from_data(response.data[2:])
+        self.logger.info("Reduced energy mode time values: “%s”", times)
+
+        return times
 
     async def set_energy_mode_reduced(
         self,
@@ -595,6 +601,8 @@ class SensorNode(Node):
             description="set reduced energy time values of sensor node",
         )
 
+        self.logger.info("Set reduced energy mode time values to: “%s”", times)
+
     async def get_energy_mode_lowest(self) -> Times:
         """Read the reduced lowest energy mode (mode 2) time values
 
@@ -638,7 +646,10 @@ class SensorNode(Node):
             description="get lowest energy mode time values of sensor node",
         )
 
-        return Times.from_data(response.data[2:])
+        times = Times.from_data(response.data[2:])
+
+        self.logger.info("Lowest energy mode time values: “%s”", times)
+        return times
 
     async def set_energy_mode_lowest(
         self,
@@ -700,6 +711,8 @@ class SensorNode(Node):
             description="set lowest energy time values of sensor node",
         )
 
+        self.logger.info("Set lowest energy mode time values to: “%s”", times)
+
     async def get_mac_address(self) -> EUI:
         """Retrieve the MAC address of the sensor node
 
@@ -733,7 +746,7 @@ class SensorNode(Node):
             self.id, SENSOR_NODE_NUMBER_SELF_ADDRESSING
         )
 
-        self.logger.info("Sensor node MAC address “%s”", mac_address)
+        self.logger.info("Sensor node MAC address: %s", mac_address)
 
         return mac_address
 
@@ -817,6 +830,8 @@ class SensorNode(Node):
             counter=response.data[1],
         )
 
+        self.logger.info("Read single streaming data values: %s", data)
+
         return data
 
     async def start_streaming_data(
@@ -863,15 +878,13 @@ class SensorNode(Node):
             (f"{channel}, " for channel in measurement_channels[:-2])
         ) + " and ".join(measurement_channels[-2:])
 
-        operation = (
-            f"streaming of {channels_text} measurement channel of “{node}”"
-        )
+        info = f"streaming of {channels_text} measurement channel"
         await self.spu.request(
             message,
-            description=f"enable {operation}",
+            description=f"enable {info}",
         )
 
-        self.logger.info("Enabled %s", operation)
+        self.logger.info("Enabled %s", info)
 
     async def stop_streaming_data(
         self, retries: int = 10, ignore_errors=False
@@ -902,13 +915,13 @@ class SensorNode(Node):
         )
 
         try:
-            operation = f"data streaming of “{node}”"
+            info = "data streaming"
             await self.spu.request(
                 message,
-                description=f"disable {operation}",
+                description=f"disable {info}",
                 retries=retries,
             )
-            self.logger.info("Disabled %s", operation)
+            self.logger.info("Disabled %s", info)
 
         except (NoResponseError, ErrorResponseError) as error:
             self.logger.warning(
@@ -1032,7 +1045,7 @@ class SensorNode(Node):
             reference_voltage=adc_configuration.reference_voltage,
         )
 
-        self.logger.info("Supply voltage: %s", supply_voltage)
+        self.logger.info("Supply voltage: %s V", supply_voltage)
         return supply_voltage
 
     # =================
@@ -1082,7 +1095,7 @@ class SensorNode(Node):
         )
 
         response = await self.spu.request(
-            message, description=f"Read ADC configuration of “{node}”"
+            message, description="get ADC configuration of sensor node"
         )
 
         adc_config = ADCConfiguration(response.data[0:5])
@@ -1176,13 +1189,10 @@ class SensorNode(Node):
             data=adc_configuration.data,
         )
 
-        await self.spu.request(
-            message, description=f"write ADC configuration of “{node}”"
-        )
+        info = "set ADC configuration of sensor node"
+        await self.spu.request(message, description=info)
 
-        self.logger.info(
-            "Set ADC configuration of sensor node to %s", adc_configuration
-        )
+        self.logger.info("%s to: “%s”", info.capitalize(), adc_configuration)
 
     # --------------------------------
     # - Get/Set Sensor Configuration -
@@ -1237,7 +1247,7 @@ class SensorNode(Node):
         try:
 
             response = await self.spu.request(
-                message, description=f"get sensor configuration of “{node}”"
+                message, description="get sensor configuration of sensor node"
             )
 
         except ErrorResponseError as error:
@@ -1250,7 +1260,7 @@ class SensorNode(Node):
         sensor_configuration = SensorConfiguration(*channels)
 
         self.logger.info(
-            "Sensor configuration of sensor node: %s", sensor_configuration
+            "Sensor configuration of sensor node: “%s”", sensor_configuration
         )
 
         return sensor_configuration
@@ -1309,14 +1319,9 @@ class SensorNode(Node):
         )
 
         try:
-
-            await self.spu.request(
-                message, description=f"set sensor configuration of “{node}”"
-            )
-            self.logger.info(
-                "Set sensor configuration of sensor node to: %s",
-                sensors,
-            )
+            info = "set sensor configuration of sensor node"
+            await self.spu.request(message, description=info)
+            self.logger.info("%s to: %s", info.capitalize(), sensors)
 
         except ErrorResponseError as error:
             raise UnsupportedFeatureException(

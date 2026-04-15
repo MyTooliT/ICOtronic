@@ -596,7 +596,6 @@ class STU(Node):
         """
 
         mac_address_bytes_reversed = list(reversed(mac_address.packed))
-        node = "STU 1"
         info = "to sensor node with MAC address “{mac_address}”"
         # The STU returns reversed MAC address once, probably after the
         # connection was established successfully.
@@ -604,7 +603,7 @@ class STU(Node):
         # zeroes all the time. This means the return values is not that
         # useful, e.g. for determining if the STH is connected or not.
         await self.spu.request_bluetooth(
-            node=node,
+            node="STU 1",
             subcommand=18,
             data=mac_address_bytes_reversed,
             description=f"connect {info}",
