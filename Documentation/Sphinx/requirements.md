@@ -112,6 +112,37 @@ IDX LINK   TYPE     OPERATIONAL SETUP
   7 can0   can      carrier     configured
 ```
 
+For a more detailed output use the command `networkctl status <CAN_ID>`, where `<CAN_ID>` is the identifier of the CAN adapter, usually this will be `can0`:
+
+```sh
+networkctl status can0
+```
+
+For a working CAN adapter this command should print something like the following:
+
+```
+● 7: can0
+               Link File: /usr/lib/systemd/network/73-usb-net-by-mac.link
+            Network File: /etc/systemd/network/80-can.network
+                   State: carrier (configured)
+            Online state: offline
+                    Type: can
+                    Kind: can
+                    Path: pci-0000:00:14.0-usb-0:3.4.3:1.0
+                  Driver: peak_usb
+                  Vendor: PEAK System
+                   Model: PCAN-USB_FD
+                     MTU: 16
+                   QDisc: pfifo_fast
+Number of Queues (Tx/Rx): 1/1
+       Activation Policy: up
+     Required For Online: yes
+
+May 20 11:33:48 Erdbeermus systemd-networkd[1207]: can0: Configuring with /etc/systemd/network/80-can.network.
+May 20 11:33:48 Erdbeermus systemd-networkd[1207]: can0: Link UP
+May 20 11:33:48 Erdbeermus systemd-networkd[1207]: can0: Gained carrier
+```
+
 **Sources**:
 
 - [SocketCAN device on Ubuntu Core](https://askubuntu.com/questions/1082277/socketcan-device-on-ubuntu-core)
