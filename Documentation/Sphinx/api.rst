@@ -51,21 +51,29 @@ To connect to a sensor node (e.g. SHA, SMH, STH) use the async context manager o
    >>> isinstance(mac_address, EUI)
    True
 
-By default :meth:`STU.connect_sensor_node` assumes that you want to connect to a generic sensor node (e.g. a sensory milling head (SMH)). To connect to an STH (a sensor node with additional functionality), use :class:`STH` for the ``sensor_node_class`` parameter:
+By default :meth:`STU.connect_sensor_node` assumes that you want to connect to a generic sensor node. The returned object of class :class:`SensorNode` should provide most of the functionality for typical use, such as the `ability to read streaming data <Streaming>`_.
+
+To access some :class:`(very limited additional) functionality <STH>` that is only available on an STH use the class :class:`STH` for the ``sensor_node_class`` parameter in the coroutine :meth:`STU.connect_sensor_node`.
+
+.. note::
+   Currently the only additional functionality provided by objects of the class :class:`STH` concerns the self-test of the embedded acceleration sensor. **Unless you want to test an STH**, we recommend you just **use the default value** for the ``sensor_node_class`` parameter.
+
+.. warning::
+   The coroutine :meth:`STU.connect_sensor_node` **can and does not check if the connected node is indeed an STH**. If the node is **not an STH**, then :class:`using any of the additional methods of the class STH <STH>` will not behave as you might have expected.
+
+The example code below connects to a sensor node using the class :class:`STH`:
 
 .. doctest::
 
    >>> from asyncio import run
    >>> from icotronic.can import Connection, STH
 
-   >>> async def get_sensor_range(identifier):
+   >>> async def connect_to_sth(identifier):
    ...     async with Connection() as stu:
    ...         async with stu.connect_sensor_node(identifier, STH) as sth:
-   ...             return await sth.get_acceleration_sensor_range_in_g()
+   ...             assert(isinstance(sth, STH))
 
-   >>> sensor_range = run(get_sensor_range("Test-STH"))
-   >>> 0 <= sensor_range <= 200
-   True
+   >>> run(connect_to_sth("Test-STH"))
 
 .. _identifiers of the node: https://mytoolit.github.io/ICOtronic/#sensor-node-identifiers
 
@@ -75,8 +83,7 @@ Streaming
 Reading Data
 ------------
 
-
-After you connected to the sensor node use the coroutine :meth:`SensorNode.open_data_stream` to open the data stream and an ``async for`` statement to iterate over the received streaming data. The following code:
+After your code connected to the sensor node use the coroutine :meth:`SensorNode.open_data_stream` to open the data stream and an ``async for`` statement to iterate over the received streaming data. The following code:
 
 .. doctest::
 
@@ -107,9 +114,11 @@ After you connected to the sensor node use the coroutine :meth:`SensorNode.open_
    >>> 0 <= data.counter <= 255
    True
 
+.. currentmodule:: icotronic.can.streaming
+
 1. connects to a node called ``Test-STH``,
 2. opens a data stream for the first measurement channel,
-3. receives a single streaming data object,
+3. receives a single :class:`streaming data object <StreamingData>`,
 4. prints its representation and
 5. shows some of the properties of the streaming data object.
 
@@ -132,24 +141,34 @@ The data returned by the ``async for`` (``stream``) is an object of the class :c
 .. |recommended amount of one or three enabled channels| replace:: **recommended amount** of one or three enabled channels
 .. _recommended amount of one or three enabled channels: https://mytoolit.github.io/ICOtronic/#channel-selection
 
-By default :attr:`StreamingData.values` contains 16-bit ADC values. To convert the data into multiples of g (`the standard gravity <https://en.wikipedia.org/wiki/Standard_gravity>`_) you can
+By default :attr:`StreamingData.values` contains 16-bit ADC values. To convert the data into another value e.g. multiples of g (`the standard gravity <https://en.wikipedia.org/wiki/Standard_gravity>`_) you can use the method :meth:`StreamingData.apply`.
 
-- use the coroutine :meth:`STH.get_acceleration_conversion_function` to retrieve a function that converts 16-bit ADC values values into multiples of g and then
-- use this function to convert streaming data with the method :meth:`StreamingData.apply`.
+.. _ADXL1001: https://www.analog.com/en/products/adxl1001.html
 
-In the example below we convert the first retrieved streaming data object and return it:
+The example below convert the first retrieved streaming data object and returns it. The code:
+
+  - assume that the sensor node (STH) uses the ±100 g sensor `ADXL1001`_ and
+  - uses a linear mapping for the whole range of ADC values.
+
+.. _note-conversion-to-g:
+
+.. note::
+   The minimum and maximum value according to the slope (20 mV/g for VDD=5 V according
+   to the `spec sheet <ADXL1001>`_) are -125 g and 125 g, if we assume a linear mapping over the whole value range. Since the sensor is rated for a range from -100 g to +100 g we recommend that you do take additional care, when interpreting values that fall out of this range.
 
 .. doctest::
 
    >>> from asyncio import run
+   >>> from numpy.polynomial import Polynomial
    >>> from icotronic.can import Connection
    >>> from icotronic.can import STH, StreamingConfiguration
+   >>> from icotronic.measurement.constants import ADC_MAX_VALUE
+
+   >>> conversion_to_g = Polynomial([-125, 250/ADC_MAX_VALUE])
 
    >>> async def read_streaming_data_g():
    ...     async with Connection() as stu:
-   ...         async with stu.connect_sensor_node("Test-STH", STH) as sth:
-   ...             conversion_to_g = (await
-   ...                 sth.get_acceleration_conversion_function())
+   ...         async with stu.connect_sensor_node("Test-STH") as sth:
    ...             channels = StreamingConfiguration(first=True)
    ...             async with sth.open_data_stream(channels) as stream:
    ...                 async for data, lost_messages in stream:
@@ -159,7 +178,8 @@ In the example below we convert the first retrieved streaming data object and re
    >>> streaming_data = run(read_streaming_data_g())
    >>> len(streaming_data.values)
    3
-   >>> all([-100 <= value <= 100 for value in streaming_data.values])
+
+   >>> all([-125 <= value <= 125 for value in streaming_data.values])
    True
 
 Collecting Multiple Values
@@ -177,7 +197,10 @@ For that case you can use the class :class:`MeasurementData`. The example code b
 
 - collects data for all three measurement channels,
 - applies a conversion into multiples of g for the first channel (only) and
-- checks that the values for the first channel are all between -2 g and 2 g.
+- checks that the values for the first channel are all between -3 g and 3 g.
+
+.. note::
+   Please note that the :ref:`same limitations <note-conversion-to-g>` concerning the conversion into g apply as in the previous example.
 
 .. doctest::
 
@@ -186,11 +209,11 @@ For that case you can use the class :class:`MeasurementData`. The example code b
    >>> from icotronic.can import Connection, STH, StreamingConfiguration
    >>> from icotronic.measurement import Conversion, MeasurementData
 
+   >>> conversion_to_g = Polynomial([-125, 250/0xffff])
+
    >>> async def collect_streaming_data(identifier):
    ...    async with Connection() as stu:
    ...        async with stu.connect_sensor_node(identifier, STH) as sth:
-   ...            conversion_to_g = (await
-   ...                sth.get_acceleration_conversion_function())
    ...            all_channels = StreamingConfiguration(
    ...                first=True, second=True, third=True
    ...            )
@@ -207,7 +230,7 @@ For that case you can use the class :class:`MeasurementData`. The example code b
 
    >>> data = run(collect_streaming_data(identifier="Test-STH"))
    >>> first_channel_in_g = data.first()
-   >>> all(-2 <= data.value <= 2 for data in first_channel_in_g)
+   >>> all(-3 <= data.value <= 3 for data in first_channel_in_g)
    True
 
 Converting Data Values
@@ -267,7 +290,7 @@ The class :class:`Conversion` allows you to apply different functions to the dif
 Storing Data
 ------------
 
-If you want to store streaming data for later use you can use the :class:`Storage` class to open a context manager that lets you store data as `HDF5`_ file via the method :func:`add_streaming_data` of the class :class:`StorageData`. The code below shows how to store one second of measurement data in a file called ``measurement.hdf5``.
+If you want to store streaming data for later use you can use the :class:`Storage <storage.Storage>` class to open a context manager that lets you store data as `HDF5`_ file via the method :meth:`add_streaming_data <storage.StorageData.add_streaming_data>` of the class :class:`StorageData <storage.StorageData>`. The code below shows how to store one second of measurement data in a file called ``measurement.hdf5``.
 
 .. _HDF5: https://en.wikipedia.org/wiki/Hierarchical_Data_Format
 
@@ -282,13 +305,6 @@ If you want to store streaming data for later use you can use the :class:`Storag
    >>> async def store_streaming_data(identifier, storage):
    ...     async with Connection() as stu:
    ...         async with stu.connect_sensor_node(identifier, STH) as sth:
-   ...             conversion_to_g = (await
-   ...                 sth.get_acceleration_conversion_function())
-   ...
-   ...             # Store acceleration range as metadata
-   ...             storage.write_sensor_range(
-   ...                 await sth.get_acceleration_sensor_range_in_g()
-   ...             )
    ...             # Store sampling rate (and ADC configuration as metadata)
    ...             storage.write_sample_rate(await sth.get_adc_configuration())
    ...
@@ -413,6 +429,8 @@ The buffer of the CAN controller is only able to store a certain amount of strea
 Auxiliary Functionality
 =======================
 
+.. currentmodule:: icotronic.can
+
 Reading Names
 -------------
 
@@ -445,7 +463,7 @@ of the analog digital converter (ADC) of your sensor node you can use the corout
 
 .. note:: Some sensor nodes use a different reference voltage (**not 3.3V**). In this case applying the default configuration might not be what you want.
 
-To retrieve the current ADC configuration use the coroutine :meth:`SensorNode.get_adc_configuration`, which will return an :class:`ADCConfiguration` object. This object provides the method :meth:`ADCConfiguration.sample_rate` to calculate the sampling rate/frequency based on the current value of prescaler, acquisition time and oversampling rate.
+To retrieve the current ADC configuration use the coroutine :meth:`SensorNode.get_adc_configuration`, which will return an :class:`ADCConfiguration <adc.ADCConfiguration>` object. This object provides the method :meth:`ADCConfiguration.sample_rate <adc.ADCConfiguration.sample_rate>` to calculate the sampling rate/frequency based on the current value of prescaler, acquisition time and oversampling rate.
 
 In the example below we
 
@@ -620,6 +638,12 @@ Streaming
    :members:
 .. autoclass:: StreamingData
    :members:
+
+Errors
+------
+
+.. autoclass:: StreamingBufferError
+.. autoclass:: StreamingTimeoutError
 
 Measurement
 ===========

@@ -44,12 +44,6 @@ Check sample rate attribute
   > grep '(0)' | sed -E 's/^[^"]*"([^"]+)".*$/\1/'
   9523.81 Hz (Prescaler: 2, Acquisition Time: 8, Oversampling Rate: 64)
 
-Check sensor range attribute
-
-  $ h5dump -a acceleration/Sensor_Range Measurement*.hdf5 |
-  > grep '(0)' | sed -E 's/^[^"]*"([^"]+)".*$/\1/'
-  .*\d{2,3} g.* (re)
-
 Check start time attribute
 
   $ timestamp=$(h5dump -a acceleration/Start_Time Measurement*.hdf5 |

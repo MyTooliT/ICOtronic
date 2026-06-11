@@ -2,15 +2,11 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from collections.abc import Callable
-from functools import partial
-
 from icotronic.can.calibration import CalibrationMeasurementFormat
-from icotronic.can.node.eeprom.sth import STHEEPROM
+from icotronic.can.node.eeprom.sensor import SensorNodeEEPROM
 from icotronic.can.protocol.message import Message
 from icotronic.can.node.sensor import SensorNode
 from icotronic.can.node.spu import SPU
-from icotronic.measurement.acceleration import convert_raw_to_g
 from icotronic.measurement.constants import ADC_MAX_VALUE
 
 # -- Classes ------------------------------------------------------------------
@@ -28,7 +24,7 @@ class STH(SensorNode):
 
     def __init__(self, spu: SPU) -> None:
 
-        super().__init__(spu, STHEEPROM)
+        super().__init__(spu, SensorNodeEEPROM)
 
     # ---------------------------
     # - Calibration Measurement -
@@ -202,156 +198,3 @@ class STH(SensorNode):
 
         adc_value = int.from_bytes(response.data[4:], "little")
         return adc_value / ADC_MAX_VALUE * reference_voltage
-
-    async def get_acceleration_sensor_range_in_g(
-        self, default: int = 200, ignore_errors: bool = False
-    ) -> int:
-        """Retrieve the maximum acceleration sensor range in multiples of g₀
-
-        - For a ±100 g₀ sensor this method returns 200 (100 + abs(-100)).
-        - For a ±50 g₀ sensor this method returns 100 (50 + abs(-50)).
-
-        For this to work correctly the EEPROM value of the x-axis acceleration
-        offset in the EEPROM has to be set.
-
-        Args:
-
-            default:
-
-                The default value that should be used, if the value could not
-                be determined from the EEPROM; This value will only be used if
-                ``ignore_errors`` is set to ``True``
-
-            ignore_errors:
-
-                Determines, if the function should raise an error, if
-                the value could not be determined from the EEPROM
-
-        Returns:
-
-            Range of current acceleration sensor in multiples of earth’s
-            gravitation
-
-        Raises:
-
-            ValueError:
-
-                If the sensor range could not be determined and
-                ``ignore_errors`` is set to ``False``
-
-        Examples:
-
-            Import required library code
-
-            >>> from asyncio import run
-            >>> from icotronic.can.connection import Connection
-            >>> from icotronic.can.node.sth import STH
-
-            Write and read the acceleration offset of STH 1
-
-            >>> async def read_sensor_range():
-            ...     async with Connection() as stu:
-            ...         # We assume that at least one sensor node is available
-            ...         async with stu.connect_sensor_node(0, STH) as sth:
-            ...             return (await
-            ...                     sth.get_acceleration_sensor_range_in_g())
-            >>> sensor_range = run(read_sensor_range())
-            >>> 0 < sensor_range <= 200
-            True
-
-        """
-
-        assert isinstance(self.eeprom, STHEEPROM)
-
-        sensor_range = default
-        try:
-            sensor_range = round(
-                abs(await self.eeprom.read_x_axis_acceleration_offset()) * 2
-            )
-        except ValueError as error:
-            description = "Unable to determine sensor range from EEPROM value"
-            self.logger.warning(description)
-            if not ignore_errors:
-                raise ValueError(description) from error
-
-        self.logger.info("Sensor range: %s", sensor_range)
-
-        return sensor_range
-
-    async def get_acceleration_conversion_function(
-        self, default: int = 200, ignore_errors: bool = False
-    ) -> Callable[[float], float]:
-        """Retrieve function to convert raw sensor data into g
-
-        Args:
-
-            default:
-
-                The default sensor range that should be used, if the sensor
-                range could not be determined from the EEPROM; This value will
-                only be used if ``ignore_errors`` is set to ``True``; The
-                default value for of ``200`` represents a ±100 g₀ sensor
-
-            ignore_errors:
-
-                Determines, if the function should raise an error, if
-                the sensor range value value could not be determined; If this
-                is set to ``False``, then the function will use the value
-                ``default`` as default sensor range
-
-        Returns:
-
-            A function that converts 16 bit raw values from the STH into
-            multiples of earth’s gravitation (g)
-
-        Raises:
-
-            ValueError:
-
-                If the sensor range could not be determined and
-                ``ignore_errors`` is set to ``False``
-
-        Examples:
-
-            Import required library code
-
-            >>> from asyncio import run
-            >>> from icotronic.can.connection import Connection
-            >>> from icotronic.can.node.sth import STH
-
-            Convert a raw ADC value into multiples of g
-
-            >>> async def read_sensor_values():
-            ...     async with Connection() as stu:
-            ...         # We assume that at least one sensor node is available
-            ...         async with stu.connect_sensor_node(0, STH) as sth:
-            ...             convert_to_g = (await
-            ...                 sth.get_acceleration_conversion_function())
-            ...             data = await sth.get_streaming_data_single()
-            ...             before = list(data.values)
-            ...             data.apply(convert_to_g)
-            ...             return before, data.values
-            >>> before, after = run(read_sensor_values())
-            >>> all([0 <= value <= 2**16 for value in before])
-            True
-            >>> all([-100 <= value <= 100 for value in after])
-            True
-
-        """
-
-        sensor_range = await self.get_acceleration_sensor_range_in_g(
-            default=default, ignore_errors=ignore_errors
-        )
-        return partial(convert_raw_to_g, max_value=sensor_range)
-
-
-# -- Main ---------------------------------------------------------------------
-
-if __name__ == "__main__":
-    from doctest import run_docstring_examples
-
-    run_docstring_examples(
-        STH.get_acceleration_conversion_function,
-        globals(),
-        verbose=True,
-    )

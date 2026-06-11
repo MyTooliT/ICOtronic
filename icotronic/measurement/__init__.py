@@ -2,5 +2,5 @@
 
 # -- Exports ------------------------------------------------------------------
 
-from .acceleration import convert_raw_to_g, ratio_noise_max
+from .acceleration import ratio_noise_max
 from .data import ChannelData, Conversion, DataPoint, MeasurementData

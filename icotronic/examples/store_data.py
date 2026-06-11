@@ -8,7 +8,7 @@ from time import monotonic
 
 from netaddr import EUI
 
-from icotronic.can import Connection, StreamingConfiguration, STH
+from icotronic.can import Connection, StreamingConfiguration
 from icotronic.measurement.storage import Storage
 
 # -- Functions ----------------------------------------------------------------
@@ -26,28 +26,24 @@ async def store_streaming_data(identifier: EUI | str | int) -> None:
     """
 
     async with Connection() as stu:
-        async with stu.connect_sensor_node(identifier, STH) as sth:
-
-            assert isinstance(sth, STH)  # Make type checker happy
-
-            conversion_to_g = await sth.get_acceleration_conversion_function()
+        async with stu.connect_sensor_node(identifier) as sensor_node:
 
             filepath = Path("test.hdf5")
             stream_first = StreamingConfiguration(first=True)
 
             with Storage(filepath, channels=stream_first) as storage:
-                # Store acceleration range as metadata
-                storage.write_sensor_range(
-                    await sth.get_acceleration_sensor_range_in_g()
-                )
                 # Store sampling rate (and ADC configuration as metadata)
-                storage.write_sample_rate(await sth.get_adc_configuration())
-                async with sth.open_data_stream(stream_first) as stream:
+                storage.write_sample_rate(
+                    await sensor_node.get_adc_configuration()
+                )
+                async with sensor_node.open_data_stream(
+                    stream_first
+                ) as stream:
                     # Read data for about five seconds
                     end = monotonic() + 5
                     async for data, _ in stream:
-                        # Convert from ADC bit value into multiples of g
-                        storage.add_streaming_data(data.apply(conversion_to_g))
+                        # Store 16 bit ADC value
+                        storage.add_streaming_data(data)
                         if monotonic() > end:
                             break
 

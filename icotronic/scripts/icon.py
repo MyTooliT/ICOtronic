@@ -21,7 +21,7 @@ from tqdm import tqdm
 from icotronic.can import Connection
 from icotronic.can.adc import ADCConfiguration
 from icotronic.can.error import CANConnectionError, UnsupportedFeatureException
-from icotronic.can.node.sth import STH
+from icotronic.can.node.sensor import SensorNode
 from icotronic.can.sensor import SensorConfiguration
 from icotronic.can.streaming import StreamingBufferError, StreamingTimeoutError
 from icotronic.cmdline.parse import create_icon_parser
@@ -30,41 +30,6 @@ from icotronic.measurement.storage import Storage, StorageData
 from icotronic.utility.performance import PerformanceMeasurement
 
 # -- Functions ----------------------------------------------------------------
-
-
-async def get_acceleration_sensor_range_in_g(sth: STH) -> int:
-    """Read sensor range of acceleration sensor
-
-    Args:
-
-        sth:
-            The STH object used to read the sensor range
-
-    Returns:
-
-        The sensor range of the acceleration sensor, or the default range of
-        200 (± 100 g) sensor, if there was a problem reading the sensor range
-
-    """
-
-    sensor_range = 200
-
-    try:
-        sensor_range = await sth.get_acceleration_sensor_range_in_g()
-        if sensor_range < 1:
-            print(
-                f"Warning: Sensor range “{sensor_range}” below 1 g — Using "
-                "range 200 instead (± 100 g sensor)",
-                file=stderr,
-            )
-            sensor_range = 200
-    except ValueError as error:
-        print(
-            f"Warning: {error} — Assuming ± 100 g sensor",
-            file=stderr,
-        )
-
-    return sensor_range
 
 
 def command_config() -> None:
@@ -77,24 +42,20 @@ def command_config() -> None:
 
 
 async def read_data(
-    sth: STH,
+    sensor_node: SensorNode,
     sensor_config: SensorConfiguration,
-    sensor_range: int,
     storage: StorageData,
     measurement_time_s: float,
 ) -> PerformanceMeasurement:
-    """Read some acceleration data from the given STH
+    """Read some acceleration data from the given sensor node
 
     Args:
 
-        sth:
-            The STH from which data should be read
+        sensor_node:
+            The sensor node from which data should be read
 
         sensor_config:
             The sensor configuration that should be used for reading data
-
-        sensor_range:
-            The range of the acceleration sensor
 
         storage:
             The storage object that should be used to store the acceleration
@@ -113,7 +74,7 @@ async def read_data(
     logger = getLogger(__name__)
     logger.info("Streaming Configuration: %s", streaming_config)
 
-    sample_rate = (await sth.get_adc_configuration()).sample_rate()
+    sample_rate = (await sensor_node.get_adc_configuration()).sample_rate()
     progress = tqdm(
         total=int(sample_rate * measurement_time_s),
         desc="Read sensor data",
@@ -122,19 +83,15 @@ async def read_data(
         disable=None,
     )
 
-    conversion_to_g = await sth.get_acceleration_conversion_function(
-        default=sensor_range,
-        ignore_errors=True,
-    )
     values_per_message = streaming_config.data_length()
 
     performance_measurement = PerformanceMeasurement()
     try:
-        async with sth.open_data_stream(streaming_config) as stream:
+        async with sensor_node.open_data_stream(streaming_config) as stream:
             performance_measurement.start()
             start_time = monotonic()
             async for data, _ in stream:
-                storage.add_streaming_data(data.apply(conversion_to_g))
+                storage.add_streaming_data(data)
                 progress.update(values_per_message)
                 if monotonic() - start_time >= measurement_time_s:
                     break
@@ -205,11 +162,9 @@ async def command_dataloss(arguments: Namespace) -> None:
 
     async with Connection() as stu:
         logger.info("Connecting to “%s”", identifier)
-        async with stu.connect_sensor_node(identifier, STH) as sth:
-            assert isinstance(sth, STH)
+        async with stu.connect_sensor_node(identifier) as sensor_node:
             logger.info("Connected to “%s”", identifier)
 
-            sensor_range = await get_acceleration_sensor_range_in_g(sth)
             sensor_config = SensorConfiguration(first=1)
 
             oversampling_rates = [2**exponent for exponent in range(6, 10)]
@@ -220,7 +175,7 @@ async def command_dataloss(arguments: Namespace) -> None:
                     acquisition_time=8,
                     oversampling_rate=oversampling_rate,
                 )
-                await sth.set_adc_configuration(**adc_config)
+                await sensor_node.set_adc_configuration(**adc_config)
                 logger.info("Sample rate: %s Hz", adc_config.sample_rate())
 
                 with NamedTemporaryFile(
@@ -230,14 +185,12 @@ async def command_dataloss(arguments: Namespace) -> None:
                     with Storage(
                         temp.name, sensor_config.streaming_configuration()
                     ) as storage:
-                        storage.write_sensor_range(sensor_range)
                         storage.write_sample_rate(adc_config)
 
                         try:
                             performance = await read_data(
-                                sth,
+                                sensor_node,
                                 sensor_config,
-                                sensor_range,
                                 storage,
                                 measurement_time_s,
                             )
@@ -292,8 +245,7 @@ async def command_measure(arguments: Namespace) -> None:
     measurement_time_s = arguments.time
 
     async with Connection() as stu:
-        async with stu.connect_sensor_node(identifier, STH) as sth:
-            assert isinstance(sth, STH)
+        async with stu.connect_sensor_node(identifier) as sensor_node:
 
             adc_config = ADCConfiguration(
                 reference_voltage=arguments.voltage_reference,
@@ -301,7 +253,7 @@ async def command_measure(arguments: Namespace) -> None:
                 acquisition_time=arguments.acquisition,
                 oversampling_rate=arguments.oversampling,
             )
-            await sth.set_adc_configuration(**adc_config)
+            await sensor_node.set_adc_configuration(**adc_config)
             print(f"Sample Rate: {adc_config.sample_rate():.2f} Hz")
 
             user_sensor_config = SensorConfiguration(
@@ -312,27 +264,26 @@ async def command_measure(arguments: Namespace) -> None:
 
             if user_sensor_config.requires_channel_configuration_support():
                 try:
-                    await sth.set_sensor_configuration(user_sensor_config)
+                    await sensor_node.set_sensor_configuration(
+                        user_sensor_config
+                    )
                 except UnsupportedFeatureException as exception:
                     raise UnsupportedFeatureException(
                         f"Sensor channel configuration “{user_sensor_config}”"
                         f" is not supported by the sensor node “{identifier}”"
                     ) from exception
 
-            sensor_range = await get_acceleration_sensor_range_in_g(sth)
             filepath = settings.get_output_filepath()
 
             with Storage(
                 filepath, user_sensor_config.streaming_configuration()
             ) as storage:
-                storage.write_sensor_range(sensor_range)
                 storage.write_sample_rate(adc_config)
 
                 try:
                     await read_data(
-                        sth,
+                        sensor_node,
                         user_sensor_config,
-                        sensor_range,
                         storage,
                         measurement_time_s,
                     )

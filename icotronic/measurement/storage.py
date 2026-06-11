@@ -299,9 +299,9 @@ class StorageData:
             >>> filepath = Path("test.hdf5")
             >>> config = StreamingConfiguration(first=True)
             >>> with Storage(filepath, config) as storage:
-            ...     storage.write_sensor_range(200)
-            ...     print(storage["Sensor_Range"])
-            ± 100 g₀
+            ...     storage["hello"] = "world"
+            ...     print(storage["hello"])
+            world
             >>> filepath.unlink()
 
         """
@@ -326,7 +326,7 @@ class StorageData:
             >>> filepath = Path("test.hdf5")
             >>> with Storage(filepath,
             ...              StreamingConfiguration(third=True)) as storage:
-            ...     storage["something"] =  "some value"
+            ...     storage["something"] = "some value"
             ...     print(storage["something"])
             some value
             >>> filepath.unlink()
@@ -456,36 +456,6 @@ class StorageData:
 
         for streaming_data in measurement_data:
             self.add_streaming_data(streaming_data)
-
-    def write_sensor_range(self, sensor_range_in_g: float) -> None:
-        """Add metadata about sensor range
-
-        This method assumes that sensor have a symmetric measurement range
-        (e.g. a sensor with a range of 200 g measures from - 100 g up to
-        + 100 g).
-
-        Args:
-
-            sensor_range_in_g:
-                The measurement range of the sensor in multiples of g
-
-        Examples:
-
-            Add sensor range metadata to example file
-
-            >>> filepath = Path("test.hdf5")
-            >>> with Storage(filepath,
-            ...              StreamingConfiguration(third=True)) as storage:
-            ...     storage.write_sensor_range(200)
-            ...     print(storage.acceleration.attrs["Sensor_Range"])
-            ± 100 g₀
-            >>> filepath.unlink()
-
-        """
-
-        sensor_range_positive = round(sensor_range_in_g / 2)
-
-        self["Sensor_Range"] = f"± {sensor_range_positive} g₀"
 
     def write_sample_rate(self, adc_configuration: ADCConfiguration) -> None:
         """Store the sample rate of the ADC
