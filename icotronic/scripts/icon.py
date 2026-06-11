@@ -90,9 +90,11 @@ async def read_data(
         async with sensor_node.open_data_stream(streaming_config) as stream:
             performance_measurement.start()
             start_time = monotonic()
-            async for data, _ in stream:
+            async for data, number_lost_messages in stream:
                 storage.add_streaming_data(data)
-                progress.update(values_per_message)
+                progress.update(
+                    (number_lost_messages + 1) * values_per_message
+                )
                 if monotonic() - start_time >= measurement_time_s:
                     break
             performance_measurement.stop()
