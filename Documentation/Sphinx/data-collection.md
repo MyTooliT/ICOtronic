@@ -76,11 +76,11 @@ By default measurement files will be stored in the current working directory wit
 
 ## Measurement Data
 
-> **Note:** ICOn **assumes** that the sensor node always measures **acceleration data** in multiples of the [gravity of earth](https://en.wikipedia.org/wiki/Gravity_of_Earth), commonly referred as $g$ or $g_0$. While this is true for most of the sensor hardware (such as STHs), some sensor nodes measure other values, e.g. force or temperature. Even in this case the measurement software will (incorrectly) [convert the data into multiples of $g$](https://github.com/MyTooliT/ICOtronic/blob/dc636ce2cda8f380aa0f031fc743062820eb3443/mytoolit/measurement/acceleration.py#L50-L51). We are **working on adding support for configuring the sensor type** in the firmware and the ICOtronic package to **fix this issue**.
-
 To take a look at the measurement data you can use the tool [HDFView][].
 
-> **Note:** Unfortunately you need to create a free account to download the program. If you do not want to register, then you can try if [one of the accounts listed at BugMeNot](http://bugmenot.com/view/hdfgroup.org) works. Another option is to download the application from [here](https://support.hdfgroup.org/ftp/HDF5/releases/HDF-JAVA/). Just click on the folder for the latest version of the application (`hdfview-…`) and afterwards on the folder `bin` to see a list of compressed binaries (`.zip` & `.tar.gz`) for the different supported operating systems.
+```{note}
+Unfortunately you need to create a free account to download the program. If you do not want to register, then you can try if [one of the accounts listed at BugMeNot](http://bugmenot.com/view/hdfgroup.org) works. Another option is to download the application from [here](https://support.hdfgroup.org/ftp/HDF5/releases/HDF-JAVA/). Just click on the folder for the latest version of the application (`hdfview-…`) and afterwards on the folder `bin` to see a list of compressed binaries (`.zip` & `.tar.gz`) for the different supported operating systems.
+```
 
 [hdfview]: https://www.hdfgroup.org/downloads/hdfview/
 
@@ -88,12 +88,18 @@ The screenshot below shows a measurement file produced by the ICOtronic library:
 
 ![Main Window of HDFView](Pictures/HDFView-File.png)
 
-As you can see the table with the name `acceleration` stores the acceleration data. The screenshot above displays the metadata of the table. The most important meta attributes here are probably:
+As you can see the table with the name `acceleration` stores the sensor data.
+
+```{note}
+The table is named “acceleration” mainly for historic reasons. While the main purpose of most sensor nodes is still collecting data using acceleration sensors, the table might also store other data such as temperature or force.
+```
+
+The screenshot above displays the metadata of the table. The most important meta attributes here are probably:
 
 - `Start_Time`, which contains the start time of the measurement run in ISO format, and
-- `Sensor_Range`, which specifies the range of the used acceleration sensor in multiples of earth’s gravitation (g₀ ≅ 9.81 m/s²).
+- `Sample_Rate`, which specifies the (theoretical) number of samples taken per second.
 
-After you double click on the acceleration table on the left, HDFView will show you the actual acceleration data:
+After you double click on the acceleration table on the left, HDFView will show you the actual sensor data:
 
 ```{image} Pictures/HDFView-Table.png
 :alt: Acceleration Table in HDFView
@@ -101,17 +107,17 @@ After you double click on the acceleration table on the left, HDFView will show 
 :align: center
 ```
 
-As you can infer from the `x` column above the table shows the acceleration measurement data (in multiples of g₀) for a single axis. The table below describes the meaning of the columns:
+As you can infer from the `x` column above the table shows sensor data (as a 16 bit ADC value) for a single axis. The table below describes the meaning of the columns:
 
-| Column    | Description                                                                              | Unit             |
-| --------- | ---------------------------------------------------------------------------------------- | ---------------- |
-| counter   | A cyclic counter value (0–255) sent with the acceleration data to recognize lost packets | –                |
-| timestamp | The timestamp for the measured value in microseconds since the measurement start         | μs               |
-| x         | Acceleration in the x direction as multiples of earth’s gravitation                      | g₀ (≅ 9.81 m/s²) |
+| Column    | Description                                                                      | Range     | Unit |
+| --------- | -------------------------------------------------------------------------------- | --------- | ---- |
+| counter   | A cyclic counter value sent with the acceleration data to recognize lost packets | 0 – 255   | –    |
+| timestamp | The timestamp for the measured value in microseconds since the measurement start | 0 – 2⁶⁴-1 | μs   |
+| x         | 16 Bit ADC sensor value                                                          | 0 – 2¹⁶-1 | –    |
 
 Depending on your sensor and your settings the table might also contain columns for the `y` and/or `z` axis.
 
-If you want you can also use HDFView to print a simple graph for your acceleration data. To do that:
+If you want you can also use HDFView to print a simple graph for your data. To do that:
 
 1. Select the values for the the ordinate (e.g. click on the x column to select all acceleration data for the x axis)
 2. Click on the graph icon in the top left corner

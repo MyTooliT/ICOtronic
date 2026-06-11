@@ -247,7 +247,7 @@ class StorageData:
                 description=create_acceleration_description(
                     attributes={axis: Float32Col() for axis in self.axes}
                 ),
-                title="STH Acceleration Data",
+                title="Sensor Node Data",
             )
         else:
             try:
