@@ -31,9 +31,11 @@ async def test_connect_mac_as_name(sensor_node_mac_address: EUI):
             r"name"
         ),
     ):
-        async with Connection() as stu:
-            async with stu.connect_sensor_node(str(sensor_node_mac_address)):
-                assert False
+        async with (
+            Connection() as stu,
+            stu.connect_sensor_node(str(sensor_node_mac_address)),
+        ):
+            assert False
 
 
 async def test_connect_invalid_number():

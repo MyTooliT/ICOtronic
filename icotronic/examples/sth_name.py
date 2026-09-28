@@ -22,10 +22,12 @@ async def read_name(identifier: EUI | str | int) -> None:
 
     """
 
-    async with Connection() as stu:
-        async with stu.connect_sensor_node(identifier) as sensor_node:
-            name = await sensor_node.get_name()
-            print(f"Connected to sensor node “{name}”")
+    async with (
+        Connection() as stu,
+        stu.connect_sensor_node(identifier) as sensor_node,
+    ):
+        name = await sensor_node.get_name()
+        print(f"Connected to sensor node “{name}”")
 
 
 # -- Main ---------------------------------------------------------------------
