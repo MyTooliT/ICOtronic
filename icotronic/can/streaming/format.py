@@ -41,7 +41,7 @@ class StreamingFormat:
 
     """
 
-    data_set = [0, 1, 3, 6, 10, 15, 20, 30]
+    data_set = (0, 1, 3, 6, 10, 15, 20, 30)
     """Possible number of data sets"""
 
     # pylint: disable=too-many-arguments
