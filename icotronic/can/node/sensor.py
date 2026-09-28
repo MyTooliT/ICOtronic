@@ -125,7 +125,7 @@ class DataStreamContextManager:
             exception_type, type(CancelledError)
         ):
             await self.node.stop_streaming_data()
-            self.logger.info("Stopped stream")
+            self.logger.debug("Stopped stream")
         else:
             # If there was an error while streaming data, then stoping the
             # stream will usually also fail. Because of this we only try once
@@ -492,7 +492,7 @@ class SensorNode(Node):
         rssi = await self.spu.get_rssi(
             self.id, SENSOR_NODE_NUMBER_SELF_ADDRESSING
         )
-        self.logger.info("RSSI of sensor node: %d", rssi)
+        self.logger.debug("RSSI of sensor node: %d", rssi)
 
         return rssi
 
