@@ -27,7 +27,6 @@ async def store_streaming_data(identifier: EUI | str | int) -> None:
 
     async with Connection() as stu:
         async with stu.connect_sensor_node(identifier) as sensor_node:
-
             filepath = Path("test.hdf5")
             stream_first = StreamingConfiguration(first=True)
 

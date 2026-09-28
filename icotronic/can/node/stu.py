@@ -211,12 +211,14 @@ class SensorNodeInfo(NamedTuple):
 
         """
 
-        attributes = ", ".join([
-            f"Name: {self.name}",
-            f"Number: {self.sensor_node_number}",
-            f"MAC Address: {self.mac_address}",
-            f"RSSI: {self.rssi}",
-        ])
+        attributes = ", ".join(
+            [
+                f"Name: {self.name}",
+                f"Number: {self.sensor_node_number}",
+                f"MAC Address: {self.mac_address}",
+                f"RSSI: {self.rssi}",
+            ]
+        )
         return f"🤖 {attributes}"
 
     def __hash__(self):
@@ -365,7 +367,7 @@ class STU(Node):
             response_data=6 * [0],  # type: ignore[arg-type]
         )
 
-        self.logger.info("Activated Bluetooth")
+        self.logger.debug("Activated Bluetooth")
 
     async def deactivate_bluetooth(self) -> None:
         """Deactivate Bluetooth on the STU

@@ -112,11 +112,13 @@ class PerformanceMeasurement:
 
         """
 
-        return ", ".join([
-            f"🏁 Run Time: {self.run_time() / 10**9:.2f} seconds",
-            f"💼 CPU time: {self.cpu_time() / 10**9:.2f} seconds",
-            f"💪 CPU Usage: {self.cpu_usage() * 100:.2f} %",
-        ])
+        return ", ".join(
+            [
+                f"🏁 Run Time: {self.run_time() / 10**9:.2f} seconds",
+                f"💼 CPU time: {self.cpu_time() / 10**9:.2f} seconds",
+                f"💪 CPU Usage: {self.cpu_usage() * 100:.2f} %",
+            ]
+        )
 
 
 # -- Main ---------------------------------------------------------------------

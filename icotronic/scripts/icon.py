@@ -249,7 +249,6 @@ async def command_measure(arguments: Namespace) -> None:
 
     async with Connection() as stu:
         async with stu.connect_sensor_node(identifier) as sensor_node:
-
             adc_config = ADCConfiguration(
                 reference_voltage=arguments.voltage_reference,
                 prescaler=arguments.prescaler,

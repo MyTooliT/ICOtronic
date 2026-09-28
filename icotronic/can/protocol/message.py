@@ -116,7 +116,8 @@ class Message:
         if keyword_arguments:
             # mypy assumes that all keyword arguments have the same type
             self.message.arbitration_id = Identifier(
-                self.id(), **keyword_arguments  # type: ignore
+                self.id(),
+                **keyword_arguments,  # type: ignore
             ).value
 
         if data:
@@ -283,10 +284,12 @@ class Message:
                         int.from_bytes(self.data[6:], byteorder="little")
                         * advertisement_time_eeprom_to_ms
                     )
-                    data_explanation += ": " + ", ".join([
-                        f"⟳ {time_normal_to_reduced_ms} ms",
-                        f"📢 {advertisement_time} ms",
-                    ])
+                    data_explanation += ": " + ", ".join(
+                        [
+                            f"⟳ {time_normal_to_reduced_ms} ms",
+                            f"📢 {advertisement_time} ms",
+                        ]
+                    )
             elif subcommand == 17:
                 data_explanation = (
                     f"{verb} MAC address of node "
@@ -347,12 +350,14 @@ class Message:
                 )
                 for start in range(2, len(self.data), size_value)
             ]
-            explanations.extend([
-                f"{explanation}: {value}"
-                for explanation, value in zip(
-                    streaming_format.value_explanations, values
-                )
-            ])
+            explanations.extend(
+                [
+                    f"{explanation}: {value}"
+                    for explanation, value in zip(
+                        streaming_format.value_explanations, values
+                    )
+                ]
+            )
             data_explanation += ", " + ", ".join(explanations)
 
         return data_explanation

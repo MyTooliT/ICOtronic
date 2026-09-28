@@ -306,10 +306,12 @@ class MeasurementData:
         return (
             f"{self.configuration}"
             + ("\n" if self.streaming_data_list else "")
-            + "\n".join([
-                str(streaming_data)
-                for streaming_data in self.streaming_data_list
-            ])
+            + "\n".join(
+                [
+                    str(streaming_data)
+                    for streaming_data in self.streaming_data_list
+                ]
+            )
         )
 
     def __iter__(self) -> Iterator:

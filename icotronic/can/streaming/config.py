@@ -95,12 +95,14 @@ class StreamingConfiguration:
 
         channels = self.channels
 
-        return ", ".join([
-            f"Channel {name} {'en' if status else 'dis'}abled"
-            for name, status in enumerate(
-                (channels.first, channels.second, channels.third), start=1
-            )
-        ])
+        return ", ".join(
+            [
+                f"Channel {name} {'en' if status else 'dis'}abled"
+                for name, status in enumerate(
+                    (channels.first, channels.second, channels.third), start=1
+                )
+            ]
+        )
 
     def enabled_channels(self) -> int:
         """Get the number of activated channels

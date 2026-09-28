@@ -181,11 +181,15 @@ class SensorConfiguration(Mapping):
 
         """
 
-        return ", ".join((
-            f"M{sensor}: S{value}"
-            for sensor, value in enumerate(self.attributes.values(), start=1)
-            if value != 0
-        ))
+        return ", ".join(
+            (
+                f"M{sensor}: S{value}"
+                for sensor, value in enumerate(
+                    self.attributes.values(), start=1
+                )
+                if value != 0
+            )
+        )
 
     def __repr__(self) -> str:
         """The textual representation of the sensor configuration
@@ -206,10 +210,14 @@ class SensorConfiguration(Mapping):
 
         """
 
-        return ", ".join((
-            f"M{sensor}: {f'S{value}' if value != 0 else 'None'}"
-            for sensor, value in enumerate(self.attributes.values(), start=1)
-        ))
+        return ", ".join(
+            (
+                f"M{sensor}: {f'S{value}' if value != 0 else 'None'}"
+                for sensor, value in enumerate(
+                    self.attributes.values(), start=1
+                )
+            )
+        )
 
     @property
     def first(self) -> int:
@@ -412,6 +420,9 @@ class SensorConfiguration(Mapping):
 
         """
 
-        return StreamingConfiguration(**{
-            channel: bool(value) for channel, value in self.attributes.items()
-        })
+        return StreamingConfiguration(
+            **{
+                channel: bool(value)
+                for channel, value in self.attributes.items()
+            }
+        )

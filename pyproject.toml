@@ -4,17 +4,17 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 authors = [
-    {name = "Clemens Burgstaller", email = "burgstaller@ift.at"},
-    {name = "Christoph Mayer", email = "mayer@ift.at"},
-    {name = "René Schwaiger", email = "rene.schwaiger@ift.at"},
+  { name = "Clemens Burgstaller", email = "burgstaller@ift.at" },
+  { name = "Christoph Mayer", email = "mayer@ift.at" },
+  { name = "René Schwaiger", email = "rene.schwaiger@ift.at" },
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Natural Language :: English",
-    "Operating System :: MacOS",
-    "Operating System :: POSIX :: Linux",
-    "Operating System :: Microsoft :: Windows :: Windows 11",
-    "Programming Language :: Python",
+  "Development Status :: 3 - Alpha",
+  "Natural Language :: English",
+  "Operating System :: MacOS",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: Microsoft :: Windows :: Windows 11",
+  "Programming Language :: Python",
 ]
 
 dependencies = [
@@ -31,13 +31,7 @@ dependencies = [
 description = """Control software for sensory tool holders (STH), \
                  sensor milling heads (SMH) and stationary transceiver units \
                  (STU)"""
-keywords = [
-    "smart-tool",
-    "smh",
-    "stu",
-    "sth",
-    "tool-holder",
-]
+keywords = ["smart-tool", "smh", "stu", "sth", "tool-holder"]
 name = "icotronic"
 readme = "ReadMe.md"
 requires-python = ">=3.12,<4"
@@ -45,26 +39,26 @@ version = "8.0.0"
 
 [project.optional-dependencies]
 dev = [
-    "anyio>=4.12", # For pytest anyio plugin
-    "coverage>=7.8.2",
-    "Flake8-pyproject>=1.2.3",
-    "icolyzer>=1.5.0", # Require ICOlyzer for Prysk tests
-    "mypy",
-    "myst-parser>=5",
-    # Required for value conversion in doctest of API documentation
-    "numpy>=2.4.6",
-    "prysk[pytest-plugin]>=0.15.1",
-    "pydoclint[flake8]>=0.6.6",
-    "pylint>=3.3.1",
-    "pytest>=9",
-    "pytest-sphinx>=0.7.1",
-    "pytest-sugar>=1.1.1",
-    "pytest-rerunfailures>=16.1",
-    "sphinx>=9,<10",
-    "sphinx_rtd_theme>=3.1.0rc1",
-    "sphinx_toggleprompt>=0.6.0",
-    "sphinx-autodoc-typehints>=3.10.1",
-    "toml",
+  "anyio>=4.12",             # For pytest anyio plugin
+  "coverage>=7.8.2",
+  "Flake8-pyproject>=1.2.3",
+  "icolyzer>=1.5.0",         # Require ICOlyzer for Prysk tests
+  "mypy",
+  "myst-parser>=5",
+  # Required for value conversion in doctest of API documentation
+  "numpy>=2.4.6",
+  "prysk[pytest-plugin]>=0.15.1",
+  "pydoclint[flake8]>=0.6.6",
+  "pylint>=3.3.1",
+  "pytest>=9",
+  "pytest-sphinx>=0.7.1",
+  "pytest-sugar>=1.1.1",
+  "pytest-rerunfailures>=16.1",
+  "sphinx>=9,<10",
+  "sphinx_rtd_theme>=3.1.0rc1",
+  "sphinx_toggleprompt>=0.6.0",
+  "sphinx-autodoc-typehints>=3.10.1",
+  "toml",
 ]
 
 [project.scripts]
@@ -89,22 +83,16 @@ ignore = [
   # Line break before binary operator
   "W503",
   # Line break after binary operator
-  "W504"
+  "W504",
 ]
 per-file-ignores = "__init__.py:F401"
-exclude = [
-  ".git",
-  ".venv",
-  "__pycache__",
-  "._*",
-  "Documentation",
-]
+exclude = [".git", ".venv", "__pycache__", "._*", "Documentation"]
 
 [tool.mypy]
 ignore_missing_imports = true
 
 [tool.pylint]
-ignore-paths = [ ".venv/.*$" ]
+ignore-paths = [".venv/.*$"]
 
 [tool.pytest.ini_options]
 anyio_mode = "auto"
@@ -114,3 +102,6 @@ anyio_mode = "auto"
 # - Verbose output
 addopts = "--doctest-modules --ignore-glob='*._*.py' --ignore=Bookdown"
 minversion = "9.0"
+
+[tool.ruff]
+line-length = 79

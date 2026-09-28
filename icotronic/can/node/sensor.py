@@ -318,10 +318,12 @@ class Times:
 
         """
 
-        return ", ".join([
-            f"Advertisement Time: {self.advertisement} ms",
-            f"Sleep Time: {self.sleep} ms",
-        ])
+        return ", ".join(
+            [
+                f"Advertisement Time: {self.advertisement} ms",
+                f"Sleep Time: {self.sleep} ms",
+            ]
+        )
 
 
 class SensorNode(Node):
@@ -1245,7 +1247,6 @@ class SensorNode(Node):
         )
 
         try:
-
             response = await self.spu.request(
                 message, description="get sensor configuration of sensor node"
             )

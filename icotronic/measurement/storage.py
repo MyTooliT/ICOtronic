@@ -487,11 +487,13 @@ class StorageData:
 
         sample_rate = adc_configuration.sample_rate()
 
-        adc_config_text = ", ".join([
-            f"Prescaler: {adc_configuration.prescaler}",
-            f"Acquisition Time: {adc_configuration.acquisition_time}",
-            f"Oversampling Rate: {adc_configuration.oversampling_rate}",
-        ])
+        adc_config_text = ", ".join(
+            [
+                f"Prescaler: {adc_configuration.prescaler}",
+                f"Acquisition Time: {adc_configuration.acquisition_time}",
+                f"Oversampling Rate: {adc_configuration.oversampling_rate}",
+            ]
+        )
 
         self["Sample_Rate"] = f"{sample_rate:.2f} Hz ({adc_config_text})"
 

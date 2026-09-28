@@ -41,11 +41,13 @@ class MessageStats:
 
         """
 
-        return ", ".join([
-            f"Retrieved: {self.retrieved}",
-            f"Lost: {self.lost}",
-            f"Dataloss: {self.dataloss()}",
-        ])
+        return ", ".join(
+            [
+                f"Retrieved: {self.retrieved}",
+                f"Lost: {self.lost}",
+                f"Dataloss: {self.dataloss()}",
+            ]
+        )
 
     def dataloss(self) -> float:
         """Get the amount of data loss
