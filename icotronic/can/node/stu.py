@@ -395,7 +395,7 @@ class STU(Node):
             response_data=6 * [0],  # type: ignore[arg-type]
         )
 
-        self.logger.info("Deactivated Bluetooth")
+        self.logger.debug("Deactivated Bluetooth")
 
     async def get_available_nodes(self) -> int:
         """Retrieve the number of available sensor nodes
@@ -437,7 +437,7 @@ class STU(Node):
 
         available_nodes = int(convert_bytes_to_text(answer.data[2:]))
 
-        self.logger.info(
+        self.logger.debug(
             "Number of available sensor nodes: %d", available_nodes
         )
 
@@ -493,7 +493,7 @@ class STU(Node):
             node=self.id, sensor_node_number=sensor_node_number
         )
 
-        self.logger.info(
+        self.logger.debug(
             "Received name of sensor node %d: “%s”", sensor_node_number, name
         )
 
@@ -669,7 +669,7 @@ class STU(Node):
 
         connected = bool(response.data[2])
 
-        self.logger.info("STU connected to sensor node: %s", connected)
+        self.logger.debug("STU connected to sensor node: %s", connected)
 
         return connected
 
@@ -711,7 +711,7 @@ class STU(Node):
             node=self.id, sensor_node_number=sensor_node_number
         )
 
-        self.logger.info(
+        self.logger.debug(
             "RSSI of sensor node %d: %d", sensor_node_number, rssi
         )
 
@@ -765,7 +765,7 @@ class STU(Node):
             self.id, sensor_node_number
         )
 
-        self.logger.info(
+        self.logger.debug(
             "MAC address of sensor node %d: %s",
             sensor_node_number,
             mac_address,
@@ -838,7 +838,7 @@ class STU(Node):
                 )
             )
 
-        self.logger.info("Found sensor nodes: %s", nodes)
+        self.logger.debug("Found sensor nodes: %s", nodes)
 
         return nodes
 

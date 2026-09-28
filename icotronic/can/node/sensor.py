@@ -130,7 +130,7 @@ class DataStreamContextManager:
             exception_type, type(CancelledError)
         ):
             await self.node.stop_streaming_data()
-            self.logger.info("Stopped stream")
+            self.logger.debug("Stopped stream")
         else:
             # If there was an error while streaming data, then stoping the
             # stream will usually also fail. Because of this we only try once
@@ -207,7 +207,7 @@ class SensorNode(Node):
         name = await self.spu.get_name(
             node=self.id, sensor_node_number=SENSOR_NODE_NUMBER_SELF_ADDRESSING
         )
-        self.logger.info("Sensor node name: %s", name)
+        self.logger.debug("Sensor node name: %s", name)
 
         return name
 
@@ -281,7 +281,7 @@ class SensorNode(Node):
             data=bytes_name[6:] + [0] * 4,
             description=f"set second part of {description}",
         )
-        self.logger.info("Set sensor node name to: %s", name)
+        self.logger.debug("Set sensor node name to: %s", name)
 
     async def get_rssi(self) -> int:
         """Retrieve the RSSI (Received Signal Strength Indication) of the node
@@ -313,7 +313,7 @@ class SensorNode(Node):
         rssi = await self.spu.get_rssi(
             self.id, SENSOR_NODE_NUMBER_SELF_ADDRESSING
         )
-        self.logger.info("RSSI of sensor node: %d", rssi)
+        self.logger.debug("RSSI of sensor node: %d", rssi)
 
         return rssi
 
@@ -361,7 +361,7 @@ class SensorNode(Node):
         )
 
         times = Times.from_data(response.data[2:])
-        self.logger.info("Reduced energy mode time values: “%s”", times)
+        self.logger.debug("Reduced energy mode time values: “%s”", times)
 
         return times
 
@@ -424,7 +424,9 @@ class SensorNode(Node):
             description="set reduced energy time values of sensor node",
         )
 
-        self.logger.info("Set reduced energy mode time values to: “%s”", times)
+        self.logger.debug(
+            "Set reduced energy mode time values to: “%s”", times
+        )
 
     async def get_energy_mode_lowest(self) -> Times:
         """Read the reduced lowest energy mode (mode 2) time values
@@ -471,7 +473,7 @@ class SensorNode(Node):
 
         times = Times.from_data(response.data[2:])
 
-        self.logger.info("Lowest energy mode time values: “%s”", times)
+        self.logger.debug("Lowest energy mode time values: “%s”", times)
         return times
 
     async def set_energy_mode_lowest(
@@ -532,7 +534,7 @@ class SensorNode(Node):
             description="set lowest energy time values of sensor node",
         )
 
-        self.logger.info("Set lowest energy mode time values to: “%s”", times)
+        self.logger.debug("Set lowest energy mode time values to: “%s”", times)
 
     async def get_mac_address(self) -> EUI:
         """Retrieve the MAC address of the sensor node
@@ -567,7 +569,7 @@ class SensorNode(Node):
             self.id, SENSOR_NODE_NUMBER_SELF_ADDRESSING
         )
 
-        self.logger.info("Sensor node MAC address: %s", mac_address)
+        self.logger.debug("Sensor node MAC address: %s", mac_address)
 
         return mac_address
 
@@ -651,7 +653,7 @@ class SensorNode(Node):
             counter=response.data[1],
         )
 
-        self.logger.info("Read single streaming data values: %s", data)
+        self.logger.debug("Read single streaming data values: %s", data)
 
         return data
 
@@ -705,7 +707,7 @@ class SensorNode(Node):
             description=f"enable {info}",
         )
 
-        self.logger.info("Enabled %s", info)
+        self.logger.debug("Enabled %s", info)
 
     async def stop_streaming_data(
         self, retries: int = 10, ignore_errors=False
@@ -742,7 +744,7 @@ class SensorNode(Node):
                 description=f"disable {info}",
                 retries=retries,
             )
-            self.logger.info("Disabled %s", info)
+            self.logger.debug("Disabled %s", info)
 
         except (NoResponseError, ErrorResponseError) as error:
             self.logger.warning(
@@ -866,7 +868,7 @@ class SensorNode(Node):
             reference_voltage=adc_configuration.reference_voltage,
         )
 
-        self.logger.info("Supply voltage: %s V", supply_voltage)
+        self.logger.debug("Supply voltage: %s V", supply_voltage)
         return supply_voltage
 
     # =================
@@ -921,7 +923,7 @@ class SensorNode(Node):
 
         adc_config = ADCConfiguration(response.data[0:5])
 
-        self.logger.info("ADC configuration of sensor node: %s", adc_config)
+        self.logger.debug("ADC configuration of sensor node: %s", adc_config)
 
         return adc_config
 
@@ -1013,7 +1015,7 @@ class SensorNode(Node):
         info = "set ADC configuration of sensor node"
         await self.spu.request(message, description=info)
 
-        self.logger.info("%s to: “%s”", info.capitalize(), adc_configuration)
+        self.logger.debug("%s to: “%s”", info.capitalize(), adc_configuration)
 
     # --------------------------------
     # - Get/Set Sensor Configuration -
@@ -1079,7 +1081,7 @@ class SensorNode(Node):
 
         sensor_configuration = SensorConfiguration(*channels)
 
-        self.logger.info(
+        self.logger.debug(
             "Sensor configuration of sensor node: “%s”", sensor_configuration
         )
 
@@ -1141,7 +1143,7 @@ class SensorNode(Node):
         try:
             info = "set sensor configuration of sensor node"
             await self.spu.request(message, description=info)
-            self.logger.info("%s to: %s", info.capitalize(), sensors)
+            self.logger.debug("%s to: %s", info.capitalize(), sensors)
 
         except ErrorResponseError as error:
             raise UnsupportedFeatureException(
