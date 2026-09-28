@@ -247,53 +247,53 @@ async def command_measure(arguments: Namespace) -> None:
     identifier = arguments.identifier
     measurement_time_s = arguments.time
 
-    async with Connection() as stu:
-        async with stu.connect_sensor_node(identifier) as sensor_node:
-            adc_config = ADCConfiguration(
-                reference_voltage=arguments.voltage_reference,
-                prescaler=arguments.prescaler,
-                acquisition_time=arguments.acquisition,
-                oversampling_rate=arguments.oversampling,
-            )
-            await sensor_node.set_adc_configuration(**adc_config)
-            print(f"Sample Rate: {adc_config.sample_rate():.2f} Hz")
+    async with (
+        Connection() as stu,
+        stu.connect_sensor_node(identifier) as sensor_node,
+    ):
+        adc_config = ADCConfiguration(
+            reference_voltage=arguments.voltage_reference,
+            prescaler=arguments.prescaler,
+            acquisition_time=arguments.acquisition,
+            oversampling_rate=arguments.oversampling,
+        )
+        await sensor_node.set_adc_configuration(**adc_config)
+        print(f"Sample Rate: {adc_config.sample_rate():.2f} Hz")
 
-            user_sensor_config = SensorConfiguration(
-                first=arguments.first_channel,
-                second=arguments.second_channel,
-                third=arguments.third_channel,
-            )
+        user_sensor_config = SensorConfiguration(
+            first=arguments.first_channel,
+            second=arguments.second_channel,
+            third=arguments.third_channel,
+        )
 
-            if user_sensor_config.requires_channel_configuration_support():
-                try:
-                    await sensor_node.set_sensor_configuration(
-                        user_sensor_config
-                    )
-                except UnsupportedFeatureException as exception:
-                    raise UnsupportedFeatureException(
-                        f"Sensor channel configuration “{user_sensor_config}”"
-                        f" is not supported by the sensor node “{identifier}”"
-                    ) from exception
+        if user_sensor_config.requires_channel_configuration_support():
+            try:
+                await sensor_node.set_sensor_configuration(user_sensor_config)
+            except UnsupportedFeatureException as exception:
+                raise UnsupportedFeatureException(
+                    f"Sensor channel configuration “{user_sensor_config}”"
+                    f" is not supported by the sensor node “{identifier}”"
+                ) from exception
 
-            filepath = settings.get_output_filepath()
+        filepath = settings.get_output_filepath()
 
-            with Storage(
-                filepath, user_sensor_config.streaming_configuration()
-            ) as storage:
-                storage.write_sample_rate(adc_config)
+        with Storage(
+            filepath, user_sensor_config.streaming_configuration()
+        ) as storage:
+            storage.write_sample_rate(adc_config)
 
-                try:
-                    await read_data(
-                        sensor_node,
-                        user_sensor_config,
-                        storage,
-                        measurement_time_s,
-                    )
-                except KeyboardInterrupt:
-                    pass
-                finally:
-                    print(f"Data Loss: {storage.dataloss() * 100} %")
-                    print(f"Filepath: {filepath}")
+            try:
+                await read_data(
+                    sensor_node,
+                    user_sensor_config,
+                    storage,
+                    measurement_time_s,
+                )
+            except KeyboardInterrupt:
+                pass
+            finally:
+                print(f"Data Loss: {storage.dataloss() * 100} %")
+                print(f"Filepath: {filepath}")
 
 
 async def command_rename(arguments: Namespace) -> None:
@@ -309,17 +309,19 @@ async def command_rename(arguments: Namespace) -> None:
     identifier = arguments.identifier
     name = arguments.name
 
-    async with Connection() as stu:
-        async with stu.connect_sensor_node(identifier) as sensor_node:
-            old_name = await sensor_node.get_name()
-            mac_address = await sensor_node.get_mac_address()
+    async with (
+        Connection() as stu,
+        stu.connect_sensor_node(identifier) as sensor_node,
+    ):
+        old_name = await sensor_node.get_name()
+        mac_address = await sensor_node.get_mac_address()
 
-            await sensor_node.set_name(name)
-            name = await sensor_node.get_name()
-            print(
-                f"Renamed sensor node “{old_name}” with MAC "
-                f"address “{mac_address}” to “{name}”"
-            )
+        await sensor_node.set_name(name)
+        name = await sensor_node.get_name()
+        print(
+            f"Renamed sensor node “{old_name}” with MAC "
+            f"address “{mac_address}” to “{name}”"
+        )
 
 
 async def command_stu(arguments: Namespace) -> None:

@@ -25,26 +25,26 @@ async def store_streaming_data(identifier: EUI | str | int) -> None:
 
     """
 
-    async with Connection() as stu:
-        async with stu.connect_sensor_node(identifier) as sensor_node:
-            filepath = Path("test.hdf5")
-            stream_first = StreamingConfiguration(first=True)
+    async with (
+        Connection() as stu,
+        stu.connect_sensor_node(identifier) as sensor_node,
+    ):
+        filepath = Path("test.hdf5")
+        stream_first = StreamingConfiguration(first=True)
 
-            with Storage(filepath, channels=stream_first) as storage:
-                # Store sampling rate (and ADC configuration as metadata)
-                storage.write_sample_rate(
-                    await sensor_node.get_adc_configuration()
-                )
-                async with sensor_node.open_data_stream(
-                    stream_first
-                ) as stream:
-                    # Read data for about five seconds
-                    end = monotonic() + 5
-                    async for data, _ in stream:
-                        # Store 16 bit ADC value
-                        storage.add_streaming_data(data)
-                        if monotonic() > end:
-                            break
+        with Storage(filepath, channels=stream_first) as storage:
+            # Store sampling rate (and ADC configuration as metadata)
+            storage.write_sample_rate(
+                await sensor_node.get_adc_configuration()
+            )
+            async with sensor_node.open_data_stream(stream_first) as stream:
+                # Read data for about five seconds
+                end = monotonic() + 5
+                async for data, _ in stream:
+                    # Store 16 bit ADC value
+                    storage.add_streaming_data(data)
+                    if monotonic() > end:
+                        break
 
 
 # -- Main ---------------------------------------------------------------------

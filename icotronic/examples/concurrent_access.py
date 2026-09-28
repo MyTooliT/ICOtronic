@@ -30,9 +30,11 @@ async def sensor_node_connection(
 
     """
 
-    async with Connection() as stu:
-        async with stu.connect_sensor_node(identifier) as sensor_node:
-            yield sensor_node
+    async with (
+        Connection() as stu,
+        stu.connect_sensor_node(identifier) as sensor_node,
+    ):
+        yield sensor_node
 
 
 async def stream_and_read_adc():
