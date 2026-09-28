@@ -54,7 +54,7 @@ class ADCConfiguration(Mapping):
 
     """
 
-    REFERENCE_VOLTAGES = [1.25, 1.65, 1.8, 2.1, 2.2, 2.5, 2.7, 3.3, 5, 6.6]
+    REFERENCE_VOLTAGES = (1.25, 1.65, 1.8, 2.1, 2.2, 2.5, 2.7, 3.3, 5, 6.6)
 
     # pylint: disable=too-many-branches
 

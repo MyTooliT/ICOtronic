@@ -62,7 +62,7 @@ class CalibrationMeasurementFormat:
 
     """
 
-    methods = ["Reserved", "Activate", "Deactivate", "Measure"]
+    methods = ("Reserved", "Activate", "Deactivate", "Measure")
     elements = bidict(
         {
             "Data": 0,
