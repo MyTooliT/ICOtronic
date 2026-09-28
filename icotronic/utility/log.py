@@ -3,6 +3,7 @@
 # -- Imports ------------------------------------------------------------------
 
 from logging import FileHandler, Formatter
+
 from platformdirs import user_log_path
 
 from icotronic.config import ConfigurationUtility

@@ -2,7 +2,7 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from ctypes import c_uint8, LittleEndianStructure
+from ctypes import LittleEndianStructure, c_uint8
 
 # -- Classes ------------------------------------------------------------------
 

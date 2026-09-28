@@ -11,9 +11,9 @@ https://mytoolit.github.io/Documentation/#command
 from __future__ import annotations
 
 from icotronic.can.protocol.blocks import (
-    blocks,
-    UnknownBlockError,
     UnknownBlockCommandError,
+    UnknownBlockError,
+    blocks,
 )
 
 # -- Classes ------------------------------------------------------------------

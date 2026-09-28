@@ -10,7 +10,8 @@ for more information
 from argparse import Namespace
 from asyncio import run
 from logging import basicConfig, getLogger
-from sys import exit as sys_exit, stderr
+from sys import exit as sys_exit
+from sys import stderr
 from tempfile import NamedTemporaryFile
 from time import monotonic, perf_counter_ns, process_time_ns
 

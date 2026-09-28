@@ -9,7 +9,8 @@ from collections.abc import Sequence
 from logging import getLogger
 from typing import NamedTuple
 
-from can import Listener, Message as CANMessage
+from can import Listener
+from can import Message as CANMessage
 
 from icotronic.can.protocol.message import Message
 from icotronic.config import settings

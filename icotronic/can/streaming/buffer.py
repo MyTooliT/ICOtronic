@@ -10,13 +10,13 @@ from time import time
 
 from can import Listener, Message
 
-from icotronic.can.protocol.identifier import Identifier
 from icotronic.can.dataloss import MessageStats
+from icotronic.can.protocol.identifier import Identifier
+from icotronic.can.streaming.data import StreamingData
 from icotronic.can.streaming.error import (
     StreamingBufferError,
     StreamingTimeoutError,
 )
-from icotronic.can.streaming.data import StreamingData
 
 # -- Classes ------------------------------------------------------------------
 

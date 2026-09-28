@@ -3,7 +3,7 @@
 # -- Imports ------------------------------------------------------------------
 
 from collections.abc import Iterable
-from enum import auto, Enum
+from enum import Enum, auto
 from statistics import mean
 from typing import NamedTuple
 

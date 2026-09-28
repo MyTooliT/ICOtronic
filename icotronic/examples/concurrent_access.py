@@ -2,9 +2,9 @@
 
 # -- Imports ------------------------------------------------------------------
 
-from asyncio import Event, run, TaskGroup
+from asyncio import Event, TaskGroup, run
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import AsyncIterator
 
 from netaddr import EUI
 

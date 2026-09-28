@@ -7,14 +7,15 @@ from __future__ import annotations
 from asyncio import wait_for
 from logging import getLogger
 
-from can import BusABC, Message as CANMessage, Notifier
+from can import BusABC, Notifier
+from can import Message as CANMessage
 from netaddr import EUI
 
 from icotronic.can.constants import SENSOR_NODE_NUMBER_SELF_ADDRESSING
-from icotronic.can.protocol.message import Message
 from icotronic.can.error import ErrorResponseError, NoResponseError
 from icotronic.can.listener import ResponseListener
 from icotronic.can.node.id import NodeId
+from icotronic.can.protocol.message import Message
 from icotronic.utility.data import convert_bytes_to_text
 
 # -- Classes ------------------------------------------------------------------

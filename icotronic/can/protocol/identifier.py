@@ -9,9 +9,8 @@ for more information
 
 from __future__ import annotations
 
-
-from icotronic.can.protocol.command import Command
 from icotronic.can.node.id import NodeId
+from icotronic.can.protocol.command import Command
 
 # -- Class --------------------------------------------------------------------
 

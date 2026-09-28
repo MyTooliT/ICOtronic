@@ -7,9 +7,9 @@ from argparse import ArgumentParser
 from icotronic.can.adc import ADCConfiguration
 from icotronic.cmdline.types import (
     channel_number,
-    node_name,
     mac_address,
     measurement_time,
+    node_name,
     non_infinite_measurement_time,
     sensor_node_number,
 )

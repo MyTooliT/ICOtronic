@@ -10,7 +10,8 @@ from importlib.resources import as_file, files
 from os import makedirs
 from pathlib import Path
 from platform import system
-from sys import exit as sys_exit, stderr
+from sys import exit as sys_exit
+from sys import stderr
 
 from dynaconf import (  # type: ignore[attr-defined]
     Dynaconf,

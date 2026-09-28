@@ -6,7 +6,7 @@ from argparse import ArgumentTypeError
 from math import inf
 from re import compile as re_compile
 
-from netaddr import AddrFormatError, EUI
+from netaddr import EUI, AddrFormatError
 
 # -- Functions ----------------------------------------------------------------
 

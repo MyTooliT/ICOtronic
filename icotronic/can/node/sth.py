@@ -4,9 +4,9 @@
 
 from icotronic.can.calibration import CalibrationMeasurementFormat
 from icotronic.can.node.eeprom.sensor import SensorNodeEEPROM
-from icotronic.can.protocol.message import Message
 from icotronic.can.node.sensor import SensorNode
 from icotronic.can.node.spu import SPU
+from icotronic.can.protocol.message import Message
 from icotronic.measurement.constants import ADC_MAX_VALUE
 
 # -- Classes ------------------------------------------------------------------

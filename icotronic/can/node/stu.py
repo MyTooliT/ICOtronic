@@ -13,17 +13,19 @@ from typing import NamedTuple
 
 from netaddr import EUI
 
-from icotronic.cmdline.types import (
-    node_name as check_name,
-    sensor_node_number as check_sensor_node_number,
-)
 from icotronic.can.constants import SENSOR_NODE_NUMBER_SELF_ADDRESSING
-from icotronic.can.node.eeprom.node import NodeEEPROM
 from icotronic.can.error import ErrorResponseError, NoResponseError
 from icotronic.can.node.basic import Node
+from icotronic.can.node.eeprom.node import NodeEEPROM
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.sensor import SensorNode
 from icotronic.can.node.spu import SPU
+from icotronic.cmdline.types import (
+    node_name as check_name,
+)
+from icotronic.cmdline.types import (
+    sensor_node_number as check_sensor_node_number,
+)
 from icotronic.utility.data import convert_bytes_to_text
 
 # -- Classes ------------------------------------------------------------------

@@ -4,11 +4,12 @@
 
 from __future__ import annotations
 
-from typing import Callable, Iterator, NamedTuple
+from collections.abc import Callable, Iterator
+from typing import NamedTuple
 
+from icotronic.can.dataloss import calculate_dataloss_stats
 from icotronic.can.streaming.config import StreamingConfiguration
 from icotronic.can.streaming.data import StreamingData
-from icotronic.can.dataloss import calculate_dataloss_stats
 
 # -- Classes ------------------------------------------------------------------
 
@@ -676,10 +677,10 @@ class MeasurementData:
 
         """
 
-        return calculate_dataloss_stats((
+        return calculate_dataloss_stats(
             streaming_data.counter
             for streaming_data in self.streaming_data_list
-        )).dataloss()
+        ).dataloss()
 
     def append(self, data: StreamingData) -> None:
         """Append some streaming data to the measurement

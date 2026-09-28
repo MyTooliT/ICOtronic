@@ -4,10 +4,9 @@
 
 from struct import pack, unpack
 
-from icotronic.can.protocol.message import Message
 from icotronic.can.node.id import NodeId
 from icotronic.can.node.spu import SPU
-
+from icotronic.can.protocol.message import Message
 from icotronic.utility.data import convert_bytes_to_text
 
 # -- Classes ------------------------------------------------------------------
@@ -77,7 +76,7 @@ class EEPROM:
         node = self.id
         while length > 0:
             # Read at most 4 bytes of data at once
-            read_length = 4 if length > 4 else length
+            read_length = min(length, 4)
             message = Message(
                 block="EEPROM",
                 block_command="Read",

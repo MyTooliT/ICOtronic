@@ -16,16 +16,15 @@ from tables import (
     MetaAtom,
     MetaIsDescription,
     NoSuchNodeError,
-    open_file,
     UInt8Col,
     UInt64Col,
+    open_file,
 )
 from tables.exceptions import HDF5ExtError
 
 from icotronic.can.adc import ADCConfiguration
-from icotronic.can.dataloss import calculate_dataloss_stats, MessageStats
+from icotronic.can.dataloss import MessageStats, calculate_dataloss_stats
 from icotronic.can.streaming import StreamingConfiguration, StreamingData
-
 from icotronic.measurement.data import MeasurementData
 
 # -- Functions ----------------------------------------------------------------
@@ -538,7 +537,7 @@ class StorageData:
         self.acceleration.flush()
 
         stats = calculate_dataloss_stats(
-            (int(record[0]) for record in self.acceleration)
+            int(record[0]) for record in self.acceleration
         )
 
         return (stats.retrieved, stats.lost)

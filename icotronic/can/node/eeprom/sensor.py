@@ -5,7 +5,6 @@
 from icotronic.can.constants import ADVERTISEMENT_TIME_EEPROM_TO_MS
 from icotronic.can.node.eeprom.node import NodeEEPROM
 
-
 # -- Sensor -------------------------------------------------------------------
 
 

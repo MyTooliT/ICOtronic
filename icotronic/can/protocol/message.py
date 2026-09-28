@@ -8,14 +8,13 @@ For more information, please take a look here:
 
 from __future__ import annotations
 
-
 from can import Message as CANMessage
 from netaddr import EUI
 
 from icotronic.can.calibration import CalibrationMeasurementFormat
+from icotronic.can.node.id import NodeId
 from icotronic.can.protocol.command import Command
 from icotronic.can.protocol.identifier import Identifier
-from icotronic.can.node.id import NodeId
 from icotronic.can.status import State
 from icotronic.can.streaming import StreamingFormat, StreamingFormatVoltage
 from icotronic.utility.data import convert_bytes_to_text
@@ -195,7 +194,7 @@ class Message:
 
         def mac_address() -> EUI:
             """Convert the message data into a MAC address"""
-            return EUI("-".join((f"{byte:0x}" for byte in self.data[7:1:-1])))
+            return EUI("-".join(f"{byte:0x}" for byte in self.data[7:1:-1]))
 
         identifier = self.identifier()
         data_explanation = ""

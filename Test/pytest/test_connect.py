@@ -40,15 +40,13 @@ async def test_connect_invalid_number():
     """Check that specifying an invalid sensor node number fails"""
 
     with raises(ValueError, match="“-1” is not a valid Bluetooth node number"):
-        async with Connection() as stu:
-            async with stu.connect_sensor_node(-1):
-                pass
+        async with Connection() as stu, stu.connect_sensor_node(-1):
+            pass
 
 
 async def test_connect_invalid_name():
     """Check that specifying an invalid name fails"""
 
     with raises(ValueError, match="“👋” is not a valid name"):
-        async with Connection() as stu:
-            async with stu.connect_sensor_node("👋"):
-                pass
+        async with Connection() as stu, stu.connect_sensor_node("👋"):
+            pass

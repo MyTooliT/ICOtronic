@@ -3,6 +3,7 @@
 # -- Imports ------------------------------------------------------------------
 
 from collections.abc import Iterator, Mapping
+
 from icotronic.can.streaming import StreamingConfiguration
 
 # -- Classes ------------------------------------------------------------------

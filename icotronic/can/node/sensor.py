@@ -12,20 +12,22 @@ from types import TracebackType
 
 from netaddr import EUI
 
+from icotronic.can.adc import ADCConfiguration
 from icotronic.can.constants import (
     ADVERTISEMENT_TIME_EEPROM_TO_MS,
     SENSOR_NODE_NUMBER_SELF_ADDRESSING,
 )
-from icotronic.can.adc import ADCConfiguration
-from icotronic.can.node.eeprom.sensor import SensorNodeEEPROM
 from icotronic.can.error import (
     ErrorResponseError,
     NoResponseError,
     UnsupportedFeatureException,
 )
-from icotronic.can.protocol.message import Message
 from icotronic.can.node.basic import Node
+from icotronic.can.node.eeprom.sensor import SensorNodeEEPROM
 from icotronic.can.node.id import NodeId
+from icotronic.can.node.spu import SPU
+from icotronic.can.protocol.message import Message
+from icotronic.can.sensor import SensorConfiguration
 from icotronic.can.streaming import (
     AsyncStreamBuffer,
     StreamingConfiguration,
@@ -33,8 +35,6 @@ from icotronic.can.streaming import (
     StreamingFormat,
     StreamingFormatVoltage,
 )
-from icotronic.can.node.spu import SPU
-from icotronic.can.sensor import SensorConfiguration
 from icotronic.measurement.voltage import convert_raw_to_supply_voltage
 
 # -- Classes ------------------------------------------------------------------
@@ -875,7 +875,7 @@ class SensorNode(Node):
             if channel
         ]
         channels_text = "".join(
-            (f"{channel}, " for channel in measurement_channels[:-2])
+            f"{channel}, " for channel in measurement_channels[:-2]
         ) + " and ".join(measurement_channels[-2:])
 
         info = f"streaming of {channels_text} measurement channel"

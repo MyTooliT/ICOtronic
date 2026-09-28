@@ -2,11 +2,10 @@
 
 # -- Imports ------------------------------------------------------------------
 
+from netaddr import EUI
 from pytest import fixture
 
-from netaddr import EUI
-
-from icotronic.can import Connection, SensorNode, STU
+from icotronic.can import STU, Connection, SensorNode
 
 # pylint: disable=redefined-outer-name
 

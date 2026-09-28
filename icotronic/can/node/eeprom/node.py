@@ -9,7 +9,6 @@ from semantic_version import Version
 from icotronic.can.node.eeprom.basic import EEPROM
 from icotronic.can.node.eeprom.status import EEPROMStatus
 
-
 # -- Classes ------------------------------------------------------------------
 
 # pylint: disable=too-many-public-methods
