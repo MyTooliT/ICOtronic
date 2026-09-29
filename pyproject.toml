@@ -54,6 +54,7 @@ dev = [
   "pytest-sphinx>=0.7.1",
   "pytest-sugar>=1.1.1",
   "pytest-rerunfailures>=16.1",
+  "ruff>=0.16.9",
   "sphinx>=9,<10",
   "sphinx_rtd_theme>=3.1.0rc1",
   "sphinx_toggleprompt>=0.6.0",

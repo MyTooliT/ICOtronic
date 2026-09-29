@@ -31,6 +31,7 @@ check: setup
 	uv run mypy "{{package}}"
 	uv run flake8
 	uv run pylint .
+	uvx ruff check
 
 # Helper for running tests
 [group('test')]
