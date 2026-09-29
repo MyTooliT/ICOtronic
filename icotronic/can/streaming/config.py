@@ -269,3 +269,11 @@ class StreamingConfiguration:
         """
 
         return bool(self.channels.third)
+
+
+# -- Variables ----------------------------------------------------------------
+
+STREAMING_CONFIGURATION_DEFAULT = StreamingConfiguration(
+    first=True, second=True, third=True
+)
+"""Default streaming configuration"""
