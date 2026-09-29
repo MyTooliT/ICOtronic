@@ -17,8 +17,8 @@ Reset STU to make sure we do not have higher than usual dataloss
   > fi
   Data loss (.*) below 10% (re)
 
-  $ runtime=$(icoanalyzer Measurement*.hdf5 | 
-  >           grep 'Runtime:' | 
+  $ runtime=$(icoanalyzer Measurement*.hdf5 |
+  >           grep 'Runtime:' |
   >           sed -E 's/[^0-9]+([0-9]*\.[0-9]+).*/\1/')
 
 Check that runtime is approximately correct
@@ -34,7 +34,7 @@ The file should approximately store 95240 (9524 · 10) values
 
 Check column names
 
-  $ h5dump -d acceleration -H Measurement*.hdf5 | 
+  $ h5dump -d acceleration -H Measurement*.hdf5 |
   > grep -E '"counter|timestamp|x"' | wc -l | sed 's/\ *//'
   3
 
@@ -49,8 +49,8 @@ Check start time attribute
   $ timestamp=$(h5dump -a acceleration/Start_Time Measurement*.hdf5 |
   > grep '(0)' | sed -E 's/^[^"]*"([^"]+)".*$/\1/')
   $ python -c "
-  > from datetime import datetime
-  > delta = datetime.now() - datetime.fromisoformat('$timestamp') 
+  > from datetime import datetime, UTC
+  > delta = datetime.now(tz=UTC) - datetime.fromisoformat('$timestamp')
   > print(delta.seconds < 20)"
   True
 

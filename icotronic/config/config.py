@@ -5,7 +5,7 @@ Currently the configuration is mainly used in the hardware (production tests).
 
 # -- Import -------------------------------------------------------------------
 
-from datetime import datetime
+from datetime import UTC, datetime
 from importlib.resources import as_file, files
 from os import makedirs
 from pathlib import Path
@@ -264,7 +264,7 @@ class Settings(Dynaconf):
         if not filename.suffix:
             filename = filename.with_suffix(".hdf5")
 
-        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        timestamp = datetime.now(tz=UTC).strftime("%Y-%m-%d_%H-%M-%S")
         filepath = directory.joinpath(
             f"{filename.stem}_{timestamp}{filename.suffix}"
         )
