@@ -69,7 +69,7 @@ class Sensor(NamedTuple):
 
         """
 
-        return not self.type == SensorType.BROKEN
+        return self.type != SensorType.BROKEN
 
 
 # -- Functions ----------------------------------------------------------------
