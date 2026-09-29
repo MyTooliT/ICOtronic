@@ -165,8 +165,8 @@ class Settings(Dynaconf):
         ] + settings_files
 
         super().__init__(
-            settings_files=settings_files,
             *arguments,
+            settings_files=settings_files,
             **keyword_arguments,
         )
         self.validate_settings()
