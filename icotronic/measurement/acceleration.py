@@ -3,7 +3,7 @@
 # -- Imports ------------------------------------------------------------------
 
 from collections.abc import Iterable
-from math import log, sqrt
+from math import log10, sqrt
 from statistics import pvariance
 
 from icotronic.measurement.constants import ADC_MAX_VALUE
@@ -28,7 +28,7 @@ def ratio_noise_max(values: Iterable[int]) -> float:
 
     max_value = ADC_MAX_VALUE / 2
     standard_deviation = sqrt(pvariance(values))
-    return 20 * log(standard_deviation / max_value, 10)
+    return 20 * log10(standard_deviation / max_value)
 
 
 # -- Main ---------------------------------------------------------------------
