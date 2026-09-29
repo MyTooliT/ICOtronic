@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 from types import TracebackType
 
@@ -391,7 +391,9 @@ class StorageData:
 
         if self.start_time is None:
             self.start_time = timestamp
-            self.acceleration.attrs["Start_Time"] = datetime.now().isoformat()
+            self.acceleration.attrs["Start_Time"] = datetime.now(
+                tz=UTC
+            ).isoformat()
 
         assert isinstance(self.start_time, (int, float))
 
