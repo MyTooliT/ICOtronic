@@ -20,12 +20,17 @@ def check_list(
     Raises:
 
         ValueError:
+
             if the given object is not a list or is too long
+
+        TypeError
+
+            if the given object does not have the correct type
 
     """
 
     if not isinstance(data, list):
-        raise ValueError(
+        raise TypeError(
             f"Unsupported object type for argument {argument_name}: "
             f"“{type(data)}”"
         )
