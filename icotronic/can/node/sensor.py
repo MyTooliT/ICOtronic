@@ -749,7 +749,7 @@ class SensorNode(Node):
                 "Error while disabling data streaming: %s", error
             )
             if not ignore_errors:
-                raise error
+                raise
 
     def open_data_stream(
         self,
